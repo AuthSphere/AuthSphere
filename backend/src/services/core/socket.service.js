@@ -1,39 +1,36 @@
-import { Server } from "socket.io";
 import logger from "../../utils/logger.js";
-
-let io;
+import { workerEnv } from "../../server.js";
 
 export const initSocket = (server) => {
-  io = new Server(server, {
-    cors: {
-      origin: "*", // In production, refine this to allowed origins
-      methods: ["GET", "POST"],
-    },
-  });
-
-  io.on("connection", (socket) => {
-    const { projectId } = socket.handshake.query;
-
-    if (projectId) {
-      socket.join(projectId);
-      logger.info(`Socket connected & joined project: ${projectId}`);
-    }
-
-    socket.on("disconnect", () => {
-      logger.info("Socket disconnected");
-    });
-  });
-
-  return io;
+  logger.info("Socket initialization skipped (using Cloudflare Durable Objects)");
+  return null;
 };
 
-export const emitEvent = (projectId, event, data) => {
-  if (io) {
-    io.to(projectId).emit(event, {
+export const emitEvent = async (projectId, event, data) => {
+  const payload = {
+    event,
+    data: {
       ...data,
       timestamp: new Date().toISOString(),
-    });
+    }
+  };
+
+  if (workerEnv && workerEnv.WEBSOCKET_DO) {
+    try {
+      const id = workerEnv.WEBSOCKET_DO.idFromName(projectId);
+      const stub = workerEnv.WEBSOCKET_DO.get(id);
+      
+      await stub.fetch("http://internal/broadcast", {
+        method: "POST",
+        body: JSON.stringify(payload)
+      });
+      logger.info(`Broadcasted event ${event} to project ${projectId} via DO`);
+    } catch (err) {
+      logger.error("Failed to broadcast via DO:", err);
+    }
+  } else {
+    logger.warn(`workerEnv.WEBSOCKET_DO not found. Event ${event} not sent.`);
   }
 };
 
-export const getIO = () => io;
+export const getIO = () => null;

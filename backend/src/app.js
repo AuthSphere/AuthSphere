@@ -11,7 +11,7 @@ import { handleError } from "./utils/AppError.js";
 import { globalLimiter } from "./middlewares/rateLimiter.js";
 import { conf } from "./configs/env.js";
 import { swaggerDocs } from "./configs/swagger.js";
-import routes from "./routes/index.js"; // centralized routes
+import routes from "./routes/index.js"; 
 import homeHandler from "./home.js";
 
 const app = express();

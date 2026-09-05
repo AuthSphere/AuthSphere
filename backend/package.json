@@ -34,7 +34,7 @@
     "node-fetch": "^3.3.2",
     "nodemailer": "^7.0.13",
     "qs": "^6.14.1",
-    "socket.io": "^4.8.3",
+    "serverless-http": "^4.0.0",
     "swagger-jsdoc": "6.2.8",
     "swagger-ui-express": "^5.0.1",
     "ua-parser-js": "^2.0.8",
@@ -46,6 +46,7 @@
     "eslint": "^10.0.0",
     "globals": "^15.9.0",
     "nodemon": "3",
-    "prettier": "^3.9.6"
+    "prettier": "^3.9.6",
+    "wrangler": "^4.129.0"
   }
 }
