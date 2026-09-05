@@ -2,28 +2,35 @@ import nodemailer from "nodemailer";
 import { conf } from "../../configs/env.js";
 import logger from "../../utils/logger.js";
 
-if (!conf.smtpHost || !conf.smtpUser || !conf.smtpPass) {
-  logger.warn("SMTP credentials missing. Email sending disabled.");
-}
+let transporterInstance = null;
 
-const transporter = nodemailer.createTransport({
-  host: conf.smtpHost,
-  port: Number(conf.smtpPort),
-  secure: false, // ✅ required for port 587
-  auth: {
-    user: conf.smtpUser,
-    pass: conf.smtpPass,
-  },
-});
-
-// Optional but HIGHLY recommended
-transporter.verify((err) => {
-  if (err) {
-    logger.error("SMTP connection failed:", { error: err.message });
-  } else {
-    logger.info("SMTP server ready");
+const getTransporter = () => {
+  if (!conf.smtpHost || !conf.smtpUser || !conf.smtpPass) {
+    logger.warn("SMTP credentials missing. Email sending disabled.");
   }
-});
+
+  if (!transporterInstance) {
+    transporterInstance = nodemailer.createTransport({
+      host: conf.smtpHost,
+      port: Number(conf.smtpPort),
+      secure: false, // ✅ required for port 587
+      auth: {
+        user: conf.smtpUser,
+        pass: conf.smtpPass,
+      },
+    });
+
+    // Optional but HIGHLY recommended
+    transporterInstance.verify((err) => {
+      if (err) {
+        logger.error("SMTP connection failed:", { error: err.message });
+      } else {
+        logger.info("SMTP server ready");
+      }
+    });
+  }
+  return transporterInstance;
+};
 
 export const sendVerificationOTP = async (
   email,
@@ -223,6 +230,7 @@ ${footerText}
   };
 
   try {
+    const transporter = getTransporter();
     const info = await transporter.sendMail(mailOptions);
     console.log("✅ Verification email sent:", info.messageId);
 

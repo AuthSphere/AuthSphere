@@ -1,36 +1,47 @@
-import logger from "../../utils/logger.js";
+import { DurableObject } from "cloudflare:workers";
 
-export class WebSocketManager {
-  constructor(state, env) {
-    this.state = state;
+export class WebSocketManager extends DurableObject {
+  constructor(ctx, env) {
+    super(ctx, env);
+    this.state = ctx;
     this.env = env;
   }
 
   async fetch(request) {
     const url = new URL(request.url);
 
+    // Internal broadcast endpoint
     if (url.pathname === "/broadcast" && request.method === "POST") {
       const body = await request.json();
-      
+
       const websockets = this.state.getWebSockets();
       let sentCount = 0;
-      
+
       for (const ws of websockets) {
         try {
           ws.send(JSON.stringify(body));
           sentCount++;
-        } catch (err) {
+        } catch {
+          // Ignore disconnected sockets
         }
       }
-      return new Response(JSON.stringify({ success: true, sent: sentCount }), { status: 200 });
+
+      return Response.json({
+        success: true,
+        sent: sentCount,
+      });
     }
 
-    const upgradeHeader = request.headers.get("Upgrade");
-    if (!upgradeHeader || upgradeHeader !== "websocket") {
-      return new Response("Expected Upgrade: websocket", { status: 426 });
+    // WebSocket connection
+    if (request.headers.get("Upgrade") !== "websocket") {
+      return new Response("Expected Upgrade: websocket", {
+        status: 426,
+      });
     }
 
-    const [client, server] = Object.values(new WebSocketPair());
+    const webSocketPair = new WebSocketPair();
+    const client = webSocketPair[0];
+    const server = webSocketPair[1];
 
     this.state.acceptWebSocket(server);
 
@@ -41,13 +52,14 @@ export class WebSocketManager {
   }
 
   webSocketMessage(ws, message) {
+    // Handle messages from clients if needed later
   }
 
   webSocketClose(ws, code, reason, wasClean) {
-    ws.close(code, reason);
+    // Cloudflare handles the socket lifecycle.
   }
 
   webSocketError(ws, error) {
-    ws.close();
+    // Socket errors are handled by the runtime.
   }
 }

@@ -1,6 +1,6 @@
 import { createServer } from "http";
-import serverless from "serverless-http";
 import { conf } from "./configs/env.js";
+import { httpServerHandler } from "cloudflare:node";
 import app from "./app.js";
 import connectDB, { closeDB } from "./database/connectDB.js";
 import { logStartup } from "./utils/startup.js";
@@ -45,21 +45,26 @@ const startServer = async () => {
   process.on("SIGINT", () => shutdown("SIGINT"));
 };
 
-const isCloudflareWorker = typeof caches !== "undefined" || typeof WebSocketPair !== "undefined";
+const isCloudflareWorker =
+  typeof caches !== "undefined" || typeof WebSocketPair !== "undefined";
 
 if (!isCloudflareWorker) {
   startServer();
+} else {
+  app.listen(conf.port);
 }
 
-export let workerEnv;
-export { WebSocketManager } from "./services/core/socket.do.js";
+import { WebSocketManager } from "./services/core/socket.do.js";
 
-const handler = serverless(app);
+export { WebSocketManager };
+
+// httpServerHandler expects the matching port
+const handler = httpServerHandler({ port: conf.port });
 
 export default {
   async fetch(request, env, ctx) {
-    workerEnv = env;
-    
+    globalThis.workerEnv = env;
+
     const url = new URL(request.url);
     if (url.pathname === "/ws") {
       const projectId = url.searchParams.get("projectId");
@@ -69,14 +74,13 @@ export default {
       if (!env.WEBSOCKET_DO) {
         return new Response("Durable Object not bound", { status: 500 });
       }
-      
+
       const id = env.WEBSOCKET_DO.idFromName(projectId);
       const stub = env.WEBSOCKET_DO.get(id);
       return stub.fetch(request);
     }
 
     await connectDB();
-    return handler(request, env, ctx);
+    return handler.fetch(request, env, ctx);
   },
 };
-

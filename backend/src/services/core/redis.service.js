@@ -4,7 +4,7 @@ class InMemoryRedis {
   constructor() {
     this.store = new Map();
     this.status = "ready";
-    logger.info("In-Memory Cache initialized");
+    console.log("In-Memory Cache initialized");
   }
 
   async get(key) {

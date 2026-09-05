@@ -43,9 +43,24 @@ app.use((req, res, next) => {
   }
 });
 
-// Use Morgan with Winston stream
-const morganFormat = process.env.NODE_ENV === "production" ? "combined" : "dev";
-app.use(morgan(morganFormat, { stream }));
+// Use Morgan with Winston stream in Node.js environments only
+// Morgan uses `new Function()` which is forbidden in Cloudflare Workers
+const isCloudflareWorker = typeof caches !== "undefined" || typeof WebSocketPair !== "undefined";
+
+if (!isCloudflareWorker) {
+  const morganFormat = process.env.NODE_ENV === "production" ? "combined" : "dev";
+  app.use(morgan(morganFormat, { stream }));
+} else {
+  // Simple logger for Cloudflare Workers
+  app.use((req, res, next) => {
+    const start = Date.now();
+    res.on("finish", () => {
+      const duration = Date.now() - start;
+      logger.info(`HTTP ${req.method} ${req.url} ${res.statusCode} - ${duration}ms`);
+    });
+    next();
+  });
+}
 
 // --- CORS Configuration ---
 // SDK routes (/sdk/*) intentionally bypass the server-level allowlist.
