@@ -1,4 +1,6 @@
+/* global WebSocketPair */
 import { DurableObject } from "cloudflare:workers";
+
 
 export class WebSocketManager extends DurableObject {
   constructor(ctx, env) {
@@ -51,15 +53,15 @@ export class WebSocketManager extends DurableObject {
     });
   }
 
-  webSocketMessage(ws, message) {
+  webSocketMessage(_ws, _message) {
     // Handle messages from clients if needed later
   }
 
-  webSocketClose(ws, code, reason, wasClean) {
+  webSocketClose(_ws, _code, _reason, _wasClean) {
     // Cloudflare handles the socket lifecycle.
   }
 
-  webSocketError(ws, error) {
+  webSocketError(_ws, _error) {
     // Socket errors are handled by the runtime.
   }
 }

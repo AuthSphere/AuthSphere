@@ -1,6 +1,6 @@
 import logger from "../../utils/logger.js";
 
-export const initSocket = (server) => {
+export const initSocket = (_server) => {
   logger.info(
     "Socket initialization skipped (using Cloudflare Durable Objects)",
   );
