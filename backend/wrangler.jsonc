@@ -15,7 +15,7 @@
   "migrations": [
     {
       "tag": "v1",
-      "new_classes": ["WebSocketManager"],
+      "new_sqlite_classes": ["WebSocketManager"]
     },
   ],
   "assets": {
