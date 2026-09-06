@@ -2,7 +2,10 @@ import mongoose from "mongoose";
 import { conf } from "./configs/env.js";
 
 const homeHandler = (req, res) => {
-  const memory = typeof process.memoryUsage === "function" ? process.memoryUsage() : { rss: 0 };
+  const memory =
+    typeof process.memoryUsage === "function"
+      ? process.memoryUsage()
+      : { rss: 0 };
   const uptime = typeof process.uptime === "function" ? process.uptime() : 0;
 
   const apiData = {

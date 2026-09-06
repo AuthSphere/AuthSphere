@@ -4,18 +4,22 @@ import fs from "fs";
 import path from "path";
 
 const isProduction = process.env.NODE_ENV === "production";
-const isCloudflareWorker = typeof caches !== "undefined" || typeof WebSocketPair !== "undefined";
+const isCloudflareWorker =
+  typeof caches !== "undefined" || typeof WebSocketPair !== "undefined";
 
 let logger;
 
 if (isCloudflareWorker) {
   // Minimalistic logger for Cloudflare Workers to avoid verbose stream logs
-  const formatMeta = (meta) => (meta && Object.keys(meta).length > 0 ? JSON.stringify(meta) : "");
+  const formatMeta = (meta) =>
+    meta && Object.keys(meta).length > 0 ? JSON.stringify(meta) : "";
   logger = {
     info: (msg, meta) => console.log(`ℹ️ [INFO] ${msg} ${formatMeta(meta)}`),
     warn: (msg, meta) => console.warn(`⚠️ [WARN] ${msg} ${formatMeta(meta)}`),
-    error: (msg, meta) => console.error(`❌ [ERROR] ${msg} ${formatMeta(meta)}`),
-    debug: (msg, meta) => console.debug(`🐛 [DEBUG] ${msg} ${formatMeta(meta)}`),
+    error: (msg, meta) =>
+      console.error(`❌ [ERROR] ${msg} ${formatMeta(meta)}`),
+    debug: (msg, meta) =>
+      console.debug(`🐛 [DEBUG] ${msg} ${formatMeta(meta)}`),
   };
 } else {
   // Define the base format

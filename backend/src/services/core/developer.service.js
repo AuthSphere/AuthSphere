@@ -30,7 +30,9 @@ class DeveloperService {
 
     const isPwned = await isPasswordPwned(password);
     if (isPwned) {
-      throw new Error("This password has appeared in a data breach. Please choose a different password.");
+      throw new Error(
+        "This password has appeared in a data breach. Please choose a different password.",
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -101,14 +103,19 @@ class DeveloperService {
         "location.latitude": { $exists: true },
       }).sort({ createdAt: -1 });
 
-      if (lastSession && lastSession.location.latitude && lastSession.location.longitude) {
+      if (
+        lastSession &&
+        lastSession.location.latitude &&
+        lastSession.location.longitude
+      ) {
         const distance = getDistanceFromLatLonInKm(
           lastSession.location.latitude,
           lastSession.location.longitude,
           location.latitude,
-          location.longitude
+          location.longitude,
         );
-        const timeDiffMs = Date.now() - new Date(lastSession.createdAt).getTime();
+        const timeDiffMs =
+          Date.now() - new Date(lastSession.createdAt).getTime();
         const timeDiffHours = timeDiffMs / (1000 * 60 * 60);
 
         if (timeDiffHours > 0) {
@@ -126,7 +133,13 @@ class DeveloperService {
               action: "IMPOSSIBLE_TRAVEL_ANOMALY",
               description: `Impossible travel detected. Speed: ${Math.round(speedKmH)} km/h over ${Math.round(distance)} km.`,
               category: "security",
-              metadata: { ip, distance, speedKmH, previousLocation: lastSession.location, newLocation: location },
+              metadata: {
+                ip,
+                distance,
+                speedKmH,
+                previousLocation: lastSession.location,
+                newLocation: location,
+              },
             });
           }
         }
@@ -202,9 +215,9 @@ class DeveloperService {
     const totalProjects = await Project.countDocuments({
       developer: developerId,
     });
-    const projects = await Project.find({ developer: developerId }).select(
-      "_id",
-    ).lean();
+    const projects = await Project.find({ developer: developerId })
+      .select("_id")
+      .lean();
     const projectIds = projects.map((p) => p._id);
 
     const totalEndUsers = await EndUser.countDocuments({

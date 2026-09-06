@@ -2,7 +2,8 @@ import swaggerJsdoc from "swagger-jsdoc";
 import { conf } from "./env.js";
 import logger from "../utils/logger.js";
 
-const isCloudflareWorker = typeof caches !== "undefined" || typeof WebSocketPair !== "undefined";
+const isCloudflareWorker =
+  typeof caches !== "undefined" || typeof WebSocketPair !== "undefined";
 
 const options = {
   definition: {

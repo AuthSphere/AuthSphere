@@ -3,27 +3,23 @@
   "name": "authsphere-backend",
   "main": "src/server.js",
   "compatibility_date": "2026-09-05",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
+  "compatibility_flags": ["nodejs_compat"],
   "durable_objects": {
     "bindings": [
       {
         "name": "WEBSOCKET_DO",
-        "class_name": "WebSocketManager"
-      }
-    ]
+        "class_name": "WebSocketManager",
+      },
+    ],
   },
   "migrations": [
     {
       "tag": "v1",
-      "new_classes": [
-        "WebSocketManager"
-      ]
-    }
+      "new_classes": ["WebSocketManager"],
+    },
   ],
   "assets": {
     "directory": "./public",
-    "binding": "ASSETS"
-  }
+    "binding": "ASSETS",
+  },
 }

@@ -246,7 +246,9 @@ class SDKService {
 
     const isPwned = await isPasswordPwned(password);
     if (isPwned) {
-      throw new Error("This password has appeared in a data breach. Please choose a different password.");
+      throw new Error(
+        "This password has appeared in a data breach. Please choose a different password.",
+      );
     }
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
