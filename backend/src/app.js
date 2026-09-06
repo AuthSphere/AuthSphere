@@ -1,7 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
-import compression from "compression";
 import crypto from "crypto";
 import hpp from "hpp";
 import morgan from "morgan";
@@ -11,15 +10,13 @@ import { handleError } from "./utils/AppError.js";
 import { globalLimiter } from "./middlewares/rateLimiter.js";
 import { conf } from "./configs/env.js";
 import { swaggerDocs } from "./configs/swagger.js";
-import routes from "./routes/index.js"; 
+import routes from "./routes/index.js";
 import homeHandler from "./home.js";
 
 const app = express();
 
 app.set("trust proxy", 1);
 
-// --- Performance & Traceability ---
-app.use(compression());
 app.use((req, res, next) => {
   try {
     req.id = crypto.randomUUID?.() || Date.now().toString();
@@ -45,10 +42,12 @@ app.use((req, res, next) => {
 
 // Use Morgan with Winston stream in Node.js environments only
 // Morgan uses `new Function()` which is forbidden in Cloudflare Workers
-const isCloudflareWorker = typeof caches !== "undefined" || typeof WebSocketPair !== "undefined";
+const isCloudflareWorker =
+  typeof caches !== "undefined" || typeof WebSocketPair !== "undefined";
 
 if (!isCloudflareWorker) {
-  const morganFormat = process.env.NODE_ENV === "production" ? "combined" : "dev";
+  const morganFormat =
+    process.env.NODE_ENV === "production" ? "combined" : "dev";
   app.use(morgan(morganFormat, { stream }));
 } else {
   // Simple logger for Cloudflare Workers
@@ -56,7 +55,9 @@ if (!isCloudflareWorker) {
     const start = Date.now();
     res.on("finish", () => {
       const duration = Date.now() - start;
-      logger.info(`HTTP ${req.method} ${req.url} ${res.statusCode} - ${duration}ms`);
+      logger.info(
+        `HTTP ${req.method} ${req.url} ${res.statusCode} - ${duration}ms`,
+      );
     });
     next();
   });
@@ -185,9 +186,10 @@ swaggerDocs(app);
 // --- Home & Health Check ---
 app.get("/", homeHandler);
 app.get("/health", (req, res) => {
+  const uptime = typeof process.uptime === "function" ? process.uptime() : 0;
   res.status(200).json({
     status: "OK",
-    uptime: `${process.uptime().toFixed(2)}s`,
+    uptime: `${uptime.toFixed(2)}s`,
   });
 });
 

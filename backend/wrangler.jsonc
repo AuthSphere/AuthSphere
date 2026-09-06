@@ -21,5 +21,9 @@
         "WebSocketManager"
       ]
     }
-  ]
+  ],
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  }
 }

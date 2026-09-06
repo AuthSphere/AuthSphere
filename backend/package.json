@@ -47,5 +47,8 @@
     "nodemon": "3",
     "prettier": "^3.9.6",
     "wrangler": "^4.129.0"
+  },
+  "browser": {
+    "whatwg-url": false
   }
 }
