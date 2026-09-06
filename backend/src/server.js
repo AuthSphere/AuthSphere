@@ -1,5 +1,5 @@
 import { createServer } from "http";
-import { conf } from "./configs/env.js";
+import { conf, validateEnv } from "./configs/env.js";
 import { httpServerHandler } from "cloudflare:node";
 import app from "./app.js";
 import connectDB, { closeDB } from "./database/connectDB.js";
@@ -10,6 +10,7 @@ import logger from "./utils/logger.js";
 const startServer = async () => {
   let httpServer;
   try {
+    validateEnv();
     await connectDB();
 
     httpServer = createServer(app);

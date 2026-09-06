@@ -156,18 +156,25 @@ const _conf = {
 
 export const conf = Object.freeze(_conf);
 
+// Helper to validate required env vars
+export const validateEnv = () => {
+  checkRequiredEnvVars();
+};
+
 export const checkRequiredEnvVars = () => {
   const requiredEnvVars = [
     "MONGODB_URI",
     "ACCESS_TOKEN_SECRET",
     "REFRESH_TOKEN_SECRET",
+    "JWT_SECRET",
+    "FRONTEND_URL",
+    "CLI_URL",
+    "CORS_ORIGIN",
+    // Add any other mandatory vars here
   ];
-
   const missingVars = requiredEnvVars.filter((key) => !getEnv(key));
-
   if (missingVars.length > 0) {
-    console.error(
-      `❌ Missing required environment variables: ${missingVars.join(", ")}`,
-    );
+    console.error(`❌ Missing required environment variables: ${missingVars.join(", ")}`);
+    process.exit(1);
   }
 };

@@ -10,6 +10,8 @@
     "test:env": "node -e \"console.log('Environment check passed')\" && node scripts/diagnose.js",
     "lint": "eslint .",
     "format": "prettier --write .",
+    "verify": "node scripts/validate-env.js && npm run lint && npm test",
+    "build": "npx wrangler deploy",
     "postinstall": "node scripts/fix-unenv.js"
   },
   "keywords": [],
