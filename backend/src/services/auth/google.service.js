@@ -89,12 +89,14 @@ export async function getGoogleUser(code) {
 
   let tokenData;
   try {
-    const tokenRes = await axios.post(
-      "https://oauth2.googleapis.com/token",
-      params.toString(),
-      { headers: { "Content-Type": "application/x-www-form-urlencoded" } },
-    );
-    tokenData = tokenRes.data;
+    const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: params.toString(),
+    });
+    const data = await tokenRes.json();
+    if (!tokenRes.ok) throw { response: { data } };
+    tokenData = data;
   } catch (err) {
     const googleError = err.response?.data?.error;
     console.error(
@@ -117,11 +119,12 @@ export async function getGoogleUser(code) {
   // Fetch user profile via OIDC userinfo endpoint
   let userData;
   try {
-    const userRes = await axios.get(
-      "https://www.googleapis.com/oauth2/v3/userinfo",
-      { headers: { Authorization: `Bearer ${tokenData.access_token}` } },
-    );
-    userData = userRes.data;
+    const userRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+      headers: { Authorization: `Bearer ${tokenData.access_token}` },
+    });
+    const data = await userRes.json();
+    if (!userRes.ok) throw { response: { data } };
+    userData = data;
   } catch (err) {
     console.error(
       "[Google OAuth] Userinfo fetch failed:",

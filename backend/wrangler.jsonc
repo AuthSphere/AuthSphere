@@ -16,8 +16,8 @@
   "exports": {
     "WebSocketManager": {
       "type": "durable-object",
-      "storage": "sqlite"
-    }
+      "storage": "sqlite",
+    },
   },
   "assets": {
     "directory": "./public",

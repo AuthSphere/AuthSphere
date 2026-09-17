@@ -1,7 +1,6 @@
 /* global WebSocketPair */
 import { DurableObject } from "cloudflare:workers";
 
-
 export class WebSocketManager extends DurableObject {
   constructor(ctx, env) {
     super(ctx, env);

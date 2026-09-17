@@ -174,7 +174,9 @@ export const checkRequiredEnvVars = () => {
   ];
   const missingVars = requiredEnvVars.filter((key) => !getEnv(key));
   if (missingVars.length > 0) {
-    console.error(`❌ Missing required environment variables: ${missingVars.join(", ")}`);
+    console.error(
+      `❌ Missing required environment variables: ${missingVars.join(", ")}`,
+    );
     process.exit(1);
   }
 };
