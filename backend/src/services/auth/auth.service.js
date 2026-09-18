@@ -8,7 +8,7 @@ import { logEvent } from "../../utils/auditLogger.js";
 import { parseUserAgent } from "../../utils/userAgentParser.js";
 import { triggerWebhook } from "../../utils/webhookSender.js";
 import bcrypt from "bcryptjs";
-import axios from "axios";
+
 
 class AuthService {
   /**
@@ -16,6 +16,7 @@ class AuthService {
    */
   async handleSocialAuth(req, userData, context = {}) {
     const { sdkRequest, cli } = context;
+    console.log("[Social Auth] 1. Started — provider:", userData.provider, "| email:", userData.email, "| sdkRequest:", !!sdkRequest);
 
     // ---------- SDK FLOW ----------
     if (sdkRequest) {
@@ -23,16 +24,23 @@ class AuthService {
     }
 
     // ---------- REGULAR DEVELOPER LOGIN ----------
+    console.log("[Social Auth] 2. Looking up developer by email...");
+    console.log("[Social Auth] 2A. Before database query");
     let developer = await Developer.findOne({ email: userData.email });
+    console.log("[Social Auth] 2B. Database query completed", !!developer);
+    console.log("[Social Auth] 3. Developer lookup done — found:", !!developer);
 
     if (!developer) {
       let baseUsername = userData.username || userData.email.split("@")[0];
       let username = baseUsername;
 
+      console.log("[Social Auth] 4. Checking username uniqueness...");
       while (await Developer.findOne({ username })) {
         username = baseUsername + Math.floor(Math.random() * 10000);
       }
+      console.log("[Social Auth] 5. Username resolved:", username);
 
+      console.log("[Social Auth] 6. Creating new developer...");
       developer = await Developer.create({
         email: userData.email,
         username,
@@ -40,7 +48,9 @@ class AuthService {
         provider: userData.provider,
         providerId: userData.providerId,
       });
+      console.log("[Social Auth] 7. Developer created:", developer._id.toString());
 
+      console.log("[Social Auth] 8. Logging ACCOUNT_CREATED event...");
       await logEvent({
         developerId: developer._id,
         action: "ACCOUNT_CREATED",
@@ -51,39 +61,71 @@ class AuthService {
           userAgent: req.headers["user-agent"],
         },
       });
+      console.log("[Social Auth] 9. ACCOUNT_CREATED event logged.");
     } else {
       developer.picture = userData.picture || developer.picture;
       developer.username = userData.username || developer.username;
+      console.log("[Social Auth] 4. Saving updated developer picture/username...");
       await developer.save();
+      console.log("[Social Auth] 5. Developer updated.");
     }
 
+    console.log("[Social Auth] 10. Generating tokens...");
     const accessToken = generateAccessToken(developer._id);
     const refreshToken = generateRefreshToken(developer._id);
+    console.log("[Social Auth] 11. Tokens generated.");
 
     developer.refreshToken = refreshToken;
+    console.log("[Social Auth] 12. Saving refreshToken to developer...");
     await developer.save({ validateBeforeSave: false });
+    console.log("[Social Auth] 13. refreshToken saved.");
 
     // ---------- CREATE SESSION RECORD ----------
     const userAgent = req.headers["user-agent"] || "";
     const ipAddress =
       req.ip || req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+    console.log("[Social Auth] 14. IP address resolved:", ipAddress);
 
     let location = { city: "Unknown", country: "Unknown", countryCode: "???" };
     try {
-      const geoResponse = await axios
-        .get(`https://ipapi.co/${ipAddress}/json/`)
-        .catch(() => null);
-      if (geoResponse && geoResponse.data && !geoResponse.data.error) {
-        location = {
-          city: geoResponse.data.city,
-          country: geoResponse.data.country_name,
-          countryCode: geoResponse.data.country_code,
-        };
+      // Skip geo lookup for loopback/private IPs (e.g. local dev via Wrangler)
+      // — these never resolve from ipapi.co and would hang the Worker.
+      const isPrivateIP =
+        !ipAddress ||
+        ipAddress === "::1" ||
+        ipAddress === "127.0.0.1" ||
+        ipAddress === "localhost" ||
+        ipAddress.startsWith("192.168.") ||
+        ipAddress.startsWith("10.") ||
+        ipAddress.startsWith("172.");
+
+      console.log("[Social Auth] 15. isPrivateIP:", isPrivateIP);
+      if (!isPrivateIP) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+        console.log("[Social Auth] 16. Fetching geo location from ipapi.co...");
+        const geoResponse = await fetch(`https://ipapi.co/${ipAddress}/json/`, {
+          signal: controller.signal,
+        })
+          .then((res) => res.json())
+          .catch(() => null)
+          .finally(() => clearTimeout(timeoutId));
+        console.log("[Social Auth] 17. Geo fetch done:", geoResponse?.city ?? "no data");
+
+        if (geoResponse && !geoResponse.error) {
+          location = {
+            city: geoResponse.city,
+            country: geoResponse.country_name,
+            countryCode: geoResponse.country_code,
+          };
+        }
       }
     } catch (geoError) {
       console.error("Geo lookup failed in social auth:", geoError.message);
     }
 
+    console.log("[Social Auth] 18. Creating DeveloperSession...");
     await DeveloperSession.create({
       developer: developer._id,
       refreshToken: refreshToken,
@@ -93,7 +135,9 @@ class AuthService {
       location: location,
       expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     });
+    console.log("[Social Auth] 19. DeveloperSession created.");
 
+    console.log("[Social Auth] 20. Logging DEVELOPER_LOGIN event...");
     await logEvent({
       developerId: developer._id,
       action: "DEVELOPER_LOGIN",
@@ -105,7 +149,9 @@ class AuthService {
         details: { location },
       },
     });
+    console.log("[Social Auth] 21. DEVELOPER_LOGIN event logged.");
 
+    console.log("[Social Auth] 22. Done — returning tokens.");
     return { developer, accessToken, refreshToken, cli };
   }
 
