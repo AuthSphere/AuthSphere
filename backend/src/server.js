@@ -1,4 +1,3 @@
-import "./patch-fetch.js";
 import { createServer } from "http";
 import { conf, validateEnv } from "./configs/env.js";
 import { httpServerHandler } from "cloudflare:node";
