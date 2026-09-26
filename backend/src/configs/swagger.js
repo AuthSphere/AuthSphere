@@ -1,7 +1,9 @@
 import swaggerJsdoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
 import { conf } from "./env.js";
 import logger from "../utils/logger.js";
+
+const isCloudflareWorker =
+  typeof caches !== "undefined" || typeof WebSocketPair !== "undefined";
 
 const options = {
   definition: {
@@ -35,9 +37,18 @@ const options = {
   apis: ["./src/routes/*.js", "./src/docs/*.js"], // Path to the API docs
 };
 
-const specs = swaggerJsdoc(options);
+export const swaggerDocs = async (app) => {
+  if (isCloudflareWorker) {
+    logger.info("Swagger Docs disabled in Cloudflare Workers");
+    return;
+  }
 
-export const swaggerDocs = (app) => {
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
-  logger.info(`Swagger Docs available at ${conf.baseUrl}/api-docs`);
+  try {
+    const swaggerUi = (await import("swagger-ui-express")).default;
+    const specs = swaggerJsdoc(options);
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+    logger.info(`Swagger Docs available at ${conf.baseUrl}/api-docs`);
+  } catch (err) {
+    logger.error("Failed to load swagger UI:", err);
+  }
 };

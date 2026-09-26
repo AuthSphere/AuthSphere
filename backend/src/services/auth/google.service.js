@@ -1,6 +1,5 @@
-import axios from "axios";
 import { conf } from "../../configs/env.js";
-import redisService from "../core/redis.service.js";
+// import redisService from "../core/redis.service.js";
 
 /**
  * Returns Google OAuth 2.0 authorization URL
@@ -38,6 +37,7 @@ export function getGoogleAuthURL(context = { type: "dev" }) {
  * @returns {Promise<object>} - Google user info (sub, email, name, picture)
  */
 export async function getGoogleUser(code) {
+  console.log("[Google OAuth] Step 1: getGoogleUser called, code present:", !!code);
   if (!code) throw new Error("No code provided from Google callback");
 
   // ── Atomic Deduplication Guard (NX = set-if-not-exists) ──────────────────
@@ -45,28 +45,26 @@ export async function getGoogleUser(code) {
   // the edge network can deliver the callback URL twice nearly simultaneously
   // (duplicate HTTP requests). We do an atomic SET NX to claim the code;
   // if it returns null, another instance already claimed it → abort.
-  const codeKey = `oauth:google:code:${code.substring(0, 32)}`;
-  try {
-    const client = redisService.client;
-    if (client) {
-      // SET key value EX 120 NX — atomic: only succeeds for the FIRST caller
-      const claimed = await client.set(codeKey, "1", "EX", 120, "NX");
-      if (claimed === null) {
-        // Another concurrent request already claimed this code
-        console.warn(
-          "[Google OAuth] Duplicate callback detected — code already claimed.",
-        );
-        throw new Error("DUPLICATE_CALLBACK");
-      }
-    }
-  } catch (guardErr) {
-    if (guardErr.message === "DUPLICATE_CALLBACK") throw guardErr;
-    // Redis unavailable: log and proceed (auth unblocked, but no dedup protection)
-    console.warn(
-      "[Google OAuth] Dedup guard skipped (Redis unavailable):",
-      guardErr.message,
-    );
-  }
+  // const codeKey = `oauth:google:code:${code.substring(0, 32)}`;
+  // try {
+  //   const client = redisService.client;
+  //   if (client) {
+  //     const claimed = await client.set(codeKey, "1", "EX", 120, "NX");
+  //     if (claimed === null) {
+  //       console.warn(
+  //         "[Google OAuth] Duplicate callback detected — code already claimed.",
+  //       );
+  //       throw new Error("DUPLICATE_CALLBACK");
+  //     }
+  //   }
+  // } catch (guardErr) {
+  //   if (guardErr.message === "DUPLICATE_CALLBACK") throw guardErr;
+  //   // Redis unavailable: log and proceed (auth unblocked, but no dedup protection)
+  //   console.warn(
+  //     "[Google OAuth] Dedup guard skipped (Redis unavailable):",
+  //     guardErr.message,
+  //   );
+  // }
   // ─────────────────────────────────────────────────────────────────────────
 
   // Only log credential debug info in non-production environments
@@ -79,6 +77,7 @@ export async function getGoogleUser(code) {
   }
 
   // Exchange authorization code for access token
+  console.log("[Google OAuth] Step 2: Starting token exchange with Google...");
   const params = new URLSearchParams({
     client_id: conf.GOOGLE_CLIENT_ID,
     client_secret: conf.GOOGLE_CLIENT_SECRET,
@@ -89,19 +88,31 @@ export async function getGoogleUser(code) {
 
   let tokenData;
   try {
-    const tokenRes = await axios.post(
-      "https://oauth2.googleapis.com/token",
-      params.toString(),
-      { headers: { "Content-Type": "application/x-www-form-urlencoded" } },
-    );
-    tokenData = tokenRes.data;
+    const tokenController = new AbortController();
+    const tokenTimeout = setTimeout(() => tokenController.abort(), 10_000);
+
+    console.log("[Google OAuth] Step 3: Sending POST to oauth2.googleapis.com/token...");
+    const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: params.toString(),
+      cache: "no-store",
+      signal: tokenController.signal,
+    }).finally(() => clearTimeout(tokenTimeout));
+
+    console.log("[Google OAuth] Step 4: Token response received, status:", tokenRes.status);
+    const data = await tokenRes.json();
+    if (!tokenRes.ok) {
+      throw { response: { data } };
+    }
+    tokenData = data;
+    console.log("[Google OAuth] Step 5: Token exchange successful, access_token present:", !!tokenData.access_token);
   } catch (err) {
     const googleError = err.response?.data?.error;
     console.error(
       "[Google OAuth] Token exchange failed:",
       err.response?.data || err.message,
     );
-    // Propagate the specific Google error so callers can act on it
     throw new Error(
       googleError === "invalid_grant"
         ? "INVALID_GRANT"
@@ -115,13 +126,29 @@ export async function getGoogleUser(code) {
   }
 
   // Fetch user profile via OIDC userinfo endpoint
+  console.log("[Google OAuth] Step 6: Starting userinfo fetch...");
   let userData;
   try {
-    const userRes = await axios.get(
+    const userController = new AbortController();
+    const userTimeout = setTimeout(() => userController.abort(), 10_000);
+
+    console.log("[Google OAuth] Step 7: Sending GET to googleapis.com/oauth2/v3/userinfo...");
+    const userRes = await fetch(
       "https://www.googleapis.com/oauth2/v3/userinfo",
-      { headers: { Authorization: `Bearer ${tokenData.access_token}` } },
-    );
-    userData = userRes.data;
+      {
+        headers: { Authorization: `Bearer ${tokenData.access_token}` },
+        cache: "no-store",
+        signal: userController.signal,
+      },
+    ).finally(() => clearTimeout(userTimeout));
+
+    console.log("[Google OAuth] Step 8: Userinfo response received, status:", userRes.status);
+    const data = await userRes.json();
+    if (!userRes.ok) {
+      throw { response: { data } };
+    }
+    userData = data;
+    console.log("[Google OAuth] Step 9: Userinfo fetched, email:", userData?.email);
   } catch (err) {
     console.error(
       "[Google OAuth] Userinfo fetch failed:",
@@ -138,5 +165,6 @@ export async function getGoogleUser(code) {
     throw new Error("USERINFO_INVALID");
   }
 
+  console.log("[Google OAuth] Step 10: All done, returning user:", { sub: userData.sub, email: userData.email });
   return userData; // { sub, email, name, picture, ... }
 }

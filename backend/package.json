@@ -8,8 +8,12 @@
     "start": "node src/server.js",
     "diagnose": "node scripts/diagnose.js",
     "test:env": "node -e \"console.log('Environment check passed')\" && node scripts/diagnose.js",
-    "lint": "eslint .",
-    "format": "prettier --write ."
+    "lint": "eslint src",
+    "test": "echo \"No tests\"",
+    "format": "prettier --write .",
+    "verify": "node scripts/validate-env.js && npm run lint && npm test",
+    "build": "npx wrangler deploy",
+    "postinstall": "node scripts/fix-unenv.js"
   },
   "keywords": [],
   "author": "",
@@ -34,7 +38,6 @@
     "node-fetch": "^3.3.2",
     "nodemailer": "^7.0.13",
     "qs": "^6.14.1",
-    "socket.io": "^4.8.3",
     "swagger-jsdoc": "6.2.8",
     "swagger-ui-express": "^5.0.1",
     "ua-parser-js": "^2.0.8",
@@ -46,6 +49,7 @@
     "eslint": "^10.0.0",
     "globals": "^15.9.0",
     "nodemon": "3",
-    "prettier": "^3.9.6"
+    "prettier": "^3.9.6",
+    "wrangler": "^4.129.0"
   }
 }

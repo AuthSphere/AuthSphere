@@ -1,0 +1,26 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "authsphere-backend",
+  "main": "src/server.js",
+  "compatibility_date": "2026-09-05",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "WEBSOCKET_DO",
+        "class_name": "WebSocketManager",
+      },
+    ],
+  },
+  "exports": {
+    "WebSocketManager": {
+      "type": "durable-object",
+      "storage": "sqlite",
+    },
+  },
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+  },
+}

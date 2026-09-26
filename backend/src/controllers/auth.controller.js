@@ -144,8 +144,14 @@ export async function googleCallback(req, res) {
   };
 
   try {
+    console.log("[OAuth Callback] A: Before getGoogleUser");
+
     // Exchange code → google user (dedup guard lives inside getGoogleUser)
     const googleUser = await getGoogleUser(code);
+
+    console.log("[OAuth Callback] B: getGoogleUser completed", { email: googleUser?.email });
+
+    console.log("[OAuth Callback] C: Before database operation (handleSocialAuth)");
 
     // Run social auth logic (creates/finds user, generates tokens)
     const result = await authService.handleSocialAuth(
@@ -159,6 +165,8 @@ export async function googleCallback(req, res) {
       },
       context,
     );
+
+    console.log("[OAuth Callback] D: Database operation completed");
 
     // ── SDK Flow ────────────────────────────────────────────────────
     if (result.endUser) {
@@ -195,6 +203,8 @@ export async function googleCallback(req, res) {
       return res.send("<script>window.close();</script>");
     }
 
+    console.log("[OAuth Callback] E: Before creating response (bridge token + redirect)");
+
     // ── Standard Developer Flow: Bridge Token Pattern ───────────────────
     // Instead of setting cookies here and redirecting, we:
     // 1. Set the cookies immediately (they travel with the redirect)
@@ -216,6 +226,8 @@ export async function googleCallback(req, res) {
     } catch (_e) {
       // Non-fatal: cookies are already set; bridge token is supplementary
     }
+
+    console.log("[OAuth Callback] F: Response ready — redirecting to frontend");
 
     // Immediately redirect — callback URL must never linger in the browser
     return res.redirect(

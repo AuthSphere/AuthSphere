@@ -2,86 +2,181 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const requiredEnvVars = [
-  "MONGODB_URI",
-  "ACCESS_TOKEN_SECRET",
-  "REFRESH_TOKEN_SECRET",
-];
-
-const missingVars = requiredEnvVars.filter((key) => !process.env[key]);
-
-if (missingVars.length > 0) {
-  console.error(
-    `❌ Missing required environment variables: ${missingVars.join(", ")}`,
-  );
-  // Do not call process.exit(1) in serverless; let the application handle missing vars or throw an error later.
-}
+const getEnv = (key) => {
+  if (
+    typeof globalThis !== "undefined" &&
+    globalThis.workerEnv &&
+    globalThis.workerEnv[key] !== undefined
+  ) {
+    return globalThis.workerEnv[key];
+  }
+  return process.env[key];
+};
 
 const _conf = {
-  port: String(process.env.PORT || 8000),
-  baseUrl: String(process.env.BASE_URL || "http://localhost:8000"),
-  mongodbUri: String(process.env.MONGODB_URI),
-  corsOrigin: String(process.env.CORS_ORIGIN || "*").trim(),
-  accessTokenSecret: String(process.env.ACCESS_TOKEN_SECRET).trim(),
-  accessTokenExpiry: String(process.env.ACCESS_TOKEN_EXPIRY || "1d").trim(),
-  refreshTokenSecret: String(process.env.REFRESH_TOKEN_SECRET).trim(),
-  refreshTokenExpiry: String(process.env.REFRESH_TOKEN_EXPIRY || "10d").trim(),
+  get port() {
+    return Number(getEnv("PORT") || 8000);
+  },
+  get baseUrl() {
+    return String(getEnv("BASE_URL") || "http://localhost:8000");
+  },
+  get mongodbUri() {
+    return String(getEnv("MONGODB_URI"));
+  },
+  get corsOrigin() {
+    return String(getEnv("CORS_ORIGIN") || "*").trim();
+  },
+  get accessTokenSecret() {
+    return String(getEnv("ACCESS_TOKEN_SECRET")).trim();
+  },
+  get accessTokenExpiry() {
+    return String(getEnv("ACCESS_TOKEN_EXPIRY") || "1d").trim();
+  },
+  get refreshTokenSecret() {
+    return String(getEnv("REFRESH_TOKEN_SECRET")).trim();
+  },
+  get refreshTokenExpiry() {
+    return String(getEnv("REFRESH_TOKEN_EXPIRY") || "10d").trim();
+  },
   // URLs
-  frontendUrl: String(
-    process.env.FRONTEND_URL || "http://localhost:5173",
-  ).trim(),
-  cliUrl: String(process.env.CLI_URL || "http://localhost:5001").trim(),
+  get frontendUrl() {
+    return String(getEnv("FRONTEND_URL") || "http://localhost:5173").trim();
+  },
+  get cliUrl() {
+    return String(getEnv("CLI_URL") || "http://localhost:5001").trim();
+  },
 
   // Google
-  GOOGLE_CLIENT_ID: String(process.env.GOOGLE_CLIENT_ID || "")
-    .trim()
-    .replace(/^["'](.+)["']$/, "$1"),
-  GOOGLE_CLIENT_SECRET: String(process.env.GOOGLE_CLIENT_SECRET || "")
-    .trim()
-    .replace(/^["'](.+)["']$/, "$1"),
-  GOOGLE_REDIRECT_URI: String(process.env.GOOGLE_REDIRECT_URI || "")
-    .trim()
-    .replace(/^["'](.+)["']$/, "$1"),
+  get GOOGLE_CLIENT_ID() {
+    return String(getEnv("GOOGLE_CLIENT_ID") || "")
+      .trim()
+      .replace(/^["'](.+)["']$/, "$1");
+  },
+  get GOOGLE_CLIENT_SECRET() {
+    return String(getEnv("GOOGLE_CLIENT_SECRET") || "")
+      .trim()
+      .replace(/^["'](.+)["']$/, "$1");
+  },
+  get GOOGLE_REDIRECT_URI() {
+    return String(getEnv("GOOGLE_REDIRECT_URI") || "")
+      .trim()
+      .replace(/^["'](.+)["']$/, "$1");
+  },
 
   // GitHub
-  GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
-  GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
-  GITHUB_REDIRECT_URI: process.env.GITHUB_REDIRECT_URI,
+  get GITHUB_CLIENT_ID() {
+    return getEnv("GITHUB_CLIENT_ID");
+  },
+  get GITHUB_CLIENT_SECRET() {
+    return getEnv("GITHUB_CLIENT_SECRET");
+  },
+  get GITHUB_REDIRECT_URI() {
+    return getEnv("GITHUB_REDIRECT_URI");
+  },
 
   // Discord
-  DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
-  DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
-  DISCORD_REDIRECT_URI: process.env.DISCORD_REDIRECT_URI,
+  get DISCORD_CLIENT_ID() {
+    return getEnv("DISCORD_CLIENT_ID");
+  },
+  get DISCORD_CLIENT_SECRET() {
+    return getEnv("DISCORD_CLIENT_SECRET");
+  },
+  get DISCORD_REDIRECT_URI() {
+    return getEnv("DISCORD_REDIRECT_URI");
+  },
 
   // LinkedIn
-  LINKEDIN_CLIENT_ID: process.env.LINKEDIN_CLIENT_ID,
-  LINKEDIN_CLIENT_SECRET: process.env.LINKEDIN_CLIENT_SECRET,
-  LINKEDIN_REDIRECT_URI: process.env.LINKEDIN_REDIRECT_URI,
+  get LINKEDIN_CLIENT_ID() {
+    return getEnv("LINKEDIN_CLIENT_ID");
+  },
+  get LINKEDIN_CLIENT_SECRET() {
+    return getEnv("LINKEDIN_CLIENT_SECRET");
+  },
+  get LINKEDIN_REDIRECT_URI() {
+    return getEnv("LINKEDIN_REDIRECT_URI");
+  },
 
   // GitLab
-  GITLAB_CLIENT_ID: process.env.GITLAB_CLIENT_ID,
-  GITLAB_CLIENT_SECRET: process.env.GITLAB_CLIENT_SECRET,
-  GITLAB_REDIRECT_URI: process.env.GITLAB_REDIRECT_URI,
+  get GITLAB_CLIENT_ID() {
+    return getEnv("GITLAB_CLIENT_ID");
+  },
+  get GITLAB_CLIENT_SECRET() {
+    return getEnv("GITLAB_CLIENT_SECRET");
+  },
+  get GITLAB_REDIRECT_URI() {
+    return getEnv("GITLAB_REDIRECT_URI");
+  },
 
   // Twitch
-  TWITCH_CLIENT_ID: process.env.TWITCH_CLIENT_ID,
-  TWITCH_CLIENT_SECRET: process.env.TWITCH_CLIENT_SECRET,
-  TWITCH_REDIRECT_URI: process.env.TWITCH_REDIRECT_URI,
+  get TWITCH_CLIENT_ID() {
+    return getEnv("TWITCH_CLIENT_ID");
+  },
+  get TWITCH_CLIENT_SECRET() {
+    return getEnv("TWITCH_CLIENT_SECRET");
+  },
+  get TWITCH_REDIRECT_URI() {
+    return getEnv("TWITCH_REDIRECT_URI");
+  },
 
   // Bitbucket
-  BITBUCKET_CLIENT_ID: process.env.BITBUCKET_CLIENT_ID,
-  BITBUCKET_CLIENT_SECRET: process.env.BITBUCKET_CLIENT_SECRET,
-  BITBUCKET_REDIRECT_URI: process.env.BITBUCKET_REDIRECT_URI,
+  get BITBUCKET_CLIENT_ID() {
+    return getEnv("BITBUCKET_CLIENT_ID");
+  },
+  get BITBUCKET_CLIENT_SECRET() {
+    return getEnv("BITBUCKET_CLIENT_SECRET");
+  },
+  get BITBUCKET_REDIRECT_URI() {
+    return getEnv("BITBUCKET_REDIRECT_URI");
+  },
 
-  MICROSOFT_CLIENT_ID: process.env.MICROSOFT_CLIENT_ID,
-  MICROSOFT_CLIENT_SECRET: process.env.MICROSOFT_CLIENT_SECRET,
-  MICROSOFT_REDIRECT_URI: process.env.MICROSOFT_REDIRECT_URI,
+  get MICROSOFT_CLIENT_ID() {
+    return getEnv("MICROSOFT_CLIENT_ID");
+  },
+  get MICROSOFT_CLIENT_SECRET() {
+    return getEnv("MICROSOFT_CLIENT_SECRET");
+  },
+  get MICROSOFT_REDIRECT_URI() {
+    return getEnv("MICROSOFT_REDIRECT_URI");
+  },
 
   // SMTP Settings
-  smtpHost: process.env.SMTP_HOST || "smtp.ethereal.email",
-  smtpPort: process.env.SMTP_PORT || 587,
-  smtpUser: process.env.SMTP_USER,
-  smtpPass: process.env.SMTP_PASS,
+  get smtpHost() {
+    return getEnv("SMTP_HOST") || "smtp.ethereal.email";
+  },
+  get smtpPort() {
+    return getEnv("SMTP_PORT") || 587;
+  },
+  get smtpUser() {
+    return getEnv("SMTP_USER");
+  },
+  get smtpPass() {
+    return getEnv("SMTP_PASS");
+  },
 };
 
 export const conf = Object.freeze(_conf);
+
+// Helper to validate required env vars
+export const validateEnv = () => {
+  checkRequiredEnvVars();
+};
+
+export const checkRequiredEnvVars = () => {
+  const requiredEnvVars = [
+    "MONGODB_URI",
+    "ACCESS_TOKEN_SECRET",
+    "REFRESH_TOKEN_SECRET",
+    "JWT_SECRET",
+    "FRONTEND_URL",
+    "CLI_URL",
+    "CORS_ORIGIN",
+    // Add any other mandatory vars here
+  ];
+  const missingVars = requiredEnvVars.filter((key) => !getEnv(key));
+  if (missingVars.length > 0) {
+    console.error(
+      `❌ Missing required environment variables: ${missingVars.join(", ")}`,
+    );
+    process.exit(1);
+  }
+};

@@ -2,8 +2,11 @@ import mongoose from "mongoose";
 import { conf } from "./configs/env.js";
 
 const homeHandler = (req, res) => {
-  const memory = process.memoryUsage();
-  const uptime = process.uptime();
+  const memory =
+    typeof process.memoryUsage === "function"
+      ? process.memoryUsage()
+      : { rss: 0 };
+  const uptime = typeof process.uptime === "function" ? process.uptime() : 0;
 
   const apiData = {
     status: "OPERATIONAL",
@@ -16,9 +19,9 @@ const homeHandler = (req, res) => {
     },
     system: {
       uptime: `${Math.floor(uptime / 3600)}H ${Math.floor((uptime % 3600) / 60)}M ${Math.floor(uptime % 60)}S`,
-      memory_usage: `${Math.round(memory.rss / 1024 / 1024)}MB`,
-      node_v: process.version,
-      platform: process.platform.toUpperCase(),
+      memory_usage: `${Math.round((memory.rss || 0) / 1024 / 1024)}MB`,
+      node_v: process.version || "Cloudflare Worker",
+      platform: (process.platform || "worker").toUpperCase(),
       db_status:
         mongoose.connection.readyState === 1 ? "CONNECTED" : "DISCONNECTED",
     },
@@ -37,9 +40,11 @@ const homeHandler = (req, res) => {
   };
 
   if (req.accepts("html")) {
+    res.set("Cache-Control", "no-store");
     return res.send(generateTerminalUI(apiData));
   }
 
+  res.set("Cache-Control", "no-store");
   res.status(200).json(apiData);
 };
 
@@ -188,7 +193,7 @@ const generateTerminalUI = (d) => `
                     <p class="text-[11px] font-800">${d.metadata.region}</p>
                 </div>
             </div>
-            <p class="text-[10px] font-800 tracking-widest text-gray-300">© 2026 AUTH_SPHERE // PRODUCTION_CORE_V2</p>
+            <p class="text-[10px] font-800 tracking-widest text-gray-300">© 2026 AUTH_SPHERE // PRODUCTION_CORE_V2 <!-- CACHE_BUST_1 --></p>
         </div>
     </footer>
 

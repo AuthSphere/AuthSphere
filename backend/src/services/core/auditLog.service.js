@@ -9,7 +9,10 @@ class AuditLogService {
     if (filters.category) query.category = filters.category;
     if (filters.actorType) query["actor.type"] = filters.actorType;
 
-    return await AuditLog.find(query).sort({ createdAt: -1 }).limit(limit).lean();
+    return await AuditLog.find(query)
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .lean();
   }
 
   /**

@@ -1,7 +1,8 @@
 import { createServer } from "http";
-import { conf } from "./configs/env.js";
+import { conf, validateEnv } from "./configs/env.js";
+import { httpServerHandler } from "cloudflare:node";
 import app from "./app.js";
-import connectDB, { closeDB } from "./database/connectDB.js";
+import { closeDB } from "./database/connectDB.js";
 import { logStartup } from "./utils/startup.js";
 import { initSocket } from "./services/core/socket.service.js";
 import logger from "./utils/logger.js";
@@ -9,6 +10,7 @@ import logger from "./utils/logger.js";
 const startServer = async () => {
   let httpServer;
   try {
+    validateEnv();
     await connectDB();
 
     httpServer = createServer(app);
@@ -44,4 +46,45 @@ const startServer = async () => {
   process.on("SIGINT", () => shutdown("SIGINT"));
 };
 
-startServer();
+const isCloudflareWorker =
+  typeof caches !== "undefined" || typeof WebSocketPair !== "undefined";
+
+if (!isCloudflareWorker) {
+  startServer();
+} else {
+  app.listen(conf.port);
+}
+
+import { WebSocketManager } from "./services/core/socket.do.js";
+
+export { WebSocketManager };
+
+// httpServerHandler expects the matching port
+const handler = httpServerHandler({ port: conf.port });
+
+export default {
+  async fetch(request, env, ctx) {
+    globalThis.workerEnv = env;
+
+    const url = new URL(request.url);
+    if (url.pathname === "/ws") {
+      const projectId = url.searchParams.get("projectId");
+      if (!projectId) {
+        return new Response("Missing projectId", { status: 400 });
+      }
+      if (!env.WEBSOCKET_DO) {
+        return new Response("Durable Object not bound", { status: 500 });
+      }
+
+      const id = env.WEBSOCKET_DO.idFromName(projectId);
+      const stub = env.WEBSOCKET_DO.get(id);
+      return stub.fetch(request);
+    }
+
+    // ⚠️  Do NOT call connectDB() here — this runs in the Worker isolate.
+    // The Mongoose connection must be established inside the Express middleware
+    // (app.js) which runs in the httpServerHandler Node.js context — the same
+    // context where Developer.findOne() and all other queries execute.
+    return handler.fetch(request, env, ctx);
+  },
+};
