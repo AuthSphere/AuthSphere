@@ -50,8 +50,9 @@ class AuthService {
       });
       console.log("[Social Auth] 7. Developer created:", developer._id.toString());
 
-      console.log("[Social Auth] 8. Logging ACCOUNT_CREATED event...");
-      await logEvent({
+      // 🔥 Fire-and-forget — audit log must NOT block the auth response
+      console.log("[Social Auth] 8. Firing ACCOUNT_CREATED log (non-blocking)...");
+      logEvent({
         developerId: developer._id,
         action: "ACCOUNT_CREATED",
         description: `New developer account created via ${userData.provider}. Welcome to AuthSphere!`,
@@ -60,8 +61,9 @@ class AuthService {
           ip: req.ip,
           userAgent: req.headers["user-agent"],
         },
-      });
-      console.log("[Social Auth] 9. ACCOUNT_CREATED event logged.");
+      }).catch((err) =>
+        console.error("[Social Auth] ACCOUNT_CREATED logEvent failed:", err.message),
+      );
     } else {
       developer.picture = userData.picture || developer.picture;
       developer.username = userData.username || developer.username;
@@ -70,6 +72,7 @@ class AuthService {
       console.log("[Social Auth] 5. Developer updated.");
     }
 
+    // ── CRITICAL PATH: generate tokens and persist refreshToken ──────────────
     console.log("[Social Auth] 10. Generating tokens...");
     const accessToken = generateAccessToken(developer._id);
     const refreshToken = generateRefreshToken(developer._id);
@@ -78,78 +81,72 @@ class AuthService {
     developer.refreshToken = refreshToken;
     console.log("[Social Auth] 12. Saving refreshToken to developer...");
     await developer.save({ validateBeforeSave: false });
-    console.log("[Social Auth] 13. refreshToken saved.");
+    console.log("[Social Auth] 13. refreshToken saved — critical path done.");
+    // ─────────────────────────────────────────────────────────────────────────
 
-    // ---------- CREATE SESSION RECORD ----------
+    // ---------- SESSION & AUDIT (non-blocking, best-effort) ----------
     const userAgent = req.headers["user-agent"] || "";
     const ipAddress =
-      req.ip || req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-    console.log("[Social Auth] 14. IP address resolved:", ipAddress);
+      req.ip || req.headers["x-forwarded-for"] || req.socket?.remoteAddress;
+    console.log("[Social Auth] 14. Firing session + audit log (non-blocking)...");
 
-    let location = { city: "Unknown", country: "Unknown", countryCode: "???" };
-    try {
-      // Skip geo lookup for loopback/private IPs (e.g. local dev via Wrangler)
-      // — these never resolve from ipapi.co and would hang the Worker.
-      const isPrivateIP =
-        !ipAddress ||
-        ipAddress === "::1" ||
-        ipAddress === "127.0.0.1" ||
-        ipAddress === "localhost" ||
-        ipAddress.startsWith("192.168.") ||
-        ipAddress.startsWith("10.") ||
-        ipAddress.startsWith("172.");
+    // Resolve geo location then create session & log — all fire-and-forget
+    Promise.resolve()
+      .then(async () => {
+        let location = { city: "Unknown", country: "Unknown", countryCode: "???" };
 
-      console.log("[Social Auth] 15. isPrivateIP:", isPrivateIP);
-      if (!isPrivateIP) {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 3000);
+        const isPrivateIP =
+          !ipAddress ||
+          ipAddress === "::1" ||
+          ipAddress === "127.0.0.1" ||
+          ipAddress === "localhost" ||
+          ipAddress.startsWith("192.168.") ||
+          ipAddress.startsWith("10.") ||
+          ipAddress.startsWith("172.");
 
-        console.log("[Social Auth] 16. Fetching geo location from ipapi.co...");
-        const geoResponse = await fetch(`https://ipapi.co/${ipAddress}/json/`, {
-          signal: controller.signal,
-        })
-          .then((res) => res.json())
-          .catch(() => null)
-          .finally(() => clearTimeout(timeoutId));
-        console.log("[Social Auth] 17. Geo fetch done:", geoResponse?.city ?? "no data");
+        if (!isPrivateIP) {
+          try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 3000);
+            const geoResponse = await fetch(
+              `https://ipapi.co/${ipAddress}/json/`,
+              { signal: controller.signal },
+            )
+              .then((res) => res.json())
+              .catch(() => null)
+              .finally(() => clearTimeout(timeoutId));
 
-        if (geoResponse && !geoResponse.error) {
-          location = {
-            city: geoResponse.city,
-            country: geoResponse.country_name,
-            countryCode: geoResponse.country_code,
-          };
+            if (geoResponse && !geoResponse.error) {
+              location = {
+                city: geoResponse.city,
+                country: geoResponse.country_name,
+                countryCode: geoResponse.country_code,
+              };
+            }
+          } catch (_) { /* geo failure is non-fatal */ }
         }
-      }
-    } catch (geoError) {
-      console.error("Geo lookup failed in social auth:", geoError.message);
-    }
 
-    console.log("[Social Auth] 18. Creating DeveloperSession...");
-    await DeveloperSession.create({
-      developer: developer._id,
-      refreshToken: refreshToken,
-      ipAddress: ipAddress,
-      userAgent: userAgent,
-      deviceInfo: parseUserAgent(userAgent),
-      location: location,
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    });
-    console.log("[Social Auth] 19. DeveloperSession created.");
+        await DeveloperSession.create({
+          developer: developer._id,
+          refreshToken,
+          ipAddress,
+          userAgent,
+          deviceInfo: parseUserAgent(userAgent),
+          location,
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        });
 
-    console.log("[Social Auth] 20. Logging DEVELOPER_LOGIN event...");
-    await logEvent({
-      developerId: developer._id,
-      action: "DEVELOPER_LOGIN",
-      description: `Successful login via ${userData.provider || "Social Auth"} from ${location?.city || "unknown location"}.`,
-      category: "security",
-      metadata: {
-        ip: ipAddress,
-        userAgent: userAgent,
-        details: { location },
-      },
-    });
-    console.log("[Social Auth] 21. DEVELOPER_LOGIN event logged.");
+        await logEvent({
+          developerId: developer._id,
+          action: "DEVELOPER_LOGIN",
+          description: `Successful login via ${userData.provider || "Social Auth"} from ${location?.city || "unknown location"}.`,
+          category: "security",
+          metadata: { ip: ipAddress, userAgent, details: { location } },
+        });
+      })
+      .catch((err) =>
+        console.error("[Social Auth] Background session/log failed:", err.message),
+      );
 
     console.log("[Social Auth] 22. Done — returning tokens.");
     return { developer, accessToken, refreshToken, cli };

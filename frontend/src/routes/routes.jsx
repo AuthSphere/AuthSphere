@@ -6,6 +6,7 @@ const Home = lazy(() => import("@/pages/public/Home"));
 const Login = lazy(() => import("@/pages/auth/Login"));
 const Register = lazy(() => import("@/pages/auth/Register"));
 const VerifyOTP = lazy(() => import("@/pages/auth/VerifyOTP"));
+const OAuthCallback = lazy(() => import("@/pages/auth/OAuthCallback"));
 const Dashboard = lazy(() => import("@/pages/dashboard/Dashboard"));
 const Documentation = lazy(() => import("@/pages/public/Documentation"));
 
@@ -79,6 +80,10 @@ export const routes = [
         <VerifyOTP />
       </MainLayout>
     ),
+  },
+  {
+    path: "/auth/callback",
+    element: <OAuthCallback />,
   },
   {
     path: "/dashboard",

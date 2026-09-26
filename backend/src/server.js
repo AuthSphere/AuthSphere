@@ -2,7 +2,7 @@ import { createServer } from "http";
 import { conf, validateEnv } from "./configs/env.js";
 import { httpServerHandler } from "cloudflare:node";
 import app from "./app.js";
-import connectDB, { closeDB } from "./database/connectDB.js";
+import { closeDB } from "./database/connectDB.js";
 import { logStartup } from "./utils/startup.js";
 import { initSocket } from "./services/core/socket.service.js";
 import logger from "./utils/logger.js";
@@ -81,7 +81,10 @@ export default {
       return stub.fetch(request);
     }
 
-    await connectDB();
+    // ⚠️  Do NOT call connectDB() here — this runs in the Worker isolate.
+    // The Mongoose connection must be established inside the Express middleware
+    // (app.js) which runs in the httpServerHandler Node.js context — the same
+    // context where Developer.findOne() and all other queries execute.
     return handler.fetch(request, env, ctx);
   },
 };

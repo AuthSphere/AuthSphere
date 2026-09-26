@@ -12,10 +12,28 @@ import { conf } from "./configs/env.js";
 import { swaggerDocs } from "./configs/swagger.js";
 import routes from "./routes/index.js";
 import homeHandler from "./home.js";
+import connectDB from "./database/connectDB.js";
 
 const app = express();
 
 app.set("trust proxy", 1);
+
+// ── Ensure MongoDB is connected in THIS execution context ─────────────────────
+// In Cloudflare Workers, httpServerHandler runs Express in a Node-compat
+// thread that is SEPARATE from the Worker isolate where `fetch()` runs.
+// A connectDB() call in the Worker fetch handler does NOT share its socket
+// with Express/Mongoose queries. We must connect here — inside Express —
+// so the connection is alive in the same context as Developer.findOne() etc.
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    logger.error("DB connection failed on request:", { error: err.message });
+    res.status(503).json({ success: false, message: "Database unavailable" });
+  }
+});
+// ─────────────────────────────────────────────────────────────────────────────
 
 app.use((req, res, next) => {
   try {
