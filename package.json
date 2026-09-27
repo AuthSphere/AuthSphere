@@ -1,0 +1,13 @@
+{
+  "name": "authsphere",
+  "version": "1.0.0",
+  "description": "Root project for AuthSphere",
+  "main": "index.js",
+  "scripts": {
+    "install:all": "npm install --prefix backend ; npm install --prefix frontend",
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

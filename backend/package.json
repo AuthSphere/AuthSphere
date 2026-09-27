@@ -34,7 +34,7 @@
     "node-fetch": "^3.3.2",
     "nodemailer": "^7.0.13",
     "qs": "^6.14.1",
-    "socket.io": "^4.8.3",
+    "socket.io": "^4.8.4",
     "swagger-jsdoc": "6.2.8",
     "swagger-ui-express": "^5.0.1",
     "ua-parser-js": "^2.0.8",
