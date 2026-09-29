@@ -15,7 +15,7 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "prepublishOnly": "npm run build",
-    "test": "echo \"Tests coming soon\"",
+    "test": "vitest",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
@@ -52,7 +52,9 @@
     "globals": "^15.9.0",
     "prettier": "^3.9.6",
     "typescript": "^5.2.2",
-    "typescript-eslint": "^8.3.0"
+    "typescript-eslint": "^8.3.0",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
   },
   "engines": {
     "node": ">=16.0.0"
