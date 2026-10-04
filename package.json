@@ -15,7 +15,7 @@
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
-    "prepare": "husky"
+    "prepare": "husky || echo Husky skipped"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
