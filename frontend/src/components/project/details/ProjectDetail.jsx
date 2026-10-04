@@ -58,6 +58,7 @@ const ProjectDetail = () => {
   }, [projectId]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (projectId) loadProject();
   }, [projectId, loadProject]);
 
