@@ -1,5 +1,5 @@
-import { useEffect, useId, useState } from "react";
-import { motion } from "motion/react"; // eslint-disable-line no-unused-vars
+import { useEffect, useId, useState, useMemo } from "react";
+import { motion } from "motion/react";  
 
 import { cn } from "@/lib/utils";
 
@@ -10,7 +10,7 @@ export const AnimatedBeam = ({
   toRef,
   curvature = 0,
   reverse = false, // Include the reverse prop
-  duration = Math.random() * 3 + 4,
+  duration: durationProp,
   delay = 0,
   pathColor = "gray",
   pathWidth = 2,
@@ -23,6 +23,11 @@ export const AnimatedBeam = ({
   endYOffset = 0,
 }) => {
   const id = useId();
+  const duration = useMemo(
+    // eslint-disable-next-line react-hooks/purity
+    () => durationProp ?? Math.random() * 3 + 4,
+    [durationProp],
+  );
   const [pathD, setPathD] = useState("");
   const [svgDimensions, setSvgDimensions] = useState({ width: 0, height: 0 });
 

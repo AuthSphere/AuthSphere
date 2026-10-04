@@ -51,6 +51,22 @@ import { format, formatDistanceToNow } from "date-fns";
 import { usePWA } from "@/hooks/usePWA";
 import { Input } from "@/components/ui/input";
 
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-card border rounded-lg p-3 shadow-lg">
+        <p className="text-xs text-muted-foreground mb-1">
+          {format(new Date(label), "MMM dd, yyyy")}
+        </p>
+        <p className="text-sm font-bold text-primary">
+          {payload[0].value} signups
+        </p>
+      </div>
+    );
+  }
+  return null;
+};
+
 const Dashboard = () => {
   const { user, loading } = useAuthStore();
   const navigate = useNavigate();
@@ -86,6 +102,7 @@ const Dashboard = () => {
     if (!loading && !user) {
       navigate("/login");
     } else if (user) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       fetchStats();
     }
   }, [user, loading, navigate]);
@@ -99,21 +116,7 @@ const Dashboard = () => {
     );
   }
 
-  const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="bg-card border rounded-lg p-3 shadow-lg">
-          <p className="text-xs text-muted-foreground mb-1">
-            {format(new Date(label), "MMM dd, yyyy")}
-          </p>
-          <p className="text-sm font-bold text-primary">
-            {payload[0].value} signups
-          </p>
-        </div>
-      );
-    }
-    return null;
-  };
+  // CustomTooltip moved outside Dashboard
 
   const filteredUsers = stats.recentUsers.filter(
     (u) =>
@@ -519,7 +522,7 @@ const Dashboard = () => {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="h-[400px]">
+              <CardContent className="h-100">
                 {stats.signupTrend?.length > 0 ? (
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart

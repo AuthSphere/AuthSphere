@@ -97,11 +97,6 @@ const Settings = () => {
     },
   });
 
-  // Load full settings on mount
-  useEffect(() => {
-    loadSettings();
-  }, []);
-
   const loadSettings = async () => {
     try {
       setSettingsLoading(true);
@@ -123,6 +118,14 @@ const Settings = () => {
       setSettingsLoading(false);
     }
   };
+
+  // Load full settings on mount
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadSettings();
+  }, []);
+
+  // loadSettings moved above
 
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
@@ -275,7 +278,7 @@ const Settings = () => {
                       )}
                     </div>
                   </div>
-                  <p className="text-[10px] text-muted-foreground text-center max-w-[100px]">
+                  <p className="text-[10px] text-muted-foreground text-center max-w-25">
                     JPG, GIF or PNG. 1MB Max.
                   </p>
                 </div>

@@ -83,6 +83,7 @@ export const TypingAnimation = ({
     throw new Error("TypingAnimation: children must be a string. Received:");
   }
 
+   
   const MotionComponent = useMemo(
     () =>
       motion.create(Component, {
@@ -107,7 +108,7 @@ export const TypingAnimation = ({
       if (!sequence.sequenceStarted) return;
       if (started) return;
       if (sequence.activeIndex === itemIndex) {
-        setStarted(true);
+        setTimeout(() => setStarted(true), 0);
       }
       return;
     }
@@ -154,6 +155,7 @@ export const TypingAnimation = ({
   }, [children, duration, started, sequence, itemIndex]);
 
   return (
+    // eslint-disable-next-line react-hooks/static-components
     <MotionComponent
       ref={elementRef}
       className={cn("text-sm font-normal tracking-tight", className)}
