@@ -162,11 +162,11 @@ const ProjectLogsCard = ({ projectId }) => {
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/50 hover:bg-muted/50">
-                <TableHead className="w-[180px]">Timestamp</TableHead>
-                <TableHead className="w-[200px]">Action</TableHead>
+                <TableHead className="w-45">Timestamp</TableHead>
+                <TableHead className="w-50">Action</TableHead>
                 <TableHead>Description</TableHead>
-                <TableHead className="w-[150px]">Actor</TableHead>
-                <TableHead className="w-[50px] text-right">Meta</TableHead>
+                <TableHead className="w-37.5">Actor</TableHead>
+                <TableHead className="w-12.5 text-right">Meta</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -205,7 +205,7 @@ const ProjectLogsCard = ({ projectId }) => {
                         </span>
                       </div>
                     </TableCell>
-                    <TableCell className="text-sm text-foreground/80 max-w-[300px] truncate">
+                    <TableCell className="text-sm text-foreground/80 max-w-75 truncate">
                       {log.description}
                     </TableCell>
                     <TableCell>
@@ -214,7 +214,7 @@ const ProjectLogsCard = ({ projectId }) => {
                           {log.actor?.name?.charAt(0) || "?"}
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-xs font-medium truncate max-w-[100px]">
+                          <span className="text-xs font-medium truncate max-w-25">
                             {log.actor?.name || "System"}
                           </span>
                           <span className="text-[10px] text-muted-foreground">

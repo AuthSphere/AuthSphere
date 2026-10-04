@@ -262,7 +262,7 @@ const ProjectUsersCard = ({ projectId }) => {
                           <p className="text-sm font-medium truncate">
                             {user.username || "Anonymous"}
                           </p>
-                          <p className="text-xs text-muted-foreground font-mono truncate max-w-[200px]">
+                          <p className="text-xs text-muted-foreground font-mono truncate max-w-50">
                             {user.email}
                           </p>
                         </div>
