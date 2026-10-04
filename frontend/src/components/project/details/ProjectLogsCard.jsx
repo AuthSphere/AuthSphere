@@ -61,6 +61,7 @@ const ProjectLogsCard = ({ projectId }) => {
   }, [projectId]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (projectId) fetchLogs();
   }, [projectId, fetchLogs]);
 

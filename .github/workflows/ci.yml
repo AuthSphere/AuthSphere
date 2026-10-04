@@ -78,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./package
+        working-directory: ./packages
     steps:
       - uses: actions/checkout@v4
 

@@ -23,6 +23,7 @@ const CreateProjectModal = ({ open, onClose, onCreated }) => {
 
   useEffect(() => {
     if (!open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setName("");
       setRedirectUri("");
       setLoading(false);

@@ -3,6 +3,9 @@ import pluginJs from "@eslint/js";
 
 export default [
   {
+    ignores: ["node_modules/", "dist/", ".wrangler/", "logs/"],
+  },
+  {
     languageOptions: {
       globals: {
         ...globals.node,

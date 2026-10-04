@@ -67,7 +67,9 @@ const Register = () => {
   }, [user, navigate]);
 
   const handleSocialLogin = (provider) => {
-    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/auth/${provider}`;
+    window.location.assign(
+      `${import.meta.env.VITE_BACKEND_URL}/auth/${provider}`,
+    );
   };
 
   const handleRegister = async (formData) => {
