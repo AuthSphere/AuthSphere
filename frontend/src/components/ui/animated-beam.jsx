@@ -1,6 +1,5 @@
 import { useEffect, useId, useState, useMemo } from "react";
- 
-import { motion } from "motion/react";
+import { motion as Motion } from "motion/react";
 
 import { cn } from "@/lib/utils";
 
@@ -130,7 +129,7 @@ export const AnimatedBeam = ({
         strokeLinecap="round"
       />
       <defs>
-        <motion.linearGradient
+        <Motion.linearGradient
           className="transform-gpu"
           id={id}
           gradientUnits={"userSpaceOnUse"}
@@ -162,7 +161,7 @@ export const AnimatedBeam = ({
             stopColor={gradientStopColor}
             stopOpacity="0"
           ></stop>
-        </motion.linearGradient>
+        </Motion.linearGradient>
       </defs>
     </svg>
   );
