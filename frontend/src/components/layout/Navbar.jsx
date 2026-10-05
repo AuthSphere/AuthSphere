@@ -384,16 +384,19 @@ const UserMenu = ({ user, initials, logout, loggingOut, navigate }) => (
         { label: "Settings", icon: Settings, to: "/settings" },
         { label: "Security", icon: Shield, to: "/settings/sessions" },
         { label: "Audit Logs", icon: Activity, to: "/audit-logs" },
-      ].map(({ label, icon: Icon, to }) => (
-        <DropdownMenuItem
-          key={label}
-          onClick={() => navigate(to)}
-          className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm cursor-pointer"
-        >
-          <Icon className="h-3.5 w-3.5 text-muted-foreground" />
-          {label}
-        </DropdownMenuItem>
-      ))}
+      ].map((item) => {
+        const Icon = item.icon;
+        return (
+          <DropdownMenuItem
+            key={item.label}
+            onClick={() => navigate(item.to)}
+            className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm cursor-pointer"
+          >
+            <Icon className="h-3.5 w-3.5 text-muted-foreground" />
+            {item.label}
+          </DropdownMenuItem>
+        );
+      })}
 
       <DropdownMenuSeparator className="my-1" />
 
@@ -444,12 +447,13 @@ const MobileMenu = ({
 
       {/* Nav links */}
       <nav className="flex flex-col gap-0.5 px-3 py-3">
-        {navLinks.map(({ name, href, icon: Icon }) => {
-          const active = location.pathname === href;
+        {navLinks.map((item) => {
+          const Icon = item.icon;
+          const active = location.pathname === item.href;
           return (
             <button
-              key={name}
-              onClick={() => go(href)}
+              key={item.name}
+              onClick={() => go(item.href)}
               className={[
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left w-full transition-colors",
                 active
@@ -458,7 +462,7 @@ const MobileMenu = ({
               ].join(" ")}
             >
               <Icon className="h-4 w-4 shrink-0" />
-              {name}
+              {item.name}
               {active && (
                 <span className="ml-auto h-1.5 w-1.5 rounded-full bg-primary" />
               )}
@@ -494,16 +498,19 @@ const MobileMenu = ({
                 { label: "Settings", icon: Settings, to: "/settings" },
                 { label: "Security", icon: Shield, to: "/settings/sessions" },
                 { label: "Audit Logs", icon: Activity, to: "/audit-logs" },
-              ].map(({ label, icon: Icon, to }) => (
-                <button
-                  key={label}
-                  onClick={() => go(to)}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors w-full text-left"
-                >
-                  <Icon className="h-4 w-4 shrink-0" />
-                  {label}
-                </button>
-              ))}
+              ].map((item) => {
+                const Icon = item.icon;
+                return (
+                  <button
+                    key={item.label}
+                    onClick={() => go(item.to)}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors w-full text-left"
+                  >
+                    <Icon className="h-4 w-4 shrink-0" />
+                    {item.label}
+                  </button>
+                );
+              })}
 
               <div className="h-px bg-border/50 my-1" />
 
