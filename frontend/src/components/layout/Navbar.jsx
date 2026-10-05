@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+ 
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAuthStore from "@/store/authStore";
@@ -45,7 +45,6 @@ const formatTimeAgo = (date) => {
 
 const navLinks = [
   { name: "Pricing", href: "/pricing", icon: CreditCard },
-  { name: "Templates", href: "/templates", icon: Layers },
   { name: "Documentation", href: "/docs", icon: FileText },
 ];
 

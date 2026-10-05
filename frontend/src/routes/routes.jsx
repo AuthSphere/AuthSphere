@@ -25,7 +25,6 @@ const Settings = lazy(() => import("@/pages/dashboard/Settings"));
 const AuditLogs = lazy(() => import("@/pages/dashboard/AuditLogs"));
 const ProvidersPage = lazy(() => import("@/pages/project/ProvidersPage"));
 
-const TemplatesPage = lazy(() => import("@/pages/public/TemplatesPage"));
 const EmailCustomizationPage = lazy(
   () => import("@/pages/project/EmailCustomizationPage"),
 );
@@ -39,14 +38,7 @@ export const routes = [
       </MainLayout>
     ),
   },
-  {
-    path: "/templates",
-    element: (
-      <MainLayout>
-        <TemplatesPage />
-      </MainLayout>
-    ),
-  },
+
   {
     path: "/pricing",
     element: (
