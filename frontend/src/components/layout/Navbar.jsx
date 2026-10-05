@@ -1,4 +1,3 @@
- 
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAuthStore from "@/store/authStore";
@@ -25,7 +24,6 @@ import {
   Activity,
   Bell,
   CreditCard,
-  Layers,
   FileText,
   X,
   CheckCheck,
@@ -123,7 +121,7 @@ const Navbar = () => {
               >
                 {name}
                 {active && (
-                  <span className="absolute inset-x-3 -bottom-px h-[2px] rounded-full bg-primary/80 transition-all duration-300" />
+                  <span className="absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-primary/80 transition-all duration-300" />
                 )}
               </Link>
             );
@@ -265,7 +263,7 @@ const NotificationDropdown = ({
           <Bell className="h-3.5 w-3.5 text-muted-foreground" />
           <span className="text-sm font-semibold">Notifications</span>
           {unreadCount > 0 && (
-            <span className="inline-flex items-center justify-center h-4.5 min-w-[18px] px-1 rounded-full bg-primary/10 text-primary text-[10px] font-semibold">
+            <span className="inline-flex items-center justify-center h-4.5 min-w-4.5 px-1 rounded-full bg-primary/10 text-primary text-[10px] font-semibold">
               {unreadCount}
             </span>
           )}
@@ -282,7 +280,7 @@ const NotificationDropdown = ({
       </div>
 
       {/* List */}
-      <div className="max-h-[320px] overflow-y-auto divide-y divide-border/30">
+      <div className="max-h-80 overflow-y-auto divide-y divide-border/30">
         {notifications.length > 0 ? (
           notifications.map((n) => (
             <button
@@ -358,7 +356,7 @@ const UserMenu = ({ user, initials, logout, loggingOut, navigate }) => (
         className="h-8 gap-1.5 rounded-full pl-1 pr-2 ml-1 hover:bg-muted/60 transition-colors"
       >
         <Avatar user={user} initials={initials} size={28} />
-        <span className="hidden sm:block text-sm font-medium max-w-[100px] truncate">
+        <span className="hidden sm:block text-sm font-medium max-w-25 truncate">
           {user.username}
         </span>
         <ChevronDown className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
