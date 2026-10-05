@@ -8,20 +8,26 @@ const Register = lazy(() => import("@/pages/auth/Register"));
 const VerifyOTP = lazy(() => import("@/pages/auth/VerifyOTP"));
 const Dashboard = lazy(() => import("@/pages/dashboard/Dashboard"));
 const Documentation = lazy(() => import("@/pages/public/Documentation"));
+const AuthCallback = lazy(() => import("@/pages/auth/AuthCallback"));
 
 import ProtectedRoute from "./ProtectedRoute";
 import MainLayout from "@/components/layout/MainLayout";
 
-const ProjectDetailPage = lazy(() => import("@/pages/project/ProjectDetailPage"));
+const ProjectDetailPage = lazy(
+  () => import("@/pages/project/ProjectDetailPage"),
+);
 const ProjectAnalytics = lazy(() => import("@/pages/project/ProjectAnalytics"));
-const SessionManagement = lazy(() => import("@/pages/dashboard/SessionManagement"));
+const SessionManagement = lazy(
+  () => import("@/pages/dashboard/SessionManagement"),
+);
 const Pricing = lazy(() => import("@/pages/public/Pricing"));
 const Settings = lazy(() => import("@/pages/dashboard/Settings"));
 const AuditLogs = lazy(() => import("@/pages/dashboard/AuditLogs"));
 const ProvidersPage = lazy(() => import("@/pages/project/ProvidersPage"));
 
-const TemplatesPage = lazy(() => import("@/pages/public/TemplatesPage"));
-const EmailCustomizationPage = lazy(() => import("@/pages/project/EmailCustomizationPage"));
+const EmailCustomizationPage = lazy(
+  () => import("@/pages/project/EmailCustomizationPage"),
+);
 
 export const routes = [
   {
@@ -32,14 +38,7 @@ export const routes = [
       </MainLayout>
     ),
   },
-  {
-    path: "/templates",
-    element: (
-      <MainLayout>
-        <TemplatesPage />
-      </MainLayout>
-    ),
-  },
+
   {
     path: "/pricing",
     element: (
@@ -69,6 +68,14 @@ export const routes = [
     element: (
       <MainLayout showNavAndFooter={false}>
         <Register />
+      </MainLayout>
+    ),
+  },
+  {
+    path: "/auth/callback",
+    element: (
+      <MainLayout showNavAndFooter={false}>
+        <AuthCallback />
       </MainLayout>
     ),
   },

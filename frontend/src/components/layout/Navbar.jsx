@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAuthStore from "@/store/authStore";
@@ -25,7 +24,6 @@ import {
   Activity,
   Bell,
   CreditCard,
-  Layers,
   FileText,
   X,
   CheckCheck,
@@ -45,7 +43,6 @@ const formatTimeAgo = (date) => {
 
 const navLinks = [
   { name: "Pricing", href: "/pricing", icon: CreditCard },
-  { name: "Templates", href: "/templates", icon: Layers },
   { name: "Documentation", href: "/docs", icon: FileText },
 ];
 
@@ -124,7 +121,7 @@ const Navbar = () => {
               >
                 {name}
                 {active && (
-                  <span className="absolute inset-x-3 -bottom-px h-[2px] rounded-full bg-primary/80 transition-all duration-300" />
+                  <span className="absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-primary/80 transition-all duration-300" />
                 )}
               </Link>
             );
@@ -266,7 +263,7 @@ const NotificationDropdown = ({
           <Bell className="h-3.5 w-3.5 text-muted-foreground" />
           <span className="text-sm font-semibold">Notifications</span>
           {unreadCount > 0 && (
-            <span className="inline-flex items-center justify-center h-4.5 min-w-[18px] px-1 rounded-full bg-primary/10 text-primary text-[10px] font-semibold">
+            <span className="inline-flex items-center justify-center h-4.5 min-w-4.5 px-1 rounded-full bg-primary/10 text-primary text-[10px] font-semibold">
               {unreadCount}
             </span>
           )}
@@ -283,7 +280,7 @@ const NotificationDropdown = ({
       </div>
 
       {/* List */}
-      <div className="max-h-[320px] overflow-y-auto divide-y divide-border/30">
+      <div className="max-h-80 overflow-y-auto divide-y divide-border/30">
         {notifications.length > 0 ? (
           notifications.map((n) => (
             <button
@@ -359,7 +356,7 @@ const UserMenu = ({ user, initials, logout, loggingOut, navigate }) => (
         className="h-8 gap-1.5 rounded-full pl-1 pr-2 ml-1 hover:bg-muted/60 transition-colors"
       >
         <Avatar user={user} initials={initials} size={28} />
-        <span className="hidden sm:block text-sm font-medium max-w-[100px] truncate">
+        <span className="hidden sm:block text-sm font-medium max-w-25 truncate">
           {user.username}
         </span>
         <ChevronDown className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
@@ -387,16 +384,19 @@ const UserMenu = ({ user, initials, logout, loggingOut, navigate }) => (
         { label: "Settings", icon: Settings, to: "/settings" },
         { label: "Security", icon: Shield, to: "/settings/sessions" },
         { label: "Audit Logs", icon: Activity, to: "/audit-logs" },
-      ].map(({ label, icon: Icon, to }) => (
-        <DropdownMenuItem
-          key={label}
-          onClick={() => navigate(to)}
-          className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm cursor-pointer"
-        >
-          <Icon className="h-3.5 w-3.5 text-muted-foreground" />
-          {label}
-        </DropdownMenuItem>
-      ))}
+      ].map((item) => {
+        const Icon = item.icon;
+        return (
+          <DropdownMenuItem
+            key={item.label}
+            onClick={() => navigate(item.to)}
+            className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm cursor-pointer"
+          >
+            <Icon className="h-3.5 w-3.5 text-muted-foreground" />
+            {item.label}
+          </DropdownMenuItem>
+        );
+      })}
 
       <DropdownMenuSeparator className="my-1" />
 
@@ -447,12 +447,13 @@ const MobileMenu = ({
 
       {/* Nav links */}
       <nav className="flex flex-col gap-0.5 px-3 py-3">
-        {navLinks.map(({ name, href, icon: Icon }) => {
-          const active = location.pathname === href;
+        {navLinks.map((item) => {
+          const Icon = item.icon;
+          const active = location.pathname === item.href;
           return (
             <button
-              key={name}
-              onClick={() => go(href)}
+              key={item.name}
+              onClick={() => go(item.href)}
               className={[
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left w-full transition-colors",
                 active
@@ -461,7 +462,7 @@ const MobileMenu = ({
               ].join(" ")}
             >
               <Icon className="h-4 w-4 shrink-0" />
-              {name}
+              {item.name}
               {active && (
                 <span className="ml-auto h-1.5 w-1.5 rounded-full bg-primary" />
               )}
@@ -497,16 +498,19 @@ const MobileMenu = ({
                 { label: "Settings", icon: Settings, to: "/settings" },
                 { label: "Security", icon: Shield, to: "/settings/sessions" },
                 { label: "Audit Logs", icon: Activity, to: "/audit-logs" },
-              ].map(({ label, icon: Icon, to }) => (
-                <button
-                  key={label}
-                  onClick={() => go(to)}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors w-full text-left"
-                >
-                  <Icon className="h-4 w-4 shrink-0" />
-                  {label}
-                </button>
-              ))}
+              ].map((item) => {
+                const Icon = item.icon;
+                return (
+                  <button
+                    key={item.label}
+                    onClick={() => go(item.to)}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors w-full text-left"
+                  >
+                    <Icon className="h-4 w-4 shrink-0" />
+                    {item.label}
+                  </button>
+                );
+              })}
 
               <div className="h-px bg-border/50 my-1" />
 
