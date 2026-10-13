@@ -5,6 +5,7 @@ import compression from "compression";
 import crypto from "crypto";
 import hpp from "hpp";
 import morgan from "morgan";
+import mongoSanitize from "express-mongo-sanitize";
 
 import logger, { stream } from "./utils/logger.js";
 import { handleError } from "./utils/AppError.js";
@@ -158,7 +159,7 @@ app.use(
     },
   }),
 );
-// app.use(mongoSanitize()); // Now after body parsers
+app.use(mongoSanitize());
 app.use(hpp());
 
 // --- Global Rate Limiting ---
