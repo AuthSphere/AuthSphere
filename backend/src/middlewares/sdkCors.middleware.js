@@ -45,11 +45,11 @@ async function resolveAllowedOrigins(publicKey) {
     _cache.set(publicKey, { origins, fetchedAt: Date.now() });
     return origins;
   } catch (err) {
-    logger.warn(
-      "[sdkCors] DB lookup failed, falling back to allow-all:",
+    logger.error(
+      "[sdkCors] DB lookup failed, denying all origins:",
       err.message,
     );
-    return null; // fail-open so a DB hiccup doesn't lock everyone out
+    return []; // fail-closed: deny all origins on DB error
   }
 }
 
