@@ -1,12 +1,10 @@
 import axios from "axios";
 import { conf } from "../../configs/env.js";
+import { AppError } from "../../utils/AppError.js";
+import logger from "../../utils/logger.js";
 
 /**
  * Returns GitHub OAuth authorization URL
- */
-/**
- * Returns GitHub OAuth authorization URL
- * @param {object} context
  */
 export function getGithubAuthURL(context = { type: "dev" }) {
   let state = "dev";
@@ -30,11 +28,11 @@ export function getGithubAuthURL(context = { type: "dev" }) {
  * Exchange code for access token and get user info
  */
 export async function getGithubUser(code) {
-  if (!code) throw new Error("No code provided from GitHub callback");
+  if (!code) throw new AppError("No code provided from GitHub callback", 400);
 
+  let tokenRes;
   try {
-    // Exchange code for access token
-    const tokenRes = await axios.post(
+    tokenRes = await axios.post(
       "https://github.com/login/oauth/access_token",
       {
         client_id: conf.GITHUB_CLIENT_ID,
@@ -48,36 +46,54 @@ export async function getGithubUser(code) {
         },
       },
     );
+  } catch (err) {
+    logger.error(
+      "[GitHub OAuth] Token exchange failed:",
+      err.response?.data || err.message,
+    );
+    throw new AppError("GitHub token exchange failed", 502);
+  }
 
-    const { access_token } = tokenRes.data;
-    if (!access_token)
-      throw new Error("Failed to get access token from GitHub");
+  const { access_token } = tokenRes.data;
+  if (!access_token) {
+    throw new AppError("GitHub token exchange failed", 502);
+  }
 
-    // Get user info
-    const userRes = await axios.get("https://api.github.com/user", {
+  let userRes;
+  try {
+    userRes = await axios.get("https://api.github.com/user", {
       headers: {
         Authorization: `token ${access_token}`,
       },
     });
+  } catch (err) {
+    logger.error(
+      "[GitHub OAuth] User fetch failed:",
+      err.response?.data || err.message,
+    );
+    throw new AppError("GitHub user info fetch failed", 502);
+  }
 
-    // Get primary email
+  let primaryEmail;
+  try {
     const emailsRes = await axios.get("https://api.github.com/user/emails", {
       headers: {
         Authorization: `token ${access_token}`,
       },
     });
-
-    const primaryEmail = emailsRes.data.find((e) => e.primary)?.email;
-
-    return {
-      id: userRes.data.id,
-      login: userRes.data.login,
-      name: userRes.data.name,
-      email: primaryEmail,
-      avatar: userRes.data.avatar_url,
-    };
+    primaryEmail = emailsRes.data.find((e) => e.primary)?.email;
   } catch (err) {
-    console.error("GitHub OAuth error:", err.response?.data || err);
-    throw new Error("GitHub OAuth failed");
+    logger.warn(
+      "[GitHub OAuth] Email fetch failed, continuing without email:",
+      err.message,
+    );
   }
+
+  return {
+    id: userRes.data.id,
+    login: userRes.data.login,
+    name: userRes.data.name,
+    email: primaryEmail,
+    avatar: userRes.data.avatar_url,
+  };
 }

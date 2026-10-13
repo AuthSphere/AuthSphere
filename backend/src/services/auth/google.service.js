@@ -1,12 +1,11 @@
 import axios from "axios";
 import { conf } from "../../configs/env.js";
+import { AppError } from "../../utils/AppError.js";
 import redisService from "../core/redis.service.js";
+import logger from "../../utils/logger.js";
 
 /**
  * Returns Google OAuth 2.0 authorization URL
- * @param {object} context
- * @param {"dev" | "sdk" | "cli"} context.type
- * @param {string} [context.sdk_request]
  */
 export function getGoogleAuthURL(context = { type: "dev" }) {
   let state = "dev";
@@ -26,7 +25,7 @@ export function getGoogleAuthURL(context = { type: "dev" }) {
     scope: "openid email profile",
     access_type: "offline",
     prompt: "consent",
-    state, // 🔥 REQUIRED
+    state,
   });
 
   return `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
@@ -34,48 +33,26 @@ export function getGoogleAuthURL(context = { type: "dev" }) {
 
 /**
  * Exchanges authorization code for access token and fetches user info
- * @param {string} code - Authorization code from Google
- * @returns {Promise<object>} - Google user info (sub, email, name, picture)
  */
 export async function getGoogleUser(code) {
-  if (!code) throw new Error("No code provided from Google callback");
+  if (!code) throw new AppError("No code provided from Google callback", 400);
 
-  // ── Atomic Deduplication Guard (NX = set-if-not-exists) ──────────────────
-  // Google authorization codes are single-use. On Vercel (serverless),
-  // the edge network can deliver the callback URL twice nearly simultaneously
-  // (duplicate HTTP requests). We do an atomic SET NX to claim the code;
-  // if it returns null, another instance already claimed it → abort.
+  // Atomic Deduplication Guard
   const codeKey = `oauth:google:code:${code.substring(0, 32)}`;
   try {
     const client = redisService.client;
     if (client) {
-      // SET key value EX 120 NX — atomic: only succeeds for the FIRST caller
       const claimed = await client.set(codeKey, "1", "EX", 120, "NX");
       if (claimed === null) {
-        // Another concurrent request already claimed this code
-        console.warn(
-          "[Google OAuth] Duplicate callback detected — code already claimed.",
-        );
-        throw new Error("DUPLICATE_CALLBACK");
+        throw new AppError("DUPLICATE_CALLBACK", 409);
       }
     }
   } catch (guardErr) {
     if (guardErr.message === "DUPLICATE_CALLBACK") throw guardErr;
-    // Redis unavailable: log and proceed (auth unblocked, but no dedup protection)
-    console.warn(
+    logger.warn(
       "[Google OAuth] Dedup guard skipped (Redis unavailable):",
       guardErr.message,
     );
-  }
-  // ─────────────────────────────────────────────────────────────────────────
-
-  // Only log credential debug info in non-production environments
-  if (process.env.NODE_ENV !== "production") {
-    console.log("[Google OAuth] Exchanging code:", {
-      client_id: conf.GOOGLE_CLIENT_ID,
-      redirect_uri: conf.GOOGLE_REDIRECT_URI,
-      code_received: !!code,
-    });
   }
 
   // Exchange authorization code for access token
@@ -96,22 +73,20 @@ export async function getGoogleUser(code) {
     );
     tokenData = tokenRes.data;
   } catch (err) {
-    const googleError = err.response?.data?.error;
-    console.error(
+    logger.error(
       "[Google OAuth] Token exchange failed:",
       err.response?.data || err.message,
     );
-    // Propagate the specific Google error so callers can act on it
-    throw new Error(
-      googleError === "invalid_grant"
+    throw new AppError(
+      err.response?.data?.error === "invalid_grant"
         ? "INVALID_GRANT"
         : "TOKEN_EXCHANGE_FAILED",
+      502,
     );
   }
 
   if (!tokenData.access_token) {
-    console.error("[Google OAuth] No access_token in response:", tokenData);
-    throw new Error("TOKEN_EXCHANGE_FAILED");
+    throw new AppError("TOKEN_EXCHANGE_FAILED", 502);
   }
 
   // Fetch user profile via OIDC userinfo endpoint
@@ -123,20 +98,16 @@ export async function getGoogleUser(code) {
     );
     userData = userRes.data;
   } catch (err) {
-    console.error(
+    logger.error(
       "[Google OAuth] Userinfo fetch failed:",
       err.response?.data || err.message,
     );
-    throw new Error("USERINFO_FETCH_FAILED");
+    throw new AppError("USERINFO_FETCH_FAILED", 502);
   }
 
   if (!userData?.sub || !userData?.email) {
-    console.error(
-      "[Google OAuth] Invalid user data (missing sub/email):",
-      userData,
-    );
-    throw new Error("USERINFO_INVALID");
+    throw new AppError("USERINFO_INVALID", 502);
   }
 
-  return userData; // { sub, email, name, picture, ... }
+  return userData;
 }
