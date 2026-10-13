@@ -18,6 +18,8 @@ import {
   microsoftCallback,
   exchangeSession,
 } from "../controllers/auth.controller.js";
+import { validate } from "../middlewares/validate.middleware.js";
+import { exchangeSessionSchema } from "../validators/auth.validators.js";
 
 const router = Router();
 
@@ -56,6 +58,6 @@ router.get("/microsoft/callback", microsoftCallback);
 /* ---------------------- SESSION BRIDGE ---------------------- */
 // Frontend calls this after OAuth redirect to verify session was established.
 // GET /auth/session/:token → validates short-lived bridge token, returns provider/userId
-router.get("/session/:token", exchangeSession);
+router.get("/session/:token", validate(exchangeSessionSchema), exchangeSession);
 
 export default router;
