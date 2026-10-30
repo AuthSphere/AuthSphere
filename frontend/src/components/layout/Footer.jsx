@@ -21,9 +21,9 @@ const Footer = () => {
             <div className="flex items-center justify-center gap-2">
               <div className="h-8 w-8 rounded-lg border flex items-center justify-center bg-card">
                 <img
-                  src="/assets/logo.png"
+                  src="/assets/AuthSphere(main).png"
                   alt="AuthSphere"
-                  className="h-5 w-5 object-contain dark:invert"
+                  className="h-5 w-5 object-contain"
                 />
               </div>
               <span className="text-base font-semibold tracking-tight">

@@ -94,9 +94,9 @@ const Navbar = () => {
         <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
           <div className="relative h-8 w-8 rounded-lg border border-border/70 bg-background flex items-center justify-center shadow-sm transition-all duration-200 group-hover:shadow-md group-hover:border-border">
             <img
-              src="/assets/logo.png"
+              src="/assets/AuthSphere(main).png"
               alt="AuthSphere"
-              className="h-5 w-5 object-contain dark:invert"
+              className="h-5 w-5 object-contain"
             />
           </div>
           <span className="font-semibold text-[15px] tracking-tight text-foreground">

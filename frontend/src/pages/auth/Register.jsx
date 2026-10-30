@@ -112,9 +112,9 @@ const Register = () => {
               <div className="flex justify-center mb-2">
                 <div className="h-12 w-12 rounded-lg border bg-background/50 flex items-center justify-center">
                   <img
-                    src="/assets/logo.png"
+                    src="/assets/AuthSphere(main).png"
                     alt="AuthSphere"
-                    className="h-8 w-8 object-contain dark:invert"
+                    className="h-8 w-8 object-contain"
                   />
                 </div>
               </div>
