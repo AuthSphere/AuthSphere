@@ -1,7 +1,6 @@
-/* eslint-disable no-unused-vars */
+ 
 import React, { useRef } from "react";
 import { Badge } from "@/components/ui/badge";
-import { AnimatedBeam } from "@/components/ui/animated-beam";
 import {
   Globe,
   Smartphone,
@@ -181,40 +180,6 @@ const Architecture = () => {
           ))}
         </div>
       </div>
-
-      {/* ── Beams: left → core ── */}
-      {LEFT_NODES.map((node, i) => (
-        <AnimatedBeam
-          key={`l-${node.id}`}
-          containerRef={containerRef}
-          fromRef={leftRefs[i]}
-          toRef={coreRef}
-          duration={3 + i * 0.45}
-          curvature={i < 3 ? -35 : 35}
-          pathColor={node.color}
-          gradientStartColor={node.color}
-          gradientStopColor={node.color}
-          pathWidth={1.2}
-          pathOpacity={0.22}
-        />
-      ))}
-
-      {/* ── Beams: core → right ── */}
-      {RIGHT_NODES.map((node, i) => (
-        <AnimatedBeam
-          key={`r-${node.id}`}
-          containerRef={containerRef}
-          fromRef={coreRef}
-          toRef={rightRefs[i]}
-          duration={3 + i * 0.4}
-          curvature={i < 3 ? -35 : 35}
-          pathColor={node.color}
-          gradientStartColor={node.color}
-          gradientStopColor={node.color}
-          pathWidth={1.2}
-          pathOpacity={0.22}
-        />
-      ))}
     </section>
   );
 };

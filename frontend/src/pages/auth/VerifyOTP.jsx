@@ -117,7 +117,7 @@ const VerifyOTP = () => {
             Back to Login
           </Link>
 
-          <Card className="bg-card/80 dark:bg-card/20 border-black/5 dark:border-white/10 backdrop-blur-md shadow-xl dark:shadow-2xl relative overflow-hidden">
+          <Card className="bg-card border border-border shadow-lg relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-primary to-transparent opacity-20 dark:opacity-50" />
 
             <CardHeader className="space-y-4 text-center pb-8">

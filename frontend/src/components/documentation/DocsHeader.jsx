@@ -10,7 +10,7 @@ const DocsHeader = ({
   setIsSidebarOpen,
 }) => {
   return (
-    <div className="sticky top-16 z-40 border-b bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60">
+    <div className="sticky top-16 z-40 border-b bg-background/95">
       <div className="w-[90vw] mx-auto px-6 h-12 flex items-center justify-between">
         <div className="flex items-center gap-2 overflow-hidden">
           <Link

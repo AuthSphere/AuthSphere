@@ -232,38 +232,38 @@ const Home = () => {
 
   return (
     <div className="relative flex flex-col min-h-screen bg-transparent text-foreground font-sans selection:bg-primary/20 overflow-x-hidden">
-      {/* ── Background layers ── */}
-
-      {/* Subtle dot grid */}
-      <div
-        className="fixed inset-0 pointer-events-none -z-20 opacity-[0.35] dark:opacity-[0.18]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, hsl(var(--border)) 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-        }}
-      />
-
-      {/* Top-right primary glow */}
-      <div className="fixed top-0 right-0 w-150 h-125 pointer-events-none -z-20 bg-[radial-gradient(ellipse_at_top_right,rgba(var(--primary-rgb),0.07),transparent_70%)]" />
-
-      {/* Bottom-left secondary glow */}
-      <div className="fixed bottom-0 left-0 w-125 h-100 pointer-events-none -z-20 bg-[radial-gradient(ellipse_at_bottom_left,rgba(var(--primary-rgb),0.04),transparent_70%)]" />
-
+      /* Minimal background handled by MainLayout */
       {/* ── Sections ── */}
       <Hero user={user} errorCodes={ERROR_CODES} />
-
       <SectionDivider />
       <Architecture />
-
       <SectionDivider />
-      <FunctionalSpecs modules={SYSTEM_MODULES} />
-
+      <div
+        style={{
+          contentVisibility: "auto",
+          containIntrinsicSize: "auto 600px",
+        }}
+      >
+        <FunctionalSpecs modules={SYSTEM_MODULES} />
+      </div>
       <SectionDivider />
-      <Integration />
-
+      <div
+        style={{
+          contentVisibility: "auto",
+          containIntrinsicSize: "auto 500px",
+        }}
+      >
+        <Integration />
+      </div>
       <SectionDivider />
-      <DataModel schemas={DATA_SCHEMAS} />
+      <div
+        style={{
+          contentVisibility: "auto",
+          containIntrinsicSize: "auto 600px",
+        }}
+      >
+        <DataModel schemas={DATA_SCHEMAS} />
+      </div>
     </div>
   );
 };

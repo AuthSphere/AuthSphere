@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { OrbitingCircles } from "@/components/ui/orbiting-circles";
 import {
   Shield,
   Zap,
@@ -64,37 +63,9 @@ const Hero = ({ user, errorCodes }) => {
   return (
     <section className="relative pt-28 pb-36 overflow-hidden">
       <style>{STYLES}</style>
-      {/* ── Orbital background ── */}
+      {/* ── Minimalist ambient glow ── */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-        {/* Vignette — fades orbitals into background */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,var(--background)_68%)] z-10" />
-        <OrbitingCircles
-          className="size-9 border-border/40 bg-background/80 shadow-sm"
-          duration={22}
-          radius={150}
-        >
-          <Key className="h-3.5 w-3.5 text-amber-500/70" />
-          <Zap className="h-3.5 w-3.5 text-yellow-500/70" />
-        </OrbitingCircles>
-        <OrbitingCircles
-          className="size-11 border-border/30 bg-background/70 shadow-sm"
-          duration={38}
-          radius={270}
-          reverse
-        >
-          <Lock className="h-4 w-4 text-rose-500/60" />
-          <Server className="h-4 w-4 text-cyan-500/60" />
-          <Database className="h-4 w-4 text-indigo-500/60" />
-        </OrbitingCircles>
-        <OrbitingCircles
-          className="size-[52px] border-border/20 bg-background/50"
-          duration={65}
-          radius={430}
-        >
-          <Fingerprint className="h-5 w-5 text-primary/40" />
-          <Shield className="h-5 w-5 text-blue-500/40" />
-          <Network className="h-5 w-5 text-emerald-500/40" />
-        </OrbitingCircles>
+        <div className="h-[350px] w-[500px] bg-primary/5 rounded-full blur-3xl" />
       </div>
       {/* ── Main layout ── */}
       <div className="relative z-20 mx-auto w-[92%] max-w-7xl">

@@ -85,8 +85,8 @@ const Navbar = () => {
       className={[
         "sticky top-0 z-50 w-full transition-all duration-300",
         scrolled
-          ? "border-b border-border/60 bg-background/75 backdrop-blur-xl shadow-[0_1px_20px_rgba(0,0,0,.06)]"
-          : "bg-background/40 backdrop-blur-md",
+          ? "border-b border-border/80 bg-background/95 shadow-xs"
+          : "bg-background",
       ].join(" ")}
     >
       <div className="mx-auto w-[92%] max-w-7xl h-16 flex items-center justify-between gap-4">

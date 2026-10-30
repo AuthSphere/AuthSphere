@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { FlickeringGrid } from "@/components/ui/flickering-grid";
 import { WifiOff } from "lucide-react";
 
 const MainLayout = ({ children, showNavAndFooter = true }) => {
@@ -28,26 +27,14 @@ const MainLayout = ({ children, showNavAndFooter = true }) => {
           Offline Mode - Using Cached Data
         </div>
       )}
-      {/* Background Flickering Grid */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-20 dark:opacity-40 mask-[radial-gradient(ellipse_at_center,black,transparent_80%)]">
-        <FlickeringGrid
-          className="w-full h-full"
-          squareSize={4}
-          gridGap={6}
-          color="#6366f1"
-          maxOpacity={0.5}
-          flickerChance={0.1}
-        />
-      </div>
+
+      {/* High-performance static grid background (0 CPU/GPU animation overhead) */}
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-25 dark:opacity-35 [background-image:radial-gradient(circle_at_center,rgba(99,102,241,0.15)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_85%)]" />
 
       <div className="relative z-10 flex flex-col min-h-screen bg-transparent">
         {showNavAndFooter && <Navbar />}
         <main className="flex-1 pb-20 md:pb-0">{children}</main>
-        {showNavAndFooter && (
-          <>
-            <Footer />
-          </>
-        )}
+        {showNavAndFooter && <Footer />}
       </div>
     </div>
   );

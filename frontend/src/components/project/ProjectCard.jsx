@@ -6,7 +6,6 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import { ShineBorder } from "../ui/shine-border";
 import { Badge } from "@/components/ui/badge";
 import { KeyRound, Shield, Activity, ChevronRight } from "lucide-react";
 
@@ -20,9 +19,8 @@ const ProjectCard = ({ project }) => {
   return (
     <Card
       onClick={handleNavigate}
-      className="group cursor-pointer bg-card/30 border-border/50 hover:bg-card/50 hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
+      className="group cursor-pointer bg-card border-border hover:border-primary/50 hover:shadow-sm transition-all duration-150"
     >
-      <ShineBorder shineColor={["#A07CFE", "#FE8FB5", "#FFBE7B"]} />
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between mb-2">
           <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
