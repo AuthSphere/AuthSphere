@@ -1,148 +1,8 @@
-/* eslint-disable no-unused-vars */
-import React from "react";
-import { Badge } from "@/components/ui/badge";
-import {
-  Terminal as TerminalUI,
-  TypingAnimation,
-} from "@/components/ui/terminal";
-import {
-  Code2,
-  Lock,
-  Webhook,
-  Cpu,
-  Layers,
-  Globe,
-  Zap,
-  Activity,
-  ShieldCheck,
-} from "lucide-react";
+ 
+import React, { useState } from "react";
+import { Lock, Webhook, Cpu, Layers, Copy, Check } from "lucide-react";
 
-/* ─── Feature item ─── */
-const Feature = ({ icon: Icon, color, title, description }) => (
-  <div className="flex items-start gap-3.5 group">
-    <div
-      className="shrink-0 h-9 w-9 rounded-xl border flex items-center justify-center
-                 transition-all duration-200 group-hover:shadow-sm"
-      style={{
-        backgroundColor: `${color}12`,
-        borderColor: `${color}25`,
-      }}
-    >
-      <Icon className="h-4 w-4" style={{ color }} />
-    </div>
-    <div className="pt-0.5">
-      <h4 className="text-[12px] font-semibold text-foreground tracking-tight mb-0.5">
-        {title}
-      </h4>
-      <p className="text-[11px] text-muted-foreground leading-relaxed">
-        {description}
-      </p>
-    </div>
-  </div>
-);
-
-/* ─── Metric cell ─── */
-const Metric = ({ label, value, valueClass, border }) => (
-  <div
-    className={`text-center ${border ? "border-r border-border/60" : ""} px-2`}
-  >
-    <p className="text-[9px] font-semibold text-muted-foreground/60 uppercase tracking-[0.13em] mb-1">
-      {label}
-    </p>
-    <p
-      className={`text-lg font-semibold tabular-nums tracking-tight ${valueClass}`}
-    >
-      {value}
-    </p>
-  </div>
-);
-
-/* ════════════════════════════════════════════════════════════════ */
-const Integration = () => (
-  <section className="relative py-20 sm:py-28 bg-transparent overflow-hidden">
-    {/* Ambient glow */}
-    <div className="absolute top-0 right-0 w-[480px] h-[480px] bg-primary/4 blur-[110px] pointer-events-none -z-10" />
-
-    <div className="mx-auto w-[92%] max-w-7xl">
-      <div className="grid xl:grid-cols-2 gap-12 lg:gap-16 xl:gap-20 items-start">
-        {/* ── Left: copy ── */}
-        <div className="xl:sticky xl:top-24">
-          {/* Headline */}
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-foreground leading-[0.95] mb-5">
-            Zero-Trust <br />
-            <span className="text-primary">Implementation.</span>
-          </h2>
-
-          <p className="text-[13px] sm:text-sm text-muted-foreground leading-relaxed max-w-md mb-10">
-            AuthSphere's high-performance SDKs automate cryptography, session
-            persistence, and global edge handshakes — so you ship faster.
-          </p>
-
-          {/* Feature grid */}
-          <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6 mb-10">
-            <Feature
-              icon={Lock}
-              color="#3b82f6"
-              title="Stateless Auth"
-              description="Signed RS256 Bearer tokens for distributed verification."
-            />
-            <Feature
-              icon={Webhook}
-              color="#10b981"
-              title="Event Mesh"
-              description="Real-time HMAC-SHA256 webhooks for async processing."
-            />
-            <Feature
-              icon={Cpu}
-              color="#a855f7"
-              title="JIT Provisioning"
-              description="Dynamic user creation and profile sync on first login."
-            />
-            <Feature
-              icon={Layers}
-              color="#f97316"
-              title="Multi-Tenancy"
-              description="Logical isolation for enterprise-ready SaaS apps."
-            />
-          </div>
-
-          {/* Metrics row */}
-          <div className="flex items-center justify-between p-5 rounded-2xl border border-border/60 bg-muted/20">
-            <Metric
-              label="Latency"
-              value="<12ms"
-              valueClass="text-foreground"
-              border
-            />
-            <Metric
-              label="Verification"
-              value="Fixed"
-              valueClass="text-emerald-500"
-              border
-            />
-            <Metric label="Uptime" value="99.99%" valueClass="text-primary" />
-          </div>
-        </div>
-
-        {/* ── Right: terminal ── */}
-        <div className="flex flex-col gap-3">
-          {/* Terminal block */}
-          <TerminalUI
-            className="bg-[#0a0a0a] border border-white/10 rounded-xl overflow-hidden"
-            copyable
-            codeToCopy={`const { AuthSphere } = require('@authsphere/node-sdk');\n\nconst auth = new AuthSphere({\n  projectId: process.env.AUTH_PROJECT_ID,\n  secretKey: process.env.AUTH_SECRET_KEY,\n});\n\napp.get('/v1/user/profile', auth.middleware(), (req, res) => {\n  const user = req.session.user;\n  res.json({ ack: "SECURE_READY", email: user.email });\n});`}
-          >
-            {/* Simple Header */}
-            <div className="flex items-center px-4 py-3 border-b border-white/10 bg-white/5">
-              <span className="text-xs font-mono text-white/50 uppercase tracking-wider">
-                app.js
-              </span>
-            </div>
-
-            {/* Clean Code Block */}
-            <div className="p-4 overflow-x-auto">
-              <pre className="text-sm font-mono text-white/80 whitespace-pre">
-                <code>{`const { AuthSphere } = require('@authsphere/node-sdk');
+const CODE_EXAMPLE = `const { AuthSphere } = require('@authsphere/node-sdk');
 
 const auth = new AuthSphere({
   projectId: process.env.AUTH_PROJECT_ID,
@@ -151,22 +11,130 @@ const auth = new AuthSphere({
 
 app.get('/v1/user/profile', auth.middleware(), (req, res) => {
   const user = req.session.user;
-  res.json({ ack: "SECURE_READY", email: user.email });
-});`}</code>
-              </pre>
+  res.json({ status: "AUTHENTICATED", email: user.email });
+});`;
+
+const FEATURES = [
+  {
+    icon: Lock,
+    title: "Stateless Tokens",
+    description: "Signed RS256 Bearer tokens for distributed verification.",
+  },
+  {
+    icon: Webhook,
+    title: "Event Mesh",
+    description: "Real-time HMAC-SHA256 webhooks for async processing.",
+  },
+  {
+    icon: Cpu,
+    title: "JIT Provisioning",
+    description: "Dynamic user creation and profile sync on first login.",
+  },
+  {
+    icon: Layers,
+    title: "Multi-Tenancy",
+    description: "Logical isolation for enterprise-ready SaaS apps.",
+  },
+];
+
+const Integration = () => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(CODE_EXAMPLE);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <section className="py-20 border-b border-border/40">
+      <div className="mx-auto w-[92%] max-w-7xl">
+        <div className="grid xl:grid-cols-2 gap-12 items-start">
+          {/* Left: Copy & features */}
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground mb-3">
+              Developer SDK &amp; Integration
+            </h2>
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-md mb-8">
+              Drop-in middleware for Node.js, Next.js, and Express with
+              automatic token validation and session caching.
+            </p>
+
+            <div className="grid sm:grid-cols-2 gap-4 mb-8">
+              {FEATURES.map(({ icon: Icon, title, description }) => (
+                <div
+                  key={title}
+                  className="p-3.5 rounded-lg border border-border bg-card"
+                >
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <Icon className="h-4 w-4 text-foreground/80 shrink-0" />
+                    <h3 className="text-xs font-semibold text-foreground">
+                      {title}
+                    </h3>
+                  </div>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    {description}
+                  </p>
+                </div>
+              ))}
             </div>
 
-            {/* Static Output */}
-            <div className="px-4 py-3 border-t border-white/10 bg-white/5">
-              <span className="text-xs font-mono text-emerald-400">
-                {"> AuthSphere Node Controller Initialized."}
-              </span>
+            {/* Metrics */}
+            <div className="grid grid-cols-3 p-4 rounded-lg border border-border bg-card text-center divide-x divide-border">
+              <div>
+                <p className="text-[10px] uppercase font-semibold text-muted-foreground tracking-wider mb-0.5">
+                  Latency
+                </p>
+                <p className="text-base font-semibold text-foreground">
+                  &lt; 12ms
+                </p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase font-semibold text-muted-foreground tracking-wider mb-0.5">
+                  Algorithm
+                </p>
+                <p className="text-base font-semibold text-foreground">RS256</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase font-semibold text-muted-foreground tracking-wider mb-0.5">
+                  Uptime
+                </p>
+                <p className="text-base font-semibold text-foreground">
+                  99.99%
+                </p>
+              </div>
             </div>
-          </TerminalUI>
+          </div>
+
+          {/* Right: Clean minimal code card */}
+          <div className="rounded-lg border border-border bg-zinc-950 overflow-hidden shadow-xs">
+            <div className="flex items-center justify-between px-4 py-2.5 border-b border-zinc-800 bg-zinc-900/50">
+              <span className="text-xs font-mono text-zinc-400">app.js</span>
+              <button
+                onClick={handleCopy}
+                className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 transition-colors px-2 py-1 rounded hover:bg-zinc-800"
+              >
+                {copied ? (
+                  <>
+                    <Check className="h-3.5 w-3.5 text-emerald-400" />
+                    <span className="text-emerald-400">Copied</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-3.5 w-3.5" />
+                    <span>Copy</span>
+                  </>
+                )}
+              </button>
+            </div>
+            <pre className="p-4 text-xs font-mono text-zinc-200 overflow-x-auto leading-relaxed">
+              <code>{CODE_EXAMPLE}</code>
+            </pre>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default Integration;

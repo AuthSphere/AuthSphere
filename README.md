@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/Gemini_Generated_Image_swlzriswlzriswlz.png" alt="AuthSphere Logo" width="120" />
+  <img src="assets/AuthSphere(main).png" alt="AuthSphere Logo" width="120" />
 
 # AuthSphere
 
@@ -73,23 +73,26 @@ For manual local development steps, see the [Contributing Guide](CONTRIBUTING.md
 Integrating AuthSphere requires the client SDK.
 
 **1. Install the SDK**
+
 ```bash
 npm install @authspherejs/sdk
 ```
 
 **2. Initialize**
+
 ```javascript
 import AuthSphere from "@authspherejs/sdk";
 
 AuthSphere.initAuth({
   publicKey: "YOUR_PROJECT_PUB_KEY",
-  projectId: "YOUR_PROJECT_ID", 
-  redirectUri: window.location.origin + "/callback", 
-  baseUrl: "https://auth-sphere-6s2v.vercel.app", 
+  projectId: "YOUR_PROJECT_ID",
+  redirectUri: window.location.origin + "/callback",
+  baseUrl: "https://auth-sphere-6s2v.vercel.app",
 });
 ```
 
 **3. Trigger Login**
+
 ```javascript
 AuthSphere.redirectToLogin("google");
 ```
@@ -106,11 +109,11 @@ Detailed technical documentation is available in the `/docs` directory:
 
 ## Tech Stack
 
-| Component         | Technologies                              |
-| ----------------- | ----------------------------------------- |
-| **Frontend**      | React 19, Vite, Tailwind v4, Zustand      |
-| **Backend**       | Node.js, Express, MongoDB, Socket.io      |
-| **Security**      | Argon2id/Bcrypt, RSA-2048, AES-256-GCM    |
+| Component    | Technologies                           |
+| ------------ | -------------------------------------- |
+| **Frontend** | React 19, Vite, Tailwind v4, Zustand   |
+| **Backend**  | Node.js, Express, MongoDB, Socket.io   |
+| **Security** | Argon2id/Bcrypt, RSA-2048, AES-256-GCM |
 
 ## Roadmap
 
@@ -127,6 +130,7 @@ Detailed technical documentation is available in the `/docs` directory:
 - **Security**: If you discover a vulnerability, refer to our [Security Policy](SECURITY.md) for reporting instructions.
 
 ---
+
 <div align="center">
   <p>Licensed under the <a href="./LICENSE">MIT License</a>.</p>
 </div>

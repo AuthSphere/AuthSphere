@@ -232,7 +232,6 @@ const Home = () => {
 
   return (
     <div className="relative flex flex-col min-h-screen bg-transparent text-foreground font-sans selection:bg-primary/20 overflow-x-hidden">
-      /* Minimal background handled by MainLayout */
       {/* ── Sections ── */}
       <Hero user={user} errorCodes={ERROR_CODES} />
       <SectionDivider />

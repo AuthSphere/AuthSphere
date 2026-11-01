@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/Gemini_Generated_Image_swlzriswlzriswlz.png" alt="AuthSphere Logo" width="120" />
+  <img src="assets/AuthSphere(colored).png" alt="AuthSphere Logo" width="120" />
 
 # AuthSphere SDK
 

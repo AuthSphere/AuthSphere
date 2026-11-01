@@ -67,13 +67,13 @@ const generateTerminalUI = (d) => `
     <!-- TOP BAR -->
     <header class="border-b-4 border-black p-6 flex justify-between items-center bg-white/90 backdrop-blur-xl sticky top-0 z-50">
         <div class="flex items-center gap-6">
-            <div class="w-16 h-16 border-2 border-black rounded-2xl flex items-center justify-center bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] overflow-hidden p-2 transition-transform hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+            <div class="w-16 h-16 border-2 border-black rounded-2xl flex items-center justify-center bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] overflow-hidden p-2 transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                 <img src="/assets/AuthSphere(main).png" alt="AuthSphere Logo" class="w-full h-full object-contain mix-blend-multiply" style="filter: contrast(1.1) brightness(1.1);">
             </div>
             <div>
                 <h1 class="font-900 text-3xl tracking-tighter leading-none flex items-center gap-3">
                     ${d.service}
-                    <span class="text-[10px] bg-black text-white px-2 py-1 rounded-sm tracking-[0.2em] translate-y-[-2px] font-black uppercase">STABLE_CORE</span>
+                    <span class="text-[10px] bg-black text-white px-2 py-1 rounded-sm tracking-[0.2em] -translate-y-0.5 font-black uppercase">STABLE_CORE</span>
                 </h1>
                 <div class="flex items-center gap-3 mt-1">
                     <span class="text-[9px] font-bold tracking-[0.3em] text-gray-400">IDENTITY_INFRASTRUCTURE // GLOBAL_SHARD_v2.4.0</span>
@@ -87,7 +87,7 @@ const generateTerminalUI = (d) => `
         </div>
     </header>
 
-    <main class="flex-grow p-6 md:p-12 max-w-[1400px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <main class="grow p-6 md:p-12 max-w-350 mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
         <!-- LEFT: SYSTEM VITALS -->
         <div class="lg:col-span-4 space-y-8">
             <section class="space-y-4">
@@ -173,7 +173,7 @@ const generateTerminalUI = (d) => `
     </main>
 
     <footer class="p-6 md:p-10 border-t-4 border-black bg-white mt-auto">
-        <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="max-w-350 mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex gap-10">
                 <div class="space-y-1">
                     <p class="text-[9px] font-bold text-gray-400">SECURITY_MODULE</p>

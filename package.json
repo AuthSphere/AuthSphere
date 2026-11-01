@@ -34,5 +34,8 @@
     "**/*.{json,css,md,html}": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "@exortek/express-mongo-sanitize": "^4.0.0"
   }
 }
