@@ -1,24 +1,33 @@
 import { Navigate } from "react-router-dom";
 
-import Home from "@/pages/public/Home";
-import Login from "@/pages/auth/Login";
-import Register from "@/pages/auth/Register";
-import VerifyOTP from "@/pages/auth/VerifyOTP";
-import Dashboard from "@/pages/dashboard/Dashboard";
-import Documentation from "@/pages/public/Documentation";
+import { lazy } from "react";
+
+const Home = lazy(() => import("@/pages/public/Home"));
+const Login = lazy(() => import("@/pages/auth/Login"));
+const Register = lazy(() => import("@/pages/auth/Register"));
+const VerifyOTP = lazy(() => import("@/pages/auth/VerifyOTP"));
+const Dashboard = lazy(() => import("@/pages/dashboard/Dashboard"));
+const Documentation = lazy(() => import("@/pages/public/Documentation"));
+const AuthCallback = lazy(() => import("@/pages/auth/AuthCallback"));
 
 import ProtectedRoute from "./ProtectedRoute";
 import MainLayout from "@/components/layout/MainLayout";
-import ProjectDetailPage from "@/pages/project/ProjectDetailPage";
-import ProjectAnalytics from "@/pages/project/ProjectAnalytics";
-import SessionManagement from "@/pages/dashboard/SessionManagement";
-import Pricing from "@/pages/public/Pricing";
-import Settings from "@/pages/dashboard/Settings";
-import AuditLogs from "@/pages/dashboard/AuditLogs";
-import ProvidersPage from "@/pages/project/ProvidersPage";
 
-import TemplatesPage from "@/pages/public/TemplatesPage";
-import EmailCustomizationPage from "@/pages/project/EmailCustomizationPage";
+const ProjectDetailPage = lazy(
+  () => import("@/pages/project/ProjectDetailPage"),
+);
+const ProjectAnalytics = lazy(() => import("@/pages/project/ProjectAnalytics"));
+const SessionManagement = lazy(
+  () => import("@/pages/dashboard/SessionManagement"),
+);
+const Pricing = lazy(() => import("@/pages/public/Pricing"));
+const Settings = lazy(() => import("@/pages/dashboard/Settings"));
+const AuditLogs = lazy(() => import("@/pages/dashboard/AuditLogs"));
+const ProvidersPage = lazy(() => import("@/pages/project/ProvidersPage"));
+
+const EmailCustomizationPage = lazy(
+  () => import("@/pages/project/EmailCustomizationPage"),
+);
 
 export const routes = [
   {
@@ -29,14 +38,7 @@ export const routes = [
       </MainLayout>
     ),
   },
-  {
-    path: "/templates",
-    element: (
-      <MainLayout>
-        <TemplatesPage />
-      </MainLayout>
-    ),
-  },
+
   {
     path: "/pricing",
     element: (
@@ -66,6 +68,14 @@ export const routes = [
     element: (
       <MainLayout showNavAndFooter={false}>
         <Register />
+      </MainLayout>
+    ),
+  },
+  {
+    path: "/auth/callback",
+    element: (
+      <MainLayout showNavAndFooter={false}>
+        <AuthCallback />
       </MainLayout>
     ),
   },
@@ -118,11 +128,11 @@ export const routes = [
     ),
   },
   {
-    path: "/projects/:projectId/email-customization",
+    path: "/projects/:projectId/providers",
     element: (
       <ProtectedRoute>
         <MainLayout>
-          <EmailCustomizationPage />
+          <ProvidersPage />
         </MainLayout>
       </ProtectedRoute>
     ),

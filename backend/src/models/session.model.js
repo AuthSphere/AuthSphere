@@ -6,7 +6,7 @@ const sessionSchema = new mongoose.Schema(
     expiresAt: {
       type: Date,
       required: true,
-      index: { expires: 0 }, 
+      index: { expires: 0 },
     },
     endUserId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -17,13 +17,13 @@ const sessionSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Project",
       required: true,
-      index: true
+      index: true,
     },
     ipAddress: { type: String },
     userAgent: { type: String },
-    isValid: { type: Boolean, default: true }, 
+    isValid: { type: Boolean, default: true },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 sessionSchema.index({ endUserId: 1, createdAt: -1 });

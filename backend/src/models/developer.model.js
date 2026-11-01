@@ -25,7 +25,17 @@ const developerSchema = new mongoose.Schema(
     },
     provider: {
       type: String,
-      enum: ["local", "Google", "GitHub", "Discord"],
+      enum: [
+        "local",
+        "Google",
+        "GitHub",
+        "Discord",
+        "LinkedIn",
+        "GitLab",
+        "Twitch",
+        "Bitbucket",
+        "Microsoft",
+      ],
       default: "local",
     },
     providerId: {
@@ -35,7 +45,7 @@ const developerSchema = new mongoose.Schema(
     },
     refreshToken: {
       type: String,
-      default: null
+      default: null,
     },
     refreshTokenExpiry: {
       type: Date,
@@ -53,7 +63,7 @@ const developerSchema = new mongoose.Schema(
         inApp: {
           enabled: { type: Boolean, default: true },
           sound: { type: Boolean, default: false },
-        }
+        },
       },
       api: {
         defaultRateLimit: { type: Number, default: 1000 }, // requests per hour
@@ -61,17 +71,17 @@ const developerSchema = new mongoose.Schema(
         allowedIPs: [{ type: String }], // IP whitelist
       },
       dashboard: {
-        defaultView: { type: String, enum: ['grid', 'list'], default: 'grid' },
+        defaultView: { type: String, enum: ["grid", "list"], default: "grid" },
         itemsPerPage: { type: Number, default: 10 },
         showAnalytics: { type: Boolean, default: true },
-      }
+      },
     },
     // Developer Metadata
     organization: { type: String, default: "" },
     website: { type: String, default: "" },
     bio: { type: String, maxlength: 500, default: "" },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Developer = mongoose.model("Developer", developerSchema);

@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import useAuthStore from "@/store/authStore";
 import { toast } from "sonner";
 import { useLogin } from "@/hooks/useAuthQuery";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+const loginSchema = z.object({
+  email: z.string().min(1, "Email is required").email("Invalid email address"),
+  password: z.string().min(1, "Password is required"),
+});
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,8 +32,17 @@ const Login = () => {
   const { user } = useAuthStore();
   const { mutate, isPending } = useLogin();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
   const sdk_request = searchParams.get("sdk_request");
 
@@ -45,16 +62,9 @@ const Login = () => {
       : baseUrl;
   };
 
-  const handleLocalLogin = (e) => {
-    e.preventDefault();
-
-    if (!email || !password) {
-      toast.error("Please fill in all fields");
-      return;
-    }
-
+  const handleLocalLogin = (formData) => {
     mutate(
-      { email, password, sdk_request },
+      { ...formData, sdk_request },
       {
         onSuccess: (data) => {
           if (data.success) {
@@ -71,7 +81,7 @@ const Login = () => {
 
           if (data?.error_code === "EMAIL_NOT_VERIFIED") {
             toast.info(data.message || "Email verification required");
-            const verifyPath = `/verify?email=${encodeURIComponent(email)}${sdk_request ? `&sdk_request=${sdk_request}` : ""}`;
+            const verifyPath = `/verify?email=${encodeURIComponent(formData.email)}${sdk_request ? `&sdk_request=${sdk_request}` : ""}`;
             navigate(verifyPath);
             return;
           }
@@ -95,14 +105,14 @@ const Login = () => {
             Back to Home
           </Link>
 
-          <Card className="bg-card/20 border-white/10">
+          <Card className="bg-card border border-border shadow-lg">
             <CardHeader className="space-y-2 text-center">
               <div className="flex justify-center mb-2">
-                <div className="h-12 w-12 rounded-lg border bg-card flex items-center justify-center">
+                <div className="h-12 w-12 rounded-lg border bg-background/50 flex items-center justify-center">
                   <img
-                    src="/assets/logo.png"
+                    src="/assets/AuthSphere(main).png"
                     alt="AuthSphere"
-                    className="h-8 w-8 object-contain dark:invert"
+                    className="h-8 w-8 object-contain"
                   />
                 </div>
               </div>
@@ -163,22 +173,39 @@ const Login = () => {
               </div>
 
               {/* Local Login Form */}
-              <form onSubmit={handleLocalLogin} className="space-y-3">
+              <form
+                onSubmit={handleSubmit(handleLocalLogin)}
+                className="space-y-3"
+              >
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label
+                    htmlFor="email"
+                    className={errors.email ? "text-destructive" : ""}
+                  >
+                    Email
+                  </Label>
                   <Input
                     id="email"
                     type="email"
                     placeholder="name@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    {...register("email")}
                     disabled={isPending}
-                    required
+                    className={errors.email ? "border-destructive" : ""}
                   />
+                  {errors.email && (
+                    <p className="text-[10px] text-destructive font-medium">
+                      {errors.email.message}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="password">Password</Label>
+                    <Label
+                      htmlFor="password"
+                      className={errors.password ? "text-destructive" : ""}
+                    >
+                      Password
+                    </Label>
                     <Link
                       to="#"
                       className="text-xs text-primary hover:underline"
@@ -189,11 +216,15 @@ const Login = () => {
                   <Input
                     id="password"
                     type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    {...register("password")}
                     disabled={isPending}
-                    required
+                    className={errors.password ? "border-destructive" : ""}
                   />
+                  {errors.password && (
+                    <p className="text-[10px] text-destructive font-medium">
+                      {errors.password.message}
+                    </p>
+                  )}
                 </div>
 
                 <Button type="submit" className="w-full" disabled={isPending}>

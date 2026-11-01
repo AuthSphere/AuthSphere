@@ -1,12 +1,10 @@
-import Redis from "ioredis";
-import { conf } from "../../configs/env.js";
 import logger from "../../utils/logger.js";
 
 class InMemoryRedis {
   constructor() {
     this.store = new Map();
     this.status = "ready";
-    logger.info("In-Memory Cache initialized (Redis fallback)");
+    logger.info("In-Memory Cache initialized");
   }
 
   async get(key) {
@@ -19,8 +17,28 @@ class InMemoryRedis {
     return item.value;
   }
 
-  async set(key, value, mode, duration) {
-    const expiry = mode === "EX" ? Date.now() + duration * 1000 : null;
+  async set(key, value, ...args) {
+    let expiry = null;
+    let nx = false;
+
+    // Parse compatibility arguments
+    // Usage: set(key, value, 'EX', 120, 'NX') or set(key, value, 'NX') etc.
+    for (let i = 0; i < args.length; i++) {
+      if (args[i] === "EX") {
+        expiry = Date.now() + args[i + 1] * 1000;
+        i++;
+      } else if (args[i] === "NX") {
+        nx = true;
+      }
+    }
+
+    if (nx && this.store.has(key)) {
+      const item = this.store.get(key);
+      if (!item.expiry || Date.now() < item.expiry) {
+        return null; // Equivalent to Redis NX failing
+      }
+    }
+
     this.store.set(key, { value, expiry });
     return "OK";
   }
@@ -47,50 +65,7 @@ class InMemoryRedis {
 
 class RedisService {
   constructor() {
-    // Check for explicit memory mode or missing URL
-    if (conf.redisUrl === "memory") {
-      this.client = new InMemoryRedis();
-      return;
-    }
-
-    // Only initialize if a URL is provided (default is localhost)
-    if (conf.redisUrl) {
-      this.client = new Redis(conf.redisUrl, {
-        retryStrategy: (times) => {
-          const delay = Math.min(times * 50, 2000);
-          return delay;
-        },
-        maxRetriesPerRequest: 1, // Fail fast if invoked while disconnected
-      });
-
-      this.client.on("connect", () => {
-        logger.info("Redis connected");
-      });
-
-      this.client.on("error", (err) => {
-        // Suppress connection refused logs to 1 per minute or just warn once
-        if (err.code === "ECONNREFUSED") {
-          const now = Date.now();
-          if (!this.lastLog || now - this.lastLog > 60000) {
-            logger.warn(
-              "Redis connection failed (switching to in-memory mode temporarily)",
-              { error: err.message },
-            );
-            try {
-              this.client.disconnect();
-            } catch (e) {
-              /* ignore */
-            }
-            this.client = new InMemoryRedis();
-            this.lastLog = now;
-          }
-        } else {
-          logger.error("Redis error:", { error: err.message });
-        }
-      });
-    } else {
-      logger.warn("Redis URL not provided. Caching disabled.");
-    }
+    this.client = new InMemoryRedis();
   }
 
   /**
@@ -100,10 +75,6 @@ class RedisService {
    * @param {number} ttl Time to live in seconds (default 60)
    */
   async getOrSetCache(key, fetchCallback, ttl = 60) {
-    if (!this.client || this.client.status !== "ready") {
-      return await fetchCallback();
-    }
-
     try {
       const cachedData = await this.client.get(key);
       if (cachedData) {
@@ -116,8 +87,7 @@ class RedisService {
       }
       return freshData;
     } catch (error) {
-      logger.error(`Redis Error for key ${key}:`, { error: error.message });
-      // Fallback to fetching fresh data if Redis fails
+      logger.error(`Cache Error for key ${key}:`, { error: error.message });
       return await fetchCallback();
     }
   }

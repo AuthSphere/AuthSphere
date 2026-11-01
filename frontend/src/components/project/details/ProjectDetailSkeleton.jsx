@@ -1,14 +1,9 @@
-import {
-  Card,
-  CardHeader,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const ProjectDetailSkeleton = () => {
   return (
     <div className="max-w-5xl mx-auto space-y-8 pb-16">
-
       {/* Header Skeleton */}
       <div className="space-y-6 pb-6 border-b">
         <Skeleton className="h-4 w-32" />
@@ -53,8 +48,11 @@ const ProjectDetailSkeleton = () => {
               <Skeleton className="h-4 w-72 mt-2" />
             </CardHeader>
             <CardContent className="space-y-4 p-0">
-              {[1, 2, 3].map(i => (
-                <div key={i} className="p-4 md:px-6 flex items-center justify-between border-b last:border-0">
+              {[1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  className="p-4 md:px-6 flex items-center justify-between border-b last:border-0"
+                >
                   <div className="flex items-center gap-4">
                     <Skeleton className="h-10 w-10 rounded-full" />
                     <div className="space-y-2">
@@ -69,7 +67,6 @@ const ProjectDetailSkeleton = () => {
           </Card>
         </div>
       </div>
-
     </div>
   );
 };

@@ -1,0 +1,66 @@
+{
+  "name": "@authspherejs/sdk",
+  "version": "1.1.5",
+  "description": "Secure OAuth2 SDK with PKCE for AuthSphere authentication",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build",
+    "test": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "auth",
+    "oauth",
+    "oauth2",
+    "pkce",
+    "authentication",
+    "login",
+    "sdk",
+    "security"
+  ],
+  "author": "AuthSphere Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/madhav9757/AuthSphere.git",
+    "directory": "package"
+  },
+  "bugs": {
+    "url": "https://github.com/madhav9757/AuthSphere/issues"
+  },
+  "homepage": "https://github.com/madhav9757/AuthSphere/tree/main/package#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "eslint": "^9.9.0",
+    "globals": "^15.9.0",
+    "prettier": "^3.9.6",
+    "typescript": "^5.2.2",
+    "typescript-eslint": "^8.3.0",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "peerDependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  }
+}

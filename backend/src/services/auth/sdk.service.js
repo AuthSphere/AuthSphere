@@ -8,30 +8,13 @@ import bcrypt from "bcryptjs";
 import { sendVerificationOTP } from "./email.service.js";
 import { logEvent } from "../../utils/auditLogger.js";
 import { triggerWebhook } from "../../utils/webhookSender.js";
-import { emitEvent } from "../core/socket.service.js";
+import redisService from "../core/redis.service.js";
+import { isPasswordPwned } from "../../utils/pwnedPassword.js";
 
 class SDKService {
   constructor() {
-    this.authRequests = new Map();
-    this.authCodes = new Map();
-    this.AUTH_REQUEST_TTL = 10 * 60 * 1000;
-    this.AUTH_CODE_TTL = 10 * 60 * 1000;
-
-    // Cleanup job
-    setInterval(
-      () => {
-        const now = Date.now();
-        for (const [key, value] of this.authRequests.entries()) {
-          if (now - value.createdAt > this.AUTH_REQUEST_TTL)
-            this.authRequests.delete(key);
-        }
-        for (const [key, value] of this.authCodes.entries()) {
-          if (now - value.createdAt > this.AUTH_CODE_TTL)
-            this.authCodes.delete(key);
-        }
-      },
-      5 * 60 * 1000,
-    );
+    this.AUTH_REQUEST_TTL = 10 * 60; // seconds
+    this.AUTH_CODE_TTL = 10 * 60; // seconds
   }
 
   async validateAuthorizeRequest(params) {
@@ -60,29 +43,59 @@ class SDKService {
       throw new Error("Redirect URI not registered");
 
     const projectProvidersLower = project.providers.map((p) => p.toLowerCase());
-    if (!projectProvidersLower.includes(provider.toLowerCase()))
-      throw new Error(`${provider} not enabled`);
+    if (!projectProvidersLower.includes(provider.toLowerCase())) {
+      const error = new Error(
+        `${provider} not enabled for project ${project.name}`,
+      );
+      error.isProviderNotEnabled = true;
+      error.provider = provider;
+      error.projectName = project.name;
+      throw error;
+    }
 
     return project;
   }
 
   createAuthRequest(params, projectId) {
     const requestId = crypto.randomBytes(16).toString("hex");
-    this.authRequests.set(requestId, {
+    const data = {
       ...params,
       redirectUri: params.redirect_uri || params.redirectUri,
       publicKey: params.public_key || params.publicKey,
       codeChallenge: params.code_challenge || params.codeChallenge,
       codeChallengeMethod:
         params.code_challenge_method || params.codeChallengeMethod,
-      projectId,
+      projectId: projectId.toString(),
       createdAt: Date.now(),
-    });
+    };
+
+    redisService.client
+      ?.set(
+        `sdk:authRequest:${requestId}`,
+        JSON.stringify(data),
+        "EX",
+        this.AUTH_REQUEST_TTL,
+      )
+      .catch((e) =>
+        console.warn("[SDK] Cache authRequest set failed:", e.message),
+      );
+
     return requestId;
   }
 
-  getAuthRequest(requestId) {
-    return this.authRequests.get(requestId);
+  async getAuthRequest(requestId) {
+    try {
+      const raw = await redisService.client?.get(
+        `sdk:authRequest:${requestId}`,
+      );
+      if (raw) {
+        return JSON.parse(raw);
+      }
+    } catch (e) {
+      console.warn("[SDK] Cache authRequest get failed:", e.message);
+    }
+
+    return undefined;
   }
 
   async handleEmailVerification(endUser, project, sdk_request, reqInfo) {
@@ -111,24 +124,49 @@ class SDKService {
 
   issueAuthCode(authRequest, endUser) {
     const code = crypto.randomBytes(32).toString("hex");
-    this.authCodes.set(code, {
-      ...authRequest,
-      endUser,
-      createdAt: Date.now(),
-    });
+    const data = { ...authRequest, endUser, createdAt: Date.now() };
+
+    redisService.client
+      ?.set(
+        `sdk:authCode:${code}`,
+        JSON.stringify(data),
+        "EX",
+        this.AUTH_CODE_TTL,
+      )
+      .catch((e) =>
+        console.warn("[SDK] Cache authCode set failed:", e.message),
+      );
+
     return code;
   }
 
-  getAuthCode(code) {
-    return this.authCodes.get(code);
+  async getAuthCode(code) {
+    try {
+      const raw = await redisService.client?.get(`sdk:authCode:${code}`);
+      if (raw) {
+        return JSON.parse(raw);
+      }
+    } catch (e) {
+      console.warn("[SDK] Cache authCode get failed:", e.message);
+    }
+
+    return undefined;
   }
 
   deleteAuthCode(code) {
-    this.authCodes.delete(code);
+    redisService.client
+      ?.del(`sdk:authCode:${code}`)
+      .catch((e) =>
+        console.warn("[SDK] Cache authCode del failed:", e.message),
+      );
   }
 
   deleteAuthRequest(requestId) {
-    this.authRequests.delete(requestId);
+    redisService.client
+      ?.del(`sdk:authRequest:${requestId}`)
+      .catch((e) =>
+        console.warn("[SDK] Cache authRequest del failed:", e.message),
+      );
   }
 
   async verifyPKCE(authData, code_verifier) {
@@ -142,12 +180,6 @@ class SDKService {
         .replace(/\+/g, "-")
         .replace(/\//g, "_")
         .replace(/=/g, "");
-
-      console.log("PKCE Check:", {
-        expected: authData.codeChallenge,
-        actual: hash,
-        verifier: code_verifier,
-      });
 
       if (hash !== authData.codeChallenge)
         throw new Error("Code verifier failed");
@@ -211,6 +243,11 @@ class SDKService {
       projectId: project._id,
     });
     if (existingUser) throw new Error("User already exists");
+
+    const isPwned = await isPasswordPwned(password);
+    if (isPwned) {
+      throw new Error("This password has appeared in a data breach. Please choose a different password.");
+    }
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const user = await EndUser.create({

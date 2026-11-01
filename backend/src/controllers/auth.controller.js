@@ -32,11 +32,16 @@ import {
 } from "../services/auth/microsoft.service.js";
 import authService from "../services/auth/auth.service.js";
 import { handleSDKCallback } from "./sdk.controller.js";
+import sdkService from "../services/auth/sdk.service.js";
 import { conf } from "../configs/env.js";
+import redisService from "../services/core/redis.service.js";
+import { AppError } from "../utils/AppError.js";
+import logger from "../utils/logger.js";
+import crypto from "crypto";
 
 /* ============================================================
    SOCIAL AUTH HANDLER (TRANSPORT LAYER)
- ============================================================ */
+   ============================================================ */
 const processSocialAuth = async (res, req, userData, context = {}) => {
   try {
     const result = await authService.handleSocialAuth(req, userData, context);
@@ -68,20 +73,28 @@ const processSocialAuth = async (res, req, userData, context = {}) => {
 
     if (cli === "true" || cli === true) {
       try {
-        await fetch(
-          `${conf.cliUrl}/cli-update?name=${developer.username}&email=${developer.email}&id=${developer._id}&provider=${userData.provider}`,
-        );
+        const params = new URLSearchParams({
+          name: developer.username,
+          email: developer.email,
+          id: String(developer._id),
+          provider: userData.provider,
+        });
+        await fetch(`${conf.cliUrl}/cli-update?${params.toString()}`);
         return res.send("<script>window.close();</script>");
       } catch (error) {
-        console.error("CLI callback failed:", error);
+        logger.error("[Social Auth] CLI callback failed:", error.message);
         return res.send("<script>window.close();</script>");
       }
     }
 
     return res.redirect(`${conf.frontendUrl}/dashboard`);
   } catch (err) {
-    console.error("Social Auth Process Error:", err);
-    return res.status(500).send(err.message || "Authentication failed");
+    logger.error("[Social Auth] Process error:", err.message);
+    if (res.headersSent) return;
+    return res.status(500).json({
+      success: false,
+      message: "Authentication failed",
+    });
   }
 };
 
@@ -94,29 +107,54 @@ const getContextFromReq = (req) => {
 
 /* ============================================================
    GOOGLE
- ============================================================ */
+   ============================================================ */
 export async function googleLogin(req, res) {
   try {
     const context = getContextFromReq(req);
     res.redirect(getGoogleAuthURL(context));
   } catch (err) {
-    res.status(500).send("Could not start Google login");
+    logger.error("[Google Login] Error:", err.message);
+    res
+      .status(500)
+      .json({ success: false, message: "Could not start Google login" });
   }
 }
 
 export async function googleCallback(req, res) {
+  const { code, state } = req.query;
+
+  if (!code) {
+    return res.redirect(`${conf.frontendUrl}/auth/callback?error=missing_code`);
+  }
+
+  let context = { cli: false, sdkRequest: null };
+  if (state === "cli") context.cli = true;
+  if (state?.startsWith("sdk:")) context.sdkRequest = state.split(":")[1];
+
+  let sdkErrorBase = null;
+  if (context.sdkRequest) {
+    try {
+      const authReq = await sdkService.getAuthRequest(context.sdkRequest);
+      if (authReq?.redirectUri) {
+        const u = new URL(authReq.redirectUri);
+        sdkErrorBase = u.origin + u.pathname;
+      }
+    } catch (_e) {
+      /* fall back to AuthSphere */
+    }
+  }
+
+  const redirectError = (errorCode) => {
+    if (sdkErrorBase) {
+      return res.redirect(`${sdkErrorBase}?error=${errorCode}`);
+    }
+    return res.redirect(`${conf.frontendUrl}/login?error=${errorCode}`);
+  };
+
   try {
-    const { code, state } = req.query;
-    if (!code) return res.status(400).send("Missing authorization code");
-
-    let context = { cli: false, sdkRequest: null };
-    if (state === "cli") context.cli = true;
-    if (state && state.startsWith("sdk:"))
-      context.sdkRequest = state.split(":")[1];
-
     const googleUser = await getGoogleUser(code);
-    await processSocialAuth(
-      res,
+
+    const result = await authService.handleSocialAuth(
       req,
       {
         email: googleUser.email,
@@ -127,27 +165,148 @@ export async function googleCallback(req, res) {
       },
       context,
     );
+
+    if (result.endUser) {
+      req.query.sdk_request = result.sdkRequestId;
+      return await handleSDKCallback(
+        req,
+        res,
+        result.endUser,
+        result.provider,
+        result.sdkRequestId,
+      );
+    }
+
+    const { developer, accessToken, refreshToken, cli } = result;
+
+    const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    };
+
+    if (cli === "true" || cli === true) {
+      res.cookie("accessToken", accessToken, cookieOptions);
+      res.cookie("refreshToken", refreshToken, cookieOptions);
+      try {
+        const params = new URLSearchParams({
+          name: developer.username,
+          email: developer.email,
+          id: String(developer._id),
+          provider: "Google",
+        });
+        await fetch(`${conf.cliUrl}/cli-update?${params.toString()}`);
+      } catch (cliErr) {
+        logger.error("[Google OAuth] CLI callback failed:", cliErr.message);
+      }
+      return res.send("<script>window.close();</script>");
+    }
+
+    res.cookie("accessToken", accessToken, cookieOptions);
+    res.cookie("refreshToken", refreshToken, cookieOptions);
+
+    const bridgeToken = crypto.randomBytes(32).toString("hex");
+    try {
+      await redisService.client?.set(
+        `oauth:bridge:${bridgeToken}`,
+        JSON.stringify({ userId: developer._id, provider: "Google" }),
+        "EX",
+        60,
+      );
+    } catch (_e) {
+      // Non-fatal: cookies are already set; bridge token is supplementary
+    }
+
+    return res.redirect(
+      `${conf.frontendUrl}/auth/callback?token=${bridgeToken}`,
+    );
   } catch (err) {
-    res.status(500).send("Google authentication failed");
+    logger.error("[Google OAuth] Callback error:", err.message);
+
+    if (err instanceof AppError) {
+      switch (err.message) {
+        case "DUPLICATE_CALLBACK":
+          return res.status(200).send("<script>window.close();</script>");
+        case "INVALID_GRANT":
+          return redirectError("session_expired");
+        case "USERINFO_FETCH_FAILED":
+        case "USERINFO_INVALID":
+        case "TOKEN_EXCHANGE_FAILED":
+          return redirectError("google_auth_failed");
+        case "Invalid or expired SDK request":
+          return redirectError("session_expired");
+        default:
+          return redirectError("auth_failed");
+      }
+    }
+
+    return redirectError("auth_failed");
+  }
+}
+
+/**
+ * Frontend calls this after being redirected to /auth/callback?token=...
+ */
+export async function exchangeSession(req, res) {
+  const { token } = req.params;
+  if (!token) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Missing session token" });
+  }
+
+  try {
+    const key = `oauth:bridge:${token}`;
+    const raw = await redisService.client?.get(key);
+    if (!raw) {
+      return res.status(400).json({
+        success: false,
+        message: "Session token expired or invalid",
+      });
+    }
+
+    await redisService.client?.del(key);
+
+    const { userId, provider } = JSON.parse(raw);
+    return res.status(200).json({
+      success: true,
+      message: "Authentication successful",
+      provider,
+      userId,
+    });
+  } catch (err) {
+    logger.error("[Auth] Session exchange error:", err.message);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to exchange session token",
+    });
   }
 }
 
 /* ============================================================
    GITHUB
- ============================================================ */
+   ============================================================ */
 export async function githubLogin(req, res) {
   try {
     const context = getContextFromReq(req);
     res.redirect(getGithubAuthURL(context));
   } catch (err) {
-    res.status(500).send("Could not start GitHub login");
+    logger.error("[GitHub Login] Error:", err.message);
+    res
+      .status(500)
+      .json({ success: false, message: "Could not start GitHub login" });
   }
 }
 
 export async function githubCallback(req, res) {
   try {
     const { code, state } = req.query;
-    if (!code) return res.status(400).send("Missing authorization code");
+    if (!code) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing authorization code" });
+    }
 
     let context = { cli: false, sdkRequest: null };
     if (state === "cli") context.cli = true;
@@ -168,26 +327,37 @@ export async function githubCallback(req, res) {
       context,
     );
   } catch (err) {
-    res.status(500).send("GitHub authentication failed");
+    logger.error("[GitHub Callback] Error:", err.message);
+    if (res.headersSent) return;
+    res
+      .status(500)
+      .json({ success: false, message: "GitHub authentication failed" });
   }
 }
 
 /* ============================================================
    DISCORD
- ============================================================ */
+   ============================================================ */
 export async function discordLogin(req, res) {
   try {
     const context = getContextFromReq(req);
     res.redirect(getDiscordAuthURL(context));
   } catch (err) {
-    res.status(500).send("Could not start Discord login");
+    logger.error("[Discord Login] Error:", err.message);
+    res
+      .status(500)
+      .json({ success: false, message: "Could not start Discord login" });
   }
 }
 
 export async function discordCallback(req, res) {
   try {
     const { code, state } = req.query;
-    if (!code) return res.status(400).send("Missing authorization code");
+    if (!code) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing authorization code" });
+    }
 
     let context = { cli: false, sdkRequest: null };
     if (state === "cli") context.cli = true;
@@ -208,24 +378,34 @@ export async function discordCallback(req, res) {
       context,
     );
   } catch (err) {
-    res.status(500).send("Discord authentication failed");
+    logger.error("[Discord Callback] Error:", err.message);
+    if (res.headersSent) return;
+    res
+      .status(500)
+      .json({ success: false, message: "Discord authentication failed" });
   }
 }
 
 /* ============================================================
    OTHER PROVIDERS (LINKEDIN, GITLAB, TWITCH, BITBUCKET, MICROSOFT)
- ============================================================ */
+   ============================================================ */
 export async function linkedinLogin(req, res) {
   try {
     res.redirect(getLinkedinAuthURL(getContextFromReq(req)));
   } catch (err) {
-    res.status(500).send("LinkedIn login failed");
+    logger.error("[LinkedIn Login] Error:", err.message);
+    res.status(500).json({ success: false, message: "LinkedIn login failed" });
   }
 }
 
 export async function linkedinCallback(req, res) {
   try {
     const { code, state } = req.query;
+    if (!code) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing authorization code" });
+    }
     const context = {
       cli: state === "cli",
       sdkRequest: state?.startsWith("sdk:") ? state.split(":")[1] : null,
@@ -244,7 +424,11 @@ export async function linkedinCallback(req, res) {
       context,
     );
   } catch (err) {
-    res.status(500).send("LinkedIn authentication failed");
+    logger.error("[LinkedIn Callback] Error:", err.message);
+    if (res.headersSent) return;
+    res
+      .status(500)
+      .json({ success: false, message: "LinkedIn authentication failed" });
   }
 }
 
@@ -252,13 +436,19 @@ export async function gitlabLogin(req, res) {
   try {
     res.redirect(getGitlabAuthURL(getContextFromReq(req)));
   } catch (err) {
-    res.status(500).send("GitLab login failed");
+    logger.error("[GitLab Login] Error:", err.message);
+    res.status(500).json({ success: false, message: "GitLab login failed" });
   }
 }
 
 export async function gitlabCallback(req, res) {
   try {
     const { code, state } = req.query;
+    if (!code) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing authorization code" });
+    }
     const context = {
       cli: state === "cli",
       sdkRequest: state?.startsWith("sdk:") ? state.split(":")[1] : null,
@@ -277,7 +467,11 @@ export async function gitlabCallback(req, res) {
       context,
     );
   } catch (err) {
-    res.status(500).send("GitLab authentication failed");
+    logger.error("[GitLab Callback] Error:", err.message);
+    if (res.headersSent) return;
+    res
+      .status(500)
+      .json({ success: false, message: "GitLab authentication failed" });
   }
 }
 
@@ -285,13 +479,19 @@ export async function twitchLogin(req, res) {
   try {
     res.redirect(getTwitchAuthURL(getContextFromReq(req)));
   } catch (err) {
-    res.status(500).send("Twitch login failed");
+    logger.error("[Twitch Login] Error:", err.message);
+    res.status(500).json({ success: false, message: "Twitch login failed" });
   }
 }
 
 export async function twitchCallback(req, res) {
   try {
     const { code, state } = req.query;
+    if (!code) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing authorization code" });
+    }
     const context = {
       cli: state === "cli",
       sdkRequest: state?.startsWith("sdk:") ? state.split(":")[1] : null,
@@ -310,7 +510,11 @@ export async function twitchCallback(req, res) {
       context,
     );
   } catch (err) {
-    res.status(500).send("Twitch authentication failed");
+    logger.error("[Twitch Callback] Error:", err.message);
+    if (res.headersSent) return;
+    res
+      .status(500)
+      .json({ success: false, message: "Twitch authentication failed" });
   }
 }
 
@@ -318,13 +522,19 @@ export async function bitbucketLogin(req, res) {
   try {
     res.redirect(getBitbucketAuthURL(getContextFromReq(req)));
   } catch (err) {
-    res.status(500).send("Bitbucket login failed");
+    logger.error("[Bitbucket Login] Error:", err.message);
+    res.status(500).json({ success: false, message: "Bitbucket login failed" });
   }
 }
 
 export async function bitbucketCallback(req, res) {
   try {
     const { code, state } = req.query;
+    if (!code) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing authorization code" });
+    }
     const context = {
       cli: state === "cli",
       sdkRequest: state?.startsWith("sdk:") ? state.split(":")[1] : null,
@@ -343,7 +553,11 @@ export async function bitbucketCallback(req, res) {
       context,
     );
   } catch (err) {
-    res.status(500).send("Bitbucket authentication failed");
+    logger.error("[Bitbucket Callback] Error:", err.message);
+    if (res.headersSent) return;
+    res
+      .status(500)
+      .json({ success: false, message: "Bitbucket authentication failed" });
   }
 }
 
@@ -351,13 +565,19 @@ export async function microsoftLogin(req, res) {
   try {
     res.redirect(getMicrosoftAuthURL(getContextFromReq(req)));
   } catch (err) {
-    res.status(500).send("Microsoft login failed");
+    logger.error("[Microsoft Login] Error:", err.message);
+    res.status(500).json({ success: false, message: "Microsoft login failed" });
   }
 }
 
 export async function microsoftCallback(req, res) {
   try {
     const { code, state } = req.query;
+    if (!code) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing authorization code" });
+    }
     const context = {
       cli: state === "cli",
       sdkRequest: state?.startsWith("sdk:") ? state.split(":")[1] : null,
@@ -376,6 +596,10 @@ export async function microsoftCallback(req, res) {
       context,
     );
   } catch (err) {
-    res.status(500).send("Microsoft authentication failed");
+    logger.error("[Microsoft Callback] Error:", err.message);
+    if (res.headersSent) return;
+    res
+      .status(500)
+      .json({ success: false, message: "Microsoft authentication failed" });
   }
 }

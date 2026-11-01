@@ -73,7 +73,7 @@ export const loginDeveloper = async (req, res) => {
 /* ---------------------- REFRESH TOKEN ---------------------- */
 export const refreshAccessToken = async (req, res) => {
   const incomingRefreshToken =
-    req.cookies.refreshToken || req.body.refreshToken;
+    req.cookies?.refreshToken || req.body?.refreshToken;
   if (!incomingRefreshToken) {
     return res.status(401).json({ message: "Unauthorized request" });
   }
@@ -94,6 +94,7 @@ export const refreshAccessToken = async (req, res) => {
         refreshToken: newRefreshToken,
       });
   } catch (error) {
+    console.error("Refresh token error:", error);
     return res.status(401).json({ message: "Invalid refresh token" });
   }
 };

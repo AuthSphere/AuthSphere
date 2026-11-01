@@ -11,7 +11,8 @@ const EmptyState = ({ onCreate }) => {
       <h3 className="text-xl font-bold mb-2">No projects yet</h3>
 
       <p className="text-muted-foreground mb-6 max-w-sm">
-        Create your first authentication project to start securing your applications
+        Create your first authentication project to start securing your
+        applications
       </p>
 
       <Button onClick={onCreate} className="gap-2">

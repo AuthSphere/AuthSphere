@@ -74,51 +74,35 @@ const EmailCustomizationPage = () => {
   }
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 py-10 space-y-10">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2 border-b">
-        <div className="flex items-start gap-5">
+    <div className="h-[91vh] w-[93vw] mx-auto flex flex-col gap-2 overflow-hidden">
+      {/* Header */}
+      <div className="flex items-center justify-between shrink-0 pb-3 border-b">
+        <div className="flex items-center gap-4">
           <Link to={`/projects/${projectId}`}>
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-12 w-12 rounded-2xl shadow-sm hover:bg-primary/5 hover:text-primary transition-all"
-            >
-              <ArrowLeft className="h-5 w-5" />
+            <Button variant="outline" size="icon" className="h-9 w-9">
+              <ArrowLeft className="h-4 w-4" />
             </Button>
           </Link>
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-primary/10 text-primary uppercase tracking-widest">
-                Branding Engine
-              </span>
-              <span className="text-muted-foreground text-xs">•</span>
-              <span className="text-muted-foreground text-xs font-medium">
+          <div>
+            <div className="flex items-center gap-2 mb-0.5">
+              <span className="text-xs text-muted-foreground">
                 {project.name}
               </span>
+              <span className="text-muted-foreground text-xs">•</span>
+              <span className="text-xs text-muted-foreground">Email</span>
             </div>
-            <h1 className="text-3xl font-black tracking-tight text-foreground">
+            <h1 className="text-xl font-bold tracking-tight">
               Email Customization
             </h1>
-            <p className="text-sm text-muted-foreground max-w-lg">
-              Design a seamless brand experience by customizing the look and
-              feel of your automated verification emails.
-            </p>
           </div>
         </div>
-
-        <div className="flex items-center gap-3">
-          <div className="text-right hidden sm:block">
-            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
-              Status
-            </p>
-            <div className="text-xs font-semibold text-emerald-500 flex items-center gap-1 justify-end">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              Ready for Production
-            </div>
-          </div>
+        <div className="flex items-center gap-1.5 text-xs text-emerald-500">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+          Production
         </div>
       </div>
 
+      {/* Editor fills remaining space */}
       <EmailTemplateEditor project={project} onUpdated={loadProject} />
     </div>
   );

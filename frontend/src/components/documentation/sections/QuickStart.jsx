@@ -42,7 +42,7 @@ const QuickStart = ({ publicKey }) => {
             </p>
             <DocsCodeBlock
               id="install"
-              code="npm install @authsphere/sdk"
+              code="npm install @authspherejs/sdk"
               language="terminal"
             />
           </div>
@@ -117,7 +117,7 @@ const QuickStart = ({ publicKey }) => {
             </p>
             <DocsCodeBlock
               id="init"
-              code={`import { AuthSphere } from '@authsphere/sdk'\n\n// Initialize the singleton instance\nAuthSphere.init({\n  publicKey: '${publicKey}',\n  baseUrl: 'https://api.authsphere.io/v1',\n  redirectUri: window.location.origin + '/callback',\n  options: {\n    debug: process.env.NODE_ENV !== 'production',\n    autoRefresh: true,\n    storageType: 'local' // or 'session'\n  }\n});`}
+              code={`import AuthSphere from '@authspherejs/sdk'\n\n// Initialize the singleton instance\nAuthSphere.initAuth({\n  publicKey: '${publicKey}',\n  projectId: 'YOUR_PROJECT_ID', // Found in Dashboard\n  baseUrl: 'https://auth-sphere-6s2v.vercel.app',\n  redirectUri: window.location.origin + '/callback',\n  options: {\n    debug: process.env.NODE_ENV !== 'production',\n    autoRefresh: true,\n    storageType: 'local' // or 'session'\n  }\n});`}
               language="javascript"
             />
           </div>
@@ -140,7 +140,7 @@ const QuickStart = ({ publicKey }) => {
             </p>
             <DocsCodeBlock
               id="callback"
-              code={`// In your Callback.jsx component\nuseEffect(() => {\n  const processAuth = async () => {\n    try {\n      const { user, tokens } = await AuthSphere.handleCallback();\n      console.log('Successfully authenticated:', user.email);\n      window.location.href = '/dashboard';\n    } catch (error) {\n      console.error('Authentication failed:', error.message);\n      window.location.href = '/login?error=' + error.code;\n    }\n  };\n  processAuth();\n}, []);`}
+              code={`// In your Callback.jsx component\nuseEffect(() => {\n  const processAuth = async () => {\n    try {\n      const { user, tokens } = await AuthSphere.handleAuthCallback();\n      console.log('Successfully authenticated:', user.email);\n      window.location.href = '/dashboard';\n    } catch (error) {\n      console.error('Authentication failed:', error.message);\n      window.location.href = '/login?error=' + error.message;\n    }\n  };\n  processAuth();\n}, []);`}
               language="javascript"
             />
           </div>

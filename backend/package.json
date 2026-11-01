@@ -8,7 +8,8 @@
     "start": "node src/server.js",
     "diagnose": "node scripts/diagnose.js",
     "test:env": "node -e \"console.log('Environment check passed')\" && node scripts/diagnose.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "format": "prettier --write ."
   },
   "keywords": [],
   "author": "",
@@ -27,24 +28,24 @@
     "express-rate-limit": "^8.2.1",
     "helmet": "^8.1.0",
     "hpp": "^0.2.3",
-    "ioredis": "^5.9.3",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.1.1",
     "morgan": "^1.10.1",
     "node-fetch": "^3.3.2",
     "nodemailer": "^7.0.13",
     "qs": "^6.14.1",
-    "socket.io": "^4.8.3",
-    "swagger-jsdoc": "^6.2.8",
+    "socket.io": "^4.8.4",
+    "swagger-jsdoc": "6.2.8",
     "swagger-ui-express": "^5.0.1",
     "ua-parser-js": "^2.0.8",
     "winston": "^3.19.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11",
-    "eslint": "^9.9.0",
+    "@eslint/js": "^9.9.0",
+    "eslint": "^10.0.0",
     "globals": "^15.9.0",
-    "@eslint/js": "^9.9.0"
+    "nodemon": "3",
+    "prettier": "^3.9.6"
   }
 }

@@ -13,6 +13,7 @@ export const globalLimiter = rateLimit({
   },
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  validate: { trustProxy: false },
 });
 
 /**
@@ -27,4 +28,5 @@ export const authLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { trustProxy: false },
 });

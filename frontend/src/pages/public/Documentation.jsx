@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  BookOpen, Zap, User, Globe, Layers, KeyRound,
-  Settings2, Users, FileJson, Lock, AlertCircle,
-  ArrowLeft
+  BookOpen,
+  Zap,
+  User,
+  Globe,
+  Layers,
+  KeyRound,
+  Settings2,
+  Users,
+  FileJson,
+  Lock,
+  AlertCircle,
+  ArrowLeft,
 } from "lucide-react";
 
 import useAuthStore from "@/store/authStore";
@@ -52,17 +61,67 @@ const Documentation = () => {
   }, [user]);
 
   const sections = [
-    { id: "introduction", title: "Introduction", icon: BookOpen, component: Introduction },
-    { id: "quick-start", title: "Quick Start", icon: Zap, component: QuickStart },
-    { id: "local-auth", title: "Local Authentication", icon: User, component: LocalAuth },
-    { id: "authentication", title: "Social Login", icon: Globe, component: SocialLogin },
-    { id: "frameworks", title: "Framework Integration", icon: Layers, component: Frameworks },
-    { id: "session-management", title: "Session Management", icon: KeyRound, component: SessionManagement },
-    { id: "configuration", title: "Configuration", icon: Settings2, component: Configuration },
-    { id: "user-management", title: "User Management", icon: Users, component: UserManagement },
-    { id: "api-reference", title: "API Reference", icon: FileJson, component: ApiReference },
+    {
+      id: "introduction",
+      title: "Introduction",
+      icon: BookOpen,
+      component: Introduction,
+    },
+    {
+      id: "quick-start",
+      title: "Quick Start",
+      icon: Zap,
+      component: QuickStart,
+    },
+    {
+      id: "local-auth",
+      title: "Local Authentication",
+      icon: User,
+      component: LocalAuth,
+    },
+    {
+      id: "authentication",
+      title: "Social Login",
+      icon: Globe,
+      component: SocialLogin,
+    },
+    {
+      id: "frameworks",
+      title: "Framework Integration",
+      icon: Layers,
+      component: Frameworks,
+    },
+    {
+      id: "session-management",
+      title: "Session Management",
+      icon: KeyRound,
+      component: SessionManagement,
+    },
+    {
+      id: "configuration",
+      title: "Configuration",
+      icon: Settings2,
+      component: Configuration,
+    },
+    {
+      id: "user-management",
+      title: "User Management",
+      icon: Users,
+      component: UserManagement,
+    },
+    {
+      id: "api-reference",
+      title: "API Reference",
+      icon: FileJson,
+      component: ApiReference,
+    },
     { id: "security", title: "Security", icon: Lock, component: Security },
-    { id: "errors", title: "Error Handling", icon: AlertCircle, component: ErrorHandling },
+    {
+      id: "errors",
+      title: "Error Handling",
+      icon: AlertCircle,
+      component: ErrorHandling,
+    },
   ];
 
   const navigateTo = (id) => {
@@ -71,14 +130,14 @@ const Documentation = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const currentIndex = sections.findIndex(s => s.id === activeSection);
+  const currentIndex = sections.findIndex((s) => s.id === activeSection);
   const prevSection = sections[currentIndex - 1];
   const nextSection = sections[currentIndex + 1];
 
   const ActiveComponent = sections[currentIndex].component;
   const projectProps = {
     publicKey: selectedProject?.publicKey || "YOUR_PUBLIC_KEY",
-    projectId: selectedProject?._id || "YOUR_PROJECT_ID"
+    projectId: selectedProject?._id || "YOUR_PROJECT_ID",
   };
 
   return (
@@ -103,7 +162,9 @@ const Documentation = () => {
             user={user}
             projects={projects}
             selectedProject={selectedProject}
-            onSelectProject={(val) => setSelectedProject(projects.find(p => p._id === val))}
+            onSelectProject={(val) =>
+              setSelectedProject(projects.find((p) => p._id === val))
+            }
           />
 
           {/* Render Active Section */}
@@ -117,11 +178,14 @@ const Documentation = () => {
                 className="flex flex-col items-start p-6 rounded-2xl border bg-card hover:border-primary/50 hover:shadow-md transition-all text-left group"
               >
                 <span className="text-xs font-bold text-muted-foreground uppercase mb-2 flex items-center gap-1.5">
-                  <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-1 transition-transform" /> Previous
+                  <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-1 transition-transform" />{" "}
+                  Previous
                 </span>
                 <span className="font-bold text-lg">{prevSection.title}</span>
               </button>
-            ) : <div />}
+            ) : (
+              <div />
+            )}
 
             {nextSection && (
               <button
@@ -129,7 +193,8 @@ const Documentation = () => {
                 className="flex flex-col items-end p-6 rounded-2xl border bg-card hover:border-primary/50 hover:shadow-md transition-all text-right group"
               >
                 <span className="text-xs font-bold text-muted-foreground uppercase mb-2 flex items-center gap-1.5">
-                  Next <ArrowLeft className="h-3.5 w-3.5 rotate-180 group-hover:translate-x-1 transition-transform" />
+                  Next{" "}
+                  <ArrowLeft className="h-3.5 w-3.5 rotate-180 group-hover:translate-x-1 transition-transform" />
                 </span>
                 <span className="font-bold text-lg">{nextSection.title}</span>
               </button>

@@ -31,7 +31,7 @@ const ErrorHandling = () => {
           </p>
           <DocsCodeBlock
             id="error-json"
-            code={`{\n  "success": false,\n  "code": "VERIFICATION_REQUIRED",\n  "message": "User must verify email address.",\n  "metadata": {\n    "transactionId": "TX_99aB...",\n    "retryAfter": 60\n  }\n}`}
+            code={`{\n  "success": false,\n  "error_code": "EMAIL_NOT_VERIFIED",\n  "message": "User must verify email address.",\n  "sdk_request": "as_99aB...",\n  "metadata": {\n    "retryAfter": 60\n  }\n}`}
             language="json"
           />
         </section>
@@ -94,7 +94,7 @@ const ErrorHandling = () => {
           </h3>
           <DocsCodeBlock
             id="catch-error"
-            code={`try {\n  await AuthSphere.tokenExchange(code);\n} catch (err) {\n  const { error_code, message } = await err.json();\n  \n  if (error_code === 'INVALID_ORIGIN') {\n    console.error("Check your Dashboard Origin settings!");\n  }\n}`}
+            code={`try {\n  await AuthSphere.loginLocal({ email, password });\n} catch (err) {\n  if (err instanceof AuthError && err.message.includes('not verified')) {\n    const { sdk_request } = err;\n    navigate(\`/verify?email=\${email}&sdk_request=\${sdk_request}\`);\n  }\n}`}
             language="javascript"
           />
         </div>

@@ -3,6 +3,9 @@ import pluginJs from "@eslint/js";
 
 export default [
   {
+    ignores: ["node_modules/", "dist/", ".wrangler/", "logs/"],
+  },
+  {
     languageOptions: {
       globals: {
         ...globals.node,
@@ -14,7 +17,14 @@ export default [
   pluginJs.configs.recommended,
   {
     rules: {
-      "no-unused-vars": "warn",
+      "no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
       "no-console": "off",
       "no-process-exit": "off",
     },

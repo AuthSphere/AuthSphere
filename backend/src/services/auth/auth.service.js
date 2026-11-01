@@ -113,7 +113,7 @@ class AuthService {
    * Handle SDK Flow (End User Auth via Project)
    */
   async handleSDKFlow(req, userData, sdkRequestId) {
-    const authRequest = sdkService.getAuthRequest(sdkRequestId);
+    const authRequest = await sdkService.getAuthRequest(sdkRequestId);
 
     if (!authRequest) {
       throw new Error("Invalid or expired SDK request");

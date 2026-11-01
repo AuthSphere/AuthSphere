@@ -1,11 +1,11 @@
 import express from "express";
-import cors from "cors";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import compression from "compression";
 import crypto from "crypto";
 import hpp from "hpp";
 import morgan from "morgan";
+import mongoSanitize from "@exortek/express-mongo-sanitize";
 
 import logger, { stream } from "./utils/logger.js";
 import { handleError } from "./utils/AppError.js";
@@ -17,13 +17,15 @@ import homeHandler from "./home.js";
 
 const app = express();
 
+app.set("trust proxy", 1);
+
 // --- Performance & Traceability ---
 app.use(compression());
 app.use((req, res, next) => {
   try {
     req.id = crypto.randomUUID?.() || Date.now().toString();
     next();
-  } catch (err) {
+  } catch (_err) {
     next();
   }
 });
@@ -36,7 +38,7 @@ app.use((req, res, next) => {
         ? logger.child({ requestId: req.id })
         : logger;
     next();
-  } catch (err) {
+  } catch (_err) {
     req.logger = logger;
     next();
   }
@@ -45,6 +47,96 @@ app.use((req, res, next) => {
 // Use Morgan with Winston stream
 const morganFormat = process.env.NODE_ENV === "production" ? "combined" : "dev";
 app.use(morgan(morganFormat, { stream }));
+
+// --- CORS Configuration ---
+// SDK routes (/sdk/*) intentionally bypass the server-level allowlist.
+// Each project defines its own allowedOrigins in the DB, which is enforced
+// by the sdkCors middleware mounted on the /sdk router itself.
+// All other routes use the server allowlist below.
+
+const buildAllowedOrigins = () => {
+  const raw = [
+    ...(conf.corsOrigin ? conf.corsOrigin.split(",") : []),
+    conf.frontendUrl,
+    conf.cliUrl,
+  ]
+    .map((o) => (o || "").trim())
+    .filter(Boolean);
+  return [...new Set(raw)];
+};
+
+// SDK_CORS_BYPASS_RE matches /sdk and any sub-path e.g. /sdk/token
+const SDK_PATH_RE = /^\/sdk(\/|$)/;
+
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+
+  // ── SDK routes: skip server allowlist, sdkCors handles it in the router ──
+  if (SDK_PATH_RE.test(req.path)) {
+    // Still need to set a permissive CORS header for pre-flight so the browser
+    // doesn't drop the request before it reaches the /sdk router.
+    if (origin) {
+      res.setHeader("Access-Control-Allow-Origin", origin);
+      res.setHeader("Access-Control-Allow-Credentials", "true");
+      res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET,POST,PUT,DELETE,PATCH,OPTIONS",
+      );
+      res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Content-Type, Authorization, X-Requested-With, X-Public-Key",
+      );
+      res.setHeader("Vary", "Origin");
+    }
+    // Don't short-circuit OPTIONS here — let sdkCors do the project check
+    return next();
+  }
+
+  // ── All other routes: enforce the server allowlist ──
+  if (!origin) return next(); // server-to-server / curl
+
+  if (conf.corsOrigin === "*" || process.env.NODE_ENV !== "production") {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Vary", "Origin");
+    if (req.method === "OPTIONS") {
+      res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET,POST,PUT,DELETE,PATCH,OPTIONS",
+      );
+      res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Content-Type, Authorization, X-Requested-With",
+      );
+      return res.sendStatus(204);
+    }
+    return next();
+  }
+
+  const allowedOrigins = buildAllowedOrigins();
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Vary", "Origin");
+    if (req.method === "OPTIONS") {
+      res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET,POST,PUT,DELETE,PATCH,OPTIONS",
+      );
+      res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Content-Type, Authorization, X-Requested-With",
+      );
+      return res.sendStatus(204);
+    }
+    return next();
+  }
+
+  logger.warn(
+    `CORS blocked origin: "${origin}". Allowed: [${allowedOrigins.join(", ")}]`,
+  );
+  return res.status(403).json({ success: false, error: "Not allowed by CORS" });
+});
 
 // --- Standard Middleware (Parser) ---
 app.use(express.json({ limit: "16kb" }));
@@ -67,7 +159,7 @@ app.use(
     },
   }),
 );
-// app.use(mongoSanitize()); // Now after body parsers
+app.use(mongoSanitize());
 app.use(hpp());
 
 // --- Global Rate Limiting ---
@@ -75,28 +167,6 @@ app.use("/api", globalLimiter);
 
 // --- Swagger Documentation ---
 swaggerDocs(app);
-
-// --- Standard Response Middleware (CORS) ---
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-      const allowedOrigins = conf.corsOrigin.split(",");
-      if (
-        allowedOrigins.includes(origin) ||
-        allowedOrigins.includes("*") ||
-        process.env.NODE_ENV !== "production"
-      ) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-  }),
-);
 
 // --- Home & Health Check ---
 app.get("/", homeHandler);

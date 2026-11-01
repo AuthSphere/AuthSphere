@@ -50,7 +50,7 @@ export const sendVerificationOTP = async (
     userAgent = "Unknown Device",
     location = "Unknown Location",
     requestId = "N/A",
-    projectId = "N/A",
+    _projectId = "N/A",
   } = metadata;
 
   const timestamp = new Date().toUTCString();

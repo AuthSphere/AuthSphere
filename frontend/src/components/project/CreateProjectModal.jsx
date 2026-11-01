@@ -23,6 +23,7 @@ const CreateProjectModal = ({ open, onClose, onCreated }) => {
 
   useEffect(() => {
     if (!open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setName("");
       setRedirectUri("");
       setLoading(false);
@@ -57,7 +58,7 @@ const CreateProjectModal = ({ open, onClose, onCreated }) => {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-125">
         <DialogHeader>
           <DialogTitle>Create New Project</DialogTitle>
           <DialogDescription>

@@ -6,7 +6,7 @@ import {
   Activity,
   BarChart3,
   Copy,
-  CheckCircle2
+  CheckCircle2,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -17,7 +17,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger
+  TooltipTrigger,
 } from "@/components/ui/tooltip";
 
 const ProjectDetailHeader = ({ project }) => {

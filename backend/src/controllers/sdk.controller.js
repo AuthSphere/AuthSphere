@@ -8,14 +8,27 @@ import logger from "../utils/logger.js";
 import { successResponse } from "../utils/response.js";
 import { catchAsync, AppError } from "../utils/AppError.js";
 
+import { renderProviderNotEnabled } from "../utils/errorPages.js";
+
 export const authRequests = sdkService.authRequests;
 export const authCodes = sdkService.authCodes;
 
 // ---------------------------
 // SDK AUTHORIZE ROUTE
 // ---------------------------
-export const authorize = catchAsync(async (req, res) => {
-  const project = await sdkService.validateAuthorizeRequest(req.query);
+export const authorize = catchAsync(async (req, res, next) => {
+  let project;
+  try {
+    project = await sdkService.validateAuthorizeRequest(req.query);
+  } catch (error) {
+    if (error.isProviderNotEnabled) {
+      return res
+        .status(403)
+        .send(renderProviderNotEnabled(error.provider, error.projectName));
+    }
+    return next(error);
+  }
+
   const requestId = sdkService.createAuthRequest(req.query, project._id);
 
   logger.info(`SDK Auth request created: ${requestId}`);
@@ -54,7 +67,7 @@ export const handleSDKCallback = async (
     const sdk_request = manualSdkRequestId || req.query.sdk_request;
     if (!sdk_request) return null;
 
-    const authRequest = sdkService.getAuthRequest(sdk_request);
+    const authRequest = await sdkService.getAuthRequest(sdk_request);
     if (!authRequest) {
       return res.status(400).send("Invalid or expired request");
     }
@@ -129,7 +142,7 @@ export const token = catchAsync(async (req, res) => {
     throw new AppError("Missing code", 400);
   }
 
-  const authData = sdkService.getAuthCode(code);
+  const authData = await sdkService.getAuthCode(code);
   if (!authData) {
     throw new AppError("Invalid or expired code", 400);
   }

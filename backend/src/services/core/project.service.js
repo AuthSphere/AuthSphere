@@ -64,14 +64,14 @@ class ProjectService {
   async getProjectsByDeveloper(developerId) {
     return await Project.find({ developer: developerId }).sort({
       createdAt: -1,
-    });
+    }).lean();
   }
 
   /**
    * Get a single project
    */
   async getProject(projectId, developerId) {
-    return await Project.findOne({ _id: projectId, developer: developerId });
+    return await Project.findOne({ _id: projectId, developer: developerId }).lean();
   }
 
   /**
@@ -169,7 +169,8 @@ class ProjectService {
   async getProjectUsers(projectId) {
     return await EndUser.find({ projectId })
       .select("-password")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .lean();
   }
 
   async deleteProjectUser(projectId, userId, developerId, reqInfo) {

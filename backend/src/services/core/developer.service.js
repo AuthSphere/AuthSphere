@@ -9,6 +9,9 @@ import { parseUserAgent } from "../../utils/userAgentParser.js";
 import { logEvent } from "../../utils/auditLogger.js";
 import { generateAccessToken, generateRefreshToken } from "../../utils/jwt.js";
 import { conf } from "../../configs/env.js";
+import { isPasswordPwned } from "../../utils/pwnedPassword.js";
+import Notification from "../../models/notification.model.js";
+import { getDistanceFromLatLonInKm } from "../../utils/geoDistance.js";
 
 class DeveloperService {
   /**
@@ -23,6 +26,11 @@ class DeveloperService {
 
     if (existedDeveloper) {
       throw new Error("Developer with email or username already exists");
+    }
+
+    const isPwned = await isPasswordPwned(password);
+    if (isPwned) {
+      throw new Error("This password has appeared in a data breach. Please choose a different password.");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -78,10 +86,51 @@ class DeveloperService {
           city: geoResponse.data.city,
           country: geoResponse.data.country_name,
           countryCode: geoResponse.data.country_code,
+          latitude: geoResponse.data.latitude,
+          longitude: geoResponse.data.longitude,
         };
       }
     } catch (geoError) {
       console.error("Geo lookup failed:", geoError.message);
+    }
+
+    // Check for impossible travel
+    if (location.latitude && location.longitude) {
+      const lastSession = await DeveloperSession.findOne({
+        developer: developer._id,
+        "location.latitude": { $exists: true },
+      }).sort({ createdAt: -1 });
+
+      if (lastSession && lastSession.location.latitude && lastSession.location.longitude) {
+        const distance = getDistanceFromLatLonInKm(
+          lastSession.location.latitude,
+          lastSession.location.longitude,
+          location.latitude,
+          location.longitude
+        );
+        const timeDiffMs = Date.now() - new Date(lastSession.createdAt).getTime();
+        const timeDiffHours = timeDiffMs / (1000 * 60 * 60);
+
+        if (timeDiffHours > 0) {
+          const speedKmH = distance / timeDiffHours;
+          if (speedKmH > 1000 && distance > 500) {
+            await Notification.create({
+              developerId: developer._id,
+              title: "Security Alert: Impossible Travel Detected",
+              message: `We detected a login from ${location.city}, ${location.country} shortly after a login from ${lastSession.location.city}, ${lastSession.location.country}. Please review your account activity.`,
+              type: "warning",
+            });
+
+            await logEvent({
+              developerId: developer._id,
+              action: "IMPOSSIBLE_TRAVEL_ANOMALY",
+              description: `Impossible travel detected. Speed: ${Math.round(speedKmH)} km/h over ${Math.round(distance)} km.`,
+              category: "security",
+              metadata: { ip, distance, speedKmH, previousLocation: lastSession.location, newLocation: location },
+            });
+          }
+        }
+      }
     }
 
     await DeveloperSession.create({
@@ -155,7 +204,7 @@ class DeveloperService {
     });
     const projects = await Project.find({ developer: developerId }).select(
       "_id",
-    );
+    ).lean();
     const projectIds = projects.map((p) => p._id);
 
     const totalEndUsers = await EndUser.countDocuments({
@@ -166,7 +215,8 @@ class DeveloperService {
       .select("email username createdAt projectId")
       .populate("projectId", "name")
       .sort({ createdAt: -1 })
-      .limit(5);
+      .limit(5)
+      .lean();
 
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);

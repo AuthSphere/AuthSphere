@@ -11,7 +11,10 @@ export const trackSessionActivity = async (req, res, next) => {
       const developerId = req.developer._id;
 
       // Check if session exists
-      const existingSession = await DeveloperSession.findOne({ refreshToken, developer: developerId });
+      const existingSession = await DeveloperSession.findOne({
+        refreshToken,
+        developer: developerId,
+      });
 
       if (existingSession) {
         // Just update last active
@@ -19,8 +22,9 @@ export const trackSessionActivity = async (req, res, next) => {
         await existingSession.save();
       } else {
         // Create the missing session record (self-healing for legacy/missed sessions)
-        const userAgent = req.headers['user-agent'] || '';
-        const ipAddress = req.ip || req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        const userAgent = req.headers["user-agent"] || "";
+        const ipAddress =
+          req.ip || req.headers["x-forwarded-for"] || req.socket.remoteAddress;
 
         await DeveloperSession.create({
           developer: developerId,
@@ -29,7 +33,11 @@ export const trackSessionActivity = async (req, res, next) => {
           userAgent: userAgent,
           deviceInfo: parseUserAgent(userAgent),
           expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Default 7 days
-          location: { city: "Detected", country: "Current", countryCode: "LOC" }
+          location: {
+            city: "Detected",
+            country: "Current",
+            countryCode: "LOC",
+          },
         });
       }
     }

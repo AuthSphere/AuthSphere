@@ -1,12 +1,13 @@
 import projectService from "../services/core/project.service.js";
 import { sendVerificationOTP } from "../services/auth/email.service.js";
+import { invalidateSdkCorsCache } from "../middlewares/sdkCors.middleware.js";
 
 /* ============================================================
    CREATE PROJECT
  ============================================================ */
 export const createProject = async (req, res) => {
   try {
-    const { name, redirectUris, providers, logoUrl } = req.body;
+    const { name, redirectUris, providers } = req.body;
     const developerId = req.developer._id;
 
     if (!name)
@@ -127,6 +128,11 @@ export const updateProject = async (req, res) => {
       return res
         .status(404)
         .json({ success: false, message: "Project not found" });
+    }
+
+    // Bust the SDK CORS cache so the new allowedOrigins take effect instantly
+    if (updates.allowedOrigins !== undefined) {
+      invalidateSdkCorsCache(updated.publicKey);
     }
 
     return res.status(200).json({ success: true, data: updated });
@@ -539,30 +545,7 @@ export const testWebhook = async (req, res) => {
         .json({ success: false, message: "Event required" });
     }
 
-    const { getProject } = await import("../services/core/project.service.js");
-    // We need to import projectService or use the one already imported at top
-    // projectService is default export at top: import projectService from "../services/core/project.service.js";
-
-    // Check if projectService is available in scope. Yes, line 1.
-    // However, I need to make sure I am not messing up imports.
-    // Ah, projectService is imported as default.
-
-    // Let's rely on existing import.
-    // But wait, getProject inside projectService might not be exactly what I need if I need secret.
-    // getProject returns the document, so it should have webhooks.
-
-    // Let's re-read project.service.js getProject.
-    // It does return Project.findOne(...).
-
-    // I'll proceed assuming projectService is available.
-
-    // But wait, I can't easily import crypto and axios inside function in ES modules without dynamic import or top level.
-    // Top level imports are better.
-    // I'll use dynamic imports for now to avoid messing up top of file.
-
-    const project = await (
-      await import("../services/core/project.service.js")
-    ).default.getProject(projectId, developerId);
+    const project = await projectService.getProject(projectId, developerId);
 
     if (!project) {
       return res

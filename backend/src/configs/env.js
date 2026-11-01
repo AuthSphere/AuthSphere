@@ -21,22 +21,27 @@ const _conf = {
   port: String(process.env.PORT || 8000),
   baseUrl: String(process.env.BASE_URL || "http://localhost:8000"),
   mongodbUri: String(process.env.MONGODB_URI),
-  corsOrigin: String(process.env.CORS_ORIGIN || "*"),
-  accessTokenSecret: String(process.env.ACCESS_TOKEN_SECRET),
-  accessTokenExpiry: String(process.env.ACCESS_TOKEN_EXPIRY || "1d"),
-  refreshTokenSecret: String(process.env.REFRESH_TOKEN_SECRET),
-  refreshTokenExpiry: String(process.env.REFRESH_TOKEN_EXPIRY || "10d"),
+  corsOrigin: String(process.env.CORS_ORIGIN || "*").trim(),
+  accessTokenSecret: String(process.env.ACCESS_TOKEN_SECRET).trim(),
+  accessTokenExpiry: String(process.env.ACCESS_TOKEN_EXPIRY || "1d").trim(),
+  refreshTokenSecret: String(process.env.REFRESH_TOKEN_SECRET).trim(),
+  refreshTokenExpiry: String(process.env.REFRESH_TOKEN_EXPIRY || "10d").trim(),
   // URLs
-  frontendUrl: String(process.env.FRONTEND_URL || "http://localhost:5173"),
-  cliUrl: String(process.env.CLI_URL || "http://localhost:5001"),
-
-  // Redis
-  redisUrl: String(process.env.REDIS_URL || "redis://localhost:6379"),
+  frontendUrl: String(
+    process.env.FRONTEND_URL || "http://localhost:5173",
+  ).trim(),
+  cliUrl: String(process.env.CLI_URL || "http://localhost:5001").trim(),
 
   // Google
-  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-  GOOGLE_REDIRECT_URI: process.env.GOOGLE_REDIRECT_URI,
+  GOOGLE_CLIENT_ID: String(process.env.GOOGLE_CLIENT_ID || "")
+    .trim()
+    .replace(/^["'](.+)["']$/, "$1"),
+  GOOGLE_CLIENT_SECRET: String(process.env.GOOGLE_CLIENT_SECRET || "")
+    .trim()
+    .replace(/^["'](.+)["']$/, "$1"),
+  GOOGLE_REDIRECT_URI: String(process.env.GOOGLE_REDIRECT_URI || "")
+    .trim()
+    .replace(/^["'](.+)["']$/, "$1"),
 
   // GitHub
   GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,

@@ -8,9 +8,38 @@ import { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+import { VitePWA } from "vite-plugin-pwa";
+
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    react(),
+    tailwindcss(),
+    VitePWA({
+      registerType: "autoUpdate",
+      includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
+      manifest: {
+        name: "AuthSphere Dashboard",
+        short_name: "AuthSphere",
+        description: "Mobile dashboard for AuthSphere authentication stats",
+        theme_color: "#0a0a0a",
+        background_color: "#0a0a0a",
+        display: "standalone",
+        icons: [
+          {
+            src: "assets/AuthSphere(main).png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "assets/AuthSphere(main).png",
+            sizes: "512x512",
+            type: "image/png",
+          },
+        ],
+      },
+    }),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

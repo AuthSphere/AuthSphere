@@ -1,6 +1,5 @@
 import EndUser from "../../models/endUsers.models.js";
 import Session from "../../models/session.model.js";
-import Project from "../../models/project.model.js";
 import mongoose from "mongoose";
 import redisService from "./redis.service.js";
 

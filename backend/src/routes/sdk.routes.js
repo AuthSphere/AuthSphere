@@ -18,8 +18,13 @@ import {
   sdkRegisterLocalSchema,
   sdkLoginLocalSchema,
 } from "../validators/sdk.validators.js";
+import { sdkCors } from "../middlewares/sdkCors.middleware.js";
 
 const router = express.Router();
+
+// Apply dynamic per-project CORS to every SDK route.
+// This runs before any controller and handles pre-flight OPTIONS automatically.
+router.use(sdkCors());
 
 /**
  * ============================================================
@@ -45,8 +50,18 @@ router.post("/token", validate(sdkTokenSchema), token);
  * POST /sdk/refresh
  */
 router.post("/refresh", validate(sdkRefreshSchema), refresh);
-router.post("/register", authLimiter, validate(sdkRegisterLocalSchema), registerLocal);
-router.post("/login-local", authLimiter, validate(sdkLoginLocalSchema), loginLocal);
+router.post(
+  "/register",
+  authLimiter,
+  validate(sdkRegisterLocalSchema),
+  registerLocal,
+);
+router.post(
+  "/login-local",
+  authLimiter,
+  validate(sdkLoginLocalSchema),
+  loginLocal,
+);
 router.post("/verify-otp", verifyOTP);
 router.post("/resend-verification", resendVerification);
 

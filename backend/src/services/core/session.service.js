@@ -10,7 +10,7 @@ class SessionService {
     const sessions = await DeveloperSession.find({
       developer: developerId,
       isValid: true,
-    }).sort({ lastActive: -1 });
+    }).sort({ lastActive: -1 }).lean();
 
     return sessions.map((session) => ({
       _id: session._id,

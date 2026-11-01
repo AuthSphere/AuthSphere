@@ -13,6 +13,8 @@ export const getAnalyticsCharts = async (projectId) => {
 };
 
 export const getRecentActivity = async (projectId) => {
-  const { data } = await api.get(`${ANALYTICS_BASE}/${projectId}/recent-activity`);
+  const { data } = await api.get(
+    `${ANALYTICS_BASE}/${projectId}/recent-activity`,
+  );
   return data;
 };

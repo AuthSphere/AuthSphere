@@ -3,20 +3,27 @@ import { conf } from "../configs/env.js";
 import logger from "../utils/logger.js";
 
 const connectDB = async () => {
-  if (mongoose.connection.readyState >= 1) {
+  if (mongoose.connection.readyState === 1) {
     return;
   }
 
   try {
-    if (mongoose.connection.readyState === 0) {
-      logger.info("Connecting to MongoDB Atlas...");
-      const conn = await mongoose.connect(conf.mongodbUri);
+    logger.info("Connecting to MongoDB Atlas...");
 
-      logger.info(`MongoDB connected to host: ${conn.connection.host}`);
-      logger.info(`Database: ${conn.connection.name}`);
-    }
+    const conn = await mongoose.connect(conf.mongodbUri, {
+      serverSelectionTimeoutMS: 15000,
+      connectTimeoutMS: 10000,
+    });
+
+    logger.info(`MongoDB connected to host: ${conn.connection.host}`);
+    logger.info(`Database: ${conn.connection.name}`);
   } catch (error) {
-    logger.error("MongoDB connection failed", { error: error.message });
+    logger.error("MongoDB connection failed", {
+      message: error.message,
+      name: error.name,
+      reason: error.reason?.message,
+    });
+
     throw error;
   }
 };

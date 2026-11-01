@@ -42,28 +42,10 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --animate-shine: shine var(--duration) infinite linear;
-  @keyframes shine {
-  0% {
-    background-position: 0% 0%;
-    }
-  50% {
-    background-position: 100% 100%;
-    }
-  to {
-    background-position: 0% 0%;
-    }
-  }
-  --animate-orbit: orbit calc(var(--duration)*1s) linear infinite
-;
-  @keyframes orbit {
-  0% {
-    transform: rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg));}
-  100% {
-    transform: rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg));}}}
+}
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.5rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -100,20 +82,20 @@
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: oklch(0.18 0 0);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: oklch(0.18 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.145 0 0);
+  --secondary: oklch(0.24 0 0);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
+  --muted: oklch(0.24 0 0);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --accent: oklch(0.24 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
+  --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
   --chart-1: oklch(0.488 0.243 264.376);
@@ -121,13 +103,13 @@
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
+  --sidebar: oklch(0.18 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent: oklch(0.24 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-border: oklch(1 0 0 / 12%);
   --sidebar-ring: oklch(0.556 0 0);
 }
 
@@ -142,7 +124,11 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family:
+      "Inter",
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
 
   h1,
@@ -151,30 +137,16 @@
   h4,
   h5,
   h6 {
-    font-family: 'Outfit', sans-serif;
+    font-family: "Outfit", sans-serif;
     letter-spacing: -0.02em;
     @apply font-semibold;
   }
 }
 
-@layer utilities {
-  .glass {
-    @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-xl;
-  }
-
-  .surface-gradient {
-    @apply bg-gradient-to-br from-white via-slate-50 to-slate-100;
-  }
-
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
-/* Custom Scrollbar for AuthSphere */
+/* Unified minimal scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -182,47 +154,15 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: oklch(0.922 0 0);
-  /* --border equivalent for light */
-  border-radius: 20px;
-  border: 3px solid transparent;
-  background-clip: content-box;
-  transition: all 0.3s ease;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: oklch(1 0 0 / 15%);
-  /* --input equivalent for dark */
-  border: 3px solid transparent;
-  background-clip: content-box;
+  background: var(--border);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #6366f1 !important;
-  border: 2px solid transparent !important;
-  background-clip: content-box !important;
+  background: var(--muted-foreground);
 }
 
-/* Firefox Support */
 * {
   scrollbar-width: thin;
-  scrollbar-color: oklch(0.922 0 0) transparent;
-}
-
-.dark * {
-  scrollbar-color: oklch(1 0 0 / 15%) transparent;
-}
-
-::view-transition-old(root), ::view-transition-new(root) {
-    animation: none;
-    mix-blend-mode: normal;
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+  scrollbar-color: var(--border) transparent;
 }

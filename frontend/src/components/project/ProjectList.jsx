@@ -38,10 +38,10 @@ const ProjectList = () => {
             Namespace Management
           </Badge>
           <h2 className="text-2xl font-bold tracking-tight text-foreground">
-            Project Clusters
+            Projects
           </h2>
           <p className="text-muted-foreground text-[13px] leading-relaxed">
-            Manage your high-performance authentication infrastructure clusters.
+            Manage your high-performance authentication infrastructure.
           </p>
         </div>
 
@@ -51,7 +51,7 @@ const ProjectList = () => {
           className="h-9 px-4 text-xs font-bold uppercase tracking-widest gap-2 shadow-md shadow-primary/20"
         >
           <Plus className="h-3.5 w-3.5" />
-          Provision Cluster
+          New Project
         </Button>
       </div>
 
@@ -76,7 +76,7 @@ const ProjectList = () => {
             </div>
             <div className="text-center space-y-1">
               <p className="font-bold text-[14px] uppercase tracking-widest">
-                Provision New
+                New Project
               </p>
               <p className="text-[11px] text-muted-foreground italic opacity-60">
                 Deploy a fresh identity namespace

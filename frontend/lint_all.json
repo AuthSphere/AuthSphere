@@ -1,0 +1,1799 @@
+﻿[
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\App.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\api\\AnalyticsAPI.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\api\\AuditLogAPI.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\api\\DeveloperAPI.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\api\\ProjectAPI.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\api\\SDKAPI.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\api\\SessionAPI.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\api\\axios.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\documentation\\DocsCodeBlock.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\documentation\\DocsHeader.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\documentation\\DocsProjectSelector.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\documentation\\DocsSidebar.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\documentation\\sections\\ApiReference.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\documentation\\sections\\Configuration.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\documentation\\sections\\ErrorHandling.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\documentation\\sections\\Frameworks.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\documentation\\sections\\Introduction.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\documentation\\sections\\LocalAuth.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\documentation\\sections\\QuickStart.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\documentation\\sections\\Security.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\documentation\\sections\\SessionManagement.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\documentation\\sections\\SocialLogin.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\documentation\\sections\\UserManagement.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\home\\Architecture.jsx",
+    "messages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'Icon' is defined but never used.",
+        "line": 40,
+        "column": 44,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 40,
+        "endColumn": 48,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "Icon" },
+            "fix": { "range": [1397, 1408], "text": "" },
+            "desc": "Remove unused variable 'Icon'."
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import React, { useRef } from \"react\";\r\nimport { Badge } from \"@/components/ui/badge\";\r\nimport { AnimatedBeam } from \"@/components/ui/animated-beam\";\r\nimport {\r\n  Globe,\r\n  Smartphone,\r\n  Code2,\r\n  ShieldCheck,\r\n  Cpu,\r\n  ScanFace,\r\n  ServerCog,\r\n  Database,\r\n  GitMerge,\r\n  BarChart2,\r\n  KeyRound,\r\n  Layers,\r\n  Share2,\r\n} from \"lucide-react\";\r\n\r\n/* ΓöÇΓöÇΓöÇ Node data ΓöÇΓöÇΓöÇ */\r\nconst LEFT_NODES = [\r\n  { id: \"web\", icon: Globe, title: \"Web Client\", color: \"#3b82f6\" },\r\n  { id: \"mobile\", icon: Smartphone, title: \"Mobile SDK\", color: \"#a855f7\" },\r\n  { id: \"server\", icon: Code2, title: \"Server SDK\", color: \"#f97316\" },\r\n  { id: \"oauth\", icon: ShieldCheck, title: \"OAuth 2.1\", color: \"#ec4899\" },\r\n  { id: \"iot\", icon: Cpu, title: \"IoT Edge\", color: \"#eab308\" },\r\n  { id: \"biometrics\", icon: ScanFace, title: \"Biometrics\", color: \"#f43f5e\" },\r\n];\r\n\r\nconst RIGHT_NODES = [\r\n  { id: \"rpc\", icon: ServerCog, title: \"gRPC Cluster\", color: \"#10b981\" },\r\n  { id: \"db\", icon: Database, title: \"Postgres XL\", color: \"#f59e0b\" },\r\n  { id: \"stream\", icon: GitMerge, title: \"Kafka Mesh\", color: \"#6366f1\" },\r\n  { id: \"analytics\", icon: BarChart2, title: \"Realtime BI\", color: \"#06b6d4\" },\r\n  { id: \"vault\", icon: KeyRound, title: \"Vault HSM\", color: \"#8b5cf6\" },\r\n  { id: \"cache\", icon: Layers, title: \"Redis Cache\", color: \"#84cc16\" },\r\n];\r\n\r\n/* ΓöÇΓöÇΓöÇ Single node card ΓöÇΓöÇΓöÇ */\r\nconst ArchNode = React.forwardRef(({ icon: Icon, title, color }, ref) => (\r\n  <div\r\n    ref={ref}\r\n    className=\"group z-40 flex items-center gap-2.5 px-3 py-2.5 rounded-xl\r\n               bg-background border border-border/50 hover:border-border/90\r\n               hover:shadow-sm transition-all duration-200 w-full\"\r\n  >\r\n    <div\r\n      className=\"shrink-0 h-7 w-7 rounded-lg border flex items-center justify-center\r\n                 transition-transform duration-300 group-hover:scale-105\"\r\n      style={{ backgroundColor: `${color}14`, borderColor: `${color}28` }}\r\n    >\r\n      <Icon style={{ color }} className=\"h-3.5 w-3.5\" />\r\n    </div>\r\n    <span\r\n      className=\"text-[11px] font-semibold tracking-tight text-muted-foreground\r\n                     group-hover:text-foreground transition-colors truncate leading-none\"\r\n    >\r\n      {title}\r\n    </span>\r\n  </div>\r\n));\r\nArchNode.displayName = \"ArchNode\";\r\n\r\n/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */\r\nconst Architecture = () => {\r\n  const containerRef = useRef(null);\r\n  const coreRef = useRef(null);\r\n\r\n  const leftRefs = React.useMemo(\r\n    () => LEFT_NODES.map(() => React.createRef()),\r\n    [],\r\n  );\r\n  const rightRefs = React.useMemo(\r\n    () => RIGHT_NODES.map(() => React.createRef()),\r\n    [],\r\n  );\r\n\r\n  return (\r\n    <section\r\n      ref={containerRef}\r\n      className=\"relative py-20 sm:py-28 overflow-hidden bg-transparent\"\r\n    >\r\n      {/* ΓöÇΓöÇ Soft grid ΓöÇΓöÇ */}\r\n      <div\r\n        className=\"absolute inset-0 pointer-events-none opacity-40 dark:opacity-20\"\r\n        style={{\r\n          backgroundImage:\r\n            \"linear-gradient(to right,hsl(var(--border)/0.5) 1px,transparent 1px),\" +\r\n            \"linear-gradient(to bottom,hsl(var(--border)/0.5) 1px,transparent 1px)\",\r\n          backgroundSize: \"36px 36px\",\r\n          maskImage:\r\n            \"radial-gradient(ellipse 70% 60% at 50% 50%,#000 60%,transparent 100%)\",\r\n        }}\r\n      />\r\n\r\n      <div className=\"relative z-10 mx-auto w-[92%] max-w-7xl\">\r\n        {/* ΓöÇΓöÇ Section header ΓöÇΓöÇ */}\r\n        <div className=\"flex flex-col items-center gap-3 mb-16 sm:mb-20 text-center\">\r\n          <Badge\r\n            variant=\"outline\"\r\n            className=\"rounded-full border-primary/20 bg-primary/5 text-primary\r\n                       text-[9px] font-bold tracking-[0.15em] uppercase px-3 py-0.5\"\r\n          >\r\n            System Topology\r\n          </Badge>\r\n\r\n          <h2\r\n            className=\"text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight\r\n                         text-foreground leading-tight\"\r\n          >\r\n            Integrated{\" \"}\r\n            <span className=\"text-muted-foreground/40 font-light italic\">\r\n              Security Mesh\r\n            </span>\r\n          </h2>\r\n\r\n          <p className=\"text-[13px] sm:text-sm text-muted-foreground max-w-sm sm:max-w-md leading-relaxed\">\r\n            Real-time data orchestration between edge nodes and core\r\n            infrastructure ΓÇö visualised end-to-end.\r\n          </p>\r\n        </div>\r\n\r\n        {/* ΓöÇΓöÇ Three-column diagram ΓöÇΓöÇ */}\r\n        <div className=\"flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-6 relative\">\r\n          {/* Left column */}\r\n          <div className=\"grid grid-cols-2 lg:grid-cols-1 gap-2.5 w-full lg:w-[185px] lg:shrink-0\">\r\n            {LEFT_NODES.map((node, i) => (\r\n              <ArchNode key={node.id} ref={leftRefs[i]} {...node} />\r\n            ))}\r\n          </div>\r\n\r\n          {/* Center hub */}\r\n          <div className=\"relative flex items-center justify-center shrink-0 my-2 lg:my-0\">\r\n            {/* Outer ring */}\r\n            <div className=\"absolute h-52 w-52 sm:h-60 sm:w-60 rounded-full border border-dashed border-border/30 animate-[spin_30s_linear_infinite]\" />\r\n            <div className=\"absolute h-36 w-36 sm:h-40 sm:w-40 rounded-full border border-dashed border-border/20 animate-[spin_20s_linear_infinite_reverse]\" />\r\n\r\n            {/* Hub card */}\r\n            <div\r\n              ref={coreRef}\r\n              className=\"relative z-50 h-36 w-36 sm:h-40 sm:w-40 rounded-[2rem] bg-background\r\n                         border border-border shadow-[0_8px_40px_rgba(0,0,0,.08)]\r\n                         flex flex-col items-center justify-center gap-3 group\"\r\n            >\r\n              <div\r\n                className=\"h-12 w-12 rounded-2xl bg-muted border border-border flex items-center\r\n                              justify-center transition-transform duration-500 group-hover:scale-105\"\r\n              >\r\n                <Share2 className=\"h-5 w-5 text-foreground\" />\r\n              </div>\r\n\r\n              <div className=\"flex flex-col items-center gap-1\">\r\n                <span className=\"text-[10px] font-bold tracking-[0.14em] text-foreground uppercase\">\r\n                  AuthSphere\r\n                </span>\r\n                <div className=\"flex items-center gap-1\">\r\n                  <span className=\"relative flex h-1.5 w-1.5\">\r\n                    <span className=\"animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75\" />\r\n                    <span className=\"relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500\" />\r\n                  </span>\r\n                  <span className=\"text-[9px] font-semibold text-muted-foreground tracking-wider uppercase\">\r\n                    Primary Hub\r\n                  </span>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          {/* Right column */}\r\n          <div className=\"grid grid-cols-2 lg:grid-cols-1 gap-2.5 w-full lg:w-[185px] lg:shrink-0\">\r\n            {RIGHT_NODES.map((node, i) => (\r\n              <ArchNode key={node.id} ref={rightRefs[i]} {...node} />\r\n            ))}\r\n          </div>\r\n        </div>\r\n\r\n        {/* ΓöÇΓöÇ Bottom legend ΓöÇΓöÇ */}\r\n        <div className=\"flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-14 sm:mt-16\">\r\n          {[\r\n            { dot: \"bg-blue-500\", label: \"Client surfaces\" },\r\n            { dot: \"bg-primary\", label: \"AuthSphere core\" },\r\n            { dot: \"bg-emerald-500\", label: \"Backend infrastructure\" },\r\n          ].map(({ dot, label }) => (\r\n            <div key={label} className=\"flex items-center gap-1.5\">\r\n              <div className={`h-1.5 w-1.5 rounded-full ${dot}`} />\r\n              <span className=\"text-[11px] text-muted-foreground\">{label}</span>\r\n            </div>\r\n          ))}\r\n        </div>\r\n      </div>\r\n\r\n      {/* ΓöÇΓöÇ Beams: left ΓåÆ core ΓöÇΓöÇ */}\r\n      {LEFT_NODES.map((node, i) => (\r\n        <AnimatedBeam\r\n          key={`l-${node.id}`}\r\n          containerRef={containerRef}\r\n          fromRef={leftRefs[i]}\r\n          toRef={coreRef}\r\n          duration={3 + i * 0.45}\r\n          curvature={i < 3 ? -35 : 35}\r\n          pathColor={node.color}\r\n          gradientStartColor={node.color}\r\n          gradientStopColor={node.color}\r\n          pathWidth={1.2}\r\n          pathOpacity={0.22}\r\n        />\r\n      ))}\r\n\r\n      {/* ΓöÇΓöÇ Beams: core ΓåÆ right ΓöÇΓöÇ */}\r\n      {RIGHT_NODES.map((node, i) => (\r\n        <AnimatedBeam\r\n          key={`r-${node.id}`}\r\n          containerRef={containerRef}\r\n          fromRef={coreRef}\r\n          toRef={rightRefs[i]}\r\n          duration={3 + i * 0.4}\r\n          curvature={i < 3 ? -35 : 35}\r\n          pathColor={node.color}\r\n          gradientStartColor={node.color}\r\n          gradientStopColor={node.color}\r\n          pathWidth={1.2}\r\n          pathOpacity={0.22}\r\n        />\r\n      ))}\r\n    </section>\r\n  );\r\n};\r\n\r\nexport default Architecture;\r\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\home\\DataModel.jsx",
+    "messages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'Icon' is defined but never used.",
+        "line": 6,
+        "column": 43,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 6,
+        "endColumn": 47,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "Icon" },
+            "fix": { "range": [192, 204], "text": "" },
+            "desc": "Remove unused variable 'Icon'."
+          }
+        ]
+      },
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'i' is defined but never used.",
+        "line": 32,
+        "column": 27,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 32,
+        "endColumn": 28,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "i" },
+            "fix": { "range": [1342, 1345], "text": "" },
+            "desc": "Remove unused variable 'i'."
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 2,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import React from \"react\";\r\nimport { Badge } from \"@/components/ui/badge\";\r\nimport { ArrowUpRight } from \"lucide-react\";\r\n\r\n/* ΓöÇΓöÇΓöÇ Single schema card ΓöÇΓöÇΓöÇ */\r\nconst SchemaNode = ({ title, label, icon: Icon, color, fields }) => (\r\n  <div className=\"group relative flex flex-col bg-background border-r border-b border-border/50 last:border-r-0 p-6 hover:bg-muted/20 transition-colors duration-200\">\r\n    {/* Header */}\r\n    <div className=\"flex items-start justify-between mb-5\">\r\n      <div\r\n        className=\"h-9 w-9 rounded-xl border flex items-center justify-center shrink-0\r\n                   transition-transform duration-300 group-hover:scale-105\"\r\n        style={{ backgroundColor: `${color}12`, borderColor: `${color}25` }}\r\n      >\r\n        <Icon className=\"h-4 w-4\" style={{ color }} />\r\n      </div>\r\n      <ArrowUpRight className=\"h-3.5 w-3.5 text-border group-hover:text-primary transition-colors duration-200 mt-0.5\" />\r\n    </div>\r\n\r\n    {/* Title */}\r\n    <div className=\"mb-5\">\r\n      <p className=\"text-[9px] font-bold text-primary/60 uppercase tracking-[0.18em] mb-1\">\r\n        {label}\r\n      </p>\r\n      <h3 className=\"text-lg font-semibold tracking-tight text-foreground\">\r\n        {title}\r\n      </h3>\r\n    </div>\r\n\r\n    {/* Field rows */}\r\n    <div className=\"flex flex-col gap-2.5 font-mono\">\r\n      {fields.map((field, i) => (\r\n        <div\r\n          key={field.id}\r\n          className=\"flex items-center justify-between py-1.5 border-b border-border/30 last:border-0\"\r\n        >\r\n          <span className=\"text-[11px] text-muted-foreground group-hover:text-foreground/80 transition-colors\">\r\n            {field.id}\r\n          </span>\r\n          <span\r\n            className=\"text-[9px] font-semibold px-1.5 py-0.5 rounded-md\"\r\n            style={{ backgroundColor: `${color}10`, color }}\r\n          >\r\n            {field.type}\r\n          </span>\r\n        </div>\r\n      ))}\r\n    </div>\r\n  </div>\r\n);\r\n\r\n/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */\r\nconst DataModel = ({ schemas = [] }) => (\r\n  <section className=\"relative py-20 sm:py-28 bg-transparent overflow-hidden\">\r\n    <div className=\"mx-auto w-[92%] max-w-7xl\">\r\n      {/* ΓöÇΓöÇ Header ΓöÇΓöÇ */}\r\n      <div className=\"flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14 sm:mb-16\">\r\n        <div className=\"flex flex-col gap-3\">\r\n          <Badge\r\n            variant=\"outline\"\r\n            className=\"w-fit rounded-full border-primary/20 bg-primary/5 text-primary\r\n                       text-[9px] font-bold tracking-[0.15em] uppercase px-3 py-0.5\"\r\n          >\r\n            Technical Specification\r\n          </Badge>\r\n          <h2 className=\"text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-foreground leading-tight\">\r\n            Data{\" \"}\r\n            <span className=\"text-muted-foreground/40 font-light italic\">\r\n              Architecture.\r\n            </span>\r\n          </h2>\r\n        </div>\r\n\r\n        <p className=\"text-[12px] font-mono text-muted-foreground leading-relaxed max-w-xs md:max-w-sm md:text-right md:pb-1\">\r\n          {\"// \"}Scalable schema for high-throughput environments ΓÇö built on\r\n          immutable primitives with cryptographic indexing and O(1) retrieval.\r\n        </p>\r\n      </div>\r\n\r\n      {/* ΓöÇΓöÇ Grid ΓöÇΓöÇ */}\r\n      <div className=\"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border border-border/50 rounded-2xl overflow-hidden divide-y sm:divide-y-0 sm:divide-x divide-border/40\">\r\n        {schemas.map((schema) => (\r\n          <SchemaNode key={schema.title} {...schema} />\r\n        ))}\r\n      </div>\r\n\r\n      {/* ΓöÇΓöÇ Footer note ΓöÇΓöÇ */}\r\n      <div className=\"flex flex-wrap items-center justify-between gap-3 mt-5 px-1\">\r\n        <p className=\"text-[11px] text-muted-foreground/50 font-mono\">\r\n          4 collections ┬╖ 16 fields ┬╖ AES-256 encrypted at rest\r\n        </p>\r\n        <div className=\"flex items-center gap-1.5\">\r\n          <span className=\"relative flex h-1.5 w-1.5\">\r\n            <span className=\"animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-70\" />\r\n            <span className=\"relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500\" />\r\n          </span>\r\n          <span className=\"text-[10px] font-semibold text-muted-foreground/60 uppercase tracking-wider\">\r\n            Schema synced\r\n          </span>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </section>\r\n);\r\n\r\nexport default DataModel;\r\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\home\\ErrorCodes.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\home\\FunctionalSpecs.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\home\\Hero.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\home\\Integration.jsx",
+    "messages": [],
+    "suppressedMessages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'Icon' is defined but never used.",
+        "line": 21,
+        "column": 26,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 21,
+        "endColumn": 30,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "Icon" },
+            "fix": { "range": [386, 397], "text": "" },
+            "desc": "Remove unused variable 'Icon'."
+          }
+        ],
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      },
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'Icon' is defined but never used.",
+        "line": 290,
+        "column": 28,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 290,
+        "endColumn": 32,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "Icon" },
+            "fix": { "range": [12009, 12020], "text": "" },
+            "desc": "Remove unused variable 'Icon'."
+          }
+        ],
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\layout\\Footer.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\layout\\MainLayout.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\layout\\Navbar.jsx",
+    "messages": [],
+    "suppressedMessages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'Icon' is defined but never used.",
+        "line": 390,
+        "column": 29,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 390,
+        "endColumn": 33,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "Icon" },
+            "fix": { "range": [13872, 13884], "text": "" },
+            "desc": "Remove unused variable 'Icon'."
+          }
+        ],
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      },
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'Icon' is defined but never used.",
+        "line": 450,
+        "column": 44,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 450,
+        "endColumn": 48,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "Icon" },
+            "fix": { "range": [15649, 15661], "text": "" },
+            "desc": "Remove unused variable 'Icon'."
+          }
+        ],
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      },
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'Icon' is defined but never used.",
+        "line": 500,
+        "column": 37,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 500,
+        "endColumn": 41,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "Icon" },
+            "fix": { "range": [17606, 17618], "text": "" },
+            "desc": "Remove unused variable 'Icon'."
+          }
+        ],
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\project\\CreateProjectModal.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\project\\EmptyState.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\project\\LiveEventsStream.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\project\\ProjectCard.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\project\\ProjectList.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\project\\ProjectSkeleton.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\project\\details\\EmailTemplateEditor.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\project\\details\\ProjectDangerZone.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\project\\details\\ProjectDetail.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\project\\details\\ProjectDetailHeader.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\project\\details\\ProjectDetailSkeleton.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\project\\details\\ProjectKeysCard.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\project\\details\\ProjectLogsCard.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\project\\details\\ProjectSettings.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\project\\details\\ProjectUsersCard.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\project\\details\\ProjectWebhooksCard.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\project\\details\\assets\\index.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\templates\\AnimatedSignup.jsx",
+    "messages": [],
+    "suppressedMessages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.",
+        "line": 11,
+        "column": 10,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 11,
+        "endColumn": 16,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "motion" },
+            "fix": { "range": [149, 188], "text": "" },
+            "desc": "Remove unused variable 'motion'."
+          }
+        ],
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\templates\\DeveloperLogin.jsx",
+    "messages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'setTimestamp' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u.",
+        "line": 9,
+        "column": 21,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 9,
+        "endColumn": 33,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "setTimestamp" },
+            "fix": { "range": [424, 438], "text": "" },
+            "desc": "Remove unused variable 'setTimestamp'."
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.",
+        "line": 4,
+        "column": 10,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 4,
+        "endColumn": 16,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "motion" },
+            "fix": { "range": [195, 234], "text": "" },
+            "desc": "Remove unused variable 'motion'."
+          }
+        ],
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "import React, { useState, useEffect } from \"react\";\nimport { Terminal, ChevronRight, Cpu, ShieldCheck, Loader2, AlertCircle } from \"lucide-react\";\nimport { useTranslation } from \"react-i18next\";\nimport { motion } from \"framer-motion\"; // eslint-disable-line no-unused-vars\n\nexport const DeveloperLogin = () => {\n  const { t } = useTranslation();\n  const [cursorVisible, setCursorVisible] = useState(true);\n  const [timestamp, setTimestamp] = useState(() => new Date().toUTCString());\n  const [loading, setLoading] = useState(false);\n  const [formData, setFormData] = useState({ identity: \"\", passkey: \"\" });\n  const [errors, setErrors] = useState({});\n\n  useEffect(() => {\n    const interval = setInterval(() => setCursorVisible((v) => !v), 500);\n    return () => clearInterval(interval);\n  }, []);\n\n  const handleSubmit = (e) => {\n    e.preventDefault();\n    const newErrors = {};\n    if (!formData.identity.includes(\"@\")) newErrors.identity = true;\n    if (formData.passkey.length < 6) newErrors.passkey = true;\n    \n    setErrors(newErrors);\n    \n    if (Object.keys(newErrors).length === 0) {\n      setLoading(true);\n      setTimeout(() => setLoading(false), 1500);\n    }\n  };\n\n  return (\n    <div className=\"h-full w-full flex items-center justify-center bg-zinc-950 p-[5%] font-mono text-green-500 relative overflow-hidden\">\n      {/* Ambient CRT Scanline Effect */}\n      <div className=\"absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_4px,3px_100%] z-50\" aria-hidden=\"true\"></div>\n\n      {/* Main Terminal Window */}\n      <div className=\"w-full max-w-[95%] md:max-w-[60%] lg:max-w-[40%] border border-green-500/30 rounded-sm bg-black shadow-[0_0_40px_rgba(0,255,0,0.05)] p-[6%] relative flex flex-col gap-[8%]\">\n        {/* Terminal Header */}\n        <div className=\"flex items-center justify-between border-b border-green-500/20 pb-[4%] opacity-60\" aria-hidden=\"true\">\n          <div className=\"flex gap-[0.5rem]\">\n            <div className=\"w-[0.75rem] h-[0.75rem] rounded-full bg-red-900/40 border border-red-500/20\"></div>\n            <div className=\"w-[0.75rem] h-[0.75rem] rounded-full bg-yellow-900/40 border border-yellow-500/20\"></div>\n            <div className=\"w-[0.75rem] h-[0.75rem] rounded-full bg-green-900/40 border border-green-500/20\"></div>\n          </div>\n          <div className=\"text-[0.7rem] tracking-widest flex items-center gap-[0.5rem]\">\n            <Cpu className=\"w-[0.8rem] h-[0.8rem]\" />\n            {t(\"developer.session\", \"SESSION: 0x7FF8\")}\n          </div>\n        </div>\n\n        {/* Body Content */}\n        <div className=\"flex flex-col gap-[6%]\">\n          <div className=\"space-y-[1%]\">\n            <p className=\"text-[0.75rem] opacity-50 uppercase tracking-tighter\" aria-live=\"polite\">\n              {t(\"developer.last_connection\", \"Last connection:\")} {timestamp}\n            </p>\n            <h2 className=\"text-[1.5rem] font-bold tracking-[0.2rem] text-white flex items-center gap-[1rem]\">\n              <ShieldCheck className=\"w-[1.5rem] h-[1.5rem] text-green-500\" aria-hidden=\"true\" />\n              {t(\"developer.root_access\", \"ROOT_ACCESS\")}\n            </h2>\n          </div>\n\n          {/* Form Logic */}\n          <form className=\"flex flex-col gap-[10%] pt-[4%]\" onSubmit={handleSubmit} aria-label={t(\"developer.form_aria\", \"Terminal Authentication Form\")}>\n            <div className={`group border-l-2 pl-[4%] transition-colors relative ${errors.identity ? 'border-red-500' : 'border-green-900/50 focus-within:border-green-400'}`}>\n              <label htmlFor=\"identity\" className={`block text-[0.65rem] uppercase tracking-[0.3rem] mb-[2%] ${errors.identity ? 'text-red-500 opacity-80' : 'opacity-40'}`}>\n                {t(\"developer.identity\", \"Identity\")}\n              </label>\n              <motion.div animate={errors.identity ? { x: [-10, 10, -10, 10, 0] } : {}} transition={{ duration: 0.4 }} className=\"flex items-center py-[2%]\">\n                <span className={`mr-[3%] font-bold ${errors.identity ? 'text-red-500' : 'text-green-600'}`} aria-hidden=\"true\">#</span>\n                <input\n                  id=\"identity\"\n                  type=\"email\"\n                  required\n                  aria-required=\"true\"\n                  aria-invalid={errors.identity ? \"true\" : \"false\"}\n                  aria-describedby={errors.identity ? \"identity-error\" : undefined}\n                  autoComplete=\"off\"\n                  placeholder=\"ssh_user@host\"\n                  className={`bg-transparent border-none w-full focus:outline-none text-[1rem] ${errors.identity ? 'text-red-400 placeholder-red-900/50' : 'text-green-400 placeholder-green-900/50'}`}\n                  value={formData.identity}\n                  onChange={(e) => {\n                    setFormData({...formData, identity: e.target.value});\n                    if (errors.identity) setErrors({...errors, identity: false});\n                  }}\n                />\n                {errors.identity && <AlertCircle className=\"w-4 h-4 text-red-500\" aria-hidden=\"true\" />}\n              </motion.div>\n              {errors.identity && <p id=\"identity-error\" className=\"absolute -bottom-4 left-[6%] text-[10px] text-red-500 uppercase tracking-widest\" role=\"alert\">{t(\"developer.identity_error\", \"INVALID_IDENTITY\")}</p>}\n            </div>\n\n            <div className={`group border-l-2 pl-[4%] transition-colors relative ${errors.passkey ? 'border-red-500' : 'border-green-900/50 focus-within:border-green-400'}`}>\n              <label htmlFor=\"passkey\" className={`block text-[0.65rem] uppercase tracking-[0.3rem] mb-[2%] ${errors.passkey ? 'text-red-500 opacity-80' : 'opacity-40'}`}>\n                {t(\"developer.passkey\", \"Passkey\")}\n              </label>\n              <motion.div animate={errors.passkey ? { x: [-10, 10, -10, 10, 0] } : {}} transition={{ duration: 0.4 }} className=\"flex items-center py-[2%]\">\n                <span className={`mr-[3%] font-bold ${errors.passkey ? 'text-red-500' : 'text-green-600'}`} aria-hidden=\"true\">#</span>\n                <input\n                  id=\"passkey\"\n                  type=\"password\"\n                  required\n                  aria-required=\"true\"\n                  aria-invalid={errors.passkey ? \"true\" : \"false\"}\n                  aria-describedby={errors.passkey ? \"passkey-error\" : undefined}\n                  autoComplete=\"off\"\n                  placeholder=\"ΓÇóΓÇóΓÇóΓÇóΓÇóΓÇóΓÇóΓÇó\"\n                  className={`bg-transparent border-none w-full focus:outline-none text-[1rem] ${errors.passkey ? 'text-red-400 placeholder-red-900/50' : 'text-green-400 placeholder-green-900/50'}`}\n                  value={formData.passkey}\n                  onChange={(e) => {\n                    setFormData({...formData, passkey: e.target.value});\n                    if (errors.passkey) setErrors({...errors, passkey: false});\n                  }}\n                />\n                {errors.passkey && <AlertCircle className=\"w-4 h-4 text-red-500\" aria-hidden=\"true\" />}\n              </motion.div>\n              {errors.passkey && <p id=\"passkey-error\" className=\"absolute -bottom-4 left-[6%] text-[10px] text-red-500 uppercase tracking-widest\" role=\"alert\">{t(\"developer.passkey_error\", \"ACCESS_DENIED\")}</p>}\n            </div>\n\n            {/* Action Button */}\n            <button \n              disabled={loading}\n              aria-live=\"polite\"\n              className=\"w-full mt-[5%] bg-green-500/5 border border-green-500/40 text-green-500 hover:bg-green-500 hover:text-black transition-all py-[4%] px-[5%] font-bold flex items-center justify-between group overflow-hidden relative disabled:opacity-50\"\n            >\n              <div className=\"flex items-center gap-[0.8rem]\">\n                {loading ? <Loader2 className=\"w-[1.2rem] h-[1.2rem] animate-spin\" aria-hidden=\"true\" /> : <Terminal className=\"w-[1rem] h-[1rem]\" aria-hidden=\"true\" />}\n                <span className=\"tracking-[0.2rem] text-[0.9rem]\">\n                  {loading ? t(\"developer.executing\", \"EXECUTING...\") : t(\"developer.execute_login\", \"EXECUTE LOGIN\")}\n                </span>\n              </div>\n              {!loading && <ChevronRight className=\"w-[1.2rem] h-[1.2rem] group-hover:translate-x-[20%] transition-transform\" aria-hidden=\"true\" />}\n\n              {/* Subtle background slide effect */}\n              <div className=\"absolute inset-0 bg-green-500 -translate-x-full group-hover:translate-x-0 transition-transform -z-10\" aria-hidden=\"true\"></div>\n            </button>\n          </form>\n\n          {/* Status Footer */}\n          <div className=\"text-[0.65rem] opacity-30 pt-[4%] flex justify-between items-center border-t border-green-500/10\" aria-hidden=\"true\">\n            <div className=\"flex items-center gap-[0.5rem]\">\n              <span className=\"animate-pulse\">ΓùÅ</span>\n              {t(\"developer.enc_mode\", \"ENC_MODE: AES-256\")}\n            </div>\n            <div>\n              {t(\"developer.sec_level\", \"SEC_LEVEL: ALPHA\")}{\" \"}\n              <span\n                className={`${cursorVisible ? \"opacity-100\" : \"opacity-0\"}`}\n              >\n                Γûê\n              </span>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n};\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\templates\\GlassmorphismCard.jsx",
+    "messages": [],
+    "suppressedMessages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.",
+        "line": 4,
+        "column": 10,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 4,
+        "endColumn": 16,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "motion" },
+            "fix": { "range": [166, 205], "text": "" },
+            "desc": "Remove unused variable 'motion'."
+          }
+        ],
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\templates\\MinimalDarkSignup.jsx",
+    "messages": [],
+    "suppressedMessages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.",
+        "line": 4,
+        "column": 10,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 4,
+        "endColumn": 16,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "motion" },
+            "fix": { "range": [187, 226], "text": "" },
+            "desc": "Remove unused variable 'motion'."
+          }
+        ],
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\templates\\MinimalistLogin.jsx",
+    "messages": [],
+    "suppressedMessages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.",
+        "line": 14,
+        "column": 10,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 14,
+        "endColumn": 16,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "motion" },
+            "fix": { "range": [213, 252], "text": "" },
+            "desc": "Remove unused variable 'motion'."
+          }
+        ],
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\templates\\ModernSignup.jsx",
+    "messages": [],
+    "suppressedMessages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.",
+        "line": 2,
+        "column": 10,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 2,
+        "endColumn": 16,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "motion" },
+            "fix": { "range": [50, 57], "text": "" },
+            "desc": "Remove unused variable 'motion'."
+          }
+        ],
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\templates\\NeubrutalismSignup.jsx",
+    "messages": [],
+    "suppressedMessages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.",
+        "line": 4,
+        "column": 10,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 4,
+        "endColumn": 16,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "motion" },
+            "fix": { "range": [189, 228], "text": "" },
+            "desc": "Remove unused variable 'motion'."
+          }
+        ],
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\templates\\SplitScreenLogin.jsx",
+    "messages": [],
+    "suppressedMessages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.",
+        "line": 4,
+        "column": 10,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 4,
+        "endColumn": 16,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "motion" },
+            "fix": { "range": [177, 216], "text": "" },
+            "desc": "Remove unused variable 'motion'."
+          }
+        ],
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\templates\\StepperSignup.jsx",
+    "messages": [],
+    "suppressedMessages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.",
+        "line": 2,
+        "column": 10,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 2,
+        "endColumn": 16,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "motion" },
+            "fix": { "range": [59, 66], "text": "" },
+            "desc": "Remove unused variable 'motion'."
+          }
+        ],
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\VantaBackground.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\accordion.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\alert-dialog.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\animated-beam.jsx",
+    "messages": [],
+    "suppressedMessages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u.",
+        "line": 2,
+        "column": 10,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 2,
+        "endColumn": 16,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "motion" },
+            "fix": { "range": [53, 91], "text": "" },
+            "desc": "Remove unused variable 'motion'."
+          }
+        ],
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\animated-theme-toggler.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\avatar.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\badge.jsx",
+    "messages": [],
+    "suppressedMessages": [
+      {
+        "ruleId": "react-refresh/only-export-components",
+        "severity": 2,
+        "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.",
+        "line": 41,
+        "column": 17,
+        "nodeType": "Identifier",
+        "messageId": "namedExport",
+        "endLine": 41,
+        "endColumn": 30,
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\button.jsx",
+    "messages": [],
+    "suppressedMessages": [
+      {
+        "ruleId": "react-refresh/only-export-components",
+        "severity": 2,
+        "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.",
+        "line": 60,
+        "column": 18,
+        "nodeType": "Identifier",
+        "messageId": "namedExport",
+        "endLine": 60,
+        "endColumn": 32,
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\card.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\checkbox.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\collapsible.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\command.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\dialog.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\dropdown-menu.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\flickering-grid.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\hover-card.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\input.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\label.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\navigation-menu.jsx",
+    "messages": [],
+    "suppressedMessages": [
+      {
+        "ruleId": "react-refresh/only-export-components",
+        "severity": 2,
+        "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.",
+        "line": 139,
+        "column": 3,
+        "nodeType": "Identifier",
+        "messageId": "namedExport",
+        "endLine": 139,
+        "endColumn": 29,
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\orbiting-circles.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\progress.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\scroll-area.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\select.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\separator.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\sheet.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\shine-border.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\skeleton.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\sonner.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\switch.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\table.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\tabs.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\terminal.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\textarea.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\components\\ui\\tooltip.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\hooks\\useAnalytics.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\hooks\\useAuthQuery.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\hooks\\usePWA.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\hooks\\useProjects.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\hooks\\useSessions.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\i18n.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\lib\\providers.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\lib\\utils.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\main.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\pages\\auth\\Login.jsx",
+    "messages": [],
+    "suppressedMessages": [
+      {
+        "ruleId": "react-hooks/immutability",
+        "severity": 2,
+        "message": "Error: This value cannot be modified\n\nModifying a variable defined outside a component or hook is not allowed. Consider using an effect.\n\n  58 |     const baseUrl = `${import.meta.env.VITE_BACKEND_URL}/auth/${provider}`;\n  59 |     // eslint-disable-next-line react-hooks/immutability\n> 60 |     window.location.href = sdk_request\n     |     ^^^^^^^^^^^^^^^ value cannot be modified\n  61 |       ? `${baseUrl}?sdk_request=${sdk_request}`\n  62 |       : baseUrl;\n  63 |   };",
+        "line": 60,
+        "column": 5,
+        "nodeType": null,
+        "endLine": 60,
+        "endColumn": 20,
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\pages\\auth\\Register.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\pages\\auth\\VerifyOTP.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\pages\\dashboard\\AuditLogs.jsx",
+    "messages": [],
+    "suppressedMessages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 2,
+        "message": "'Icon' is defined but never used.",
+        "line": 198,
+        "column": 41,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 198,
+        "endColumn": 45,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": { "varName": "Icon" },
+            "fix": { "range": [4969, 4981], "text": "" },
+            "desc": "Remove unused variable 'Icon'."
+          }
+        ],
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\pages\\dashboard\\Dashboard.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\pages\\dashboard\\SessionManagement.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\pages\\dashboard\\Settings.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\pages\\project\\EmailCustomizationPage.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\pages\\project\\ProjectAnalytics.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\pages\\project\\ProjectDetailPage.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\pages\\project\\ProvidersPage.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\pages\\public\\Documentation.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\pages\\public\\Home.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\pages\\public\\Pricing.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\pages\\public\\TemplatesPage.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\routes\\ProtectedRoute.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\routes\\routes.jsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\store\\authStore.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\store\\notificationStore.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\Keshav\\Desktop\\madhav\\practice\\AuthSphere\\frontend\\src\\store\\themeStore.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  }
+]
