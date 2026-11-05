@@ -1,3 +1,4 @@
+import process from "node:process";
 import path from "path";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
@@ -16,6 +17,9 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
+      disable:
+        process.env.NODE_ENV === "production" &&
+        process.env.ENABLE_PWA !== "true",
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
       manifest: {

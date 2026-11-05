@@ -1,5 +1,4 @@
 import { Navigate } from "react-router-dom";
-
 import { lazy } from "react";
 
 const Home = lazy(() => import("@/pages/public/Home"));
@@ -33,7 +32,7 @@ export const routes = [
   {
     path: "/",
     element: (
-      <MainLayout>
+      <MainLayout showNavAndFooter={false}>
         <Home />
       </MainLayout>
     ),
@@ -64,7 +63,7 @@ export const routes = [
     ),
   },
   {
-    path: "/register", // ADD THIS ROUTE
+    path: "/register",
     element: (
       <MainLayout showNavAndFooter={false}>
         <Register />
