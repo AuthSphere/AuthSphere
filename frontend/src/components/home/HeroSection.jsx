@@ -179,7 +179,7 @@ export const HeroSection = () => {
             </Link>
 
             <a
-              href="https://github.com/madhav9757/AuthSphere"
+              href="https://github.com/AuthSphere"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-4 h-10 rounded-sm bg-transparent border border-neutral-300 dark:border-neutral-800 text-neutral-900 dark:text-neutral-100 hover:border-black dark:hover:border-white transition-all text-xs font-mono font-medium"

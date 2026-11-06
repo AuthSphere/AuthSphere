@@ -130,7 +130,7 @@ export const Navbar = () => {
         <div className="flex items-center gap-2.5">
           {/* GitHub link */}
           <a
-            href="https://github.com/madhav9757/AuthSphere"
+            href="https://github.com/AuthSphere"
             target="_blank"
             rel="noreferrer"
             aria-label="AuthSphere GitHub Repository"
@@ -506,7 +506,7 @@ const MobileMenu = ({
 
         {/* GitHub External */}
         <a
-          href="https://github.com/madhav9757/AuthSphere"
+          href="https://github.com/AuthSphere"
           target="_blank"
           rel="noreferrer"
           className="flex items-center gap-3 px-3 py-2.5 rounded-md text-xs font-medium text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-50 dark:hover:bg-neutral-800/40 transition-colors"

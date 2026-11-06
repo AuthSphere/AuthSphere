@@ -9,7 +9,7 @@ const homeHandler = (req, res) => {
     status: "OPERATIONAL",
     service: "AUTH-SPHERE-V2",
     metadata: {
-      version: "2.4.0-STABLE",
+      version: "2.6.0-STABLE",
       environment: (process.env.NODE_ENV || "production").toUpperCase(),
       region: process.env.VERCEL_REGION || "LOCAL-NODE",
       timestamp: new Date().toISOString(),
@@ -30,7 +30,7 @@ const homeHandler = (req, res) => {
     },
     resources: {
       documentation: "https://authsphere.vercel.app/docs",
-      repository: "https://github.com/madhav9757/AuthSphere",
+      repository: "https://github.com/AuthSphere",
       status_page: "https://status.authsphere.io",
       frontend: conf.frontendUrl,
     },

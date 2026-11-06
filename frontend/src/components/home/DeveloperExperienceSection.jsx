@@ -1,65 +1,59 @@
 import React, { useState } from "react";
 
 const CODE_SNIPPETS = {
-  "auth.ts": {
-    filename: "src/auth/client.ts",
-    code: `// 1. Import AuthSphere SDK
-import { AuthSphere } from "@authspherejs/sdk";
+  "init.ts": {
+    filename: "src/auth.ts",
+    code: `// 1. Install & import the official SDK
+import AuthSphere from "@authspherejs/sdk";
 
-// 2. Initialize client with PKCE and provider configuration
-export const auth = new AuthSphere({
-  clientId: process.env.AUTHSPHERE_CLIENT_ID,
-  domain: "https://auth.yourdomain.com",
-  pkce: true,
-  providers: ["github", "google", "discord"],
-  websocketSessions: true,
+// 2. Initialize with your project credentials
+AuthSphere.initAuth({
+  publicKey: "YOUR_PROJECT_PUB_KEY",
+  projectId: "YOUR_PROJECT_ID",
+  redirectUri: window.location.origin + "/callback",
+  baseUrl: "https://auth-sphere-6s2v.vercel.app",
 });
 
-// 3. Seamless one-line OAuth sign-in flow
-const { session, user } = await auth.signIn("github");
-
-// 4. Instant WebSocket session subscriber for multi-device sync
-auth.onSessionRevoked(() => {
-  console.log("Remote logout executed. Redirecting...");
-});`,
+// 3. Initiate PKCE OAuth flow (Google, GitHub, Discord)
+AuthSphere.redirectToLogin("google");`,
   },
-  "session.ts": {
-    filename: "src/auth/session.ts",
-    code: `// 1. Edge-ready zero-latency token validation
-import { auth } from "./client";
+  "callback.ts": {
+    filename: "src/callback.ts",
+    code: `// Exchange authorization code for authenticated session
+import AuthSphere from "@authspherejs/sdk";
 
-export async function authenticateSession(request: Request) {
-  const token = request.headers.get("authorization")?.replace("Bearer ", "");
-  
-  // Cryptographic in-memory verification without DB lookup
-  const claims = await auth.verifyToken(token, {
-    algorithms: ["ES256", "RS256"],
-    clockTolerance: 5,
-  });
-
-  return { userId: claims.sub, scopes: claims.scope, active: true };
+export async function handleCallback() {
+  try {
+    // Automatically validates PKCE code_verifier and retrieves tokens
+    const session = await AuthSphere.handleAuthCallback();
+    console.log("Authenticated user:", session.user);
+    return session;
+  } catch (error) {
+    console.error("Auth callback failed:", error.message);
+  }
 }`,
   },
-  "middleware.ts": {
-    filename: "src/middleware.ts",
-    code: `// Edge & Server Middleware protection
-import { authMiddleware } from "@authspherejs/sdk/next";
+  "session.ts": {
+    filename: "src/session.ts",
+    code: `import AuthSphere from "@authspherejs/sdk";
 
-export default authMiddleware({
-  publicRoutes: ["/", "/login", "/docs", "/pricing"],
-  loginRedirect: "/login",
-  onUnauthorized: (req) => {
-    return new Response(JSON.stringify({ error: "AUTH_REQUIRED" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" }
-    });
-  }
-});`,
+// 1. Check session authentication state
+if (AuthSphere.isAuthenticated()) {
+  const user = AuthSphere.getUser();
+  console.log("Active identity:", user.email);
+}
+
+// 2. Make authenticated API calls with automatic Bearer token
+const response = await AuthSphere.fetchWithAuth("/api/protected-data");
+const data = await response.json();
+
+// 3. Terminate session and clear tokens
+await AuthSphere.logout();`,
   },
 };
 
 export const DeveloperExperienceSection = () => {
-  const [activeTab, setActiveTab] = useState("auth.ts");
+  const [activeTab, setActiveTab] = useState("init.ts");
   const [copiedInstall, setCopiedInstall] = useState(false);
   const [copiedSnippet, setCopiedSnippet] = useState(false);
 

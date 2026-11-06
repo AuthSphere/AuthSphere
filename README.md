@@ -5,9 +5,9 @@
 
 Open-source Identity and Access Management (IAM) engine with native PKCE and multi-tenant isolation.
 
-[![Version](https://img.shields.io/badge/version-2.6.0-blue?style=for-the-badge&logo=github)](https://github.com/madhav9757/AuthSphere)
+[![Version](https://img.shields.io/badge/version-2.6.0-blue?style=for-the-badge&logo=github)](https://github.com/AuthSphere)
 [![NPM](https://img.shields.io/npm/v/@authspherejs/sdk?style=for-the-badge&logo=npm&color=CB3837)](https://www.npmjs.com/package/@authspherejs/sdk)
-[![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](https://github.com/madhav9757/AuthSphere/blob/main/LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](https://github.com/AuthSphere/blob/main/LICENSE)
 [![Uptime](https://img.shields.io/badge/status-online-success?style=for-the-badge)](https://auth-sphere-gilt.vercel.app/)
 
 <p align="center">
@@ -53,7 +53,7 @@ Deploy the entire stack via Docker for local testing:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/madhav9757/AuthSphere.git
+git clone https://github.com/AuthSphere.git
 cd AuthSphere
 
 # 2. Configure environment variables

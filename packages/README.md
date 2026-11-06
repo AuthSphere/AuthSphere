@@ -6,7 +6,7 @@
 TypeScript client library for AuthSphere identity orchestration.
 
 [![npm version](https://img.shields.io/npm/v/@authspherejs/sdk.svg?style=for-the-badge&logo=npm)](https://www.npmjs.com/package/@authspherejs/sdk)
-[![license](https://img.shields.io/npm/l/@authspherejs/sdk.svg?style=for-the-badge)](https://github.com/madhav9757/AuthSphere/blob/main/LICENSE)
+[![license](https://img.shields.io/npm/l/@authspherejs/sdk.svg?style=for-the-badge)](https://github.com/AuthSphere/blob/main/LICENSE)
 [![bundle size](https://img.shields.io/bundlephobia/minzip/@authspherejs/sdk?style=for-the-badge)](https://bundlephobia.com/package/@authspherejs/sdk)
 
 <p>

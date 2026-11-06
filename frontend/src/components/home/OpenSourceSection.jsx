@@ -27,7 +27,7 @@ export const OpenSourceSection = () => {
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
                 className="inline-flex items-center justify-center gap-2 px-6 h-11 rounded-md bg-white text-black font-mono text-xs font-semibold hover:bg-neutral-200 transition-colors cursor-pointer shadow-sm"
-                href="https://github.com/madhav9757/AuthSphere"
+                href="https://github.com/AuthSphere"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -65,11 +65,11 @@ export const OpenSourceSection = () => {
                 <div>
                   <a
                     className="text-sm font-mono font-bold text-white hover:underline"
-                    href="https://github.com/madhav9757/AuthSphere"
+                    href="https://github.com/AuthSphere"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    madhav9757/AuthSphere
+                    AuthSphere
                   </a>
                   <div className="text-[11px] font-mono text-neutral-400">
                     GitHub Repository · Public
@@ -87,7 +87,7 @@ export const OpenSourceSection = () => {
               <div className="p-3 bg-[#18191D] border border-[#26262b] rounded">
                 <div className="text-[10px] text-neutral-400">LANGUAGE</div>
                 <div className="text-white font-bold mt-0.5">
-                  TypeScript 99.4%
+                  TypeScript &amp; JS
                 </div>
               </div>
               <div className="p-3 bg-[#18191D] border border-[#26262b] rounded">

@@ -35,10 +35,10 @@ const DocsHeader = ({
               variant="secondary"
               className="text-[10px] h-5 bg-primary/5 text-primary border-primary/20"
             >
-              v2.4.0
+              v2.6.0
             </Badge>
             <a
-              href="https://github.com/madhav9757/AuthSphere"
+              href="https://github.com/AuthSphere"
               target="_blank"
               rel="noreferrer"
               className="text-muted-foreground hover:text-foreground"

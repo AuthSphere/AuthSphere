@@ -33,13 +33,13 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/madhav9757/AuthSphere.git",
+    "url": "git+https://github.com/AuthSphere.git",
     "directory": "package"
   },
   "bugs": {
-    "url": "https://github.com/madhav9757/AuthSphere/issues"
+    "url": "https://github.com/AuthSphere/issues"
   },
-  "homepage": "https://github.com/madhav9757/AuthSphere/tree/main/package#readme",
+  "homepage": "https://github.com/AuthSphere/tree/main/package#readme",
   "publishConfig": {
     "access": "public"
   },

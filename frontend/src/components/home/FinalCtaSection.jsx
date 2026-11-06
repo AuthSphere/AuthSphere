@@ -32,7 +32,7 @@ export const FinalCtaSection = () => {
               </span>
             </Link>
             <a
-              href="https://github.com/madhav9757/AuthSphere"
+              href="https://github.com/AuthSphere"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-6 h-11 rounded-md bg-transparent text-white border border-[#26262b] hover:border-white font-mono text-xs font-semibold transition-all cursor-pointer"

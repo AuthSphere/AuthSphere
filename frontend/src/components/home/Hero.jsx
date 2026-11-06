@@ -55,7 +55,7 @@ const Hero = ({ user, errorCodes }) => {
                 className="h-10 px-6 rounded-md border-border bg-card hover:bg-muted text-sm font-medium transition-colors"
               >
                 <a
-                  href="https://github.com/madhav9757/AuthSphere"
+                  href="https://github.com/AuthSphere"
                   target="_blank"
                   rel="noreferrer"
                 >
