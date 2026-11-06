@@ -4,8 +4,8 @@ import AuthSphereLogo from "@/components/common/AuthSphereLogo";
 
 export const LandingFooter = () => {
   return (
-    <footer className="w-full bg-[#FAF8F3] dark:bg-[#0c0d10] border-t border-[#ded8cb] dark:border-[#222329] py-12 transition-colors duration-300 isolate">
-      <div className="max-w-340 mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-[#ded8cb] dark:border-[#222329]">
+    <footer className="w-full bg-white dark:bg-[#0c0d10] border-t border-[#eaeaea] dark:border-[#222329] py-12 transition-colors duration-300 isolate">
+      <div className="max-w-340 mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-[#eaeaea] dark:border-[#222329]">
         {/* Brand identity */}
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center gap-2.5">

@@ -4,7 +4,7 @@ export const BlueprintSection = () => {
   return (
     <section
       id="overview"
-      className="w-full max-w-340 mx-auto px-6 lg:px-12 py-20 border-b border-[#ded8cb] dark:border-[#222329] bg-white dark:bg-[#0c0d11] relative isolate"
+      className="w-full max-w-340 mx-auto px-6 lg:px-12 py-20 border-b border-[#eaeaea] dark:border-[#222329] bg-neutral-50/50 dark:bg-[#0c0d11] relative isolate"
     >
       {/* Background Architectural Watermark SVG */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 opacity-20 dark:opacity-10">
@@ -66,7 +66,7 @@ export const BlueprintSection = () => {
           </p>
         </div>
         <div className="self-start md:self-auto">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded border border-[#ded8cb] dark:border-[#2a2b33] bg-[#f0ecdf] dark:bg-[#14151a] text-[11px] font-mono text-neutral-800 dark:text-neutral-300">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded border border-[#eaeaea] dark:border-[#2a2b33] bg-white dark:bg-[#14151a] text-[11px] font-mono text-neutral-800 dark:text-neutral-300">
             <span className="w-1.5 h-1.5 rounded-full bg-black dark:bg-white" />
             PKCE RFC 7636 ENFORCED
           </span>
@@ -74,10 +74,10 @@ export const BlueprintSection = () => {
       </div>
 
       {/* High-Precision Flow Grid */}
-      <div className="border border-neutral-300 dark:border-neutral-800 bg-white dark:bg-neutral-950 relative z-10">
+      <div className="border border-[#eaeaea] dark:border-neutral-800 bg-white dark:bg-neutral-950 relative z-10 shadow-xs">
         <div className="grid grid-cols-1 lg:grid-cols-12">
           {/* Column 1: Inbound Providers */}
-          <div className="lg:col-span-4 p-6 border-b lg:border-b-0 lg:border-r border-neutral-300 dark:border-neutral-800 flex flex-col justify-between gap-6">
+          <div className="lg:col-span-4 p-6 border-b lg:border-b-0 lg:border-r border-[#eaeaea] dark:border-neutral-800 flex flex-col justify-between gap-6">
             <div>
               <div className="flex items-center justify-between text-xs font-mono pb-3 border-b border-neutral-200 dark:border-neutral-800">
                 <span className="font-semibold text-neutral-900 dark:text-white uppercase tracking-wider">
@@ -134,7 +134,7 @@ export const BlueprintSection = () => {
           </div>
 
           {/* Column 2: Secure Core Engine */}
-          <div className="lg:col-span-4 p-6 border-b lg:border-b-0 lg:border-r border-neutral-300 dark:border-neutral-800 flex flex-col justify-between gap-6 bg-neutral-50/60 dark:bg-neutral-900/30">
+          <div className="lg:col-span-4 p-6 border-b lg:border-b-0 lg:border-r border-[#eaeaea] dark:border-neutral-800 flex flex-col justify-between gap-6 bg-neutral-50/60 dark:bg-neutral-900/30">
             <div>
               <div className="flex items-center justify-between text-xs font-mono pb-3 border-b border-neutral-200 dark:border-neutral-800">
                 <span className="font-semibold text-neutral-900 dark:text-white uppercase tracking-wider">

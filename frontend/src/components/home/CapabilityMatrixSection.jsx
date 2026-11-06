@@ -20,7 +20,7 @@ export const CapabilityMatrixSection = () => {
   return (
     <section
       id="features"
-      className="w-full max-w-340 mx-auto px-6 lg:px-12 py-20 border-b border-[#ded8cb] dark:border-[#222329] bg-[#FAF8F3] dark:bg-[#0c0d11] isolate"
+      className="w-full max-w-340 mx-auto px-6 lg:px-12 py-20 border-b border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#09090c] isolate"
     >
       <div className="max-w-2xl mb-12">
         <div className="text-[11px] font-mono uppercase tracking-widest text-neutral-500 dark:text-neutral-400 mb-2">
@@ -54,7 +54,7 @@ export const CapabilityMatrixSection = () => {
           </div>
           <div className="lg:col-span-5 text-xs bg-white dark:bg-neutral-900 p-4 border border-neutral-300 dark:border-neutral-800 flex flex-col gap-2 shadow-xs">
             {/* Diagram SVG */}
-            <div className="w-full h-20 mb-2 border border-neutral-200 dark:border-neutral-800 bg-[#FAF8F3] dark:bg-[#0c0d10] p-1.5 flex items-center justify-center">
+            <div className="w-full h-20 mb-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#0c0d10] p-1.5 flex items-center justify-center">
               <svg
                 className="w-full h-full"
                 fill="none"
@@ -239,7 +239,7 @@ export const CapabilityMatrixSection = () => {
           </div>
           <div className="lg:col-span-5 text-xs bg-white dark:bg-neutral-900 p-4 border border-neutral-300 dark:border-neutral-800 flex flex-col gap-2 shadow-xs">
             {/* Diagram SVG */}
-            <div className="w-full h-20 mb-2 border border-neutral-200 dark:border-neutral-800 bg-[#FAF8F3] dark:bg-[#0c0d10] p-1.5 flex items-center justify-center">
+            <div className="w-full h-20 mb-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#0c0d10] p-1.5 flex items-center justify-center">
               <svg
                 className="w-full h-full"
                 fill="none"
@@ -391,7 +391,7 @@ export const CapabilityMatrixSection = () => {
           </div>
           <div className="lg:col-span-5 text-xs bg-white dark:bg-neutral-900 p-4 border border-neutral-300 dark:border-neutral-800 flex flex-col gap-2 shadow-xs">
             {/* Diagram SVG */}
-            <div className="w-full h-20 mb-2 border border-neutral-200 dark:border-neutral-800 bg-[#FAF8F3] dark:bg-[#0c0d10] p-1.5 flex items-center justify-center">
+            <div className="w-full h-20 mb-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#0c0d10] p-1.5 flex items-center justify-center">
               <svg
                 className="w-full h-full"
                 fill="none"
@@ -551,7 +551,7 @@ export const CapabilityMatrixSection = () => {
           </div>
           <div className="lg:col-span-5 flex flex-col gap-2">
             {/* Diagram SVG */}
-            <div className="w-full h-20 mb-2 border border-neutral-200 dark:border-neutral-800 bg-[#FAF8F3] dark:bg-[#0c0d10] p-1.5 flex items-center justify-center">
+            <div className="w-full h-20 mb-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#0c0d10] p-1.5 flex items-center justify-center">
               <svg
                 className="w-full h-full"
                 fill="none"

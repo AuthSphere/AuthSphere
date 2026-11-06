@@ -273,6 +273,8 @@
 }
 
 .animate-ring {
+  transform-box: fill-box;
+  transform-origin: center;
   animation: pulse-ring 4s ease-in-out infinite;
 }
 

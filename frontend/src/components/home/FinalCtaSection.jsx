@@ -35,9 +35,9 @@ export const FinalCtaSection = () => {
               href="https://github.com/madhav9757/AuthSphere"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 h-11 rounded-md bg-white text-black border border-white hover:bg-neutral-200 font-mono text-xs font-bold transition-all shadow-sm cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-6 h-11 rounded-md bg-transparent text-white border border-[#26262b] hover:border-white font-mono text-xs font-semibold transition-all cursor-pointer"
             >
-              <span>★ Star on GitHub</span>
+              <span>View on GitHub</span>
             </a>
           </div>
           <div className="text-[11px] font-mono text-neutral-500 pt-3">

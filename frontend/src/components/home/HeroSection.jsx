@@ -6,7 +6,7 @@ export const HeroSection = () => {
   const { user } = useAuthStore();
 
   return (
-    <section className="relative w-full max-w-[1360px] mx-auto px-6 lg:px-12 pt-16 lg:pt-24 pb-20 border-b border-[#ded8cb] dark:border-[#222329] bg-[#F6F4EE] dark:bg-[#09090c] isolate">
+    <section className="relative w-full max-w-[1360px] mx-auto px-6 lg:px-12 pt-16 lg:pt-24 pb-20 border-b border-[#eaeaea] dark:border-[#222329] bg-transparent isolate">
       {/* Background Architectural Grid with Transit-Flow SVG */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 opacity-20 dark:opacity-15">
         <svg
@@ -195,11 +195,7 @@ export const HeroSection = () => {
                   fillRule="evenodd"
                 />
               </svg>
-              <span>src / v1.0.4</span>
-              <span className="text-neutral-400">·</span>
-              <span className="text-neutral-500 dark:text-neutral-400">
-                ★ 1.2k
-              </span>
+              <span>GitHub Repository</span>
             </a>
           </div>
 
@@ -234,9 +230,9 @@ export const HeroSection = () => {
 
         {/* Right Column: Technical Polyhedral Canvas */}
         <div className="lg:col-span-5 flex items-center justify-center">
-          <div className="relative w-full max-w-[480px] border border-neutral-300 dark:border-neutral-800 bg-[#FAF8F3] dark:bg-[#0c0d10] shadow-sm">
+          <div className="relative w-full max-w-[480px] border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#0c0d10] shadow-sm">
             {/* FIG 01 Bar */}
-            <div className="flex items-center justify-between border-b border-neutral-300 dark:border-neutral-800 px-3 py-2 text-[11px] font-mono text-neutral-600 dark:text-neutral-400">
+            <div className="flex items-center justify-between border-b border-[#eaeaea] dark:border-[#222329] px-3 py-2 text-[11px] font-mono text-neutral-600 dark:text-neutral-400 bg-neutral-50/80 dark:bg-neutral-900/60">
               <div className="flex items-center gap-2">
                 <span className="inline-block w-1.5 h-1.5 bg-neutral-900 dark:bg-neutral-100" />
                 <span>FIG. 01 — CRYPTOGRAPHIC TOPOLOGY</span>
@@ -325,7 +321,7 @@ export const HeroSection = () => {
                   </polygon>
                   <polygon
                     className="dark:fill-neutral-800"
-                    fill="#E5E0D4"
+                    fill="#e4e4e7"
                     points="260,70 90,170 140,360 260,260"
                     stroke="#090909"
                     strokeWidth="1.5"
@@ -341,7 +337,7 @@ export const HeroSection = () => {
                   </polygon>
                   <polygon
                     className="dark:fill-neutral-900"
-                    fill="#FAF8F3"
+                    fill="#f4f4f5"
                     points="140,360 260,450 380,360 260,260"
                     stroke="#090909"
                     strokeWidth="1.5"
@@ -419,7 +415,7 @@ export const HeroSection = () => {
             </div>
 
             {/* Bottom Status strip */}
-            <div className="flex items-center justify-between border-t border-neutral-300 dark:border-neutral-800 px-3 py-1.5 text-[11px] font-mono text-neutral-600 dark:text-neutral-400 bg-neutral-100/50 dark:bg-neutral-900/50">
+            <div className="flex items-center justify-between border-t border-[#eaeaea] dark:border-[#222329] px-3 py-1.5 text-[11px] font-mono text-neutral-600 dark:text-neutral-400 bg-neutral-50 dark:bg-neutral-900/50">
               <span>DAEMON STATUS: OPERATIONAL</span>
               <span className="text-neutral-500">SHA-256 S256 VALIDATED</span>
             </div>

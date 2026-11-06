@@ -26,23 +26,21 @@ export const OpenSourceSection = () => {
             </p>
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
-                className="inline-flex items-center justify-center gap-2 px-6 h-11 rounded-md bg-white text-black font-mono text-xs font-semibold hover:bg-neutral-200 transition-colors cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-6 h-11 rounded-md bg-white text-black font-mono text-xs font-semibold hover:bg-neutral-200 transition-colors cursor-pointer shadow-sm"
                 href="https://github.com/madhav9757/AuthSphere"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                <span>Contribute on GitHub</span>
+                <span>Explore on GitHub</span>
                 <span className="material-symbols-outlined text-[16px]">
                   open_in_new
                 </span>
               </a>
               <a
-                className="inline-flex items-center justify-center gap-2 px-5 h-11 rounded-md bg-white text-black border border-white hover:bg-neutral-200 font-mono text-xs font-bold transition-all shadow-sm cursor-pointer"
-                href="https://github.com/madhav9757/AuthSphere"
-                rel="noopener noreferrer"
-                target="_blank"
+                className="inline-flex items-center justify-center gap-2 px-5 h-11 rounded-md bg-transparent text-white border border-[#26262b] hover:border-white font-mono text-xs font-medium transition-all cursor-pointer"
+                href="/docs"
               >
-                <span>Explore the Repository</span>
+                <span>Read Documentation</span>
               </a>
             </div>
           </div>
@@ -104,26 +102,19 @@ export const OpenSourceSection = () => {
               </div>
             </div>
 
-            {/* Monochromatic Activity Bar */}
-            <div className="p-3 bg-[#18191D] border border-[#26262b] rounded flex flex-col gap-2 font-mono">
+            {/* Architecture Verification Strip */}
+            <div className="p-3.5 bg-[#18191D] border border-[#26262b] rounded flex flex-col gap-2 font-mono text-xs">
               <div className="flex items-center justify-between text-[11px] text-neutral-400">
-                <span>COMMIT DENSITY (12 WEEKS)</span>
-                <span className="text-white">+48 commits</span>
+                <span>IDENTITY SPECIFICATION</span>
+                <span className="text-emerald-400 font-medium flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  SPEC COMPLIANT
+                </span>
               </div>
-              <div className="flex items-end gap-1.5 h-6 w-full pt-1">
-                <span className="w-full h-2 bg-neutral-700 rounded-t" />
-                <span className="w-full h-3 bg-neutral-600 rounded-t" />
-                <span className="w-full h-4 bg-neutral-500 rounded-t" />
-                <span className="w-full h-3 bg-neutral-600 rounded-t" />
-                <span className="w-full h-5 bg-neutral-400 rounded-t" />
-                <span className="w-full h-6 bg-white rounded-t" />
-                <span className="w-full h-4 bg-neutral-500 rounded-t" />
-                <span className="w-full h-6 bg-white rounded-t" />
-                <span className="w-full h-5 bg-neutral-400 rounded-t" />
-                <span className="w-full h-6 bg-white rounded-t" />
-                <span className="w-full h-6 bg-white rounded-t" />
-                <span className="w-full h-5 bg-neutral-400 rounded-t" />
-              </div>
+              <p className="text-[11px] text-neutral-300 leading-relaxed font-sans">
+                Full adherence to RFC-7636 (PKCE), RFC-7519 (JWT), and OAuth 2.0
+                Authorization Code Grant standards.
+              </p>
             </div>
           </div>
         </div>
