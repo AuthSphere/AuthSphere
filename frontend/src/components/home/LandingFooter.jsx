@@ -15,9 +15,6 @@ export const LandingFooter = () => {
             <span className="font-bold text-sm tracking-tight text-neutral-900 dark:text-white">
               AuthSphere
             </span>
-            <span className="px-1.5 py-0.5 rounded border border-[#ded8cb] dark:border-[#2a2b33] bg-[#ece8de] dark:bg-[#18191d] font-mono text-[10px] text-neutral-700 dark:text-neutral-400">
-              OSS
-            </span>
           </div>
           <p className="text-xs font-mono text-neutral-600 dark:text-neutral-400">
             Secure identity. Simple integration. Open source.
