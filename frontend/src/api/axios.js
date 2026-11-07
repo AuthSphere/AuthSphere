@@ -20,12 +20,40 @@ const processQueue = (error) => {
   failedQueue = [];
 };
 
+// Endpoints that should NEVER trigger a token refresh attempt on 401
+const NO_REFRESH_URLS = [
+  "/developers/refresh-token",
+  "/developers/login",
+  "/developers/register",
+  "/developers/forgot-password",
+  "/developers/reset-password",
+  "/auth/",
+];
+
+// Public pages where an unauthenticated state should NOT trigger a forced redirect to /login
+const PUBLIC_ROUTES = [
+  "/",
+  "/login",
+  "/register",
+  "/pricing",
+  "/docs",
+  "/verify",
+  "/auth/callback",
+];
+
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // Check if this request should skip the refresh token flow
+    const isExcluded =
+      !originalRequest ||
+      originalRequest._skipRefresh ||
+      originalRequest._retry ||
+      NO_REFRESH_URLS.some((url) => originalRequest.url?.includes(url));
+
+    if (error.response?.status === 401 && !isExcluded) {
       originalRequest._retry = true;
 
       if (isRefreshing) {
@@ -38,7 +66,7 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        await api.post("/developers/refresh-token");
+        await api.post("/developers/refresh-token", {}, { _skipRefresh: true });
 
         // ✅ DISPATCH EVENT TO UPDATE AUTH CONTEXT
         window.dispatchEvent(new Event("token-refreshed"));
@@ -48,11 +76,16 @@ api.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError, null);
 
-        // ✅ CLEAR SESSION AND REDIRECT TO LOGIN
+        // ✅ CLEAR SESSION
         window.dispatchEvent(new Event("auth-failed"));
 
-        // Prevent infinite reload loop if already on login page
-        if (window.location.pathname !== "/login") {
+        // Only redirect if the user is on a protected route
+        const currentPath = window.location.pathname;
+        const isPublic = PUBLIC_ROUTES.some((route) =>
+          route === "/" ? currentPath === "/" : currentPath.startsWith(route),
+        );
+
+        if (!isPublic) {
           window.location.href = "/login";
         }
 

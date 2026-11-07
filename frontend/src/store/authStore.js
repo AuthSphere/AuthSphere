@@ -4,7 +4,7 @@ import api from "../api/axios";
 
 const useAuthStore = create(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       loading: true,
       loggingOut: false,
@@ -12,18 +12,28 @@ const useAuthStore = create(
       setUser: (user) => set({ user }),
       setLoading: (loading) => set({ loading }),
 
-      checkAuth: async () => {
+      checkAuth: async (force = false) => {
+        const currentUser = get().user;
+
+        // If not logged in and not forced (e.g. from OAuth callback or explicit login),
+        // we know there is no active session. Don't make an unnecessary API call that would 401.
+        if (!currentUser && !force) {
+          set({ loading: false });
+          return;
+        }
+
         set({ loading: true });
         try {
-          const res = await api.get("/developers/me");
-          if (res.data.success) {
+          const res = await api.get("/developers/me", {
+            _skipRefresh: !currentUser,
+          });
+          if (res.data?.success) {
             set({ user: res.data.data });
           } else {
             set({ user: null });
           }
         } catch (err) {
           set({ user: null });
-          // Only log non-401 errors
           if (err.response?.status !== 401) {
             console.error("Auth check failed:", err.message);
           }
@@ -60,8 +70,8 @@ export const setupAuthListeners = () => {
 
   const handleTokenRefreshed = async () => {
     try {
-      const res = await api.get("/developers/me");
-      if (res.data.success) {
+      const res = await api.get("/developers/me", { _skipRefresh: true });
+      if (res.data?.success) {
         setUser(res.data.data);
       }
     } catch (err) {

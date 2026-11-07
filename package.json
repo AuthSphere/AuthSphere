@@ -17,7 +17,11 @@
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
-    "prepare": "husky || echo Husky skipped"
+    "prepare": "node -e \"if (!process.env.CI && process.env.NODE_ENV !== 'production') import('husky').then(m => (m.default || m)()).catch(() => {})\""
+  },
+  "allowScripts": {
+    "@scarf/scarf": false,
+    "esbuild": true
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
@@ -29,10 +33,13 @@
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
       "prettier --write",
-      "eslint --fix"
+      "eslint --fix --no-warn-ignored"
     ],
     "**/*.{json,css,md,html}": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "@exortek/express-mongo-sanitize": "^4.0.0"
   }
 }

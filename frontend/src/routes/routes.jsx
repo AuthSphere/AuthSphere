@@ -1,5 +1,4 @@
 import { Navigate } from "react-router-dom";
-
 import { lazy } from "react";
 
 const Home = lazy(() => import("@/pages/public/Home"));
@@ -28,12 +27,13 @@ const ProvidersPage = lazy(() => import("@/pages/project/ProvidersPage"));
 const EmailCustomizationPage = lazy(
   () => import("@/pages/project/EmailCustomizationPage"),
 );
+const NotFound = lazy(() => import("@/pages/public/NotFound"));
 
 export const routes = [
   {
     path: "/",
     element: (
-      <MainLayout>
+      <MainLayout showNavAndFooter={false}>
         <Home />
       </MainLayout>
     ),
@@ -64,7 +64,7 @@ export const routes = [
     ),
   },
   {
-    path: "/register", // ADD THIS ROUTE
+    path: "/register",
     element: (
       <MainLayout showNavAndFooter={false}>
         <Register />
@@ -169,15 +169,6 @@ export const routes = [
   },
   {
     path: "*",
-    element: (
-      <MainLayout>
-        <div className="flex h-[calc(100vh-160px)] items-center justify-center">
-          <div className="text-center space-y-2">
-            <h1 className="text-4xl font-bold">404</h1>
-            <p className="text-muted-foreground">Page Not Found</p>
-          </div>
-        </div>
-      </MainLayout>
-    ),
+    element: <NotFound />,
   },
 ];

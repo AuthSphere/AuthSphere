@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useAuthStore from "@/store/authStore";
 import api from "@/api/axios";
@@ -6,6 +6,9 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import AuthSphereLogo from "@/components/common/AuthSphereLogo";
+import ArchitectureSpecification from "@/components/common/ArchitectureSpecification";
+import { Eye, EyeOff } from "lucide-react";
 
 const registerSchema = z
   .object({
@@ -19,29 +22,21 @@ const registerSchema = z
       .email("Invalid email address"),
     password: z.string().min(6, "Password must be at least 6 characters"),
     confirmPassword: z.string().min(1, "Please confirm your password"),
+    terms: z.boolean().refine((val) => val === true, {
+      message: "Please accept the terms to proceed",
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Github, Chrome, Loader2, ArrowLeft } from "lucide-react";
-import VantaBackground from "@/components/ui/VantaBackground";
-
-const Register = () => {
+export const Register = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     register,
@@ -54,13 +49,12 @@ const Register = () => {
       email: "",
       password: "",
       confirmPassword: "",
+      terms: false,
     },
   });
 
-  const [loading, setLoading] = useState(false);
-
   // Redirect if already logged in
-  React.useEffect(() => {
+  useEffect(() => {
     if (user) {
       navigate("/dashboard");
     }
@@ -96,210 +90,347 @@ const Register = () => {
   };
 
   return (
-    <VantaBackground>
-      <div className="flex min-h-screen items-center justify-center p-4">
-        <div className="w-full max-w-md space-y-6">
-          <Link
-            to="/"
-            className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors group"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-            Back to Home
-          </Link>
+    <div className="bg-[#fbf9f9] dark:bg-[#09090c] text-neutral-900 dark:text-neutral-100 antialiased min-h-screen lg:h-screen lg:max-h-screen lg:overflow-hidden selection:bg-black selection:text-white transition-colors duration-300 relative isolate overflow-x-hidden">
+      {/* Precision Engineering Architectural Matrix Background */}
+      <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-[#fbf9f9] dark:bg-[#09090c]">
+        <div className="absolute inset-0 grid-matrix opacity-40 dark:opacity-20" />
+        <div className="absolute inset-0 bg-radial from-transparent via-transparent to-neutral-200/50 dark:to-black/60" />
+      </div>
 
-          <Card className="bg-card/80 dark:bg-card/20 border-black/5 dark:border-white/10 backdrop-blur-md shadow-xl dark:shadow-2xl">
-            <CardHeader className="space-y-2 text-center">
-              <div className="flex justify-center mb-2">
-                <div className="h-12 w-12 rounded-lg border bg-background/50 flex items-center justify-center">
-                  <img
-                    src="/assets/logo.png"
-                    alt="AuthSphere"
-                    className="h-8 w-8 object-contain dark:invert"
-                  />
-                </div>
+      {/* Main Split-Screen Container */}
+      <main className="w-full min-h-screen lg:h-screen lg:max-h-screen grid grid-cols-1 lg:grid-cols-12 text-neutral-900 dark:text-neutral-100 antialiased relative z-10 lg:overflow-hidden">
+        {/* ======================================================== */}
+        {/* LEFT PANEL: REGISTRATION (lg: 6 cols, xl: 5 cols)         */}
+        {/* ======================================================== */}
+        <section
+          aria-label="Registration Form Section"
+          className="lg:col-span-6 xl:col-span-5 h-full flex flex-col justify-between p-6 sm:p-10 lg:px-10 lg:py-8 xl:px-12 xl:py-10 bg-white/95 dark:bg-[#0c0d10]/95 backdrop-blur-sm border-r border-[#E5E5E5] dark:border-[#26262b] shadow-sm relative z-10 overflow-y-auto"
+        >
+          {/* Top Bar */}
+          <header className="flex items-center justify-between w-full">
+            <Link
+              to="/"
+              className="flex items-center gap-2.5 group focus:outline-none"
+              aria-label="AuthSphere Home"
+            >
+              <div className="w-8 h-8 flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-105">
+                <AuthSphereLogo className="w-8 h-8 object-contain" />
               </div>
-              <CardTitle className="text-2xl">Create an account</CardTitle>
-              <CardDescription>
-                Start securing your applications today
-              </CardDescription>
-            </CardHeader>
+              <span className="font-semibold text-[17px] tracking-tight text-neutral-900 dark:text-white">
+                AuthSphere
+              </span>
+            </Link>
 
-            <CardContent className="space-y-4">
-              {/* Social Registration */}
-              <div className="grid grid-cols-3 gap-2">
-                {[
-                  {
-                    id: "google",
-                    logo: "https://authjs.dev/img/providers/google.svg",
-                    label: "Google",
-                  },
-                  {
-                    id: "github",
-                    logo: "https://authjs.dev/img/providers/github.svg",
-                    label: "GitHub",
-                  },
-                  {
-                    id: "discord",
-                    logo: "https://authjs.dev/img/providers/discord.svg",
-                    label: "Discord",
-                  },
-                ].map((p) => (
-                  <button
-                    key={p.id}
-                    type="button"
-                    onClick={() => handleSocialLogin(p.id)}
-                    className="flex flex-col items-center justify-center p-2 rounded-lg border bg-card hover:bg-muted/50 transition-all gap-1 group"
-                    title={`Sign up with ${p.label}`}
-                  >
-                    <img
-                      src={p.logo}
-                      alt={p.label}
-                      className="h-5 w-5 grayscale group-hover:grayscale-0 transition-grayscale"
-                    />
-                    <span className="text-[10px] font-medium text-muted-foreground group-hover:text-foreground">
-                      {p.label}
-                    </span>
-                  </button>
-                ))}
-              </div>
+            <Link
+              to="/"
+              className="inline-flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white font-medium transition-colors focus:outline-none rounded"
+            >
+              <span className="transition-transform duration-150 group-hover:-translate-x-0.5">
+                ←
+              </span>
+              <span>Back to AuthSphere</span>
+            </Link>
+          </header>
 
-              {/* Separator */}
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <Separator />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-card px-2 text-muted-foreground">
-                    Or continue with email
-                  </span>
-                </div>
-              </div>
+          {/* Registration Form Area */}
+          <div className="w-full max-w-105 mx-auto my-auto py-4 sm:py-6">
+            <div className="mb-6">
+              <h1 className="text-3xl font-bold text-neutral-900 dark:text-white tracking-tight leading-tight">
+                Create your identity.
+              </h1>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-2 leading-relaxed">
+                Set up your AuthSphere account and start building with connected
+                authentication.
+              </p>
+            </div>
 
-              {/* Registration Form */}
-              <form
-                onSubmit={handleSubmit(handleRegister)}
-                className="space-y-3"
+            {/* Social Auth Buttons */}
+            <div className="grid grid-cols-2 gap-3 mb-5">
+              <button
+                type="button"
+                onClick={() => handleSocialLogin("google")}
+                className="flex items-center justify-center gap-2.5 h-10 px-3 bg-white dark:bg-[#14151a] hover:bg-neutral-50 dark:hover:bg-[#1a1b22] text-neutral-900 dark:text-white rounded-lg text-xs sm:text-sm font-medium transition-colors border border-[#E5E5E5] dark:border-[#2a2b33] cursor-pointer shadow-2xs"
               >
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="username"
-                    className={errors.username ? "text-destructive" : ""}
-                  >
-                    Username
-                  </Label>
-                  <Input
-                    id="username"
-                    type="text"
-                    placeholder="johndoe"
-                    {...register("username")}
-                    disabled={loading}
-                    className={errors.username ? "border-destructive" : ""}
+                <svg
+                  aria-hidden="true"
+                  className="w-4 h-4 shrink-0"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                    fill="#4285F4"
                   />
+                  <path
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                    fill="#34A853"
+                  />
+                  <path
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+                    fill="#FBBC05"
+                  />
+                  <path
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+                    fill="#EA4335"
+                  />
+                </svg>
+                <span>Google</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleSocialLogin("github")}
+                className="flex items-center justify-center gap-2.5 h-10 px-3 bg-white dark:bg-[#14151a] hover:bg-neutral-50 dark:hover:bg-[#1a1b22] text-neutral-900 dark:text-white rounded-lg text-xs sm:text-sm font-medium transition-colors border border-[#E5E5E5] dark:border-[#2a2b33] cursor-pointer shadow-2xs"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="w-4 h-4 fill-current shrink-0"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    clipRule="evenodd"
+                    d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                    fillRule="evenodd"
+                  />
+                </svg>
+                <span>GitHub</span>
+              </button>
+            </div>
+
+            {/* Divider */}
+            <div
+              aria-hidden="true"
+              className="relative flex items-center justify-center my-5"
+            >
+              <div className="w-full h-px bg-[#E5E5E5] dark:bg-[#26262b]" />
+              <span className="absolute bg-white dark:bg-[#0c0d10] px-3 text-xs text-neutral-400 dark:text-neutral-500 font-normal">
+                or register with email
+              </span>
+            </div>
+
+            {/* Registration Form */}
+            <form
+              onSubmit={handleSubmit(handleRegister)}
+              className="space-y-4"
+              noValidate
+            >
+              {/* Full Name / Username */}
+              <div>
+                <div className="flex justify-between items-center mb-1.5">
+                  <label
+                    className="text-xs sm:text-[13px] font-medium text-neutral-800 dark:text-neutral-200 cursor-pointer"
+                    htmlFor="fullName"
+                  >
+                    Username / Full name
+                  </label>
                   {errors.username && (
-                    <p className="text-[10px] text-destructive font-medium">
+                    <span className="font-mono text-xs text-red-500">
                       {errors.username.message}
-                    </p>
+                    </span>
                   )}
                 </div>
+                <div className="relative">
+                  <input
+                    id="fullName"
+                    type="text"
+                    {...register("username")}
+                    placeholder="Your developer handle"
+                    className="w-full h-10.5 px-3.5 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded-lg border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors shadow-2xs"
+                  />
+                </div>
+              </div>
 
-                <div className="space-y-2">
-                  <Label
+              {/* Email Address */}
+              <div>
+                <div className="flex justify-between items-center mb-1.5">
+                  <label
+                    className="text-xs sm:text-[13px] font-medium text-neutral-800 dark:text-neutral-200 cursor-pointer"
                     htmlFor="email"
-                    className={errors.email ? "text-destructive" : ""}
                   >
-                    Email
-                  </Label>
-                  <Input
+                    Email address
+                  </label>
+                  {errors.email && (
+                    <span className="font-mono text-xs text-red-500">
+                      {errors.email.message}
+                    </span>
+                  )}
+                </div>
+                <div className="relative">
+                  <input
                     id="email"
                     type="email"
-                    placeholder="name@example.com"
                     {...register("email")}
-                    disabled={loading}
-                    className={errors.email ? "border-destructive" : ""}
+                    placeholder="you@example.com"
+                    className="w-full h-10.5 px-3.5 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded-lg border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors shadow-2xs"
                   />
-                  {errors.email && (
-                    <p className="text-[10px] text-destructive font-medium">
-                      {errors.email.message}
-                    </p>
-                  )}
                 </div>
+              </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-2">
-                    <Label
+              {/* Password & Confirm Password (Side-by-Side Row) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                {/* Password */}
+                <div>
+                  <div className="flex justify-between items-center mb-1.5">
+                    <label
+                      className="text-xs sm:text-[13px] font-medium text-neutral-800 dark:text-neutral-200 cursor-pointer"
                       htmlFor="password"
-                      className={errors.password ? "text-destructive" : ""}
                     >
                       Password
-                    </Label>
-                    <Input
+                    </label>
+                  </div>
+                  <div className="relative flex items-center">
+                    <input
                       id="password"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       {...register("password")}
-                      disabled={loading}
-                      className={errors.password ? "border-destructive" : ""}
+                      placeholder="Min 6 chars"
+                      className="w-full h-10.5 pl-3.5 pr-9 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded-lg border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors shadow-2xs"
                     />
-                    {errors.password && (
-                      <p className="text-[10px] text-destructive font-medium">
-                        {errors.password.message}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label
-                      htmlFor="confirmPassword"
-                      className={
-                        errors.confirmPassword ? "text-destructive" : ""
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
                       }
+                      className="absolute right-2.5 p-1 text-neutral-400 hover:text-black dark:hover:text-white transition-colors cursor-pointer select-none"
                     >
-                      Confirm
-                    </Label>
-                    <Input
-                      id="confirmPassword"
-                      type="password"
-                      {...register("confirmPassword")}
-                      disabled={loading}
-                      className={
-                        errors.confirmPassword ? "border-destructive" : ""
-                      }
-                    />
-                    {errors.confirmPassword && (
-                      <p className="text-[10px] text-destructive font-medium">
-                        {errors.confirmPassword.message}
-                      </p>
-                    )}
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
                   </div>
+                  {errors.password && (
+                    <span className="font-mono text-[11px] text-red-500 mt-1 block">
+                      {errors.password.message}
+                    </span>
+                  )}
                 </div>
 
-                <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Creating account...
-                    </>
-                  ) : (
-                    "Create Account"
+                {/* Confirm Password */}
+                <div>
+                  <div className="flex justify-between items-center mb-1.5">
+                    <label
+                      className="text-xs sm:text-[13px] font-medium text-neutral-800 dark:text-neutral-200 cursor-pointer"
+                      htmlFor="confirmPassword"
+                    >
+                      Confirm password
+                    </label>
+                  </div>
+                  <div className="relative flex items-center">
+                    <input
+                      id="confirmPassword"
+                      type={showConfirmPassword ? "text" : "password"}
+                      {...register("confirmPassword")}
+                      placeholder="Repeat password"
+                      className="w-full h-10.5 pl-3.5 pr-9 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded-lg border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors shadow-2xs"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                      aria-label={
+                        showConfirmPassword
+                          ? "Hide confirmed password"
+                          : "Show confirmed password"
+                      }
+                      className="absolute right-2.5 p-1 text-neutral-400 hover:text-black dark:hover:text-white transition-colors cursor-pointer select-none"
+                    >
+                      {showConfirmPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  {errors.confirmPassword && (
+                    <span className="font-mono text-[11px] text-red-500 mt-1 block">
+                      {errors.confirmPassword.message}
+                    </span>
                   )}
-                </Button>
-              </form>
+                </div>
+              </div>
 
-              {/* Login Link */}
-              <Separator />
-              <p className="text-center text-sm text-muted-foreground">
-                Already have an account?{" "}
-                <Link
-                  to="/login"
-                  className="text-primary font-medium hover:underline"
+              {/* Terms Checkbox */}
+              <div className="pt-1">
+                <label
+                  className="flex items-start gap-2.5 cursor-pointer group"
+                  htmlFor="termsAgree"
                 >
-                  Sign in
-                </Link>
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </VantaBackground>
+                  <div className="relative flex items-center justify-center mt-0.5">
+                    <input
+                      id="termsAgree"
+                      type="checkbox"
+                      {...register("terms")}
+                      className="w-4 h-4 rounded border-[#E5E5E5] dark:border-[#2a2b33] text-black dark:text-white focus:ring-0 focus:ring-offset-0 transition cursor-pointer accent-black dark:accent-white"
+                    />
+                  </div>
+                  <span className="text-xs text-neutral-600 dark:text-neutral-400 select-none leading-relaxed">
+                    I agree to the{" "}
+                    <a
+                      href="#terms"
+                      className="text-neutral-900 dark:text-white underline hover:opacity-80"
+                    >
+                      Terms of Service
+                    </a>{" "}
+                    and{" "}
+                    <a
+                      href="#privacy"
+                      className="text-neutral-900 dark:text-white underline hover:opacity-80"
+                    >
+                      Privacy Policy
+                    </a>
+                    .
+                  </span>
+                </label>
+                {errors.terms && (
+                  <p className="font-mono text-xs text-red-500 mt-1">
+                    {errors.terms.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Submit CTA */}
+              <div className="pt-2">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full h-11 bg-neutral-900 dark:bg-white hover:bg-neutral-800 dark:hover:bg-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed text-white dark:text-neutral-900 text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer"
+                >
+                  <span>
+                    {loading ? "Creating account..." : "Create account →"}
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          {/* Footer */}
+          <footer className="w-full text-center pt-4 sm:pt-5">
+            <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="text-neutral-900 dark:text-white font-medium underline hover:opacity-80 transition-colors"
+              >
+                Sign in
+              </Link>
+            </p>
+          </footer>
+        </section>
+
+        {/* ======================================================== */}
+        {/* RIGHT PANEL: ASTRODYNAMICS & CELESTIAL MECHANICS          */}
+        {/* ======================================================== */}
+        <section
+          aria-label="Celestial Mechanics & Astrodynamics"
+          className="lg:col-span-6 xl:col-span-7 hidden lg:flex flex-1 relative overflow-hidden bg-[#fafafa] dark:bg-[#080909]"
+        >
+          <ArchitectureSpecification />
+        </section>
+      </main>
+    </div>
   );
 };
 

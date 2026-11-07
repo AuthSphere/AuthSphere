@@ -20,11 +20,17 @@ if (missingVars.length > 0) {
 const _conf = {
   port: String(process.env.PORT || 8000),
   baseUrl: String(process.env.BASE_URL || "http://localhost:8000"),
-  mongodbUri: String(process.env.MONGODB_URI),
+  mongodbUri: process.env.MONGODB_URI
+    ? String(process.env.MONGODB_URI).trim()
+    : "",
   corsOrigin: String(process.env.CORS_ORIGIN || "*").trim(),
-  accessTokenSecret: String(process.env.ACCESS_TOKEN_SECRET).trim(),
+  accessTokenSecret: process.env.ACCESS_TOKEN_SECRET
+    ? String(process.env.ACCESS_TOKEN_SECRET).trim()
+    : "",
   accessTokenExpiry: String(process.env.ACCESS_TOKEN_EXPIRY || "1d").trim(),
-  refreshTokenSecret: String(process.env.REFRESH_TOKEN_SECRET).trim(),
+  refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET
+    ? String(process.env.REFRESH_TOKEN_SECRET).trim()
+    : "",
   refreshTokenExpiry: String(process.env.REFRESH_TOKEN_EXPIRY || "10d").trim(),
   // URLs
   frontendUrl: String(

@@ -1,13 +1,13 @@
 <div align="center">
-  <img src="assets/Gemini_Generated_Image_swlzriswlzriswlz.png" alt="AuthSphere Logo" width="120" />
+  <img src="assets/AuthSphere(main).png" alt="AuthSphere Logo" width="120" />
 
 # AuthSphere
 
 Open-source Identity and Access Management (IAM) engine with native PKCE and multi-tenant isolation.
 
-[![Version](https://img.shields.io/badge/version-2.6.0-blue?style=for-the-badge&logo=github)](https://github.com/madhav9757/AuthSphere)
+[![Version](https://img.shields.io/badge/version-2.6.0-blue?style=for-the-badge&logo=github)](https://github.com/AuthSphere)
 [![NPM](https://img.shields.io/npm/v/@authspherejs/sdk?style=for-the-badge&logo=npm&color=CB3837)](https://www.npmjs.com/package/@authspherejs/sdk)
-[![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](https://github.com/madhav9757/AuthSphere/blob/main/LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](https://github.com/AuthSphere/blob/main/LICENSE)
 [![Uptime](https://img.shields.io/badge/status-online-success?style=for-the-badge)](https://auth-sphere-gilt.vercel.app/)
 
 <p align="center">
@@ -53,7 +53,7 @@ Deploy the entire stack via Docker for local testing:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/madhav9757/AuthSphere.git
+git clone https://github.com/AuthSphere.git
 cd AuthSphere
 
 # 2. Configure environment variables
@@ -73,23 +73,26 @@ For manual local development steps, see the [Contributing Guide](CONTRIBUTING.md
 Integrating AuthSphere requires the client SDK.
 
 **1. Install the SDK**
+
 ```bash
 npm install @authspherejs/sdk
 ```
 
 **2. Initialize**
+
 ```javascript
 import AuthSphere from "@authspherejs/sdk";
 
 AuthSphere.initAuth({
   publicKey: "YOUR_PROJECT_PUB_KEY",
-  projectId: "YOUR_PROJECT_ID", 
-  redirectUri: window.location.origin + "/callback", 
-  baseUrl: "https://auth-sphere-6s2v.vercel.app", 
+  projectId: "YOUR_PROJECT_ID",
+  redirectUri: window.location.origin + "/callback",
+  baseUrl: "https://auth-sphere-6s2v.vercel.app",
 });
 ```
 
 **3. Trigger Login**
+
 ```javascript
 AuthSphere.redirectToLogin("google");
 ```
@@ -106,11 +109,11 @@ Detailed technical documentation is available in the `/docs` directory:
 
 ## Tech Stack
 
-| Component         | Technologies                              |
-| ----------------- | ----------------------------------------- |
-| **Frontend**      | React 19, Vite, Tailwind v4, Zustand      |
-| **Backend**       | Node.js, Express, MongoDB, Socket.io      |
-| **Security**      | Argon2id/Bcrypt, RSA-2048, AES-256-GCM    |
+| Component    | Technologies                           |
+| ------------ | -------------------------------------- |
+| **Frontend** | React 19, Vite, Tailwind v4, Zustand   |
+| **Backend**  | Node.js, Express, MongoDB, Socket.io   |
+| **Security** | Argon2id/Bcrypt, RSA-2048, AES-256-GCM |
 
 ## Roadmap
 
@@ -127,6 +130,7 @@ Detailed technical documentation is available in the `/docs` directory:
 - **Security**: If you discover a vulnerability, refer to our [Security Policy](SECURITY.md) for reporting instructions.
 
 ---
+
 <div align="center">
   <p>Licensed under the <a href="./LICENSE">MIT License</a>.</p>
 </div>

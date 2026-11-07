@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Palette,
   Layout,
@@ -11,30 +11,23 @@ import {
   Link as LinkIcon,
   Shield,
   Send,
+  Sparkles,
 } from "lucide-react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { updateProject, sendTestEmail } from "@/api/ProjectAPI";
 import { toast } from "sonner";
 import useAuthStore from "@/store/authStore";
+import TechSeparator from "@/components/common/TechSeparator";
 
 const EmailTemplateEditor = ({ project, onUpdated }) => {
   const { user } = useAuthStore();
   const [logoUrl, setLogoUrl] = useState(project.emailTemplate?.logoUrl || "");
   const [primaryColor, setPrimaryColor] = useState(
-    project.emailTemplate?.primaryColor || "#4f46e5",
+    project.emailTemplate?.primaryColor || "#000000",
   );
   const [subjectLine, setSubjectLine] = useState(
     project.emailTemplate?.subjectLine ||
@@ -72,7 +65,7 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
     const et = project.emailTemplate || {};
     return (
       logoUrl !== (et.logoUrl || "") ||
-      primaryColor !== (et.primaryColor || "#4f46e5") ||
+      primaryColor !== (et.primaryColor || "#000000") ||
       subjectLine !==
         (et.subjectLine || `Verify your identity – ${project.name}`) ||
       footerText !== (et.footerText || "Secure Identity for Developers") ||
@@ -117,7 +110,7 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
         },
       });
       if (res?.success) {
-        toast.success("Email template updated");
+        toast.success("Email template synchronized with delivery gateway");
         onUpdated();
       }
     } catch (err) {
@@ -129,12 +122,13 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
   };
 
   const handleSendTest = async () => {
-    if (!testEmail) return toast.error("Enter an email address");
+    if (!testEmail) return toast.error("Enter a recipient email address");
     if (hasChanges) await handleSave();
     try {
       setSendingTest(true);
       const res = await sendTestEmail(project._id, testEmail);
-      if (res?.success) toast.success(`Test email sent to ${testEmail}`);
+      if (res?.success)
+        toast.success(`Sample test transmission dispatched to ${testEmail}`);
     } catch (err) {
       toast.error(err.message || "Failed to send test email");
     } finally {
@@ -144,7 +138,7 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
 
   const resetToDefault = () => {
     setLogoUrl("");
-    setPrimaryColor("#4f46e5");
+    setPrimaryColor("#000000");
     setSubjectLine(`Verify your identity – ${project.name}`);
     setFooterText("Secure Identity for Developers");
     setCompanyAddress("");
@@ -158,381 +152,418 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
   };
 
   return (
-    <div className="flex flex-col gap-4 flex-1 min-h-0 overflow-hidden">
-      {/* Header */}
-      <div className="flex items-center justify-between shrink-0">
+    <div className="space-y-6">
+      {/* Top Header Command Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold tracking-tight">Email Template</h2>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            Customize the verification email sent to your users.
+          <h1 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">
+            Email Customization
+          </h1>
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-0.5 font-mono">
+            Calibrate branded verification emails, OTP challenge templates, and
+            legal links.
           </p>
         </div>
+
         <div className="flex items-center gap-2">
           <Button
-            variant="ghost"
+            variant="outline"
             size="sm"
             onClick={resetToDefault}
-            className="gap-1.5 text-xs text-muted-foreground"
+            className="h-8 font-mono text-xs border-neutral-200 dark:border-[#2a2b33] gap-1.5"
           >
-            <RefreshCw className="h-3.5 w-3.5" /> Reset
+            <RefreshCw className="h-3 w-3" />
+            <span>RESET DEFAULTS</span>
           </Button>
+
           <Button
             size="sm"
             onClick={handleSave}
             disabled={!hasChanges || saving}
-            className="gap-1.5"
+            className="h-8 px-4 font-mono text-xs bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 disabled:opacity-50 cursor-pointer shadow-xs gap-1.5"
           >
             {saving ? (
-              <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+              <RefreshCw className="h-3 w-3 animate-spin" />
             ) : (
-              <Save className="h-3.5 w-3.5" />
+              <Save className="h-3 w-3" />
             )}
-            {saving ? "Saving..." : "Save Changes"}
+            <span>{saving ? "SAVING..." : "SAVE TEMPLATE"}</span>
           </Button>
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-12 gap-6 flex-1 min-h-0">
-        {/* Editor */}
-        <div className="lg:col-span-5 space-y-4 overflow-y-auto pr-1">
-          {/* Branding */}
-          <Card className="bg-card/30 border-border/50">
-            <CardHeader>
-              <CardTitle className="text-sm flex items-center gap-2">
-                <Layout className="h-4 w-4 text-primary" /> Branding
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+      {/* Two Column Layout: Editor (Left) & Live Preview (Right) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* Editor Form Columns (5 cols) */}
+        <div className="lg:col-span-5 space-y-4">
+          {/* Card 1: Branding & Visuals */}
+          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
+            <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
+              <span className="font-bold text-neutral-900 dark:text-white uppercase flex items-center gap-2">
+                <Layout className="h-3.5 w-3.5 text-neutral-400" />
+                <span>01 // BRANDING ASSETS</span>
+              </span>
+              <span className="text-neutral-400 text-[10px]">
+                VISUAL_IDENTITY
+              </span>
+            </div>
+            <div className="p-5 space-y-4">
               <div className="space-y-1.5">
-                <Label htmlFor="logo" className="text-xs">
-                  Logo URL
+                <Label
+                  htmlFor="logo"
+                  className="text-xs font-mono text-neutral-500"
+                >
+                  LOGO ASSET URL
                 </Label>
                 <Input
                   id="logo"
                   value={logoUrl}
                   onChange={(e) => setLogoUrl(e.target.value)}
-                  placeholder="https://myapp.com/logo.png"
-                  className="h-9 text-sm"
+                  placeholder="https://app.domain.com/brand-logo.png"
+                  className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
                 />
               </div>
+
               <div className="space-y-1.5">
-                <Label htmlFor="color" className="text-xs">
-                  Primary Color
+                <Label
+                  htmlFor="color"
+                  className="text-xs font-mono text-neutral-500"
+                >
+                  ACCENT COLOR (HEX)
                 </Label>
                 <div className="flex gap-2">
                   <div
-                    className="h-9 w-9 rounded-md border shrink-0"
+                    className="h-9 w-9 rounded border border-neutral-200 dark:border-[#2a2b33] shrink-0"
                     style={{ backgroundColor: primaryColor }}
                   />
                   <Input
                     id="color"
                     value={primaryColor}
                     onChange={(e) => setPrimaryColor(e.target.value)}
-                    placeholder="#4f46e5"
-                    className="h-9 text-sm font-mono"
+                    placeholder="#000000"
+                    className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
                   />
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          {/* Content */}
-          <Card className="bg-card/30 border-border/50">
-            <CardHeader>
-              <CardTitle className="text-sm flex items-center gap-2">
-                <Type className="h-4 w-4 text-primary" /> Content
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          {/* Card 2: Subject & Body Content */}
+          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
+            <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
+              <span className="font-bold text-neutral-900 dark:text-white uppercase flex items-center gap-2">
+                <Type className="h-3.5 w-3.5 text-neutral-400" />
+                <span>02 // COPY &amp; CONTENT</span>
+              </span>
+              <span className="text-neutral-400 text-[10px]">PAYLOAD_TEXT</span>
+            </div>
+            <div className="p-5 space-y-4">
               <div className="space-y-1.5">
-                <Label htmlFor="subject" className="text-xs">
-                  Subject Line
+                <Label
+                  htmlFor="subject"
+                  className="text-xs font-mono text-neutral-500"
+                >
+                  SUBJECT LINE
                 </Label>
                 <Input
                   id="subject"
                   value={subjectLine}
                   onChange={(e) => setSubjectLine(e.target.value)}
-                  className="h-9 text-sm"
+                  className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
                 />
               </div>
+
               <div className="space-y-1.5">
-                <Label htmlFor="body" className="text-xs">
-                  Welcome Message
-                  <span className="ml-1 text-muted-foreground font-normal">
-                    (HTML supported)
-                  </span>
+                <Label
+                  htmlFor="body"
+                  className="text-xs font-mono text-neutral-500"
+                >
+                  BODY COPY (HTML SUPPORTED)
                 </Label>
                 <Textarea
                   id="body"
                   value={customBody}
                   onChange={(e) => setCustomBody(e.target.value)}
-                  className="min-h-[90px] text-xs leading-relaxed"
+                  className="min-h-24 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33] leading-relaxed"
                 />
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          {/* Footer & Links */}
-          <Card className="bg-card/30 border-border/50">
-            <CardHeader>
-              <CardTitle className="text-sm flex items-center gap-2">
-                <LinkIcon className="h-4 w-4 text-primary" /> Footer & Links
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          {/* Card 3: Footer & Compliance URLs */}
+          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
+            <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
+              <span className="font-bold text-neutral-900 dark:text-white uppercase flex items-center gap-2">
+                <LinkIcon className="h-3.5 w-3.5 text-neutral-400" />
+                <span>03 // LEGAL LINKS &amp; FOOTER</span>
+              </span>
+              <span className="text-neutral-400 text-[10px]">COMPLIANCE</span>
+            </div>
+            <div className="p-5 space-y-4">
               <div className="space-y-1.5">
-                <Label className="text-xs">Company Address</Label>
+                <Label className="text-xs font-mono text-neutral-500">
+                  COMPANY PHYSICAL ADDRESS
+                </Label>
                 <Input
                   value={companyAddress}
                   onChange={(e) => setCompanyAddress(e.target.value)}
-                  placeholder="123 Innovation Dr, CA"
-                  className="h-9 text-sm"
+                  placeholder="100 Mission St, San Francisco, CA"
+                  className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
                 />
               </div>
+
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <Label className="text-xs">Support URL</Label>
+                  <Label className="text-xs font-mono text-neutral-500">
+                    SUPPORT URL
+                  </Label>
                   <Input
                     value={supportUrl}
                     onChange={(e) => setSupportUrl(e.target.value)}
                     placeholder="https://..."
-                    className="h-9 text-sm"
+                    className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-xs">Privacy URL</Label>
+                  <Label className="text-xs font-mono text-neutral-500">
+                    PRIVACY URL
+                  </Label>
                   <Input
                     value={privacyUrl}
                     onChange={(e) => setPrivacyUrl(e.target.value)}
                     placeholder="https://..."
-                    className="h-9 text-sm"
+                    className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
                   />
                 </div>
               </div>
+
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <Label className="text-xs">Security URL</Label>
+                  <Label className="text-xs font-mono text-neutral-500">
+                    SECURITY URL
+                  </Label>
                   <Input
                     value={securityUrl}
                     onChange={(e) => setSecurityUrl(e.target.value)}
                     placeholder="https://..."
-                    className="h-9 text-sm"
+                    className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-xs">Footer Text</Label>
+                  <Label className="text-xs font-mono text-neutral-500">
+                    FOOTER SIGNATURE
+                  </Label>
                   <Input
                     value={footerText}
                     onChange={(e) => setFooterText(e.target.value)}
-                    className="h-9 text-sm"
+                    className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
                   />
                 </div>
               </div>
-            </CardContent>
-          </Card>
 
-          {/* Settings */}
-          <Card className="bg-card/30 border-border/50">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label
-                    htmlFor="metadata"
-                    className="text-xs font-medium flex items-center gap-2"
-                  >
+              <div className="flex items-center justify-between pt-2 border-t border-neutral-100 dark:border-[#1e2026]">
+                <div className="space-y-0.5">
+                  <Label className="text-xs font-mono font-semibold text-neutral-900 dark:text-white flex items-center gap-1.5">
                     <Shield className="h-3.5 w-3.5 text-emerald-500" />
-                    Include Security Metadata
+                    <span>INCLUDE CLIENT TELEMETRY</span>
                   </Label>
-                  <p className="text-[10px] text-muted-foreground mt-0.5">
-                    Show device, IP, and timestamp in emails.
+                  <p className="text-[10px] text-neutral-500">
+                    Renders IP address, browser, and UTC timestamp in email
+                    footer.
                   </p>
                 </div>
                 <Switch
-                  id="metadata"
                   checked={showMetadata}
                   onCheckedChange={setShowMetadata}
                 />
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Test Email */}
-          <Card className="bg-card/30 border-border/50">
-            <CardHeader>
-              <CardTitle className="text-sm flex items-center gap-2">
-                <Send className="h-4 w-4 text-primary" /> Send Test
-              </CardTitle>
-              <CardDescription className="text-xs">
-                Send a preview to your inbox
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex gap-2">
-                <Input
-                  value={testEmail}
-                  onChange={(e) => setTestEmail(e.target.value)}
-                  placeholder="your@email.com"
-                  className="h-9 text-sm"
-                />
-                <Button
-                  size="sm"
-                  onClick={handleSendTest}
-                  disabled={sendingTest || !testEmail}
-                  className="gap-1.5 shrink-0"
-                >
-                  {sendingTest ? (
-                    <RefreshCw className="h-3.5 w-3.5 animate-spin" />
-                  ) : (
-                    <Send className="h-3.5 w-3.5" />
-                  )}
-                  Send
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Preview */}
-        <div className="lg:col-span-7 flex flex-col gap-3 overflow-hidden">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Eye className="h-4 w-4 text-primary" />
-              <span className="text-sm font-medium">Preview</span>
-            </div>
-            <div className="flex items-center gap-1 bg-muted p-1 rounded-lg">
-              <Button
-                variant={previewDevice === "desktop" ? "secondary" : "ghost"}
-                size="sm"
-                className="h-7 w-7 p-0"
-                onClick={() => setPreviewDevice("desktop")}
-              >
-                <Laptop className="h-3.5 w-3.5" />
-              </Button>
-              <Button
-                variant={previewDevice === "mobile" ? "secondary" : "ghost"}
-                size="sm"
-                className="h-7 w-7 p-0"
-                onClick={() => setPreviewDevice("mobile")}
-              >
-                <Smartphone className="h-3.5 w-3.5" />
-              </Button>
             </div>
           </div>
 
-          <div className="flex-1 min-h-0 flex justify-center bg-muted/30 rounded-lg border border-border/50 p-4 overflow-y-auto">
+          {/* Card 4: Send Test Email */}
+          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] p-5 shadow-xs">
+            <div className="flex items-center justify-between mb-3 text-xs font-mono">
+              <span className="font-bold text-neutral-900 dark:text-white flex items-center gap-2">
+                <Send className="h-3.5 w-3.5 text-neutral-500" />
+                <span>DISPATCH SAMPLE TRANSMISSION</span>
+              </span>
+              <span className="text-[10px] text-neutral-400">TEST PING</span>
+            </div>
+            <div className="flex gap-2">
+              <Input
+                value={testEmail}
+                onChange={(e) => setTestEmail(e.target.value)}
+                placeholder="developer@domain.com"
+                className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
+              />
+              <Button
+                size="sm"
+                onClick={handleSendTest}
+                disabled={sendingTest || !testEmail}
+                className="h-9 px-4 font-mono text-xs bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 shrink-0 cursor-pointer shadow-xs gap-1.5"
+              >
+                {sendingTest ? (
+                  <RefreshCw className="h-3 w-3 animate-spin" />
+                ) : (
+                  <Send className="h-3 w-3" />
+                )}
+                <span>SEND</span>
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Live Preview Panel (7 cols) */}
+        <div className="lg:col-span-7 space-y-3">
+          <div className="flex items-center justify-between text-xs font-mono">
+            <div className="flex items-center gap-2 text-neutral-500">
+              <Eye className="h-3.5 w-3.5" />
+              <span className="font-semibold text-neutral-900 dark:text-white uppercase">
+                RENDERED RECIPIENT PREVIEW
+              </span>
+            </div>
+            <div className="flex items-center gap-1 bg-neutral-100 dark:bg-[#15161b] p-0.5 rounded border border-neutral-200 dark:border-[#2a2b33]">
+              <button
+                onClick={() => setPreviewDevice("desktop")}
+                className={`px-2.5 py-1 rounded text-[11px] font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
+                  previewDevice === "desktop"
+                    ? "bg-white dark:bg-neutral-800 text-black dark:text-white font-bold shadow-xs"
+                    : "text-neutral-500 hover:text-black dark:hover:text-white"
+                }`}
+              >
+                <Laptop className="h-3 w-3" />
+                <span>DESKTOP</span>
+              </button>
+              <button
+                onClick={() => setPreviewDevice("mobile")}
+                className={`px-2.5 py-1 rounded text-[11px] font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
+                  previewDevice === "mobile"
+                    ? "bg-white dark:bg-neutral-800 text-black dark:text-white font-bold shadow-xs"
+                    : "text-neutral-500 hover:text-black dark:hover:text-white"
+                }`}
+              >
+                <Smartphone className="h-3 w-3" />
+                <span>MOBILE</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Email Preview Frame */}
+          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-neutral-100/60 dark:bg-[#0c0d11] p-4 flex justify-center shadow-xs">
             <div
-              className={`bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 border border-gray-200 ${previewDevice === "mobile" ? "w-[320px]" : "w-full max-w-[full]"}`}
+              className={`bg-white text-neutral-900 shadow-md rounded-lg overflow-hidden transition-all duration-200 border border-neutral-200 ${
+                previewDevice === "mobile" ? "w-90" : "w-full max-w-xl"
+              }`}
             >
-              {/* Browser bar */}
-              <div className="bg-gray-50 border-b border-gray-100 px-4 py-2.5 h-8 flex items-center gap-2">
+              {/* Fake Mail Client Header */}
+              <div className="bg-neutral-100 border-b border-neutral-200 px-4 py-2 flex items-center gap-2 text-xs font-mono text-neutral-500">
                 <div className="flex gap-1.5">
-                  <div className="h-2 w-2 rounded-full bg-red-400/60" />
-                  <div className="h-2 w-2 rounded-full bg-yellow-400/60" />
-                  <div className="h-2 w-2 rounded-full bg-green-400/60" />
+                  <div className="h-2 w-2 rounded-full bg-neutral-300" />
+                  <div className="h-2 w-2 rounded-full bg-neutral-300" />
+                  <div className="h-2 w-2 rounded-full bg-neutral-300" />
                 </div>
-                <div className="flex-1 text-center">
-                  <span className="text-[10px] text-gray-400 rounded px-2 py-0.5 truncate inline-block max-w-[200px]">
-                    {subjectLine}
-                  </span>
+                <div className="flex-1 text-center truncate px-2 font-medium text-neutral-700">
+                  {subjectLine}
                 </div>
               </div>
 
-              {/* Email content */}
-              <div className="max-w-full mx-auto bg-white rounded-xl border border-gray-200 shadow-sm font-sans text-[#1e293b] overflow-hidden">
-                {/* Header */}
-                <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    {logoUrl && (
+              {/* Email Content Container */}
+              <div className="p-6 sm:p-8 space-y-6 font-sans">
+                {/* Logo and Project Header */}
+                <div className="flex items-center justify-between pb-4 border-b border-neutral-100">
+                  <div className="flex items-center gap-2.5">
+                    {logoUrl ? (
                       <img src={logoUrl} alt="Logo" className="h-6 w-auto" />
+                    ) : (
+                      <div className="h-6 w-6 rounded bg-neutral-900 text-white flex items-center justify-center font-bold text-xs">
+                        {project.name.charAt(0)}
+                      </div>
                     )}
-                    <span className="text-sm font-semibold text-gray-900">
+                    <span className="font-bold text-sm text-neutral-900">
                       {project.name}
                     </span>
                   </div>
-                  <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                    Secure Auth
+                  <span className="text-[10px] font-mono font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
+                    ENCLAVE SECURED
                   </span>
                 </div>
 
-                {/* Body */}
-                <div className="px-6 py-6">
-                  <h1 className="text-lg font-semibold text-gray-900 mb-3">
+                {/* Main Body */}
+                <div className="space-y-4">
+                  <h2 className="text-lg font-bold text-neutral-900">
                     Verify your identity
-                  </h1>
+                  </h2>
 
                   <div
-                    className="text-sm text-gray-600 leading-relaxed mb-5"
+                    className="text-xs text-neutral-600 leading-relaxed font-normal"
                     dangerouslySetInnerHTML={{ __html: customBody }}
                   />
 
-                  {/* OTP */}
-                  <div className="bg-gray-50 border border-gray-200 rounded-lg text-center py-5 mb-5">
+                  {/* 6-Digit Challenge Box */}
+                  <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-5 text-center my-4 space-y-1">
                     <div
-                      className="text-2xl font-mono font-semibold tracking-widest"
+                      className="text-3xl font-mono font-bold tracking-[0.25em]"
                       style={{ color: primaryColor }}
                     >
-                      892 043
+                      482 910
                     </div>
-                    <p className="text-[10px] text-gray-400 mt-1 uppercase tracking-wider">
-                      Verification Code
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      Valid for 10 minutes
-                    </p>
+                    <div className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest">
+                      ONE-TIME CRYPTOGRAPHIC PASSCODE
+                    </div>
+                    <div className="text-[11px] text-neutral-500 font-mono">
+                      Valid for 10 minutes from dispatch
+                    </div>
                   </div>
 
-                  {/* Metadata */}
+                  {/* Metadata telemetry */}
                   {showMetadata && (
-                    <div className="text-xs text-gray-500 border-t border-gray-100 pt-4 space-y-1">
-                      {[
-                        [
-                          "Time",
-                          `${new Date().toUTCString().split(" ").slice(4, 5).join(" ")} UTC`,
-                        ],
-                        ["Device", "Chrome / Windows"],
-                        ["IP Address", "192.168.1.1"],
-                        ["Location", "San Francisco, US"],
-                      ].map(([label, val]) => (
-                        <div key={label} className="flex justify-between">
-                          <span className="text-gray-400">{label}</span>
-                          <span className="font-mono text-gray-700">{val}</span>
-                        </div>
-                      ))}
+                    <div className="text-[11px] font-mono text-neutral-500 border-t border-neutral-100 pt-3 space-y-1">
+                      <div className="flex justify-between">
+                        <span className="text-neutral-400">Timestamp</span>
+                        <span>
+                          {new Date()
+                            .toISOString()
+                            .replace("T", " ")
+                            .slice(0, 19)}{" "}
+                          UTC
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-neutral-400">Security Gate</span>
+                        <span>PKCE S256 / SHA-256</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-neutral-400">Ingress IP</span>
+                        <span>192.168.1.1 (Verified)</span>
+                      </div>
                     </div>
                   )}
 
-                  {/* Security Notice */}
-                  <div className="mt-5 text-xs text-amber-700 bg-amber-50 border border-amber-100 rounded-md px-3 py-2">
-                    <strong>Security Notice:</strong> If you didn’t request
-                    this, please secure your account.
+                  {/* Security Advisory */}
+                  <div className="text-[11px] text-neutral-600 bg-neutral-50 border border-neutral-200 p-3 rounded leading-relaxed">
+                    <strong>Security Notice:</strong> If you did not initiate
+                    this authentication request, please ignore this
+                    transmission.
                   </div>
                 </div>
 
-                {/* Footer */}
-                <div className="px-6 py-5 bg-gray-50 border-t border-gray-100 text-center">
-                  <div className="text-xs text-gray-500 space-x-3 mb-2">
-                    {supportUrl && (
-                      <span style={{ color: primaryColor }}>Support</span>
-                    )}
-                    {privacyUrl && (
-                      <span style={{ color: primaryColor }}>Privacy</span>
-                    )}
-                    {securityUrl && (
-                      <span style={{ color: primaryColor }}>Security</span>
-                    )}
+                {/* Email Footer */}
+                <div className="pt-4 border-t border-neutral-100 text-center text-[11px] font-mono text-neutral-400 space-y-2">
+                  <div className="flex justify-center gap-3 text-neutral-600">
+                    {supportUrl && <span>Support</span>}
+                    {privacyUrl && <span>Privacy</span>}
+                    {securityUrl && <span>Security</span>}
                   </div>
-
-                  <p className="text-[11px] text-gray-400 leading-relaxed">
-                    © {new Date().getFullYear()} {project.name}
-                    <br />
-                    {companyAddress || "Company Address"}
-                  </p>
-
-                  <p className="text-[10px] text-gray-400 mt-2">{footerText}</p>
-
-                  <p className="text-[9px] text-gray-300 mt-3 uppercase tracking-wider">
-                    Powered by AuthSphere
-                  </p>
+                  <div>
+                    &copy; {new Date().getFullYear()} {project.name}.{" "}
+                    {companyAddress || "Identity Infrastructure"}
+                  </div>
+                  <div className="text-[10px] text-neutral-400">
+                    {footerText}
+                  </div>
+                  <div className="text-[9px] uppercase tracking-widest text-neutral-400 pt-1">
+                    POWERED BY AUTHTOKEN ENCLAVE // AUTHTECHNOLOGIES
+                  </div>
                 </div>
               </div>
             </div>

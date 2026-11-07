@@ -9,7 +9,7 @@ Follow these steps to spin up the entire AuthSphere ecosystem in your local envi
 ### **Step 1: Repository Warm-up**
 
 ```bash
-git clone https://github.com/madhav9757/AuthSphere.git
+git clone https://github.com/AuthSphere.git
 cd AuthSphere
 ```
 

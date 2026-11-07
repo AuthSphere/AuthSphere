@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Badge } from "@/components/ui/badge";
 import { ChevronDown, Github, X, Menu } from "lucide-react";
+import TechSeparator from "@/components/common/TechSeparator";
 
 const DocsHeader = ({
   sections,
@@ -10,51 +10,48 @@ const DocsHeader = ({
   setIsSidebarOpen,
 }) => {
   return (
-    <div className="sticky top-16 z-40 border-b bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60">
-      <div className="w-[90vw] mx-auto px-6 h-12 flex items-center justify-between">
-        <div className="flex items-center gap-2 overflow-hidden">
+    <div className="sticky top-16 z-30 border-b border-neutral-200 dark:border-[#222329] bg-white/80 dark:bg-[#09090c]/80 backdrop-blur-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-12 flex items-center justify-between">
+        <div className="flex items-center gap-2 overflow-hidden text-xs font-mono text-neutral-500">
           <Link
             to="/"
-            className="text-xs font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+            className="hover:text-black dark:hover:text-white transition-colors"
           >
-            AuthSphere
-            <ChevronDown className="h-3 w-3 -rotate-90" />
+            AUTHTOKEN
           </Link>
-          <span className="text-xs font-medium text-muted-foreground">
-            Documentation
-          </span>
-          <ChevronDown className="h-3 w-3 -rotate-90 text-muted-foreground/50" />
-          <span className="text-xs font-bold truncate">
+          <TechSeparator />
+          <span>SPECIFICATION</span>
+          <TechSeparator />
+          <span className="font-bold text-neutral-900 dark:text-white truncate uppercase">
             {sections.find((s) => s.id === activeSection)?.title}
           </span>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="hidden sm:flex items-center gap-3 pr-4 border-r">
-            <Badge
-              variant="secondary"
-              className="text-[10px] h-5 bg-primary/5 text-primary border-primary/20"
-            >
-              v2.4.0
-            </Badge>
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-3 pr-3 border-r border-neutral-200 dark:border-[#222329]">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-neutral-200 dark:border-[#2a2b33] bg-neutral-100 dark:bg-[#15161b] text-neutral-600 dark:text-neutral-400 font-semibold">
+              v2.6.0 SPEC
+            </span>
             <a
-              href="https://github.com/madhav9757/AuthSphere"
+              href="https://github.com/AuthSphere"
               target="_blank"
               rel="noreferrer"
-              className="text-muted-foreground hover:text-foreground"
+              className="text-neutral-500 hover:text-black dark:hover:text-white transition-colors"
             >
               <Github className="h-4 w-4" />
             </a>
           </div>
 
           <button
-            className="md:hidden p-2 -mr-2 text-muted-foreground hover:text-foreground flex items-center gap-2"
+            className="md:hidden p-1.5 text-neutral-500 hover:text-black dark:hover:text-white flex items-center gap-1.5 font-mono text-xs cursor-pointer"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           >
-            <span className="text-xs font-bold uppercase tracking-widest">
-              Menu
-            </span>
-            {isSidebarOpen ? <X size={18} /> : <Menu size={18} />}
+            <span>{isSidebarOpen ? "CLOSE" : "MENU"}</span>
+            {isSidebarOpen ? (
+              <X className="h-4 w-4" />
+            ) : (
+              <Menu className="h-4 w-4" />
+            )}
           </button>
         </div>
       </div>

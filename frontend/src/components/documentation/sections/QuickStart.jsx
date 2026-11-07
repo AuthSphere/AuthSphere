@@ -1,168 +1,150 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Info, Terminal, Globe, ShieldCheck, Code2 } from "lucide-react";
+import { Terminal, Globe, ShieldCheck, Code2, AlertCircle } from "lucide-react";
 import DocsCodeBlock from "../DocsCodeBlock";
-import { Badge } from "@/components/ui/badge";
+import TechSeparator from "@/components/common/TechSeparator";
 
-const QuickStart = ({ publicKey }) => {
+const QuickStart = ({ publicKey, projectId }) => {
   return (
-    <article className="space-y-10 animate-in fade-in duration-500">
-      <div className="space-y-3">
-        <div className="flex items-center gap-2">
-          <Badge className="bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 border-emerald-500/20">
-            Step-by-Step
-          </Badge>
-          <span className="text-[10px] text-muted-foreground font-mono uppercase tracking-widest">
-            Est. time: 5 mins
-          </span>
+    <article className="space-y-8 text-neutral-900 dark:text-neutral-100 font-sans">
+      {/* Eyebrow Header */}
+      <div className="border-b border-neutral-200 dark:border-[#222329] pb-4 space-y-2">
+        <div className="flex items-center text-xs font-mono text-neutral-500 uppercase tracking-widest">
+          <span>02</span>
+          <TechSeparator />
+          <span>IMPLEMENTATION GUIDE</span>
+          <TechSeparator />
+          <span>QUICK START</span>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight">Quick Start Guide</h1>
-        <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
-          Establishing a secure identity handshake between your client and
-          AuthSphere's infrastructure. This guide covers installation,
-          initialization, and the OIDC callback lifecycle.
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+          Client Integration in 4 Steps
+        </h1>
+        <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed max-w-2xl">
+          Integrate AuthSphere into your web application, configure your CORS
+          allowlist, and start authenticating users with PKCE S256.
         </p>
       </div>
 
-      <div className="space-y-12">
-        {/* Step 1: Package Installation */}
-        <section className="relative pl-8 border-l-2 border-primary/20">
-          <div className="absolute -left-[11px] top-0 h-5 w-5 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-primary-foreground shadow-[0_0_15px_rgba(var(--primary),0.5)]">
-            1
+      <div className="space-y-8">
+        {/* Step 1: Install SDK */}
+        <section className="space-y-3">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-neutral-900 dark:text-white uppercase tracking-wider">
+            <span className="w-5 h-5 rounded border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-[#181920] flex items-center justify-center text-[10px]">
+              01
+            </span>
+            <span>Install the Client SDK</span>
           </div>
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 text-foreground">
-              <Terminal className="h-4 w-4 text-primary" />
-              <h3 className="text-base font-bold">Install Runtime SDK</h3>
-            </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              The SDK handles the heavy lifting: PKCE code challenge generation,
-              state management for CSRF protection, and automatic token rotation
-              using silent refresh.
-            </p>
-            <DocsCodeBlock
-              id="install"
-              code="npm install @authspherejs/sdk"
-              language="terminal"
-            />
-          </div>
-        </section>
-
-        {/* Step 2: Configure Allowed Origins */}
-        <section className="relative pl-8 border-l-2 border-primary/20">
-          <div className="absolute -left-[11px] top-0 h-5 w-5 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-primary-foreground">
-            2
-          </div>
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 text-foreground">
-              <Globe className="h-4 w-4 text-primary" />
-              <h3 className="text-base font-bold">
-                Origin Policy Configuration
-              </h3>
-            </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              For security, AuthSphere strictly enforces CORS policies. You must
-              white-list your application domains in the
-              <Link
-                to="/dashboard"
-                className="text-primary font-medium hover:underline mx-1"
-              >
-                Project Dashboard
-              </Link>
-              .
-            </p>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="p-4 rounded-xl border bg-card/50 space-y-2">
-                <span className="text-[10px] font-bold uppercase text-muted-foreground">
-                  Development
-                </span>
-                <code className="block text-xs text-primary">
-                  http://localhost:3000
-                </code>
-              </div>
-              <div className="p-4 rounded-xl border bg-card/50 space-y-2">
-                <span className="text-[10px] font-bold uppercase text-muted-foreground">
-                  Production
-                </span>
-                <code className="block text-xs text-primary">
-                  https://app.yourdomain.com
-                </code>
-              </div>
-            </div>
-            <div className="p-3 rounded-lg bg-blue-500/5 border border-blue-500/10 flex gap-3 items-start">
-              <Info className="h-4 w-4 text-blue-500 shrink-0 mt-0.5" />
-              <p className="text-xs text-muted-foreground leading-relaxed italic">
-                <strong>Safety Note:</strong> Wildcards (e.g.,{" "}
-                <code>*.domain.com</code>) are supported but should be used
-                sparingly to prevent subdomain hijacking.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Step 3: Initialize SDK */}
-        <section className="relative pl-8 border-l-2 border-primary/20">
-          <div className="absolute -left-[11px] top-0 h-5 w-5 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-primary-foreground">
-            3
-          </div>
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 text-foreground">
-              <ShieldCheck className="h-4 w-4 text-primary" />
-              <h3 className="text-base font-bold">Client Initialization</h3>
-            </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Initialize the AuthSphere client at your application's root. This
-              establishes the persistent connection and sets up the event
-              listeners for token expiry.
-            </p>
-            <DocsCodeBlock
-              id="init"
-              code={`import AuthSphere from '@authspherejs/sdk'\n\n// Initialize the singleton instance\nAuthSphere.initAuth({\n  publicKey: '${publicKey}',\n  projectId: 'YOUR_PROJECT_ID', // Found in Dashboard\n  baseUrl: 'https://auth-sphere-6s2v.vercel.app',\n  redirectUri: window.location.origin + '/callback',\n  options: {\n    debug: process.env.NODE_ENV !== 'production',\n    autoRefresh: true,\n    storageType: 'local' // or 'session'\n  }\n});`}
-              language="javascript"
-            />
-          </div>
-        </section>
-
-        {/* Step 4: Handle Callback */}
-        <section className="relative pl-8 border-l-2 border-muted">
-          <div className="absolute -left-[11px] top-0 h-5 w-5 rounded-full bg-muted flex items-center justify-center text-[10px] font-bold text-muted-foreground">
-            4
-          </div>
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 text-foreground">
-              <Code2 className="h-4 w-4 text-primary" />
-              <h3 className="text-base font-bold">Processing the Callback</h3>
-            </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Create a dedicated route (e.g., <code>/callback</code>) to handle
-              the OIDC redirect. The <code>handleCallback</code> method
-              exchanges the temporary authorization code for high-entropy JWTs.
-            </p>
-            <DocsCodeBlock
-              id="callback"
-              code={`// In your Callback.jsx component\nuseEffect(() => {\n  const processAuth = async () => {\n    try {\n      const { user, tokens } = await AuthSphere.handleAuthCallback();\n      console.log('Successfully authenticated:', user.email);\n      window.location.href = '/dashboard';\n    } catch (error) {\n      console.error('Authentication failed:', error.message);\n      window.location.href = '/login?error=' + error.message;\n    }\n  };\n  processAuth();\n}, []);`}
-              language="javascript"
-            />
-          </div>
-        </section>
-      </div>
-
-      {/* Support Footer */}
-      <div className="p-6 rounded-2xl border bg-muted/30 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="space-y-1">
-          <h4 className="text-sm font-bold">Need help with initialization?</h4>
-          <p className="text-xs text-muted-foreground">
-            Checkout our example repositories for React, Next.js, and Vue.
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono">
+            Install the official lightweight JavaScript SDK via your preferred
+            package manager:
           </p>
-        </div>
-        <div className="flex gap-2">
-          <button className="px-4 py-2 rounded-lg bg-card border text-xs font-bold hover:bg-muted transition-colors">
-            Github Examples
-          </button>
-          <button className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-xs font-bold hover:opacity-90 transition-opacity">
-            Contact Support
-          </button>
-        </div>
+          <DocsCodeBlock
+            id="install-cmd"
+            code="npm install @authspherejs/sdk"
+            language="bash"
+          />
+        </section>
+
+        {/* Step 2: Configure Origin in Dashboard */}
+        <section className="space-y-3">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-neutral-900 dark:text-white uppercase tracking-wider">
+            <span className="w-5 h-5 rounded border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-[#181920] flex items-center justify-center text-[10px]">
+              02
+            </span>
+            <span>Whitelist Allowed Frontend Origin</span>
+          </div>
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+            AuthSphere enforces strict CORS matching. Ensure your local dev
+            server and production domain are added to your project's allowed
+            origins:
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
+            <div className="p-3 rounded-lg border border-neutral-200 dark:border-[#222329] bg-neutral-50 dark:bg-[#15161b]">
+              <span className="text-[10px] text-neutral-400 block mb-1 uppercase">
+                LOCAL DEVELOPMENT
+              </span>
+              <code className="text-emerald-600 dark:text-emerald-400">
+                http://localhost:5173
+              </code>
+            </div>
+            <div className="p-3 rounded-lg border border-neutral-200 dark:border-[#222329] bg-neutral-50 dark:bg-[#15161b]">
+              <span className="text-[10px] text-neutral-400 block mb-1 uppercase">
+                PRODUCTION DOMAIN
+              </span>
+              <code className="text-emerald-600 dark:text-emerald-400">
+                https://app.yourdomain.com
+              </code>
+            </div>
+          </div>
+        </section>
+
+        {/* Step 3: Initialize the SDK */}
+        <section className="space-y-3">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-neutral-900 dark:text-white uppercase tracking-wider">
+            <span className="w-5 h-5 rounded border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-[#181920] flex items-center justify-center text-[10px]">
+              03
+            </span>
+            <span>Initialize Client in Entrypoint</span>
+          </div>
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+            Call <code>initAuth()</code> once at the root of your application
+            (e.g. <code>main.jsx</code> or <code>App.jsx</code>):
+          </p>
+          <DocsCodeBlock
+            id="quickstart-init"
+            code={`import AuthSphere from '@authspherejs/sdk';
+
+AuthSphere.initAuth({
+  publicKey: '${publicKey || "as_pub_live_7721..."}',
+  projectId: '${projectId || "67a3f890..."}',
+  redirectUri: window.location.origin + '/callback',
+  baseUrl: 'https://api.authsphere.dev',
+  options: {
+    autoRefresh: true, // Silently rotates access tokens before 15m expiry
+    storageType: 'local', // Or 'session'
+  }
+});`}
+            language="javascript"
+          />
+        </section>
+
+        {/* Step 4: Handle the Redirect Callback */}
+        <section className="space-y-3">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-neutral-900 dark:text-white uppercase tracking-wider">
+            <span className="w-5 h-5 rounded border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-[#181920] flex items-center justify-center text-[10px]">
+              04
+            </span>
+            <span>Handle OAuth / Magic Link Callback</span>
+          </div>
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+            Mount a dedicated route matching your <code>redirectUri</code> (e.g.{" "}
+            <code>/callback</code>) to complete the token exchange:
+          </p>
+          <DocsCodeBlock
+            id="quickstart-callback"
+            code={`import { useEffect } from 'react';
+import AuthSphere from '@authspherejs/sdk';
+
+export const Callback = () => {
+  useEffect(() => {
+    async function exchange() {
+      try {
+        const { user, tokens } = await AuthSphere.handleAuthCallback();
+        console.log('Logged in as:', user.email);
+        window.location.href = '/dashboard';
+      } catch (err) {
+        console.error('Handshake failed:', err.message);
+        window.location.href = '/login?error=' + encodeURIComponent(err.message);
+      }
+    }
+    exchange();
+  }, []);
+
+  return <div>Authenticating session...</div>;
+};`}
+            language="javascript"
+          />
+        </section>
       </div>
     </article>
   );

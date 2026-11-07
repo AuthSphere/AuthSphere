@@ -7,30 +7,16 @@ import {
   Save,
   Loader2,
   Globe,
-  Zap,
-  Lock,
-  Cpu,
-  Terminal,
   Info,
   ExternalLink,
-  Layers,
   CheckCircle2,
-  Activity,
   AlertCircle,
+  Cpu,
+  Key,
 } from "lucide-react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import {
   Dialog,
   DialogContent,
@@ -45,6 +31,101 @@ import {
   getConfiguredProviders,
 } from "@/api/ProjectAPI";
 import { allProvidersList } from "@/lib/providers";
+import TechSeparator from "@/components/common/TechSeparator";
+
+const ProviderCard = ({
+  p,
+  isSelected,
+  isConfigured,
+  backendMessage,
+  onToggle,
+  onViewDocs,
+  isUpcoming,
+  index,
+}) => {
+  return (
+    <div
+      onClick={() => {
+        if (isUpcoming) return;
+        if (!isConfigured && !isSelected) {
+          toast.error(`${p.name} - Configuration Required`, {
+            description:
+              backendMessage || "Please add keys to your backend .env file.",
+          });
+          return;
+        }
+        onToggle(p.id);
+      }}
+      className={`group relative flex flex-col items-center justify-between p-4 rounded-xl border transition-all duration-200 cursor-pointer select-none overflow-hidden ${
+        isSelected
+          ? "border-black dark:border-white bg-white dark:bg-[#15161c] shadow-sm ring-1 ring-black/10 dark:ring-white/20"
+          : isUpcoming
+            ? "border-neutral-200/50 dark:border-[#1d1e24] bg-neutral-50/50 dark:bg-[#0f1013] opacity-40 cursor-not-allowed"
+            : "border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] hover:border-neutral-300 dark:hover:border-neutral-700 shadow-xs"
+      }`}
+    >
+      {/* Port Index */}
+      <div className="w-full flex items-center justify-between text-[9px] font-mono text-neutral-400 mb-2">
+        <span>PORT_{String(index + 1).padStart(2, "0")}</span>
+        {isSelected ? (
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+        ) : isConfigured ? (
+          <span className="w-1.5 h-1.5 rounded-full bg-neutral-300 dark:bg-neutral-600" />
+        ) : null}
+      </div>
+
+      {/* Logo Container */}
+      <div className="h-10 w-10 my-1 rounded-lg bg-white dark:bg-[#181920] border border-neutral-200 dark:border-[#2a2b33] flex items-center justify-center p-2 shadow-xs shrink-0">
+        <img
+          src={p.logo}
+          alt={p.name}
+          className="h-full w-full object-contain"
+          onError={(e) => {
+            e.currentTarget.style.display = "none";
+          }}
+        />
+        <div className="hidden only-child:block text-[11px] font-bold font-mono text-neutral-500">
+          {p.name.charAt(0)}
+        </div>
+      </div>
+
+      {/* Name and State Tag */}
+      <div className="text-center min-w-0 w-full mt-2 space-y-1">
+        <p className="text-xs font-semibold font-mono text-neutral-900 dark:text-white truncate">
+          {p.name}
+        </p>
+        <div className="flex items-center justify-center min-h-[14px]">
+          {isSelected ? (
+            <span className="text-[9px] font-bold font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
+              ACTIVE
+            </span>
+          ) : !isUpcoming && !isConfigured ? (
+            <span className="text-[9px] font-mono text-amber-600 dark:text-amber-400 uppercase tracking-widest">
+              SETUP REQ
+            </span>
+          ) : (
+            <span className="text-[9px] font-mono text-neutral-400 uppercase tracking-widest">
+              {isUpcoming ? "ROADMAP" : "AVAILABLE"}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Info Icon Button */}
+      {!isUpcoming && (
+        <button
+          className="absolute top-1.5 right-1.5 p-1 text-neutral-400 hover:text-black dark:hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"
+          onClick={(e) => {
+            e.stopPropagation();
+            onViewDocs(p);
+          }}
+        >
+          <Info className="h-3 w-3" />
+        </button>
+      )}
+    </div>
+  );
+};
 
 const ProvidersPage = ({ embedded = false, onBack, onUpdated }) => {
   const { projectId: routeProjectId } = useParams();
@@ -117,7 +198,7 @@ const ProvidersPage = ({ embedded = false, onBack, onUpdated }) => {
       );
 
       if (activeKeys.length === 0) {
-        toast.error("At least one provider must be enabled");
+        toast.error("At least one identity provider must be active");
         return;
       }
 
@@ -126,7 +207,7 @@ const ProvidersPage = ({ embedded = false, onBack, onUpdated }) => {
       });
 
       if (res?.success) {
-        toast.success("Identity Catalog synchronized");
+        toast.success("Identity catalog synchronized with enclave");
         if (onUpdated) onUpdated();
       }
     } catch {
@@ -138,114 +219,135 @@ const ProvidersPage = ({ embedded = false, onBack, onUpdated }) => {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-background">
-        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-3 font-mono text-xs">
+        <Loader2 className="h-6 w-6 animate-spin text-neutral-500" />
+        <span className="text-neutral-500">QUERYING IDENTITY CATALOG...</span>
       </div>
     );
   }
 
   return (
     <div
-      className={`${embedded ? "bg-transparent" : "min-h-screen bg-muted/20"} pb-20`}
+      className={`${
+        embedded
+          ? "bg-transparent space-y-6"
+          : "min-h-screen bg-[#fbf9f9] dark:bg-[#09090c] text-neutral-900 dark:text-neutral-100 antialiased relative isolate"
+      }`}
     >
-      {/* STICKY HEADER */}
+      {/* Precision Engineering Matrix Background (only when full page) */}
       {!embedded && (
-        <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b">
-          <div className="container mx-auto py-4 px-6 max-w-[1600px] flex items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
+        <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-[#fbf9f9] dark:bg-[#09090c]">
+          <div className="absolute inset-0 grid-matrix opacity-40 dark:opacity-20" />
+          <div className="absolute inset-0 bg-radial from-transparent via-transparent to-neutral-200/50 dark:to-black/60" />
+        </div>
+      )}
+
+      {/* Top Header */}
+      {!embedded && (
+        <div className="border-b border-neutral-200 dark:border-[#222329] bg-white/80 dark:bg-[#0c0d11]/80 backdrop-blur-md sticky top-0 z-30">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
               <Button
                 variant="outline"
                 size="icon"
                 onClick={() =>
                   onBack ? onBack() : navigate(`/projects/${projectId}`)
                 }
-                className="rounded-xl h-10 w-10"
+                className="h-8 w-8 rounded border-neutral-200 dark:border-[#2a2b33]"
               >
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowLeft className="h-3.5 w-3.5" />
               </Button>
               <div>
-                <h1 className="text-xl font-bold tracking-tight">
-                  Identity Catalog
+                <div className="flex items-center text-[11px] font-mono text-neutral-500 uppercase tracking-wider">
+                  <span>{project?.name || "PROJECT"}</span>
+                  <TechSeparator />
+                  <span>IDENTITY RUNTIME</span>
+                </div>
+                <h1 className="text-base font-bold text-neutral-900 dark:text-white">
+                  Federated Provider Catalog
                 </h1>
-                <p className="text-xs text-muted-foreground">
-                  Managing{" "}
-                  <span className="text-foreground font-semibold">
-                    {project?.name}
-                  </span>
-                </p>
               </div>
             </div>
 
-            <div className="flex flex-1 max-w-xl relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search 50+ providers by name or technology..."
-                className="pl-10 h-10 bg-muted/40 border-none rounded-xl"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+            <div className="flex items-center gap-3 flex-1 sm:max-w-md">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-400" />
+                <Input
+                  placeholder="Filter by provider name or protocol..."
+                  className="pl-9 h-8 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              <Button
+                onClick={handleSave}
+                disabled={saving}
+                className="h-8 px-4 text-xs font-mono bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 shrink-0 cursor-pointer shadow-xs"
+              >
+                {saving ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin mr-1.5" />
+                ) : (
+                  <Save className="h-3.5 w-3.5 mr-1.5" />
+                )}
+                <span>SYNC CHANGES</span>
+              </Button>
             </div>
-
-            <Button
-              onClick={handleSave}
-              disabled={saving}
-              className="h-10 px-6 rounded-xl font-bold transition-all shadow-lg shadow-primary/20"
-            >
-              {saving ? (
-                <Loader2 className="h-4 w-4 animate-spin mr-2" />
-              ) : (
-                <Save className="h-4 w-4 mr-2" />
-              )}
-              Sync Changes
-            </Button>
           </div>
         </div>
       )}
 
-      <div
-        className={`${embedded ? "py-2" : "container mx-auto py-8 px-6 max-w-[1800px]"} space-y-12`}
-      >
-        {embedded && (
-          <div className="flex items-center justify-between gap-4 mb-4">
-            <div className="flex flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search catalog..."
-                className="pl-9 h-9 bg-background border rounded-md text-sm"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <Button
-              onClick={handleSave}
-              disabled={saving}
-              className="h-9 px-4 rounded-md"
-            >
-              {saving ? (
-                <Loader2 className="h-4 w-4 animate-spin mr-2" />
-              ) : (
-                <Save className="h-4 w-4 mr-2" />
-              )}
-              Save Changes
-            </Button>
+      {/* Embedded Command Bar */}
+      {embedded && (
+        <div className="flex items-center justify-between gap-3">
+          <div className="relative flex-1 max-w-sm">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-400" />
+            <Input
+              placeholder="Search provider catalog..."
+              className="pl-9 h-8 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
-        )}
-        {/* SECTION 1: LIVE & READY */}
+          <Button
+            onClick={handleSave}
+            disabled={saving}
+            className="h-8 px-4 text-xs font-mono bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 shrink-0 cursor-pointer shadow-xs"
+          >
+            {saving ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin mr-1.5" />
+            ) : (
+              <Save className="h-3.5 w-3.5 mr-1.5" />
+            )}
+            <span>SAVE ACTIVE SELECTION</span>
+          </Button>
+        </div>
+      )}
+
+      <div
+        className={
+          embedded
+            ? "space-y-8"
+            : "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8"
+        }
+      >
+        {/* Section 1: Active & Ready */}
         {activeProviders.length > 0 && (
           <div className="space-y-3">
-            <div className="flex items-center justify-between border-b border-primary/5 pb-2">
-              <h3 className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">
-                Ready to Integrate
-              </h3>
-              <span className="text-[10px] text-muted-foreground/60 font-medium">
-                {activeProviders.length} active
+            <div className="flex items-center justify-between border-b border-neutral-200 dark:border-[#222329] pb-2 font-mono text-xs">
+              <span className="font-bold text-neutral-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span>01 // LIVE INGRESS PROVIDERS</span>
+              </span>
+              <span className="text-neutral-400 text-[10px]">
+                {activeProviders.length} READY
               </span>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3">
-              {activeProviders.map((p) => (
+              {activeProviders.map((p, idx) => (
                 <ProviderCard
                   key={p.id}
                   p={p}
+                  index={idx}
                   isSelected={selectedProviders[p.id]}
                   isConfigured={true}
                   backendMessage={backendConfig[p.id]?.message}
@@ -257,21 +359,22 @@ const ProvidersPage = ({ embedded = false, onBack, onUpdated }) => {
           </div>
         )}
 
-        {/* SECTION 2: SETUP REQUIRED */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between border-b border-primary/5 pb-2">
-            <h3 className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">
-              Available Catalog
-            </h3>
-            <span className="text-[10px] text-muted-foreground/60 font-medium">
-              {setupProviders.length} items
+        {/* Section 2: Setup Required */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between border-b border-neutral-200 dark:border-[#222329] pb-2 font-mono text-xs">
+            <span className="font-bold text-neutral-900 dark:text-white uppercase tracking-wider">
+              02 // AVAILABLE PROVIDER CATALOG
+            </span>
+            <span className="text-neutral-400 text-[10px]">
+              {setupProviders.length} PROTOCOLS
             </span>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3">
-            {setupProviders.map((p) => (
+            {setupProviders.map((p, idx) => (
               <ProviderCard
                 key={p.id}
                 p={p}
+                index={idx}
                 isSelected={selectedProviders[p.id]}
                 isConfigured={false}
                 backendMessage={backendConfig[p.id]?.message}
@@ -282,42 +385,43 @@ const ProvidersPage = ({ embedded = false, onBack, onUpdated }) => {
           </div>
         </div>
 
-        {/* SECTION 3: ROADMAP/COMING SOON */}
-        <div className="space-y-4 pb-20">
-          <div className="flex items-center justify-between border-b border-primary/5 pb-2 border-dashed">
-            <h3 className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">
-              Upcoming
-            </h3>
-            <span className="text-[10px] text-muted-foreground/60 font-medium">
-              roadmap
-            </span>
+        {/* Section 3: Coming Soon */}
+        {upcomingProviders.length > 0 && (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between border-b border-neutral-200 dark:border-[#222329] pb-2 font-mono text-xs">
+              <span className="font-bold text-neutral-500 uppercase tracking-wider">
+                03 // PROTOCOL ROADMAP
+              </span>
+              <span className="text-neutral-400 text-[10px]">UPCOMING</span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3">
+              {upcomingProviders.map((p, idx) => (
+                <ProviderCard
+                  key={p.id}
+                  p={p}
+                  index={idx}
+                  isSelected={false}
+                  onToggle={toggleProvider}
+                  onViewDocs={setSelectedSpec}
+                  isUpcoming
+                />
+              ))}
+            </div>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3 opacity-60">
-            {upcomingProviders.map((p) => (
-              <ProviderCard
-                key={p.id}
-                p={p}
-                isSelected={false}
-                onToggle={toggleProvider}
-                onViewDocs={setSelectedSpec}
-                isUpcoming
-              />
-            ))}
-          </div>
-        </div>
+        )}
       </div>
 
-      {/* SPECIFICATION DIALOG (POPUP) */}
+      {/* Specification Dialog */}
       <Dialog
-        open={!!selectedSpec}
+        open={Boolean(selectedSpec)}
         onOpenChange={(open) => !open && setSelectedSpec(null)}
       >
-        <DialogContent className="max-w-2xl bg-card border-none shadow-2xl p-0 overflow-hidden rounded-2xl">
+        <DialogContent className="max-w-2xl bg-white dark:bg-[#121316] border border-neutral-200 dark:border-[#222329] p-0 overflow-hidden rounded-xl shadow-xl">
           {selectedSpec && (
-            <div className="flex flex-col text-sm">
-              <div className="p-6 border-b">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="h-10 w-10 rounded border bg-background flex items-center justify-center p-2">
+            <div className="flex flex-col text-xs font-mono">
+              <div className="p-6 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b]">
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="h-10 w-10 rounded border border-neutral-200 dark:border-[#2a2b33] bg-white dark:bg-[#181920] flex items-center justify-center p-2 shrink-0">
                     <img
                       src={selectedSpec.logo}
                       alt={selectedSpec.name}
@@ -325,199 +429,90 @@ const ProvidersPage = ({ embedded = false, onBack, onUpdated }) => {
                     />
                   </div>
                   <div>
-                    <DialogTitle className="text-base font-semibold">
+                    <DialogTitle className="text-sm font-bold text-neutral-900 dark:text-white">
                       {selectedSpec.name}
                     </DialogTitle>
-                    <p className="text-xs text-muted-foreground">
-                      {selectedSpec.status}
+                    <p className="text-[10px] text-neutral-500 uppercase tracking-wider mt-0.5">
+                      SPECIFICATION &amp; PROTOCOL REQUIREMENTS
                     </p>
                   </div>
                 </div>
-                <DialogDescription className="text-foreground/80 leading-relaxed">
+                <DialogDescription className="text-xs text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed">
                   {selectedSpec.description}
                 </DialogDescription>
               </div>
 
-              <div className="p-6 grid grid-cols-2 gap-8">
+              <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <h4 className="text-xs font-semibold text-muted-foreground">
-                    Technical Specs
-                  </h4>
-                  <div className="space-y-3">
-                    <div>
-                      <p className="text-[10px] font-semibold text-muted-foreground mb-1 uppercase tracking-tighter">
-                        Flows
-                      </p>
-                      <div className="flex flex-wrap gap-1">
-                        {selectedSpec.flows.map((f) => (
-                          <span
-                            key={f}
-                            className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono"
-                          >
-                            {f}
-                          </span>
-                        ))}
-                      </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider block mb-1.5">
+                      SUPPORTED FLOWS
+                    </span>
+                    <div className="flex flex-wrap gap-1">
+                      {selectedSpec.flows.map((f) => (
+                        <span
+                          key={f}
+                          className="px-2 py-0.5 bg-neutral-100 dark:bg-[#181920] border border-neutral-200 dark:border-[#2a2b33] rounded text-[10px]"
+                        >
+                          {f}
+                        </span>
+                      ))}
                     </div>
-                    <div>
-                      <p className="text-[10px] font-semibold text-muted-foreground mb-1 uppercase tracking-tighter">
-                        Capabilities
-                      </p>
-                      <ul className="space-y-0.5">
-                        {selectedSpec.capabilities.map((c) => (
-                          <li
-                            key={c}
-                            className="text-xs list-disc list-inside text-muted-foreground"
-                          >
-                            {c}
-                          </li>
-                        ))}
-                      </ul>
+                  </div>
+
+                  <div>
+                    <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider block mb-1.5">
+                      REQUIRED ENV VARIABLES
+                    </span>
+                    <div className="p-2.5 rounded bg-neutral-100 dark:bg-[#0c0d11] border border-neutral-200 dark:border-[#262730] text-[10px] space-y-1 text-emerald-600 dark:text-emerald-400">
+                      {selectedSpec.env_vars.map((v) => (
+                        <div key={v}>AUTH_{v}</div>
+                      ))}
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <h4 className="text-xs font-semibold text-muted-foreground">
-                    Requirements
-                  </h4>
-                  <div className="space-y-3">
+                  <div>
+                    <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider block mb-1.5">
+                      CAPABILITIES
+                    </span>
+                    <ul className="space-y-1 text-neutral-600 dark:text-neutral-400 font-sans text-xs">
+                      {selectedSpec.capabilities.map((c) => (
+                        <li key={c} className="flex items-center gap-1.5">
+                          <CheckCircle2 className="h-3 w-3 text-emerald-500 shrink-0" />
+                          <span>{c}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {selectedSpec.limitations && (
                     <div>
-                      <p className="text-[10px] font-semibold text-muted-foreground mb-1 uppercase tracking-tighter">
-                        Env Variables
-                      </p>
-                      <div className="p-2 border rounded font-mono text-[10px] bg-muted/20">
-                        {selectedSpec.env_vars.map((v) => (
-                          <div key={v}>AUTH_{v}</div>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="p-2 border rounded border-amber-200 bg-amber-50 text-amber-800">
-                      <p className="text-[10px] font-semibold uppercase tracking-tighter">
-                        Limitations
-                      </p>
-                      <p className="text-[11px] leading-tight">
+                      <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider block mb-1.5">
+                        LIMITATIONS
+                      </span>
+                      <p className="text-[11px] text-neutral-500 leading-relaxed font-sans">
                         {selectedSpec.limitations}
                       </p>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
 
-              <div className="p-6 pt-0">
-                <h4 className="text-xs font-semibold text-muted-foreground mb-2">
-                  Roadmap
-                </h4>
-                <div className="grid grid-cols-2 gap-2">
-                  {selectedSpec.future.map((f, i) => (
-                    <div
-                      key={i}
-                      className="text-[11px] text-muted-foreground p-1.5 border rounded"
-                    >
-                      {f}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="p-4 bg-muted/20 border-t flex justify-end">
+              <div className="p-4 border-t border-neutral-200 dark:border-[#222329] bg-neutral-50/50 dark:bg-[#15161b] flex justify-end">
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   onClick={() => setSelectedSpec(null)}
-                  className="h-8 px-4 text-xs"
+                  className="h-8 px-4 text-xs font-mono border-neutral-200 dark:border-[#2a2b33]"
                 >
-                  Close
+                  DISMISS
                 </Button>
               </div>
             </div>
           )}
         </DialogContent>
       </Dialog>
-    </div>
-  );
-};
-
-const ProviderCard = ({
-  p,
-  isSelected,
-  isConfigured,
-  backendMessage,
-  onToggle,
-  onViewDocs,
-  isUpcoming,
-}) => {
-  return (
-    <div
-      onClick={() => {
-        if (isUpcoming) return;
-        if (!isConfigured && !isSelected) {
-          toast.error(`${p.name} - Configuration Required`, {
-            description:
-              backendMessage || "Please add keys to your backend .env.",
-          });
-          return;
-        }
-        onToggle(p.id);
-      }}
-      className={`
-                group relative flex flex-col items-center justify-center p-4 transition-all duration-300 cursor-pointer border border-primary/5 rounded-2xl bg-background/20 backdrop-blur-sm
-                ${isSelected ? "border-primary/40 ring-1 ring-primary/10 bg-primary/8" : "hover:bg-background/40 hover:border-primary/20 hover:shadow-xl hover:shadow-primary/2 hover:-translate-y-0.5"}
-                ${isUpcoming ? "cursor-not-allowed grayscale opacity-50" : ""}
-            `}
-    >
-      {/* Theme Aware Logo Container */}
-      <div className="h-10 w-10 mb-3 rounded-lg bg-white border flex items-center justify-center p-2 shadow-sm shrink-0">
-        <img
-          src={p.logo}
-          alt={p.name}
-          className="h-full w-full object-contain"
-          onError={(e) => {
-            e.target.style.display = "none";
-          }}
-        />
-        <div className="hidden only-child:block text-[10px] font-bold text-muted-foreground">
-          {p.name.charAt(0)}
-        </div>
-      </div>
-
-      <div className="text-center min-w-0 w-full">
-        <p className="text-[11px] font-semibold truncate leading-none mb-1">
-          {p.name}
-        </p>
-        <div className="flex items-center justify-center gap-1.5 min-h-[14px]">
-          {isSelected ? (
-            <span className="text-[9px] font-bold text-primary uppercase tracking-tighter">
-              Active
-            </span>
-          ) : !isUpcoming && !isConfigured ? (
-            <span className="text-[9px] font-medium text-amber-600 uppercase tracking-tighter">
-              Setup
-            </span>
-          ) : (
-            <span className="text-[9px] text-muted-foreground/60 uppercase tracking-tighter">
-              {isUpcoming ? "soon" : "ready"}
-            </span>
-          )}
-        </div>
-      </div>
-
-      {/* Hover Actions */}
-      {!isUpcoming && (
-        <button
-          className="absolute top-1 right-1 p-1 text-muted-foreground/0 group-hover:text-muted-foreground hover:bg-muted rounded-md transition-all"
-          onClick={(e) => {
-            e.stopPropagation();
-            onViewDocs(p);
-          }}
-        >
-          <Info className="h-3 w-3" />
-        </button>
-      )}
-
-      {/* Selection Marker */}
-      {isSelected && (
-        <div className="absolute top-2 left-2 h-1.5 w-1.5 rounded-full bg-primary" />
-      )}
     </div>
   );
 };

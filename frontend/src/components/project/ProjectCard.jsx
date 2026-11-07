@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Card,
@@ -6,9 +7,8 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import { ShineBorder } from "../ui/shine-border";
 import { Badge } from "@/components/ui/badge";
-import { KeyRound, Shield, Activity, ChevronRight } from "lucide-react";
+import { Shield, ChevronRight, Key, Globe } from "lucide-react";
 
 const ProjectCard = ({ project }) => {
   const navigate = useNavigate();
@@ -17,39 +17,54 @@ const ProjectCard = ({ project }) => {
     navigate(`/projects/${project._id}`);
   };
 
+  const formattedDate = project.createdAt
+    ? new Date(project.createdAt).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })
+    : "Recently deployed";
+
+  const providersCount = project.providers?.length || 1;
+
   return (
     <Card
       onClick={handleNavigate}
-      className="group cursor-pointer bg-card/30 border-border/50 hover:bg-card/50 hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
+      className="group cursor-pointer bg-white dark:bg-[#0c0d10] border border-[#eaeaea] dark:border-[#222329] hover:border-black dark:hover:border-white transition-all duration-200 rounded-lg shadow-2xs hover:shadow-xs relative overflow-hidden"
     >
-      <ShineBorder shineColor={["#A07CFE", "#FE8FB5", "#FFBE7B"]} />
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between mb-2">
-          <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-            <Shield className="h-5 w-5" />
+      <CardHeader className="p-5 pb-3">
+        <div className="flex items-start justify-between mb-3">
+          <div className="h-9 w-9 rounded border border-[#eaeaea] dark:border-[#222329] bg-neutral-50 dark:bg-[#14151a] flex items-center justify-center text-neutral-900 dark:text-white transition-transform group-hover:scale-105">
+            <Shield className="h-4 w-4" />
           </div>
           <div className="flex items-center gap-2">
-            <Badge variant="secondary" className="text-xs">
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono text-[10px] font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               Active
-            </Badge>
-            <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+            </span>
+            <ChevronRight className="h-4 w-4 text-neutral-400 group-hover:text-black dark:group-hover:text-white group-hover:translate-x-0.5 transition-all" />
           </div>
         </div>
-        <CardTitle className="text-xl">{project.name}</CardTitle>
-        <CardDescription className="text-xs">
-          Last deployed: {new Date().toLocaleDateString()}
+
+        <CardTitle className="text-lg font-semibold tracking-tight text-neutral-900 dark:text-white group-hover:text-black dark:group-hover:text-white">
+          {project.name}
+        </CardTitle>
+        <CardDescription className="text-xs font-mono text-neutral-500 dark:text-neutral-400 mt-1">
+          Created: {formattedDate}
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="space-y-3">
-        <div className="flex items-center gap-4 pt-2 border-t text-xs text-muted-foreground">
+      <CardContent className="p-5 pt-3 space-y-3">
+        <div className="flex items-center justify-between pt-3 border-t border-[#eaeaea] dark:border-[#222329] text-xs font-mono text-neutral-600 dark:text-neutral-400">
           <div className="flex items-center gap-1.5">
-            <Shield className="h-3 w-3 text-emerald-500" />
-            <span>PKCE</span>
+            <Key className="h-3 w-3 text-neutral-500" />
+            <span>ID: {project._id?.slice(-6) || "prod"}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Activity className="h-3 w-3 text-blue-500" />
-            <span>1.2k Reqs</span>
+            <Globe className="h-3 w-3 text-neutral-500" />
+            <span>
+              {providersCount} {providersCount === 1 ? "Provider" : "Providers"}
+            </span>
           </div>
         </div>
       </CardContent>

@@ -6,39 +6,30 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
-import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   User,
   Mail,
   Bell,
-  Shield,
   Palette,
   Globe,
   Trash2,
   Save,
   AlertCircle,
   UserCircle,
-  Smartphone,
   Building2,
   Code,
   Zap,
   LayoutGrid,
   List,
+  Shield,
+  KeyRound,
+  Check,
 } from "lucide-react";
 import { toast } from "sonner";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
@@ -50,12 +41,13 @@ import {
   updatePreferences,
   updateOrganization,
 } from "@/api/DeveloperAPI";
-import { Badge } from "@/components/ui/badge";
+import TechSeparator from "@/components/common/TechSeparator";
 
 const Settings = () => {
   const { user, setUser, logout } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const [settingsLoading, setSettingsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("profile");
   const navigate = useNavigate();
 
   // Profile State
@@ -119,13 +111,10 @@ const Settings = () => {
     }
   };
 
-  // Load full settings on mount
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     loadSettings();
   }, []);
-
-  // loadSettings moved above
 
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
@@ -134,7 +123,7 @@ const Settings = () => {
       const res = await updateProfile({ username: profileData.username });
       if (res.success) {
         setUser({ ...user, username: res.data.username });
-        toast.success("Profile updated successfully!");
+        toast.success("Profile credentials updated!");
       }
     } catch (error) {
       toast.error(error.message || "Failed to update profile");
@@ -148,7 +137,7 @@ const Settings = () => {
       setLoading(true);
       const res = await updateOrganization(orgData);
       if (res.success) {
-        toast.success("Organization info updated!");
+        toast.success("Organization metadata updated!");
       }
     } catch (error) {
       toast.error(error.message || "Failed to update organization");
@@ -162,7 +151,7 @@ const Settings = () => {
       setLoading(true);
       const res = await updatePreferences(preferences);
       if (res.success) {
-        toast.success("Preferences saved!");
+        toast.success("Enclave preferences saved!");
       }
     } catch (error) {
       toast.error(error.message || "Failed to update preferences");
@@ -208,65 +197,109 @@ const Settings = () => {
     }));
   };
 
+  const tabs = [
+    { id: "profile", label: "PROFILE", index: "01", icon: User },
+    { id: "organization", label: "ORGANIZATION", index: "02", icon: Building2 },
+    { id: "notifications", label: "NOTIFICATIONS", index: "03", icon: Bell },
+    { id: "api", label: "API & SECURITY", index: "04", icon: Code },
+    { id: "advanced", label: "DANGER ZONE", index: "05", icon: Trash2 },
+  ];
+
   if (settingsLoading) {
     return (
-      <div className="container mx-auto py-10 px-6 max-w-5xl">
-        <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-        </div>
+      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-3 font-mono text-xs">
+        <div className="w-6 h-6 border-2 border-black dark:border-white border-t-transparent animate-spin rounded-full" />
+        <span className="text-neutral-500">LOADING ENCLAVE SETTINGS...</span>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto py-10 px-6 max-w-5xl">
-      <div className="flex flex-col gap-2 mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">
-          Developer Settings
-        </h1>
-        <p className="text-muted-foreground">
-          Manage your account, preferences, and developer experience.
-        </p>
+    <div className="min-h-screen bg-[#fbf9f9] dark:bg-[#09090c] text-neutral-900 dark:text-neutral-100 antialiased relative isolate selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+      {/* Precision Engineering Matrix Background */}
+      <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-[#fbf9f9] dark:bg-[#09090c]">
+        <div className="absolute inset-0 grid-matrix opacity-40 dark:opacity-20" />
+        <div className="absolute inset-0 bg-radial from-transparent via-transparent to-neutral-200/50 dark:to-black/60" />
       </div>
 
-      <Tabs defaultValue="profile" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 lg:w-auto h-auto p-1 bg-muted/50">
-          <TabsTrigger value="profile" className="gap-2 py-2">
-            <User className="h-4 w-4" />
-            Profile
-          </TabsTrigger>
-          <TabsTrigger value="organization" className="gap-2 py-2">
-            <Building2 className="h-4 w-4" />
-            Organization
-          </TabsTrigger>
-          <TabsTrigger value="notifications" className="gap-2 py-2">
-            <Bell className="h-4 w-4" />
-            Notifications
-          </TabsTrigger>
-          <TabsTrigger value="api" className="gap-2 py-2">
-            <Code className="h-4 w-4" />
-            API & Security
-          </TabsTrigger>
-          <TabsTrigger value="advanced" className="gap-2 py-2">
-            <Zap className="h-4 w-4" />
-            Advanced
-          </TabsTrigger>
-        </TabsList>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        {/* Engineering Eyebrow */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-neutral-200 dark:border-[#222329] pb-3 gap-2">
+          <div className="flex items-center text-xs font-mono text-neutral-500 uppercase tracking-widest">
+            <span>04</span>
+            <TechSeparator />
+            <span>ACCOUNT &amp; DEVELOPER ENCLAVE</span>
+            <TechSeparator />
+            <span>SETTINGS</span>
+          </div>
+          <div className="inline-flex items-center gap-1.5 font-mono text-xs text-emerald-600 dark:text-emerald-400">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>DEVELOPER ROOT VERIFIED</span>
+          </div>
+        </div>
 
-        {/* Profile Tab */}
-        <TabsContent value="profile" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Public Profile</CardTitle>
-              <CardDescription>
-                This information will be displayed on your developer profile.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex flex-col md:flex-row gap-8 items-start">
-                <div className="flex flex-col items-center gap-4">
-                  <div className="relative group">
-                    <div className="h-24 w-24 rounded-2xl border-2 border-dashed border-primary/20 flex items-center justify-center bg-muted overflow-hidden">
+        {/* Page Title & Intro */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+              Developer Settings
+            </h1>
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-1">
+              Configure root identity profiles, API telemetry policies, and
+              enclave security controls.
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            asChild
+            className="h-8 font-mono text-xs border-neutral-200 dark:border-[#2a2b33]"
+          >
+            <Link to="/settings/sessions" className="gap-2">
+              <Globe className="h-3.5 w-3.5 text-neutral-500" />
+              <span>ACTIVE SESSIONS →</span>
+            </Link>
+          </Button>
+        </div>
+
+        {/* Technical Sub-tab Bar */}
+        <div className="border-b border-neutral-200 dark:border-[#222329] flex items-center gap-1 overflow-x-auto pb-px">
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-2 px-4 py-2.5 text-xs font-mono tracking-wider transition-all whitespace-nowrap cursor-pointer border-b-2 -mb-px ${
+                  isActive
+                    ? "border-black dark:border-white text-black dark:text-white font-bold"
+                    : "border-transparent text-neutral-500 hover:text-black dark:hover:text-white"
+                }`}
+              >
+                <span className="text-[10px] text-neutral-400 font-normal">
+                  [{tab.index}]
+                </span>
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Tab 01: Profile */}
+        {activeTab === "profile" && (
+          <div className="space-y-6">
+            <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
+              <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
+                <span className="font-bold text-neutral-900 dark:text-white uppercase">
+                  01 // PUBLIC IDENTITY RECORD
+                </span>
+                <span className="text-neutral-400 text-[10px]">
+                  AUTH_MODE: OAUTH
+                </span>
+              </div>
+              <div className="p-6 space-y-6">
+                <div className="flex flex-col sm:flex-row items-start gap-6">
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="h-20 w-20 rounded-xl border border-neutral-200 dark:border-[#2a2b33] bg-neutral-100 dark:bg-[#181920] flex items-center justify-center overflow-hidden">
                       {user?.picture ? (
                         <img
                           src={user.picture}
@@ -274,20 +307,22 @@ const Settings = () => {
                           className="h-full w-full object-cover"
                         />
                       ) : (
-                        <UserCircle className="h-12 w-12 text-muted-foreground" />
+                        <UserCircle className="h-10 w-10 text-neutral-400" />
                       )}
                     </div>
+                    <span className="text-[10px] font-mono text-neutral-400">
+                      AVATAR
+                    </span>
                   </div>
-                  <p className="text-[10px] text-muted-foreground text-center max-w-25">
-                    JPG, GIF or PNG. 1MB Max.
-                  </p>
-                </div>
 
-                <div className="flex-1 space-y-4 w-full">
-                  <div className="grid gap-2">
-                    <Label htmlFor="username">Developer Name</Label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <div className="flex-1 space-y-4 w-full">
+                    <div className="space-y-1.5">
+                      <Label
+                        htmlFor="username"
+                        className="text-xs font-mono text-neutral-500"
+                      >
+                        DEVELOPER USERNAME
+                      </Label>
                       <Input
                         id="username"
                         value={profileData.username}
@@ -297,494 +332,363 @@ const Settings = () => {
                             username: e.target.value,
                           })
                         }
-                        className="pl-10"
+                        className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
                       />
                     </div>
-                  </div>
 
-                  <div className="grid gap-2">
-                    <Label htmlFor="email">Email Address</Label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <div className="space-y-1.5">
+                      <Label
+                        htmlFor="email"
+                        className="text-xs font-mono text-neutral-500"
+                      >
+                        PRIMARY EMAIL ADDRESS
+                      </Label>
                       <Input
                         id="email"
                         disabled
                         value={profileData.email}
-                        className="pl-10 bg-muted/30"
+                        className="h-9 text-xs font-mono bg-neutral-100 dark:bg-[#16171d] border-neutral-200 dark:border-[#2a2b33] text-neutral-500 cursor-not-allowed"
                       />
+                      <p className="text-[10px] font-mono text-neutral-400">
+                        Root identity email is cryptographically bound to your
+                        OAuth registration.
+                      </p>
                     </div>
-                    <p className="text-[11px] text-muted-foreground">
-                      Email cannot be changed for OAuth accounts.
-                    </p>
                   </div>
                 </div>
               </div>
-            </CardContent>
-            <CardFooter className="border-t bg-muted/10 px-6 py-4 flex justify-end">
-              <Button
-                onClick={handleProfileUpdate}
-                disabled={loading}
-                className="gap-2"
-              >
-                {loading ? (
-                  "Saving..."
-                ) : (
-                  <>
-                    <Save className="h-4 w-4" /> Save Changes
-                  </>
-                )}
-              </Button>
-            </CardFooter>
-          </Card>
+              <div className="px-6 py-3 border-t border-neutral-200 dark:border-[#222329] bg-neutral-50/50 dark:bg-[#15161b] flex justify-end">
+                <Button
+                  onClick={handleProfileUpdate}
+                  disabled={loading}
+                  className="h-8 px-4 text-xs font-mono bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200"
+                >
+                  <Save className="h-3.5 w-3.5 mr-1.5" />
+                  {loading ? "SAVING..." : "SAVE PROFILE"}
+                </Button>
+              </div>
+            </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Palette className="h-5 w-5 text-primary" />
-                Appearance
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <h4 className="font-medium">Theme Mode</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Switch between light, dark, and system themes.
+            {/* Appearance Card */}
+            <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
+              <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
+                <span className="font-bold text-neutral-900 dark:text-white uppercase">
+                  APPEARANCE &amp; TELEMETRY THEME
+                </span>
+                <span className="text-neutral-400 text-[10px]">CSS_VARS</span>
+              </div>
+              <div className="p-6 flex items-center justify-between">
+                <div>
+                  <h4 className="text-xs font-mono font-semibold text-neutral-900 dark:text-white">
+                    SYSTEM THEME PREFERENCE
+                  </h4>
+                  <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-0.5">
+                    Toggle between engineering dark mode and daylight
+                    high-contrast palette.
                   </p>
                 </div>
                 <AnimatedThemeToggler />
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+            </div>
+          </div>
+        )}
 
-        {/* Organization Tab */}
-        <TabsContent value="organization" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Organization Information</CardTitle>
-              <CardDescription>
-                Add details about your company or team.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="organization">Organization Name</Label>
+        {/* Tab 02: Organization */}
+        {activeTab === "organization" && (
+          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
+            <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
+              <span className="font-bold text-neutral-900 dark:text-white uppercase">
+                02 // ORGANIZATION METADATA
+              </span>
+              <span className="text-neutral-400 text-[10px]">TENANT_SCOPE</span>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="space-y-1.5">
+                <Label
+                  htmlFor="organization"
+                  className="text-xs font-mono text-neutral-500"
+                >
+                  COMPANY / ORG NAME
+                </Label>
                 <Input
                   id="organization"
-                  placeholder="Acme Inc."
+                  placeholder="e.g. Synthetix Labs"
                   value={orgData.organization}
                   onChange={(e) =>
                     setOrgData({ ...orgData, organization: e.target.value })
                   }
+                  className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="website">Website</Label>
+              <div className="space-y-1.5">
+                <Label
+                  htmlFor="website"
+                  className="text-xs font-mono text-neutral-500"
+                >
+                  OFFICIAL URL
+                </Label>
                 <Input
                   id="website"
                   type="url"
-                  placeholder="https://acme.com"
+                  placeholder="https://synthetix.dev"
                   value={orgData.website}
                   onChange={(e) =>
                     setOrgData({ ...orgData, website: e.target.value })
                   }
+                  className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="bio">Bio</Label>
+              <div className="space-y-1.5">
+                <Label
+                  htmlFor="bio"
+                  className="text-xs font-mono text-neutral-500"
+                >
+                  DEVELOPER BIOGRAPHY
+                </Label>
                 <Textarea
                   id="bio"
-                  placeholder="Tell us about yourself or your organization..."
+                  placeholder="Engineering team developing distributed infrastructure..."
                   value={orgData.bio}
                   onChange={(e) =>
                     setOrgData({ ...orgData, bio: e.target.value })
                   }
                   rows={4}
                   maxLength={500}
+                  className="text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
                 />
-                <p className="text-xs text-muted-foreground text-right">
-                  {orgData.bio.length}/500
+                <p className="text-[10px] font-mono text-neutral-400 text-right">
+                  {orgData.bio.length} / 500 CHARACTERS
                 </p>
               </div>
-            </CardContent>
-            <CardFooter className="border-t bg-muted/10 px-6 py-4 flex justify-end">
+            </div>
+            <div className="px-6 py-3 border-t border-neutral-200 dark:border-[#222329] bg-neutral-50/50 dark:bg-[#15161b] flex justify-end">
               <Button
                 onClick={handleOrgUpdate}
                 disabled={loading}
-                className="gap-2"
+                className="h-8 px-4 text-xs font-mono bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200"
               >
-                {loading ? (
-                  "Saving..."
-                ) : (
-                  <>
-                    <Save className="h-4 w-4" /> Save Organization
-                  </>
-                )}
+                <Save className="h-3.5 w-3.5 mr-1.5" />
+                {loading ? "SAVING..." : "SAVE ORGANIZATION"}
               </Button>
-            </CardFooter>
-          </Card>
-        </TabsContent>
+            </div>
+          </div>
+        )}
 
-        {/* Notifications Tab */}
-        <TabsContent value="notifications" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Email Notifications</CardTitle>
-              <CardDescription>
-                Choose what updates you want to receive via email.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Project Updates</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Get notified when projects are created or modified.
-                  </p>
+        {/* Tab 03: Notifications */}
+        {activeTab === "notifications" && (
+          <div className="space-y-6">
+            <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
+              <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
+                <span className="font-bold text-neutral-900 dark:text-white uppercase">
+                  03 // EMAIL DISPATCH CHANNELS
+                </span>
+                <span className="text-neutral-400 text-[10px]">
+                  SMTP_GATEWAY
+                </span>
+              </div>
+              <div className="p-6 divide-y divide-neutral-100 dark:divide-[#1e2026]">
+                <div className="flex items-center justify-between py-3 first:pt-0">
+                  <div className="space-y-0.5">
+                    <Label className="text-xs font-mono font-semibold text-neutral-900 dark:text-white">
+                      PROJECT CONFIGURATION UPDATES
+                    </Label>
+                    <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                      Dispatched when cryptographic keys are rotated or webhooks
+                      modified.
+                    </p>
+                  </div>
+                  <Switch
+                    checked={preferences.notifications.email.projectUpdates}
+                    onCheckedChange={(val) =>
+                      updateNotificationPref("email", "projectUpdates", val)
+                    }
+                  />
                 </div>
-                <Switch
-                  checked={preferences.notifications.email.projectUpdates}
-                  onCheckedChange={(val) =>
-                    updateNotificationPref("email", "projectUpdates", val)
-                  }
-                />
-              </div>
 
-              <Separator />
-
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Security Alerts</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Important security notifications and warnings.
-                  </p>
+                <div className="flex items-center justify-between py-3">
+                  <div className="space-y-0.5">
+                    <Label className="text-xs font-mono font-semibold text-neutral-900 dark:text-white">
+                      SECURITY ENCLAVE ALERTS
+                    </Label>
+                    <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                      Urgent anomaly detection, brute force rate-limits, and
+                      rogue session revocations.
+                    </p>
+                  </div>
+                  <Switch
+                    checked={preferences.notifications.email.securityAlerts}
+                    onCheckedChange={(val) =>
+                      updateNotificationPref("email", "securityAlerts", val)
+                    }
+                  />
                 </div>
-                <Switch
-                  checked={preferences.notifications.email.securityAlerts}
-                  onCheckedChange={(val) =>
-                    updateNotificationPref("email", "securityAlerts", val)
-                  }
-                />
-              </div>
 
-              <Separator />
-
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Weekly Digest</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Summary of your week's activity and stats.
-                  </p>
+                <div className="flex items-center justify-between py-3">
+                  <div className="space-y-0.5">
+                    <Label className="text-xs font-mono font-semibold text-neutral-900 dark:text-white">
+                      WEEKLY TRAFFIC &amp; AUDIT DIGEST
+                    </Label>
+                    <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                      Aggregated authentication velocity, failure rates, and
+                      provider distributions.
+                    </p>
+                  </div>
+                  <Switch
+                    checked={preferences.notifications.email.weeklyDigest}
+                    onCheckedChange={(val) =>
+                      updateNotificationPref("email", "weeklyDigest", val)
+                    }
+                  />
                 </div>
-                <Switch
-                  checked={preferences.notifications.email.weeklyDigest}
-                  onCheckedChange={(val) =>
-                    updateNotificationPref("email", "weeklyDigest", val)
-                  }
-                />
               </div>
-
-              <Separator />
-
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>New User Signups</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Get notified when users sign up to your projects.
-                  </p>
-                </div>
-                <Switch
-                  checked={preferences.notifications.email.newUserSignups}
-                  onCheckedChange={(val) =>
-                    updateNotificationPref("email", "newUserSignups", val)
-                  }
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>In-App Notifications</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Enable Notifications</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Show notifications in the dashboard.
-                  </p>
-                </div>
-                <Switch
-                  checked={preferences.notifications.inApp.enabled}
-                  onCheckedChange={(val) =>
-                    updateNotificationPref("inApp", "enabled", val)
-                  }
-                />
-              </div>
-
-              <Separator />
-
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Sound Effects</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Play sound when receiving notifications.
-                  </p>
-                </div>
-                <Switch
-                  checked={preferences.notifications.inApp.sound}
-                  onCheckedChange={(val) =>
-                    updateNotificationPref("inApp", "sound", val)
-                  }
-                />
-              </div>
-            </CardContent>
-            <CardFooter className="border-t bg-muted/10 px-6 py-4 flex justify-end">
-              <Button
-                onClick={handlePreferencesUpdate}
-                disabled={loading}
-                className="gap-2"
-              >
-                {loading ? (
-                  "Saving..."
-                ) : (
-                  <>
-                    <Save className="h-4 w-4" /> Save Preferences
-                  </>
-                )}
-              </Button>
-            </CardFooter>
-          </Card>
-        </TabsContent>
-
-        {/* API & Security Tab */}
-        <TabsContent value="api" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>API Configuration</CardTitle>
-              <CardDescription>
-                Default settings for your API projects.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label>Default Rate Limit (requests/hour)</Label>
-                <Input
-                  type="number"
-                  value={preferences.api.defaultRateLimit}
-                  onChange={(e) =>
-                    setPreferences({
-                      ...preferences,
-                      api: {
-                        ...preferences.api,
-                        defaultRateLimit: parseInt(e.target.value),
-                      },
-                    })
-                  }
-                />
-                <p className="text-xs text-muted-foreground">
-                  Applied to new projects by default.
-                </p>
-              </div>
-
-              <Separator />
-
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Enable CORS by Default</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Allow cross-origin requests for new projects.
-                  </p>
-                </div>
-                <Switch
-                  checked={preferences.api.enableCors}
-                  onCheckedChange={(val) =>
-                    setPreferences({
-                      ...preferences,
-                      api: { ...preferences.api, enableCors: val },
-                    })
-                  }
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Dashboard Preferences</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label>Default View</Label>
-                <Select
-                  value={preferences.dashboard.defaultView}
-                  onValueChange={(val) =>
-                    setPreferences({
-                      ...preferences,
-                      dashboard: { ...preferences.dashboard, defaultView: val },
-                    })
-                  }
+              <div className="px-6 py-3 border-t border-neutral-200 dark:border-[#222329] bg-neutral-50/50 dark:bg-[#15161b] flex justify-end">
+                <Button
+                  onClick={handlePreferencesUpdate}
+                  disabled={loading}
+                  className="h-8 px-4 text-xs font-mono bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200"
                 >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="grid">
-                      <div className="flex items-center gap-2">
-                        <LayoutGrid className="h-4 w-4" />
-                        Grid View
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="list">
-                      <div className="flex items-center gap-2">
-                        <List className="h-4 w-4" />
-                        List View
-                      </div>
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label>Items Per Page</Label>
-                <Select
-                  value={preferences.dashboard.itemsPerPage.toString()}
-                  onValueChange={(val) =>
-                    setPreferences({
-                      ...preferences,
-                      dashboard: {
-                        ...preferences.dashboard,
-                        itemsPerPage: parseInt(val),
-                      },
-                    })
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="5">5</SelectItem>
-                    <SelectItem value="10">10</SelectItem>
-                    <SelectItem value="25">25</SelectItem>
-                    <SelectItem value="50">50</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <Separator />
-
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Show Analytics</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Display charts and metrics on dashboard.
-                  </p>
-                </div>
-                <Switch
-                  checked={preferences.dashboard.showAnalytics}
-                  onCheckedChange={(val) =>
-                    setPreferences({
-                      ...preferences,
-                      dashboard: {
-                        ...preferences.dashboard,
-                        showAnalytics: val,
-                      },
-                    })
-                  }
-                />
-              </div>
-            </CardContent>
-            <CardFooter className="border-t bg-muted/10 px-6 py-4 flex justify-end">
-              <Button
-                onClick={handlePreferencesUpdate}
-                disabled={loading}
-                className="gap-2"
-              >
-                {loading ? (
-                  "Saving..."
-                ) : (
-                  <>
-                    <Save className="h-4 w-4" /> Save Preferences
-                  </>
-                )}
-              </Button>
-            </CardFooter>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Security</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <h4 className="font-medium">Active Sessions</h4>
-                  <p className="text-sm text-muted-foreground">
-                    View and manage devices signed into your account.
-                  </p>
-                </div>
-                <Button variant="outline" asChild>
-                  <Link to="/settings/sessions" className="gap-2">
-                    Manage <Globe className="h-4 w-4" />
-                  </Link>
+                  <Save className="h-3.5 w-3.5 mr-1.5" />
+                  {loading ? "SAVING..." : "SAVE PREFERENCES"}
                 </Button>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+            </div>
+          </div>
+        )}
 
-        {/* Advanced Tab */}
-        <TabsContent value="advanced" className="space-y-6">
-          <Card className="border-destructive/20">
-            <CardHeader>
-              <CardTitle className="text-destructive flex items-center gap-2">
-                <AlertCircle className="h-5 w-5" />
-                Danger Zone
-              </CardTitle>
-              <CardDescription>
-                Irreversible actions that permanently affect your account.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex items-center justify-between p-4 border border-destructive/20 rounded-lg">
+        {/* Tab 04: API & Security */}
+        {activeTab === "api" && (
+          <div className="space-y-6">
+            <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
+              <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
+                <span className="font-bold text-neutral-900 dark:text-white uppercase">
+                  04 // DEFAULT API ENCLAVE POLICIES
+                </span>
+                <span className="text-neutral-400 text-[10px]">
+                  CORS // RATE_LIMIT
+                </span>
+              </div>
+              <div className="p-6 space-y-4">
+                <div className="space-y-1.5">
+                  <Label className="text-xs font-mono text-neutral-500">
+                    DEFAULT RATE LIMIT (REQ / HR)
+                  </Label>
+                  <Input
+                    type="number"
+                    value={preferences.api.defaultRateLimit}
+                    onChange={(e) =>
+                      setPreferences({
+                        ...preferences,
+                        api: {
+                          ...preferences.api,
+                          defaultRateLimit: parseInt(e.target.value) || 1000,
+                        },
+                      })
+                    }
+                    className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
+                  />
+                  <p className="text-[10px] font-mono text-neutral-400">
+                    Baseline threshold applied to newly instantiated project
+                    enclaves.
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-between pt-2 border-t border-neutral-100 dark:border-[#1e2026]">
+                  <div className="space-y-0.5">
+                    <Label className="text-xs font-mono font-semibold text-neutral-900 dark:text-white">
+                      ENABLE STRICT CORS BY DEFAULT
+                    </Label>
+                    <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                      Restrict browser origin preflights to whitelisted frontend
+                      endpoints.
+                    </p>
+                  </div>
+                  <Switch
+                    checked={preferences.api.enableCors}
+                    onCheckedChange={(val) =>
+                      setPreferences({
+                        ...preferences,
+                        api: { ...preferences.api, enableCors: val },
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div className="px-6 py-3 border-t border-neutral-200 dark:border-[#222329] bg-neutral-50/50 dark:bg-[#15161b] flex justify-end">
+                <Button
+                  onClick={handlePreferencesUpdate}
+                  disabled={loading}
+                  className="h-8 px-4 text-xs font-mono bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200"
+                >
+                  <Save className="h-3.5 w-3.5 mr-1.5" />
+                  {loading ? "SAVING..." : "SAVE POLICIES"}
+                </Button>
+              </div>
+            </div>
+
+            {/* Active Sessions Quick-Link */}
+            <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
+              <div className="space-y-1">
+                <h4 className="text-xs font-mono font-bold text-neutral-900 dark:text-white flex items-center gap-2">
+                  <Shield className="h-4 w-4 text-emerald-500" />
+                  <span>ACTIVE CRYPTOGRAPHIC SESSION MATRIX</span>
+                </h4>
+                <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                  Inspect hardware fingerprints, IP addresses, and revoke rogue
+                  tokens.
+                </p>
+              </div>
+              <Button
+                variant="outline"
+                asChild
+                className="h-8 font-mono text-xs border-neutral-200 dark:border-[#2a2b33]"
+              >
+                <Link to="/settings/sessions" className="gap-2">
+                  <span>MANAGE SESSIONS</span>
+                  <Globe className="h-3.5 w-3.5" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Tab 05: Danger Zone */}
+        {activeTab === "advanced" && (
+          <div className="rounded-xl border border-rose-300 dark:border-rose-900/60 bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
+            <div className="px-5 py-3 border-b border-rose-200 dark:border-rose-950/80 bg-rose-50/70 dark:bg-rose-950/20 flex items-center justify-between text-xs font-mono text-rose-700 dark:text-rose-400">
+              <span className="font-bold flex items-center gap-2">
+                <AlertCircle className="h-4 w-4" />
+                <span>05 // DANGER ZONE // IRREVERSIBLE ACTION</span>
+              </span>
+              <span>CONFIRMATION REQUIRED</span>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="space-y-1">
-                  <h4 className="font-bold flex items-center gap-2 text-destructive">
-                    <Trash2 className="h-4 w-4" /> Delete Account
+                  <h4 className="text-xs font-mono font-bold text-rose-600 dark:text-rose-400">
+                    PERMANENTLY PURGE DEVELOPER ACCOUNT
                   </h4>
-                  <p className="text-sm text-muted-foreground">
-                    Permanently remove all projects, data, and settings.
+                  <p className="text-xs text-neutral-600 dark:text-neutral-400 max-w-xl leading-relaxed">
+                    Instantly revokes all cryptographic signing keys, severs
+                    connected OAuth apps, and permanently deletes user directory
+                    databases.
                   </p>
                 </div>
                 <Button
                   variant="destructive"
                   onClick={handleDeleteAccount}
                   disabled={loading}
+                  className="h-9 px-4 text-xs font-mono shrink-0 cursor-pointer"
                 >
-                  {loading ? "Processing..." : "Delete Account"}
+                  <Trash2 className="h-3.5 w-3.5 mr-1.5" />
+                  {loading ? "PURGING..." : "PURGE ACCOUNT"}
                 </Button>
               </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-primary/5 border-dashed border-primary/20">
-            <CardContent className="p-6 flex items-start gap-4">
-              <AlertCircle className="h-6 w-6 text-primary shrink-0 mt-1" />
-              <div className="space-y-1">
-                <h4 className="font-bold text-primary">Developer Compliance</h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Deleting your account will immediately revoke all API keys for
-                  your projects. Any applications relying on AuthSphere will
-                  stop working instantly.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

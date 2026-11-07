@@ -1,14 +1,6 @@
+import React from "react";
 import { useSessions } from "@/hooks/useSessions";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import {
   Shield,
   Monitor,
@@ -20,10 +12,12 @@ import {
   LogOut,
   Trash2,
   AlertTriangle,
-  ChevronLeft,
+  ArrowLeft,
   Key,
   Activity,
   Loader2,
+  CheckCircle2,
+  Cpu,
 } from "lucide-react";
 import {
   AlertDialog,
@@ -36,114 +30,131 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-
 import { formatDistanceToNow } from "date-fns";
 import { Link, useNavigate } from "react-router-dom";
+import TechSeparator from "@/components/common/TechSeparator";
 
 const DeviceIcon = ({ device }) => {
   const d = device?.toLowerCase() || "";
   if (d.includes("mobile") || d.includes("phone"))
-    return <Smartphone className="h-5 w-5" />;
-  if (d.includes("tablet")) return <Tablet className="h-5 w-5" />;
-  return <Monitor className="h-5 w-5" />;
+    return <Smartphone className="h-4 w-4" />;
+  if (d.includes("tablet")) return <Tablet className="h-4 w-4" />;
+  return <Monitor className="h-4 w-4" />;
 };
 
 const SessionCard = ({ session, onRevoke }) => (
-  <Card
-    className={`transition-shadow ${session.current ? "border-primary" : "hover:shadow-md"}`}
+  <div
+    className={`rounded-xl border bg-white dark:bg-[#121316] overflow-hidden shadow-xs transition-all ${
+      session.current
+        ? "border-neutral-900 dark:border-white ring-1 ring-neutral-900/10 dark:ring-white/20"
+        : "border-neutral-200 dark:border-[#222329]"
+    }`}
   >
-    <CardContent className="p-6">
-      <div className="flex flex-col md:flex-row items-start gap-4">
-        <div
-          className={`h-12 w-12 rounded-lg flex items-center justify-center ${
-            session.current
-              ? "bg-primary/10 text-primary"
-              : "bg-muted text-muted-foreground"
-          }`}
-        >
-          <DeviceIcon device={session.deviceInfo?.device} />
-        </div>
-
-        <div className="flex-1 space-y-3">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h4 className="font-semibold text-lg mb-1">
-                {session.deviceInfo?.os} • {session.deviceInfo?.browser}
-              </h4>
-              <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1.5">
-                  <MapPin className="h-3.5 w-3.5" />
-                  {session.location?.city || "Unknown"},{" "}
-                  {session.location?.country || "Unknown"}
-                </span>
-                <span className="flex items-center gap-1.5 font-mono text-xs">
-                  <Globe className="h-3.5 w-3.5" />
-                  {session.ipAddress}
-                </span>
-              </div>
-            </div>
-            {session.current && (
-              <Badge className="shrink-0">Current Session</Badge>
-            )}
-          </div>
-
-          <Separator />
-
-          <div className="flex flex-wrap items-center gap-6 text-sm">
-            <div className="flex items-center gap-1.5 text-muted-foreground">
-              <Clock className="h-3.5 w-3.5" />
-              <span>
-                Created {new Date(session.createdAt).toLocaleDateString()}
-              </span>
-            </div>
-            <div className="flex items-center gap-1.5 text-muted-foreground">
-              <Activity className="h-3.5 w-3.5" />
-              <span>
-                Active {formatDistanceToNow(new Date(session.lastActive))} ago
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {!session.current && (
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-muted-foreground hover:text-destructive self-start"
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <div className="h-12 w-12 rounded-lg bg-destructive/10 flex items-center justify-center mx-auto mb-4">
-                  <AlertTriangle className="h-6 w-6 text-destructive" />
-                </div>
-                <AlertDialogTitle className="text-center">
-                  Revoke Session?
-                </AlertDialogTitle>
-                <AlertDialogDescription className="text-center">
-                  This will immediately end this session. The user will need to
-                  sign in again on this device.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={() => onRevoke(session._id)}
-                  className="bg-destructive hover:bg-destructive/90"
-                >
-                  Revoke Session
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        )}
+    {/* Card Header Bar */}
+    <div
+      className={`px-5 py-2.5 border-b text-xs font-mono flex items-center justify-between ${
+        session.current
+          ? "bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900"
+          : "bg-neutral-50/80 dark:bg-[#15161b] text-neutral-500 border-neutral-200 dark:border-[#222329]"
+      }`}
+    >
+      <div className="flex items-center gap-2">
+        <DeviceIcon device={session.deviceInfo?.device} />
+        <span className="font-semibold uppercase tracking-wider">
+          {session.deviceInfo?.os || "UNKNOWN OS"} //{" "}
+          {session.deviceInfo?.browser || "BROWSER"}
+        </span>
       </div>
-    </CardContent>
-  </Card>
+      {session.current ? (
+        <span className="inline-flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-widest bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          CURRENT ENCLAVE
+        </span>
+      ) : (
+        <span className="text-[10px] text-neutral-400 uppercase tracking-widest font-mono">
+          ID: {session._id?.slice(-8) || "SESSION"}
+        </span>
+      )}
+    </div>
+
+    {/* Body Details */}
+    <div className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="space-y-2">
+        <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-neutral-600 dark:text-neutral-400">
+          <span className="flex items-center gap-1.5">
+            <MapPin className="h-3.5 w-3.5 text-neutral-400" />
+            <span>
+              {session.location?.city || "Unknown Location"},{" "}
+              {session.location?.country || "Earth"}
+            </span>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Globe className="h-3.5 w-3.5 text-neutral-400" />
+            <span className="text-neutral-900 dark:text-neutral-200 font-semibold">
+              {session.ipAddress}
+            </span>
+          </span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-4 text-[11px] font-mono text-neutral-400 dark:text-neutral-500">
+          <span className="flex items-center gap-1.5">
+            <Clock className="h-3 w-3" />
+            <span>
+              Minted: {new Date(session.createdAt).toLocaleDateString()}
+            </span>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Activity className="h-3 w-3 text-emerald-500" />
+            <span>
+              Last activity: {formatDistanceToNow(new Date(session.lastActive))}{" "}
+              ago
+            </span>
+          </span>
+        </div>
+      </div>
+
+      {!session.current && (
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 font-mono text-xs border-rose-200 dark:border-rose-900/50 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/20 self-start md:self-auto cursor-pointer"
+            >
+              <Trash2 className="h-3.5 w-3.5 mr-1.5" />
+              <span>REVOKE SESSION</span>
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent className="border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316]">
+            <AlertDialogHeader>
+              <div className="h-10 w-10 rounded-lg bg-rose-500/10 flex items-center justify-center mx-auto mb-3">
+                <AlertTriangle className="h-5 w-5 text-rose-600 dark:text-rose-400" />
+              </div>
+              <AlertDialogTitle className="text-center font-bold text-base">
+                Revoke Session Token?
+              </AlertDialogTitle>
+              <AlertDialogDescription className="text-center text-xs text-neutral-600 dark:text-neutral-400">
+                This action will immediately terminate the cryptographic session
+                enclave on this remote hardware. The client will be signed out
+                instantly.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="font-mono text-xs">
+                CANCEL
+              </AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => onRevoke(session._id)}
+                className="font-mono text-xs bg-rose-600 hover:bg-rose-700 text-white"
+              >
+                REVOKE SESSION
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
+    </div>
+  </div>
 );
 
 const SessionManagement = () => {
@@ -158,58 +169,84 @@ const SessionManagement = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
-        <p className="text-sm text-muted-foreground">Loading sessions...</p>
+      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-3 font-mono text-xs">
+        <Loader2 className="h-6 w-6 animate-spin text-neutral-500" />
+        <span className="text-neutral-500">
+          QUERYING ACTIVE SESSION ENCLAVES...
+        </span>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto py-8 px-6 max-w-5xl">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-          <div className="space-y-2">
+    <div className="min-h-screen bg-[#fbf9f9] dark:bg-[#09090c] text-neutral-900 dark:text-neutral-100 antialiased relative isolate selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+      {/* Precision Engineering Matrix Background */}
+      <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-[#fbf9f9] dark:bg-[#09090c]">
+        <div className="absolute inset-0 grid-matrix opacity-40 dark:opacity-20" />
+        <div className="absolute inset-0 bg-radial from-transparent via-transparent to-neutral-200/50 dark:to-black/60" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        {/* Engineering Eyebrow */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-neutral-200 dark:border-[#222329] pb-3 gap-2">
+          <div className="flex items-center text-xs font-mono text-neutral-500 uppercase tracking-widest">
             <Link
-              to="/dashboard"
-              className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors group"
+              to="/settings"
+              className="hover:text-black dark:hover:text-white inline-flex items-center gap-1.5"
             >
-              <ChevronLeft className="h-4 w-4 mr-1 group-hover:-translate-x-1 transition-transform" />
-              Back to Dashboard
+              <ArrowLeft className="h-3.5 w-3.5" />
+              <span>SETTINGS</span>
             </Link>
-            <h1 className="text-3xl font-bold flex items-center gap-3">
-              <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Shield className="h-5 w-5 text-primary" />
-              </div>
-              Session Management
+            <TechSeparator />
+            <span>SESSION RUNTIME MATRIX</span>
+          </div>
+          <div className="inline-flex items-center gap-1.5 font-mono text-xs text-emerald-600 dark:text-emerald-400">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>EDGESYNC ACTIVE</span>
+          </div>
+        </div>
+
+        {/* Page Title & Actions */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+              Cryptographic Session Matrix
             </h1>
-            <p className="text-muted-foreground">
-              Manage active sessions across all your devices
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-1">
+              Active identity tokens and hardware-fingerprinted enclaves across
+              all devices.
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-3">
+          <div className="flex items-center gap-2">
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="outline">Revoke Others</Button>
+                <Button
+                  variant="outline"
+                  className="h-8 font-mono text-xs border-neutral-200 dark:border-[#2a2b33]"
+                >
+                  REVOKE OTHER SESSIONS
+                </Button>
               </AlertDialogTrigger>
-              <AlertDialogContent>
+              <AlertDialogContent className="border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316]">
                 <AlertDialogHeader>
-                  <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                    <AlertTriangle className="h-6 w-6 text-primary" />
-                  </div>
-                  <AlertDialogTitle className="text-center">
-                    Revoke Other Sessions?
+                  <AlertDialogTitle className="font-bold text-base text-center">
+                    Revoke Other Device Sessions?
                   </AlertDialogTitle>
-                  <AlertDialogDescription className="text-center">
-                    This will end all sessions except your current one. You'll
-                    need to sign in again on other devices.
+                  <AlertDialogDescription className="text-xs text-neutral-600 dark:text-neutral-400 text-center">
+                    This will invalidate all refresh tokens on all devices
+                    except your current session.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={revokeOthers}>
-                    Revoke Others
+                  <AlertDialogCancel className="font-mono text-xs">
+                    CANCEL
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={revokeOthers}
+                    className="font-mono text-xs bg-black dark:bg-white text-white dark:text-black"
+                  >
+                    CONFIRM REVOKE
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
@@ -217,31 +254,33 @@ const SessionManagement = () => {
 
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="destructive" className="gap-2">
-                  <LogOut className="h-4 w-4" />
-                  Revoke All
+                <Button
+                  variant="destructive"
+                  className="h-8 font-mono text-xs gap-1.5"
+                >
+                  <LogOut className="h-3.5 w-3.5" />
+                  <span>REVOKE ALL</span>
                 </Button>
               </AlertDialogTrigger>
-              <AlertDialogContent>
+              <AlertDialogContent className="border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316]">
                 <AlertDialogHeader>
-                  <div className="h-12 w-12 rounded-lg bg-destructive/10 flex items-center justify-center mx-auto mb-4">
-                    <LogOut className="h-6 w-6 text-destructive" />
-                  </div>
-                  <AlertDialogTitle className="text-center text-destructive">
-                    Revoke All Sessions?
+                  <AlertDialogTitle className="font-bold text-base text-center text-rose-600">
+                    Emergency Revoke All Sessions?
                   </AlertDialogTitle>
-                  <AlertDialogDescription className="text-center">
-                    Warning: This will end ALL sessions including this one.
-                    You'll be signed out and redirected to login.
+                  <AlertDialogDescription className="text-xs text-neutral-600 dark:text-neutral-400 text-center">
+                    Warning: This will terminate ALL sessions including this
+                    one. You will be redirected to sign in immediately.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogCancel className="font-mono text-xs">
+                    CANCEL
+                  </AlertDialogCancel>
                   <AlertDialogAction
                     onClick={handleRevokeAll}
-                    className="bg-destructive hover:bg-destructive/90"
+                    className="font-mono text-xs bg-rose-600 hover:bg-rose-700 text-white"
                   >
-                    Revoke All Sessions
+                    TERMINATE ALL
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
@@ -249,15 +288,59 @@ const SessionManagement = () => {
           </div>
         </div>
 
-        <div className="space-y-6">
-          <div className="flex items-center gap-4">
-            <p className="text-sm font-medium text-muted-foreground">
-              Active Sessions ({sessions.length})
-            </p>
-            <Separator className="flex-1" />
+        {/* Telemetry Metric Tiles */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] p-5 shadow-xs">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-1">
+              01 // ACTIVE CONCURRENT SESSIONS
+            </span>
+            <div className="flex items-baseline gap-2">
+              <span className="text-3xl font-bold font-mono text-neutral-900 dark:text-white">
+                {sessions.length}
+              </span>
+              <span className="text-xs font-mono text-neutral-500">
+                DEVICES
+              </span>
+            </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] p-5 shadow-xs">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-1">
+              02 // ENCLAVE ENCRYPTION
+            </span>
+            <div className="flex items-baseline gap-2">
+              <span className="text-xl font-bold font-mono text-neutral-900 dark:text-white">
+                AES-256-GCM
+              </span>
+              <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">
+                ACTIVE
+              </span>
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] p-5 shadow-xs">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-1">
+              03 // SESSION TIMEOUT POLICY
+            </span>
+            <div className="flex items-baseline gap-2">
+              <span className="text-3xl font-bold font-mono text-neutral-900 dark:text-white">
+                7
+              </span>
+              <span className="text-xs font-mono text-neutral-500">
+                DAYS SLIDING
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Sessions List */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between text-xs font-mono text-neutral-500 pb-1">
+            <span>REGISTERED DEVICE ENCLAVES ({sessions.length})</span>
+            <span>TOKEN SPEC: RFC-7519</span>
+          </div>
+
+          <div className="space-y-3">
             {sessions.map((session) => (
               <SessionCard
                 key={session._id}
@@ -266,124 +349,21 @@ const SessionManagement = () => {
               />
             ))}
           </div>
+        </div>
 
-          <div className="space-y-6">
-            <div className="flex items-center gap-4">
-              <p className="text-sm font-medium text-muted-foreground">
-                Security Education & Best Practices
-              </p>
-              <Separator className="flex-1" />
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card className="bg-muted/30 border-none">
-                <CardHeader>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="h-8 w-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-                      <Shield className="h-4 w-4 text-emerald-600" />
-                    </div>
-                    <CardTitle className="text-lg">
-                      Why Revoke Sessions?
-                    </CardTitle>
-                  </div>
-                  <CardDescription className="text-sm">
-                    Maintaining a lean list of active sessions is critical for
-                    account security.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <ul className="text-sm space-y-2 text-muted-foreground">
-                    <li className="flex gap-2">
-                      <div className="h-1.5 w-1.5 rounded-full bg-primary shrink-0 mt-1.5" />
-                      <span>
-                        <b>Unrecognized Activity:</b> If you see a device or
-                        location you don't recognize, revoke it immediately.
-                      </span>
-                    </li>
-                    <li className="flex gap-2">
-                      <div className="h-1.5 w-1.5 rounded-full bg-primary shrink-0 mt-1.5" />
-                      <span>
-                        <b>Public Computers:</b> If you forgot to sign out on a
-                        shared device, you can force a logout from here.
-                      </span>
-                    </li>
-                    <li className="flex gap-2">
-                      <div className="h-1.5 w-1.5 rounded-full bg-primary shrink-0 mt-1.5" />
-                      <span>
-                        <b>Lost Devices:</b> Revoking access prevents anyone
-                        from accessing your data if your phone or laptop is
-                        stolen.
-                      </span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-muted/30 border-none">
-                <CardHeader>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="h-8 w-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
-                      <AlertTriangle className="h-4 w-4 text-amber-600" />
-                    </div>
-                    <CardTitle className="text-lg">
-                      What Happens Next?
-                    </CardTitle>
-                  </div>
-                  <CardDescription className="text-sm">
-                    Understanding the lifecycle of a revoked session.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <p className="text-xs font-semibold uppercase text-muted-foreground tracking-wider">
-                      Upon Revocation:
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      All Refresh Tokens associated with that session are
-                      instantly blacklisted. Any subsequent request from that
-                      device will return a <b>401 Unauthorized</b> error,
-                      forcing an immediate redirect to the login page.
-                    </p>
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-xs font-semibold uppercase text-muted-foreground tracking-wider">
-                      If Not Revoked:
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      The session remains valid for <b>7 days</b> from last
-                      activity. An attacker with access to an active session can
-                      bypass MFA and access sensitive project keys.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            <Card className="bg-primary/5 border-primary/20">
-              <CardContent className="p-6">
-                <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
-                  <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
-                    <Key className="h-8 w-8 text-primary" />
-                  </div>
-                  <div className="space-y-1">
-                    <h4 className="font-bold text-lg">System-Level Security</h4>
-                    <p className="text-sm text-muted-foreground">
-                      AuthSphere uses <b>AES-256-GCM</b> encryption for session
-                      storage and <b>SHA-512</b> for token hashing. Revoking a
-                      session is a cryptographic operation that ensures
-                      zero-latency access termination across our global edge
-                      network.
-                    </p>
-                  </div>
-                  <div className="md:ml-auto">
-                    <Badge variant="outline" className="font-mono px-3 py-1">
-                      Stateless-Sync v2.1
-                    </Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+        {/* Security Education Footer Panel */}
+        <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] p-6 shadow-xs space-y-4">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-neutral-900 dark:text-white">
+            <Cpu className="h-4 w-4 text-emerald-500" />
+            <span>CRYPTOGRAPHIC TERMINATION SPECIFICATION</span>
           </div>
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed font-mono">
+            AuthSphere maintains a low-latency distributed token revocation
+            ledger. When a session is revoked, its unique JTI (JWT ID) is
+            immediately blacklisted in Redis with sub-millisecond edge
+            synchronization, guaranteeing that downstream API services reject
+            revoked tokens on their very next request.
+          </p>
         </div>
       </div>
     </div>

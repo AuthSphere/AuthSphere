@@ -1,81 +1,13 @@
-import React, { useEffect, useRef } from "react";
-import useThemeStore from "@/store/themeStore";
+import React from "react";
 
+/**
+ * Performance-focused minimal auth background wrapper.
+ * Replaced heavy Three.js / Vanta WebGL simulation with lightweight native CSS styling.
+ */
 const VantaBackground = ({ children }) => {
-  const vantaRef = useRef(null);
-  const vantaEffect = useRef(null);
-  const { theme } = useThemeStore();
-
-  useEffect(() => {
-    const isDark =
-      theme === "dark" ||
-      (theme === "system" &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches);
-
-    // Wait for VANTA to be available
-    const initVanta = () => {
-      if (
-        window.VANTA &&
-        window.THREE &&
-        vantaRef.current &&
-        !vantaEffect.current
-      ) {
-        vantaEffect.current = window.VANTA.BIRDS({
-          el: vantaRef.current,
-          mouseControls: true,
-          touchControls: true,
-          gyroControls: false,
-          minHeight: 200.0,
-          minWidth: 200.0,
-          scale: 1.0,
-          scaleMobile: 1.0,
-          backgroundColor: isDark ? 0x0e0e0e : 0xffffff,
-          color1: isDark ? 0x6366f1 : 0x000000,
-          color2: isDark ? 0x8b5cf6 : 0x333333,
-          quantity: 3,
-          birdSize: 1.2,
-          wingSpan: 25.0,
-          speedLimit: 5.0,
-          separation: 50.0,
-          alignment: 50.0,
-          cohesion: 50.0,
-        });
-      } else if (vantaEffect.current) {
-        // Update existing effect
-        vantaEffect.current.setOptions({
-          backgroundColor: isDark ? 0x0e0e0e : 0xffffff,
-          color1: isDark ? 0x6366f1 : 0x000000,
-          color2: isDark ? 0x8b5cf6 : 0x333333,
-        });
-      }
-    };
-
-    // Try to initialize immediately
-    initVanta();
-
-    // If not available yet, wait a bit
-    const timer = setTimeout(initVanta, 100);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [theme]);
-
-  // Handle cleanup on unmount separately
-  useEffect(() => {
-    return () => {
-      if (vantaEffect.current) {
-        vantaEffect.current.destroy();
-        vantaEffect.current = null;
-      }
-    };
-  }, []);
-
   return (
-    <div
-      ref={vantaRef}
-      className="relative min-h-screen w-full transition-colors duration-500"
-    >
+    <div className="relative min-h-screen w-full bg-background flex flex-col justify-center items-center overflow-x-hidden">
+      <div className="absolute inset-0 pointer-events-none opacity-40 dark:opacity-20 [background-image:radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(99,102,241,0.15),transparent)]" />
       {children}
     </div>
   );

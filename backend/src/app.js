@@ -5,7 +5,7 @@ import compression from "compression";
 import crypto from "crypto";
 import hpp from "hpp";
 import morgan from "morgan";
-import mongoSanitize from "express-mongo-sanitize";
+import mongoSanitize from "@exortek/express-mongo-sanitize";
 
 import logger, { stream } from "./utils/logger.js";
 import { handleError } from "./utils/AppError.js";
