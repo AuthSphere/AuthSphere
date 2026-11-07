@@ -104,7 +104,7 @@ export const Register = () => {
         {/* ======================================================== */}
         <section
           aria-label="Registration Form Section"
-          className="lg:col-span-6 xl:col-span-5 h-full flex flex-col justify-between p-5 sm:p-8 lg:px-8 lg:py-6 xl:px-10 xl:py-7 bg-white/95 dark:bg-[#0c0d10]/95 backdrop-blur-sm border-r border-[#E5E5E5] dark:border-[#26262b] shadow-sm relative z-10 overflow-y-auto"
+          className="lg:col-span-6 xl:col-span-5 h-full flex flex-col justify-between p-6 sm:p-10 lg:px-10 lg:py-8 xl:px-12 xl:py-10 bg-white/95 dark:bg-[#0c0d10]/95 backdrop-blur-sm border-r border-[#E5E5E5] dark:border-[#26262b] shadow-sm relative z-10 overflow-y-auto"
         >
           {/* Top Bar */}
           <header className="flex items-center justify-between w-full">
@@ -113,8 +113,8 @@ export const Register = () => {
               className="flex items-center gap-2.5 group focus:outline-none"
               aria-label="AuthSphere Home"
             >
-              <div className="w-7 h-7 flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-105">
-                <AuthSphereLogo className="w-7 h-7 object-contain" />
+              <div className="w-8 h-8 flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-105">
+                <AuthSphereLogo className="w-8 h-8 object-contain" />
               </div>
               <span className="font-semibold text-[17px] tracking-tight text-neutral-900 dark:text-white">
                 AuthSphere
@@ -123,42 +123,33 @@ export const Register = () => {
 
             <Link
               to="/"
-              className="font-mono text-[11px] uppercase tracking-wider text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors flex items-center gap-1.5 focus:outline-none rounded"
+              className="inline-flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white font-medium transition-colors focus:outline-none rounded"
             >
-              <span
-                aria-hidden="true"
-                className="material-symbols-outlined text-sm"
-              >
-                arrow_back
+              <span className="transition-transform duration-150 group-hover:-translate-x-0.5">
+                ←
               </span>
               <span>Back to AuthSphere</span>
             </Link>
           </header>
 
           {/* Registration Form Area */}
-          <div className="w-full max-w-md mx-auto my-auto py-2 sm:py-3">
-            <div className="mb-3.5">
-              <div className="inline-flex items-center gap-2 mb-1.5">
-                <span className="w-1.5 h-1.5 bg-black dark:bg-white rounded-full" />
-                <span className="font-mono text-[11px] text-neutral-500 dark:text-neutral-400 uppercase tracking-widest">
-                  GET STARTED
-                </span>
-              </div>
-              <h1 className="text-2xl sm:text-[26px] font-semibold text-neutral-900 dark:text-white tracking-tight leading-snug">
+          <div className="w-full max-w-[420px] mx-auto my-auto py-4 sm:py-6">
+            <div className="mb-6">
+              <h1 className="text-3xl font-bold text-neutral-900 dark:text-white tracking-tight leading-tight">
                 Create your identity.
               </h1>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-1">
+              <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-2 leading-relaxed">
                 Set up your AuthSphere account and start building with connected
                 authentication.
               </p>
             </div>
 
             {/* Social Auth Buttons */}
-            <div className="grid grid-cols-2 gap-2.5 mb-3">
+            <div className="grid grid-cols-2 gap-3 mb-5">
               <button
                 type="button"
                 onClick={() => handleSocialLogin("google")}
-                className="flex items-center justify-center gap-2 h-9 px-3 bg-[#f5f3f3] dark:bg-[#14151a] hover:bg-[#efeded] dark:hover:bg-[#1f2028] text-neutral-900 dark:text-white rounded text-xs font-medium transition-colors border border-transparent dark:border-[#2a2b33] cursor-pointer"
+                className="flex items-center justify-center gap-2.5 h-10 px-3 bg-white dark:bg-[#14151a] hover:bg-neutral-50 dark:hover:bg-[#1a1b22] text-neutral-900 dark:text-white rounded-lg text-xs sm:text-sm font-medium transition-colors border border-[#E5E5E5] dark:border-[#2a2b33] cursor-pointer shadow-2xs"
               >
                 <svg
                   aria-hidden="true"
@@ -188,7 +179,7 @@ export const Register = () => {
               <button
                 type="button"
                 onClick={() => handleSocialLogin("github")}
-                className="flex items-center justify-center gap-2 h-9 px-3 bg-[#f5f3f3] dark:bg-[#14151a] hover:bg-[#efeded] dark:hover:bg-[#1f2028] text-neutral-900 dark:text-white rounded text-xs font-medium transition-colors border border-transparent dark:border-[#2a2b33] cursor-pointer"
+                className="flex items-center justify-center gap-2.5 h-10 px-3 bg-white dark:bg-[#14151a] hover:bg-neutral-50 dark:hover:bg-[#1a1b22] text-neutral-900 dark:text-white rounded-lg text-xs sm:text-sm font-medium transition-colors border border-[#E5E5E5] dark:border-[#2a2b33] cursor-pointer shadow-2xs"
               >
                 <svg
                   aria-hidden="true"
@@ -208,10 +199,10 @@ export const Register = () => {
             {/* Divider */}
             <div
               aria-hidden="true"
-              className="relative flex items-center justify-center my-3"
+              className="relative flex items-center justify-center my-5"
             >
               <div className="w-full h-px bg-[#E5E5E5] dark:bg-[#26262b]" />
-              <span className="absolute bg-white dark:bg-[#0c0d10] px-3 font-mono text-[10px] text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+              <span className="absolute bg-white dark:bg-[#0c0d10] px-3 text-xs text-neutral-400 dark:text-neutral-500 font-normal">
                 or register with email
               </span>
             </div>
@@ -219,14 +210,14 @@ export const Register = () => {
             {/* Registration Form */}
             <form
               onSubmit={handleSubmit(handleRegister)}
-              className="space-y-2.5"
+              className="space-y-4"
               noValidate
             >
               {/* Full Name / Username */}
               <div>
                 <div className="flex justify-between items-center mb-1.5">
                   <label
-                    className="text-xs font-medium text-neutral-900 dark:text-neutral-200 cursor-pointer"
+                    className="text-xs sm:text-[13px] font-medium text-neutral-800 dark:text-neutral-200 cursor-pointer"
                     htmlFor="fullName"
                   >
                     Username / Full name
@@ -243,16 +234,16 @@ export const Register = () => {
                     type="text"
                     {...register("username")}
                     placeholder="Your developer handle"
-                    className="w-full h-9 px-3 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-xs sm:text-sm rounded border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
+                    className="w-full h-10.5 px-3.5 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded-lg border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors shadow-2xs"
                   />
                 </div>
               </div>
 
               {/* Email Address */}
               <div>
-                <div className="flex justify-between items-center mb-1">
+                <div className="flex justify-between items-center mb-1.5">
                   <label
-                    className="text-xs font-medium text-neutral-900 dark:text-neutral-200 cursor-pointer"
+                    className="text-xs sm:text-[13px] font-medium text-neutral-800 dark:text-neutral-200 cursor-pointer"
                     htmlFor="email"
                   >
                     Email address
@@ -269,18 +260,18 @@ export const Register = () => {
                     type="email"
                     {...register("email")}
                     placeholder="you@example.com"
-                    className="w-full h-9 px-3 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-xs sm:text-sm rounded border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
+                    className="w-full h-10.5 px-3.5 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded-lg border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors shadow-2xs"
                   />
                 </div>
               </div>
 
               {/* Password & Confirm Password (Side-by-Side Row) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 {/* Password */}
                 <div>
-                  <div className="flex justify-between items-center mb-1">
+                  <div className="flex justify-between items-center mb-1.5">
                     <label
-                      className="text-xs font-medium text-neutral-900 dark:text-neutral-200 cursor-pointer"
+                      className="text-xs sm:text-[13px] font-medium text-neutral-800 dark:text-neutral-200 cursor-pointer"
                       htmlFor="password"
                     >
                       Password
@@ -292,7 +283,7 @@ export const Register = () => {
                       type={showPassword ? "text" : "password"}
                       {...register("password")}
                       placeholder="Min 6 chars"
-                      className="w-full h-9 pl-3 pr-8 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-xs sm:text-sm rounded border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
+                      className="w-full h-10.5 pl-3.5 pr-9 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded-lg border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors shadow-2xs"
                     />
                     <button
                       type="button"
@@ -300,12 +291,12 @@ export const Register = () => {
                       aria-label={
                         showPassword ? "Hide password" : "Show password"
                       }
-                      className="absolute right-2 p-1 text-neutral-400 hover:text-black dark:hover:text-white transition-colors cursor-pointer select-none"
+                      className="absolute right-2.5 p-1 text-neutral-400 hover:text-black dark:hover:text-white transition-colors cursor-pointer select-none"
                     >
                       {showPassword ? (
-                        <EyeOff className="h-3.5 w-3.5" />
+                        <EyeOff className="h-4 w-4" />
                       ) : (
-                        <Eye className="h-3.5 w-3.5" />
+                        <Eye className="h-4 w-4" />
                       )}
                     </button>
                   </div>
@@ -318,9 +309,9 @@ export const Register = () => {
 
                 {/* Confirm Password */}
                 <div>
-                  <div className="flex justify-between items-center mb-1">
+                  <div className="flex justify-between items-center mb-1.5">
                     <label
-                      className="text-xs font-medium text-neutral-900 dark:text-neutral-200 cursor-pointer"
+                      className="text-xs sm:text-[13px] font-medium text-neutral-800 dark:text-neutral-200 cursor-pointer"
                       htmlFor="confirmPassword"
                     >
                       Confirm password
@@ -332,7 +323,7 @@ export const Register = () => {
                       type={showConfirmPassword ? "text" : "password"}
                       {...register("confirmPassword")}
                       placeholder="Repeat password"
-                      className="w-full h-9 pl-3 pr-8 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-xs sm:text-sm rounded border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
+                      className="w-full h-10.5 pl-3.5 pr-9 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded-lg border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors shadow-2xs"
                     />
                     <button
                       type="button"
@@ -344,12 +335,12 @@ export const Register = () => {
                           ? "Hide confirmed password"
                           : "Show confirmed password"
                       }
-                      className="absolute right-2 p-1 text-neutral-400 hover:text-black dark:hover:text-white transition-colors cursor-pointer select-none"
+                      className="absolute right-2.5 p-1 text-neutral-400 hover:text-black dark:hover:text-white transition-colors cursor-pointer select-none"
                     >
                       {showConfirmPassword ? (
-                        <EyeOff className="h-3.5 w-3.5" />
+                        <EyeOff className="h-4 w-4" />
                       ) : (
-                        <Eye className="h-3.5 w-3.5" />
+                        <Eye className="h-4 w-4" />
                       )}
                     </button>
                   </div>
@@ -372,10 +363,10 @@ export const Register = () => {
                       id="termsAgree"
                       type="checkbox"
                       {...register("terms")}
-                      className="w-3.5 h-3.5 rounded border-[#E5E5E5] dark:border-[#2a2b33] text-black dark:text-white focus:ring-0 focus:ring-offset-0 transition cursor-pointer accent-black dark:accent-white"
+                      className="w-4 h-4 rounded border-[#E5E5E5] dark:border-[#2a2b33] text-black dark:text-white focus:ring-0 focus:ring-offset-0 transition cursor-pointer accent-black dark:accent-white"
                     />
                   </div>
-                  <span className="text-[11px] text-neutral-600 dark:text-neutral-400 select-none leading-tight">
+                  <span className="text-xs text-neutral-600 dark:text-neutral-400 select-none leading-relaxed">
                     I agree to the{" "}
                     <a
                       href="#terms"
@@ -405,7 +396,7 @@ export const Register = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full h-9 bg-black dark:bg-white hover:bg-neutral-800 dark:hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed text-white dark:text-black text-xs font-semibold rounded flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer"
+                  className="w-full h-11 bg-neutral-900 dark:bg-white hover:bg-neutral-800 dark:hover:bg-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed text-white dark:text-neutral-900 text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer"
                 >
                   <span>
                     {loading ? "Creating account..." : "Create account →"}
@@ -416,8 +407,8 @@ export const Register = () => {
           </div>
 
           {/* Footer */}
-          <footer className="w-full text-center pt-2 sm:pt-3">
-            <p className="text-xs text-neutral-600 dark:text-neutral-400">
+          <footer className="w-full text-center pt-4 sm:pt-5">
+            <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400">
               Already have an account?{" "}
               <Link
                 to="/login"
