@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import AuthSphereLogo from "@/components/common/AuthSphereLogo";
-import TechSeparator from "@/components/common/TechSeparator";
 import ArchitectureSpecification from "@/components/common/ArchitectureSpecification";
 
 const registerSchema = z
@@ -409,41 +408,13 @@ export const Register = () => {
         </section>
 
         {/* ======================================================== */}
-        {/* RIGHT PANEL: IDENTITY OVERVIEW & ARCHITECTURE             */}
+        {/* RIGHT PANEL: ASTRODYNAMICS & CELESTIAL MECHANICS          */}
         {/* ======================================================== */}
         <section
-          aria-label="Identity Connection Architecture"
-          className="lg:col-span-6 xl:col-span-7 hidden lg:flex flex-col justify-between p-6 lg:p-8 xl:p-10 h-full relative z-10 overflow-hidden bg-neutral-50/50 dark:bg-[#07080a]/50"
+          aria-label="Celestial Mechanics & Astrodynamics"
+          className="lg:col-span-6 xl:col-span-7 hidden lg:flex flex-1 relative overflow-hidden bg-[#fafafa] dark:bg-[#080909]"
         >
-          <div className="w-full max-w-170 mx-auto h-full flex flex-col justify-between py-1">
-            {/* Right Header */}
-            <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 mb-1.5">
-                <span className="w-2 h-0.5 bg-black dark:bg-white" />
-                <span className="font-mono text-[11px] text-neutral-500 dark:text-neutral-400 uppercase tracking-widest">
-                  ARCHITECTURE BRIEF
-                </span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-semibold text-neutral-900 dark:text-white tracking-tight">
-                One identity. Many possibilities.
-              </h2>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-1">
-                Connect identity providers and bring authentication into your
-                applications.
-              </p>
-            </div>
-
-            {/* Architecture Specification Blueprint Diagram */}
-            <div className="relative z-10 w-full my-auto py-2">
-              <ArchitectureSpecification />
-            </div>
-
-            {/* Clean Editorial Footer */}
-            <footer className="relative z-10 flex items-center justify-between text-neutral-500 dark:text-neutral-400 font-mono text-xs">
-              <div>AUTHSPHERE IDENTITY</div>
-              <div>DEVELOPER PLATFORM</div>
-            </footer>
-          </div>
+          <ArchitectureSpecification />
         </section>
       </main>
     </div>
