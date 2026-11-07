@@ -6,7 +6,9 @@ export const getDashboardStats = async () => {
     return data;
   } catch (error) {
     if (error?.response?.data) {
-      throw new Error(error.response.data.message || "Failed to fetch stats");
+      throw new Error(error.response.data.message || "Failed to fetch stats", {
+        cause: error,
+      });
     }
     throw error;
   }
