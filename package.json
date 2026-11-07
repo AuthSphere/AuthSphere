@@ -20,7 +20,8 @@
     "prepare": "node -e \"if (!process.env.CI && process.env.NODE_ENV !== 'production') import('husky').then(m => (m.default || m)()).catch(() => {})\""
   },
   "allowScripts": {
-    "@scarf/scarf": false
+    "@scarf/scarf": false,
+    "esbuild": true
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

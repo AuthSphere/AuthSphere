@@ -56,5 +56,11 @@ export default defineConfig({
   },
   build: {
     chunkSizeWarningLimit: 2000,
+    rollupOptions: {
+      onwarn(warning, warn) {
+        if (warning.code === "INVALID_ANNOTATION") return;
+        warn(warning);
+      },
+    },
   },
 });
