@@ -796,10 +796,10 @@ export function App() {
 
                     <div className="flex items-center justify-between py-1.5">
                       <span className="text-[11px] text-neutral-500 dark:text-neutral-400">
-                        Uptime SLA
+                        Session Revocation
                       </span>
-                      <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
-                        99.99% Operational
+                      <span className="text-[11px] font-semibold text-neutral-900 dark:text-white">
+                        Socket.io Broadcast
                       </span>
                     </div>
                   </div>
