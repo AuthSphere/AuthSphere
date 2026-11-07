@@ -133,7 +133,7 @@ export const Register = () => {
           </header>
 
           {/* Registration Form Area */}
-          <div className="w-full max-w-[420px] mx-auto my-auto py-4 sm:py-6">
+          <div className="w-full max-w-105 mx-auto my-auto py-4 sm:py-6">
             <div className="mb-6">
               <h1 className="text-3xl font-bold text-neutral-900 dark:text-white tracking-tight leading-tight">
                 Create your identity.
