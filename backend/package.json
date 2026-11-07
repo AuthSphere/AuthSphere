@@ -47,5 +47,8 @@
     "globals": "^15.9.0",
     "nodemon": "3",
     "prettier": "^3.9.6"
+  },
+  "allowScripts": {
+    "@scarf/scarf": false
   }
 }
