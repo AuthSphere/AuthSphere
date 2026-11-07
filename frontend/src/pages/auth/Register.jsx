@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import AuthSphereLogo from "@/components/common/AuthSphereLogo";
 import ArchitectureSpecification from "@/components/common/ArchitectureSpecification";
+import { Eye, EyeOff } from "lucide-react";
 
 const registerSchema = z
   .object({
@@ -273,69 +274,90 @@ export const Register = () => {
                 </div>
               </div>
 
-              {/* Password */}
-              <div>
-                <div className="flex justify-between items-center mb-1">
-                  <label
-                    className="text-xs font-medium text-neutral-900 dark:text-neutral-200 cursor-pointer"
-                    htmlFor="password"
-                  >
-                    Password
-                  </label>
+              {/* Password & Confirm Password (Side-by-Side Row) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {/* Password */}
+                <div>
+                  <div className="flex justify-between items-center mb-1">
+                    <label
+                      className="text-xs font-medium text-neutral-900 dark:text-neutral-200 cursor-pointer"
+                      htmlFor="password"
+                    >
+                      Password
+                    </label>
+                  </div>
+                  <div className="relative flex items-center">
+                    <input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      {...register("password")}
+                      placeholder="Min 6 chars"
+                      className="w-full h-9 pl-3 pr-8 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-xs sm:text-sm rounded border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
+                      }
+                      className="absolute right-2 p-1 text-neutral-400 hover:text-black dark:hover:text-white transition-colors cursor-pointer select-none"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-3.5 w-3.5" />
+                      ) : (
+                        <Eye className="h-3.5 w-3.5" />
+                      )}
+                    </button>
+                  </div>
                   {errors.password && (
-                    <span className="font-mono text-xs text-red-500">
+                    <span className="font-mono text-[11px] text-red-500 mt-1 block">
                       {errors.password.message}
                     </span>
                   )}
                 </div>
-                <div className="relative flex items-center">
-                  <input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    {...register("password")}
-                    placeholder="Create a password (min 6 chars)"
-                    className="w-full h-9 pl-3 pr-16 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-xs sm:text-sm rounded border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-2 px-2 py-1 font-mono text-[11px] text-neutral-500 hover:text-black dark:hover:text-white transition-colors cursor-pointer select-none uppercase tracking-wider"
-                  >
-                    {showPassword ? "Hide" : "Show"}
-                  </button>
-                </div>
-              </div>
 
-              {/* Confirm Password */}
-              <div>
-                <div className="flex justify-between items-center mb-1">
-                  <label
-                    className="text-xs font-medium text-neutral-900 dark:text-neutral-200 cursor-pointer"
-                    htmlFor="confirmPassword"
-                  >
-                    Confirm password
-                  </label>
+                {/* Confirm Password */}
+                <div>
+                  <div className="flex justify-between items-center mb-1">
+                    <label
+                      className="text-xs font-medium text-neutral-900 dark:text-neutral-200 cursor-pointer"
+                      htmlFor="confirmPassword"
+                    >
+                      Confirm password
+                    </label>
+                  </div>
+                  <div className="relative flex items-center">
+                    <input
+                      id="confirmPassword"
+                      type={showConfirmPassword ? "text" : "password"}
+                      {...register("confirmPassword")}
+                      placeholder="Repeat password"
+                      className="w-full h-9 pl-3 pr-8 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-xs sm:text-sm rounded border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                      aria-label={
+                        showConfirmPassword
+                          ? "Hide confirmed password"
+                          : "Show confirmed password"
+                      }
+                      className="absolute right-2 p-1 text-neutral-400 hover:text-black dark:hover:text-white transition-colors cursor-pointer select-none"
+                    >
+                      {showConfirmPassword ? (
+                        <EyeOff className="h-3.5 w-3.5" />
+                      ) : (
+                        <Eye className="h-3.5 w-3.5" />
+                      )}
+                    </button>
+                  </div>
                   {errors.confirmPassword && (
-                    <span className="font-mono text-xs text-red-500">
+                    <span className="font-mono text-[11px] text-red-500 mt-1 block">
                       {errors.confirmPassword.message}
                     </span>
                   )}
-                </div>
-                <div className="relative flex items-center">
-                  <input
-                    id="confirmPassword"
-                    type={showConfirmPassword ? "text" : "password"}
-                    {...register("confirmPassword")}
-                    placeholder="Confirm your password"
-                    className="w-full h-9 pl-3 pr-16 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-xs sm:text-sm rounded border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-2 px-2 py-1 font-mono text-[11px] text-neutral-500 hover:text-black dark:hover:text-white transition-colors cursor-pointer select-none uppercase tracking-wider"
-                  >
-                    {showConfirmPassword ? "Hide" : "Show"}
-                  </button>
                 </div>
               </div>
 
