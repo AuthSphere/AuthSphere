@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   KeyRound,
   Copy,
@@ -7,6 +7,11 @@ import {
   Globe,
   ShieldCheck,
   AlertTriangle,
+  Code2,
+  Terminal as TerminalIcon,
+  CheckCircle2,
+  Lock,
+  ExternalLink,
 } from "lucide-react";
 import {
   Card,
@@ -17,7 +22,6 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -31,22 +35,22 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { rotateProjectKeys } from "@/api/ProjectAPI";
-import {
-  Terminal,
-  TypingAnimation,
-  AnimatedSpan,
-} from "@/components/ui/terminal";
 import { allProvidersList } from "@/lib/providers";
+import TechSeparator from "@/components/common/TechSeparator";
 
 const ProjectKeysCard = ({ project, onKeysRotated }) => {
-  const [copied, setCopied] = useState(false);
+  const [copiedKey, setCopiedKey] = useState(false);
+  const [copiedId, setCopiedId] = useState(false);
+  const [copiedEnv, setCopiedEnv] = useState(false);
+  const [copiedCode, setCopiedCode] = useState(false);
+  const [codeTab, setCodeTab] = useState("npm");
   const [rotating, setRotating] = useState(false);
 
-  const handleCopy = async (text) => {
+  const handleCopy = async (text, setter) => {
     await navigator.clipboard.writeText(text);
-    setCopied(true);
+    setter(true);
     toast.success("Copied to clipboard");
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setter(false), 2000);
   };
 
   const handleRotateKeys = async () => {
@@ -54,271 +58,351 @@ const ProjectKeysCard = ({ project, onKeysRotated }) => {
       setRotating(true);
       const res = await rotateProjectKeys(project._id);
       if (res.success) {
-        toast.success("Keys rotated successfully");
+        toast.success("Cryptographic keys rotated successfully");
         onKeysRotated?.();
       } else {
         toast.error(res.message || "Failed to rotate keys");
       }
     } catch (err) {
-      toast.error(err.message || "Server error");
+      toast.error(err.message || "Server error while rotating keys");
     } finally {
       setRotating(false);
     }
   };
 
+  const getCodeSnippet = () => {
+    if (codeTab === "npm") {
+      return `npm install @authspherejs/sdk`;
+    }
+    if (codeTab === "pnpm") {
+      return `pnpm add @authspherejs/sdk`;
+    }
+    if (codeTab === "react") {
+      return `import { AuthSphereProvider } from "@authspherejs/react";
+
+export function App() {
+  return (
+    <AuthSphereProvider
+      projectId="${project._id}"
+      publicKey="${project.publicKey}"
+      redirectUri={window.location.origin + "/callback"}
+    >
+      <YourApp />
+    </AuthSphereProvider>
+  );
+}`;
+    }
+    return `curl -X POST "${window.location.origin}/api/v1/auth/token" \\
+  -H "Content-Type: application/json" \\
+  -d '{"client_id": "${project.publicKey}", "grant_type": "authorization_code"}'`;
+  };
+
   return (
     <div className="flex flex-col lg:flex-row gap-6 items-start mt-2">
-      {/* Main Content */}
-      <div className="flex-1 space-y-6 min-w-0">
-        {/* Header */}
-        <div className="flex items-center justify-between">
+      {/* ─── MAIN COLUMN ─── */}
+      <div className="flex-1 space-y-6 min-w-0 w-full">
+        {/* Section Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
           <div>
-            <h2 className="text-xl font-bold tracking-tight">
-              API Credentials
+            <div className="flex items-center gap-2 mb-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="font-mono text-[11px] text-neutral-500 dark:text-neutral-400 uppercase tracking-widest flex items-center">
+                <span>01</span>
+                <TechSeparator />
+                <span>CRYPTOGRAPHIC VAULT</span>
+              </span>
+            </div>
+            <h2 className="text-xl font-bold tracking-tight text-neutral-900 dark:text-white">
+              API Credentials &amp; Discovery Endpoints
             </h2>
-            <p className="text-sm text-muted-foreground mt-0.5">
-              Security identifiers for integrating AuthSphere.
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-0.5">
+              Cryptographic client identifier, project keys, and RFC-compliant
+              OpenID configuration.
             </p>
           </div>
+
+          {/* Key Rotation Dialog */}
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button
                 variant="outline"
                 size="sm"
                 disabled={rotating}
-                className="gap-2 text-destructive border-destructive/20 hover:bg-destructive/5"
+                className="h-8 px-3 font-mono text-xs gap-2 text-red-600 dark:text-red-400 border-red-200 dark:border-red-900/50 hover:bg-red-50 dark:hover:bg-red-950/30 cursor-pointer self-start sm:self-auto"
               >
                 <RefreshCw
-                  className={`h-3.5 w-3.5 ${rotating ? "animate-spin" : ""}`}
+                  className={`h-3 w-3 ${rotating ? "animate-spin" : ""}`}
                 />
-                Rotate Keys
+                <span>Rotate Keys</span>
               </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#0c0d10]">
               <AlertDialogHeader>
-                <div className="h-12 w-12 rounded-lg bg-destructive/10 flex items-center justify-center mx-auto mb-4">
-                  <AlertTriangle className="h-6 w-6 text-destructive" />
+                <div className="h-12 w-12 rounded-xl bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 flex items-center justify-center mx-auto mb-3">
+                  <AlertTriangle className="h-6 w-6" />
                 </div>
-                <AlertDialogTitle className="text-center">
+                <AlertDialogTitle className="text-center font-bold text-lg text-neutral-900 dark:text-white">
                   Rotate API Keys?
                 </AlertDialogTitle>
-                <AlertDialogDescription className="text-center">
-                  This will invalidate all existing sessions and generate new
-                  keys. Any applications using the current keys will stop
-                  working immediately. This action cannot be undone.
+                <AlertDialogDescription className="text-center text-xs font-mono text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                  This will immediately revoke and invalidate the active public
+                  key and regenerate cryptographic signing credentials. Existing
+                  client sessions and integrated SDK instances must be updated
+                  with the new key.
                 </AlertDialogDescription>
               </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogFooter className="mt-4">
+                <AlertDialogCancel className="font-mono text-xs">
+                  Cancel
+                </AlertDialogCancel>
                 <AlertDialogAction
                   onClick={handleRotateKeys}
-                  className="bg-destructive hover:bg-destructive/90"
+                  className="font-mono text-xs bg-red-600 hover:bg-red-700 text-white"
                 >
-                  Rotate Keys
+                  Confirm Key Rotation
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
         </div>
 
-        {/* Keys + API Reference */}
+        {/* ─── GRID: CLIENT ID & API REFERENCE ─── */}
         <div className="grid md:grid-cols-2 gap-5">
-          {/* Keys */}
-          <Card className="bg-card/30 border-border/50">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm">Keys</CardTitle>
-              <CardDescription className="text-xs">
-                Public key and project identifier
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          {/* Card 1: Credentials */}
+          <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden flex flex-col justify-between">
+            <div className="px-5 py-3 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
+              <span className="font-semibold text-neutral-800 dark:text-neutral-200 flex items-center gap-1.5">
+                <KeyRound className="h-3.5 w-3.5 text-neutral-400" />
+                <span>ACTIVE CREDENTIALS</span>
+              </span>
+              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold px-2 py-0.5 rounded border border-emerald-500/20 bg-emerald-500/10">
+                PROD
+              </span>
+            </div>
+
+            <div className="p-5 space-y-4">
+              {/* Public Key (Client ID) */}
               <div className="space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <label className="text-xs font-medium">
-                    Public Key (Client ID)
-                  </label>
-                  <Badge variant="outline" className="text-[10px]">
-                    Production
-                  </Badge>
+                <div className="flex items-center justify-between text-xs font-mono">
+                  <span className="text-neutral-500 dark:text-neutral-400">
+                    PUBLIC_KEY (CLIENT_ID)
+                  </span>
+                  <span className="text-[10px] text-neutral-400">HS256</span>
                 </div>
-                <div className="group flex items-center gap-2 p-2.5 bg-muted/30 rounded-lg border font-mono text-xs">
-                  <KeyRound className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-                  <span className="flex-1 truncate select-all">
+                <div className="flex items-center justify-between p-2.5 bg-neutral-50 dark:bg-[#181920] rounded-lg border border-[#eaeaea] dark:border-[#26262b] font-mono text-xs">
+                  <span className="text-neutral-900 dark:text-neutral-200 truncate select-all">
                     {project.publicKey}
                   </span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleCopy(project.publicKey)}
-                    className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                  <button
+                    onClick={() => handleCopy(project.publicKey, setCopiedKey)}
+                    className="p-1 hover:bg-neutral-200 dark:hover:bg-neutral-800 rounded transition-colors text-neutral-500 dark:text-neutral-400 ml-2 shrink-0 cursor-pointer"
+                    title="Copy Public Key"
                   >
-                    {copied ? (
+                    {copiedKey ? (
                       <Check className="h-3.5 w-3.5 text-emerald-500" />
                     ) : (
                       <Copy className="h-3.5 w-3.5" />
                     )}
-                  </Button>
+                  </button>
                 </div>
               </div>
 
+              {/* Project ID */}
               <div className="space-y-1.5">
-                <label className="text-xs font-medium">Project ID</label>
-                <div className="group flex items-center gap-2 p-2.5 bg-muted/30 rounded-lg border font-mono text-xs">
-                  <Globe className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-                  <span className="flex-1 truncate select-all">
+                <div className="flex items-center justify-between text-xs font-mono">
+                  <span className="text-neutral-500 dark:text-neutral-400">
+                    PROJECT_ID (NAMESPACE)
+                  </span>
+                </div>
+                <div className="flex items-center justify-between p-2.5 bg-neutral-50 dark:bg-[#181920] rounded-lg border border-[#eaeaea] dark:border-[#26262b] font-mono text-xs">
+                  <span className="text-neutral-900 dark:text-neutral-200 truncate select-all">
                     {project._id}
                   </span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleCopy(project._id)}
-                    className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                  <button
+                    onClick={() => handleCopy(project._id, setCopiedId)}
+                    className="p-1 hover:bg-neutral-200 dark:hover:bg-neutral-800 rounded transition-colors text-neutral-500 dark:text-neutral-400 ml-2 shrink-0 cursor-pointer"
+                    title="Copy Project ID"
                   >
-                    <Copy className="h-3.5 w-3.5" />
-                  </Button>
+                    {copiedId ? (
+                      <Check className="h-3.5 w-3.5 text-emerald-500" />
+                    ) : (
+                      <Copy className="h-3.5 w-3.5" />
+                    )}
+                  </button>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
 
-          {/* API Reference */}
-          <Card className="bg-card/30 border-border/50">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm">API Reference</CardTitle>
-              <CardDescription className="text-xs">
-                Endpoints for authentication
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-1">
-                <span className="text-xs text-muted-foreground">
-                  Base Auth URL
+            <div className="px-5 py-2.5 border-t border-[#eaeaea] dark:border-[#222329] bg-neutral-50/50 dark:bg-[#14151a]/50 text-[11px] font-mono text-neutral-500 dark:text-neutral-400">
+              Validated against RFC 7636 PKCE S256 handshake.
+            </div>
+          </div>
+
+          {/* Card 2: Discovery Endpoints */}
+          <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden flex flex-col justify-between">
+            <div className="px-5 py-3 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
+              <span className="font-semibold text-neutral-800 dark:text-neutral-200 flex items-center gap-1.5">
+                <Globe className="h-3.5 w-3.5 text-neutral-400" />
+                <span>OIDC PROTOCOL ENDPOINTS</span>
+              </span>
+              <span className="text-[10px] text-neutral-500 font-mono">
+                PORT 443
+              </span>
+            </div>
+
+            <div className="p-5 space-y-4">
+              <div className="space-y-1.5">
+                <span className="text-xs font-mono text-neutral-500 dark:text-neutral-400">
+                  BASE AUTH URL
                 </span>
-                <code className="block text-xs font-mono text-foreground bg-muted/30 px-2.5 py-2 rounded-lg border truncate">
+                <code className="block text-xs font-mono text-neutral-900 dark:text-neutral-200 bg-neutral-50 dark:bg-[#181920] p-2.5 rounded-lg border border-[#eaeaea] dark:border-[#26262b] truncate">
                   {window.location.origin}/api/v1/auth
                 </code>
               </div>
-              <div className="space-y-1">
-                <span className="text-xs text-muted-foreground">
-                  Discovery URL
+
+              <div className="space-y-1.5">
+                <span className="text-xs font-mono text-neutral-500 dark:text-neutral-400">
+                  OPENID DISCOVERY MANIFEST
                 </span>
-                <code className="block text-xs font-mono text-foreground bg-muted/30 px-2.5 py-2 rounded-lg border">
+                <code className="block text-xs font-mono text-neutral-900 dark:text-neutral-200 bg-neutral-50 dark:bg-[#181920] p-2.5 rounded-lg border border-[#eaeaea] dark:border-[#26262b] truncate">
                   /.well-known/openid-configuration
                 </code>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+
+            <div className="px-5 py-2.5 border-t border-[#eaeaea] dark:border-[#222329] bg-neutral-50/50 dark:bg-[#14151a]/50 text-[11px] font-mono text-neutral-500 dark:text-neutral-400 flex items-center justify-between">
+              <span>ALGORITHM: HS256</span>
+              <span>FORMAT: JWT</span>
+            </div>
+          </div>
         </div>
 
-        {/* .env Helper */}
-        <Card className="bg-card/30 border-border/50">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm">Environment Variables</CardTitle>
-            <CardDescription className="text-xs">
-              Add to your <code className="bg-muted px-1 rounded">.env</code>{" "}
-              file
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="relative group bg-zinc-950 rounded-lg p-4 font-mono text-xs text-zinc-400 space-y-1">
-              <button
-                onClick={() =>
-                  handleCopy(
-                    `AUTH_SPHERE_CLIENT_ID=${project.publicKey}\nAUTH_SPHERE_PROJECT_ID=${project._id}`,
-                  )
-                }
-                className="absolute top-3 right-3 p-1.5 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white/10 rounded"
-              >
-                <Copy className="h-3.5 w-3.5" />
-              </button>
-              <div>
-                AUTH_SPHERE_CLIENT_ID=
-                <span className="text-emerald-400">{project.publicKey}</span>
-              </div>
-              <div>
-                AUTH_SPHERE_PROJECT_ID=
-                <span className="text-emerald-400">{project._id}</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* SDK Integration */}
-        <Card className="bg-card/30 border-border/50">
-          <CardHeader className="pb-3 flex flex-row items-center justify-between">
-            <div>
-              <CardTitle className="text-sm">Quick Integration</CardTitle>
-              <CardDescription className="text-xs mt-0.5">
-                Initialize the AuthSphere SDK in your app
-              </CardDescription>
-            </div>
-            <Badge variant="outline" className="text-[10px]">
-              SDK v2.1.0
-            </Badge>
-          </CardHeader>
-          <CardContent>
-            <Terminal
-              copyable
-              codeToCopy={`import AuthSphere from "@authspherejs/sdk";\n\nAuthSphere.initAuth({\n  publicKey: "${project.publicKey}",\n  projectId: "${project._id}",\n  redirectUri: window.location.origin + "/callback",\n  baseUrl: "https://auth-sphere-6s2v.vercel.app"\n});`}
-              className="max-w-none bg-zinc-950 border-border/50"
-              startOnView={false}
+        {/* ─── ENVIRONMENT VARIABLES HELPER ─── */}
+        <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
+          <div className="px-5 py-3 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
+            <span className="font-semibold text-neutral-800 dark:text-neutral-200 flex items-center gap-2">
+              <Code2 className="h-3.5 w-3.5 text-neutral-400" />
+              <span>ENVIRONMENT VARIABLES (.env)</span>
+            </span>
+            <button
+              onClick={() =>
+                handleCopy(
+                  `AUTH_SPHERE_CLIENT_ID=${project.publicKey}\nAUTH_SPHERE_PROJECT_ID=${project._id}`,
+                  setCopiedEnv,
+                )
+              }
+              className="inline-flex items-center gap-1.5 text-[11px] font-mono text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white cursor-pointer"
             >
-              <TypingAnimation className="text-cyan-400">
-                $ npm install @authspherejs/sdk
-              </TypingAnimation>
+              {copiedEnv ? (
+                <>
+                  <Check className="h-3 w-3 text-emerald-500" />
+                  <span className="text-emerald-500 font-semibold">COPIED</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="h-3 w-3" />
+                  <span>COPY ALL</span>
+                </>
+              )}
+            </button>
+          </div>
 
-              <AnimatedSpan className="text-zinc-500">
-                <span># Initialize SDK</span>
-              </AnimatedSpan>
+          <div className="p-5">
+            <div className="relative group bg-[#0a0b0e] rounded-lg p-4 font-mono text-xs text-neutral-300 border border-[#22242c] space-y-1.5 overflow-x-auto">
+              <div className="text-neutral-500">
+                # AuthSphere Project Credentials
+              </div>
+              <div>
+                <span className="text-neutral-400">AUTH_SPHERE_CLIENT_ID=</span>
+                <span className="text-emerald-400 font-semibold">
+                  "{project.publicKey}"
+                </span>
+              </div>
+              <div>
+                <span className="text-neutral-400">
+                  AUTH_SPHERE_PROJECT_ID=
+                </span>
+                <span className="text-emerald-400 font-semibold">
+                  "{project._id}"
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-              <AnimatedSpan className="text-slate-300">
-                <pre className="font-mono text-[13px] leading-relaxed">
-                  <span className="text-purple-400">import</span>{" "}
-                  <span className="text-blue-300">AuthSphere</span>{" "}
-                  <span className="text-purple-400">from</span>{" "}
-                  <span className="text-emerald-400">"@authspherejs/sdk"</span>;
-                  {"\n\n"}
-                  <span className="text-blue-300">AuthSphere</span>.
-                  <span className="text-yellow-300">initAuth</span>({`{`}
-                  {"\n  "}publicKey:{" "}
-                  <span className="text-emerald-400">
-                    "{project.publicKey}"
-                  </span>
-                  ,{"\n  "}projectId:{" "}
-                  <span className="text-emerald-400">"{project._id}"</span>,
-                  {"\n  "}redirectUri:{" "}
-                  <span className="text-emerald-400">
-                    "window.location.origin + '/callback'"
-                  </span>
-                  ,{`\n}`});
-                </pre>
-              </AnimatedSpan>
-            </Terminal>
-          </CardContent>
-        </Card>
+        {/* ─── QUICK INTEGRATION SDK HUB ─── */}
+        <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
+          <div className="px-5 py-3 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
+            <div className="flex items-center gap-2">
+              <TerminalIcon className="h-3.5 w-3.5 text-neutral-400" />
+              <span className="font-semibold text-neutral-800 dark:text-neutral-200">
+                CLIENT INTEGRATION SUITE
+              </span>
+            </div>
+            {/* Tabs */}
+            <div className="flex items-center gap-1">
+              {["npm", "pnpm", "react", "curl"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setCodeTab(tab)}
+                  className={`px-2.5 py-1 rounded text-[11px] font-mono transition-colors cursor-pointer uppercase ${
+                    codeTab === tab
+                      ? "bg-neutral-900 text-white dark:bg-white dark:text-black font-semibold"
+                      : "text-neutral-500 hover:text-neutral-900 dark:hover:text-white"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="p-5">
+            <div className="relative group bg-[#0a0b0e] rounded-lg p-4 font-mono text-xs text-neutral-300 border border-[#22242c] overflow-x-auto">
+              <button
+                onClick={() => handleCopy(getCodeSnippet(), setCopiedCode)}
+                className="absolute top-3 right-3 p-1.5 rounded bg-white/5 hover:bg-white/10 text-neutral-400 hover:text-white transition-colors cursor-pointer"
+                title="Copy snippet"
+              >
+                {copiedCode ? (
+                  <Check className="h-3.5 w-3.5 text-emerald-500" />
+                ) : (
+                  <Copy className="h-3.5 w-3.5" />
+                )}
+              </button>
+              <pre className="text-xs font-mono leading-relaxed text-neutral-200">
+                {getCodeSnippet()}
+              </pre>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Sidebar */}
-      <aside className="w-full lg:w-64 shrink-0 space-y-5 lg:sticky lg:top-24">
-        {/* Deployment Status */}
-        <Card className="bg-card/30 border-border/50">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4 text-primary" />
-              Status
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-xs font-medium">Live in Production</span>
+      {/* ─── SIDEBAR COLUMN ─── */}
+      <aside className="w-full lg:w-72 shrink-0 space-y-5 lg:sticky lg:top-24">
+        {/* Runtime Checklist */}
+        <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
+          <div className="px-4 py-3 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
+            <span className="font-semibold text-neutral-800 dark:text-neutral-200 flex items-center gap-1.5">
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
+              <span>RUNTIME STATUS</span>
+            </span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          </div>
+
+          <div className="p-4 space-y-3.5">
+            <div className="flex items-center justify-between text-xs font-mono">
+              <span className="text-neutral-500">ENVIRONMENT</span>
+              <span className="font-semibold text-neutral-900 dark:text-white">
+                PRODUCTION
+              </span>
             </div>
 
-            <Separator />
+            <div className="h-px bg-[#eaeaea] dark:bg-[#222329]" />
 
             <div>
-              <p className="text-xs text-muted-foreground mb-2">
-                Active Providers
+              <p className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 mb-2 uppercase">
+                ACTIVE PROVIDERS ({project.providers?.length || 0})
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {project.providers?.map((providerId) => {
@@ -328,80 +412,81 @@ const ProjectKeysCard = ({ project, onKeysRotated }) => {
                   return (
                     <div
                       key={providerId}
-                      className="h-7 w-7 rounded-md border bg-background flex items-center justify-center p-1.5"
+                      className="h-7 px-2 rounded-md border border-[#eaeaea] dark:border-[#26262b] bg-neutral-50 dark:bg-[#181920] flex items-center gap-1.5 text-[11px] font-mono text-neutral-800 dark:text-neutral-200"
                       title={p?.name || providerId}
                     >
-                      <img
-                        src={p?.logo}
-                        alt={providerId}
-                        className="h-full w-full object-contain"
-                      />
+                      {p?.logo && (
+                        <img
+                          src={p.logo}
+                          alt={providerId}
+                          className="h-3.5 w-3.5 object-contain"
+                        />
+                      )}
+                      <span>{p?.name || providerId}</span>
                     </div>
                   );
                 })}
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        {/* Integration Checklist */}
-        <Card className="bg-card/30 border-border/50">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm">Setup Checklist</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2.5">
+        {/* Verification Checklist */}
+        <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
+          <div className="px-4 py-3 border-b border-[#eaeaea] dark:border-[#222329] text-xs font-mono font-semibold text-neutral-800 dark:text-neutral-200 bg-neutral-50/70 dark:bg-[#14151a]">
+            PRE-FLIGHT CHECKLIST
+          </div>
+          <div className="p-4 space-y-2.5 font-mono text-xs">
             {[
-              { label: "Public Key Generated", status: true },
               {
-                label: "URIs Whitelisted",
+                label: "Public Key Generated",
+                status: Boolean(project.publicKey),
+              },
+              {
+                label: "Allowed Redirect URIs",
                 status: project.redirectUris?.length > 0,
               },
               {
-                label: "Origins Configured",
+                label: "CORS Allowed Origins",
                 status: project.allowedOrigins?.length > 0,
               },
               {
-                label: "Providers Enabled",
+                label: "Identity Providers Enrolled",
                 status: project.providers?.length > 0,
               },
             ].map((item, i) => (
-              <div key={i} className="flex items-center gap-2.5 text-xs">
+              <div key={i} className="flex items-center gap-2 text-[11px]">
                 {item.status ? (
-                  <Check className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
                 ) : (
-                  <div className="h-3.5 w-3.5 rounded-full border border-dashed border-muted-foreground/30 shrink-0" />
+                  <div className="h-3.5 w-3.5 rounded-full border border-dashed border-neutral-400 shrink-0" />
                 )}
                 <span
                   className={
-                    item.status ? "text-foreground" : "text-muted-foreground"
+                    item.status
+                      ? "text-neutral-900 dark:text-neutral-200"
+                      : "text-neutral-400"
                   }
                 >
                   {item.label}
                 </span>
               </div>
             ))}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        {/* Security Note */}
-        <Card className="bg-amber-500/5 border-amber-500/10">
-          <CardContent className="p-4">
-            <div className="flex gap-2.5">
-              <AlertTriangle className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
-              <div className="space-y-2">
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  Never expose backend secrets in client-side code.
-                </p>
-                <Button
-                  variant="link"
-                  className="text-[10px] h-auto p-0 text-amber-600"
-                >
-                  Security Best Practices →
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Security Advisory */}
+        <div className="p-4 rounded-xl border border-amber-500/20 bg-amber-500/5 text-xs font-mono space-y-1.5">
+          <div className="flex items-center gap-1.5 text-amber-700 dark:text-amber-400 font-semibold">
+            <Lock className="h-3.5 w-3.5" />
+            <span>SECURITY ADVISORY</span>
+          </div>
+          <p className="text-[11px] text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            Never expose secret tokens in front-end repositories. AuthSphere
+            PKCE ensures client keys can safely initiate auth flows without
+            secrets.
+          </p>
+        </div>
       </aside>
     </div>
   );

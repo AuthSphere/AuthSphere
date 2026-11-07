@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import TechSeparator from "@/components/common/TechSeparator";
 
 export const CapabilityMatrixSection = () => {
   const [revoked, setRevoked] = useState(false);
@@ -7,7 +8,7 @@ export const CapabilityMatrixSection = () => {
 
   const handleDemoRevoke = () => {
     setRevoked(true);
-    setBtnText("Revoked (Sync 4ms)");
+    setBtnText("Sessions Revoked");
     setBtnDisabled(true);
 
     setTimeout(() => {
@@ -23,15 +24,17 @@ export const CapabilityMatrixSection = () => {
       className="w-full max-w-340 mx-auto px-6 lg:px-12 py-20 border-b border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#09090c] isolate"
     >
       <div className="max-w-2xl mb-12">
-        <div className="text-[11px] font-mono uppercase tracking-widest text-neutral-500 dark:text-neutral-400 mb-2">
-          02 // Capability Matrix
+        <div className="text-[11px] font-mono uppercase tracking-widest text-neutral-500 dark:text-neutral-400 mb-2 flex items-center">
+          <span>02</span>
+          <TechSeparator />
+          <span>Capability Matrix</span>
         </div>
         <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
           Everything your authentication layer needs.
         </h2>
         <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-2 leading-relaxed">
-          Engineered from the ground up for strict security posture, high
-          developer velocity, and zero vendor lock-in.
+          Open-source protocols implemented with strict adherence to RFC
+          standards, full developer control, and zero proprietary lock-in.
         </p>
       </div>
 
@@ -39,8 +42,10 @@ export const CapabilityMatrixSection = () => {
       <div className="border-t border-neutral-300 dark:border-neutral-800 font-mono">
         {/* Block 1: Providers */}
         <div className="py-8 border-b border-neutral-300 dark:border-neutral-800 grid grid-cols-1 lg:grid-cols-12 gap-6 items-baseline">
-          <div className="lg:col-span-3 text-xs text-neutral-500 dark:text-neutral-400">
-            01 // PROVIDERS
+          <div className="lg:col-span-3 text-xs text-neutral-500 dark:text-neutral-400 flex items-center">
+            <span>01</span>
+            <TechSeparator />
+            <span>PROVIDERS</span>
           </div>
           <div className="lg:col-span-4">
             <h3 className="text-lg font-bold font-sans text-neutral-900 dark:text-white mb-1.5">
@@ -53,157 +58,171 @@ export const CapabilityMatrixSection = () => {
             </p>
           </div>
           <div className="lg:col-span-5 text-xs bg-white dark:bg-neutral-900 p-4 border border-neutral-300 dark:border-neutral-800 flex flex-col gap-2 shadow-xs">
-            {/* Diagram SVG */}
-            <div className="w-full h-20 mb-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#0c0d10] p-1.5 flex items-center justify-center">
+            {/* Diagram SVG: OAuth Providers to Normalized Token Pipeline */}
+            <div className="w-full min-h-26 mb-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#0c0d10] p-2.5 flex items-center justify-center">
               <svg
-                className="w-full h-full"
+                className="w-full h-auto max-h-24"
                 fill="none"
-                stroke="currentColor"
-                viewBox="0 0 420 70"
+                viewBox="0 0 460 84"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <g opacity="0.4" strokeWidth="0.5">
-                  <line x1="10" x2="410" y1="35" y2="35" />
-                  <line
-                    strokeDasharray="2 4"
-                    x1="130"
-                    x2="130"
-                    y1="5"
-                    y2="65"
-                  />
-                  <line
-                    strokeDasharray="2 4"
-                    x1="290"
-                    x2="290"
-                    y1="5"
-                    y2="65"
-                  />
+                {/* Hairline Axes & Grid Alignment */}
+                <line
+                  x1="8"
+                  y1="42"
+                  x2="452"
+                  y2="42"
+                  stroke="currentColor"
+                  strokeOpacity="0.12"
+                  strokeWidth="1"
+                />
+                <line
+                  x1="108"
+                  y1="6"
+                  x2="108"
+                  y2="78"
+                  stroke="currentColor"
+                  strokeOpacity="0.15"
+                  strokeDasharray="3 3"
+                  strokeWidth="1"
+                />
+                <line
+                  x1="288"
+                  y1="6"
+                  x2="288"
+                  y2="78"
+                  stroke="currentColor"
+                  strokeOpacity="0.15"
+                  strokeDasharray="3 3"
+                  strokeWidth="1"
+                />
+
+                {/* Left: 3 Inbound Provider Nodes */}
+                <g
+                  stroke="currentColor"
+                  strokeOpacity="0.25"
+                  strokeWidth="1"
+                  fill="currentColor"
+                  fillOpacity="0.05"
+                >
+                  <rect x="8" y="7" width="84" height="20" rx="3" />
+                  <rect x="8" y="32" width="84" height="20" rx="3" />
+                  <rect x="8" y="57" width="84" height="20" rx="3" />
                 </g>
-                <g strokeWidth="1.25">
-                  <rect
-                    fill="currentColor"
-                    fillOpacity="0.06"
-                    height="16"
-                    rx="2"
-                    width="68"
-                    x="10"
-                    y="8"
-                  />
-                  <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7.5"
-                    fontWeight="600"
-                    x="16"
-                    y="19"
-                  >
+                <g
+                  fill="currentColor"
+                  fontFamily="monospace"
+                  fontSize="8.5"
+                  fontWeight="600"
+                  textAnchor="middle"
+                >
+                  <text x="50" y="20.5">
                     GOOGLE OIDC
                   </text>
-                  <rect
-                    fill="currentColor"
-                    fillOpacity="0.06"
-                    height="16"
-                    rx="2"
-                    width="68"
-                    x="10"
-                    y="27"
-                  />
-                  <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7.5"
-                    fontWeight="600"
-                    x="16"
-                    y="38"
-                  >
+                  <text x="50" y="45.5">
                     GITHUB v3
                   </text>
-                  <rect
-                    fill="currentColor"
-                    fillOpacity="0.06"
-                    height="16"
-                    rx="2"
-                    width="68"
-                    x="10"
-                    y="46"
-                  />
-                  <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7.5"
-                    fontWeight="600"
-                    x="16"
-                    y="57"
-                  >
+                  <text x="50" y="70.5">
                     DISCORD v10
                   </text>
-                  <path d="M 78 16 L 130 35" opacity="0.8" />
-                  <path d="M 78 35 L 130 35" opacity="0.8" />
-                  <path d="M 78 54 L 130 35" opacity="0.8" />
-                  <rect
-                    fill="currentColor"
-                    fillOpacity="0.1"
-                    height="34"
-                    rx="3"
-                    width="110"
-                    x="130"
-                    y="18"
-                  />
+                </g>
+
+                {/* Converging Transit Connectors */}
+                <path
+                  d="M 92 17 L 122 42"
+                  stroke="currentColor"
+                  strokeOpacity="0.4"
+                  strokeWidth="1.2"
+                />
+                <path
+                  d="M 92 42 L 122 42"
+                  stroke="currentColor"
+                  strokeOpacity="0.4"
+                  strokeWidth="1.2"
+                />
+                <path
+                  d="M 92 67 L 122 42"
+                  stroke="currentColor"
+                  strokeOpacity="0.4"
+                  strokeWidth="1.2"
+                />
+                <circle cx="122" cy="42" r="3" fill="currentColor" />
+
+                {/* Center: State Gate */}
+                <g
+                  stroke="currentColor"
+                  strokeOpacity="0.3"
+                  strokeWidth="1"
+                  fill="currentColor"
+                  fillOpacity="0.08"
+                >
+                  <rect x="122" y="18" width="136" height="48" rx="4" />
+                </g>
+                <g fill="currentColor" fontFamily="monospace">
                   <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="8"
-                    fontWeight="600"
-                    x="138"
-                    y="33"
+                    x="190"
+                    y="37"
+                    fontSize="9.5"
+                    fontWeight="700"
+                    textAnchor="middle"
+                    letterSpacing="0.5"
                   >
                     STATE GATE
                   </text>
                   <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7"
-                    opacity="0.7"
-                    x="138"
-                    y="44"
+                    x="190"
+                    y="52"
+                    fontSize="8"
+                    fillOpacity="0.7"
+                    textAnchor="middle"
                   >
                     CSRF &amp; Nonce Sync
                   </text>
-                  <line opacity="0.9" x1="240" x2="290" y1="35" y2="35" />
-                  <polygon fill="currentColor" points="288,32 295,35 288,38" />
-                  <rect
-                    fill="currentColor"
-                    fillOpacity="0.12"
-                    height="34"
-                    rx="3"
-                    width="115"
-                    x="295"
-                    y="18"
-                  />
+                </g>
+                <circle cx="258" cy="42" r="3" fill="currentColor" />
+
+                {/* Transition Arrow to Normalized */}
+                <line
+                  x1="258"
+                  y1="42"
+                  x2="300"
+                  y2="42"
+                  stroke="currentColor"
+                  strokeOpacity="0.5"
+                  strokeWidth="1.2"
+                />
+                <polygon points="298,39 304,42 298,45" fill="currentColor" />
+
+                {/* Right: Normalized Token Matrix */}
+                <g
+                  stroke="currentColor"
+                  strokeOpacity="0.35"
+                  strokeWidth="1"
+                  fill="currentColor"
+                  fillOpacity="0.1"
+                >
+                  <rect x="306" y="18" width="146" height="48" rx="4" />
+                </g>
+                <g fill="currentColor" fontFamily="monospace">
                   <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="8"
-                    fontWeight="600"
-                    x="302"
-                    y="33"
+                    x="379"
+                    y="37"
+                    fontSize="9.5"
+                    fontWeight="700"
+                    textAnchor="middle"
+                    letterSpacing="0.5"
                   >
                     NORMALIZED
                   </text>
                   <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7"
-                    opacity="0.7"
-                    x="302"
-                    y="44"
+                    x="379"
+                    y="52"
+                    fontSize="8"
+                    fillOpacity="0.7"
+                    textAnchor="middle"
                   >
                     Uniform Token Matrix
                   </text>
-                </g>
-                <g strokeWidth="1">
-                  <circle cx="130" cy="35" fill="currentColor" r="2.5" />
-                  <circle cx="240" cy="35" fill="currentColor" r="2.5" />
                 </g>
               </svg>
             </div>
@@ -225,8 +244,10 @@ export const CapabilityMatrixSection = () => {
 
         {/* Block 2: Cryptography */}
         <div className="py-8 border-b border-neutral-300 dark:border-neutral-800 grid grid-cols-1 lg:grid-cols-12 gap-6 items-baseline">
-          <div className="lg:col-span-3 text-xs text-neutral-500 dark:text-neutral-400">
-            02 // CRYPTOGRAPHY
+          <div className="lg:col-span-3 text-xs text-neutral-500 dark:text-neutral-400 flex items-center">
+            <span>02</span>
+            <TechSeparator />
+            <span>CRYPTOGRAPHY</span>
           </div>
           <div className="lg:col-span-4">
             <h3 className="text-lg font-bold font-sans text-neutral-900 dark:text-white mb-1.5">
@@ -238,126 +259,164 @@ export const CapabilityMatrixSection = () => {
             </p>
           </div>
           <div className="lg:col-span-5 text-xs bg-white dark:bg-neutral-900 p-4 border border-neutral-300 dark:border-neutral-800 flex flex-col gap-2 shadow-xs">
-            {/* Diagram SVG */}
-            <div className="w-full h-20 mb-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#0c0d10] p-1.5 flex items-center justify-center">
+            {/* Diagram SVG: PKCE S256 Challenge Flow */}
+            <div className="w-full min-h-26 mb-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#0c0d10] p-2.5 flex items-center justify-center">
               <svg
-                className="w-full h-full"
+                className="w-full h-auto max-h-24"
                 fill="none"
-                stroke="currentColor"
-                viewBox="0 0 420 70"
+                viewBox="0 0 460 84"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <g opacity="0.35" strokeWidth="0.5">
-                  <line x1="15" x2="405" y1="35" y2="35" />
-                  <line
-                    strokeDasharray="2 4"
-                    x1="120"
-                    x2="120"
-                    y1="8"
-                    y2="62"
-                  />
-                  <line
-                    strokeDasharray="2 4"
-                    x1="280"
-                    x2="280"
-                    y1="8"
-                    y2="62"
-                  />
+                {/* Hairline Axes & Grid Alignment */}
+                <line
+                  x1="8"
+                  y1="42"
+                  x2="452"
+                  y2="42"
+                  stroke="currentColor"
+                  strokeOpacity="0.12"
+                  strokeWidth="1"
+                />
+                <line
+                  x1="135"
+                  y1="6"
+                  x2="135"
+                  y2="78"
+                  stroke="currentColor"
+                  strokeOpacity="0.15"
+                  strokeDasharray="3 3"
+                  strokeWidth="1"
+                />
+                <line
+                  x1="305"
+                  y1="6"
+                  x2="305"
+                  y2="78"
+                  stroke="currentColor"
+                  strokeOpacity="0.15"
+                  strokeDasharray="3 3"
+                  strokeWidth="1"
+                />
+
+                {/* Step 1: Code Verifier */}
+                <g
+                  stroke="currentColor"
+                  strokeOpacity="0.25"
+                  strokeWidth="1"
+                  fill="currentColor"
+                  fillOpacity="0.06"
+                >
+                  <rect x="8" y="18" width="118" height="48" rx="4" />
                 </g>
-                <g strokeWidth="1.25">
-                  <rect
-                    fill="currentColor"
-                    fillOpacity="0.06"
-                    height="36"
-                    rx="2"
-                    width="95"
-                    x="15"
-                    y="17"
-                  />
+                <g fill="currentColor" fontFamily="monospace">
                   <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7.5"
-                    fontWeight="600"
-                    x="22"
-                    y="32"
+                    x="67"
+                    y="37"
+                    fontSize="9"
+                    fontWeight="700"
+                    textAnchor="middle"
+                    letterSpacing="0.5"
                   >
                     CODE VERIFIER
                   </text>
                   <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7"
-                    opacity="0.7"
-                    x="22"
-                    y="44"
-                  >
-                    43-128 Random Octets
-                  </text>
-                  <line x1="110" x2="140" y1="35" y2="35" />
-                  <polygon fill="currentColor" points="138,32 144,35 138,38" />
-                  <rect
-                    fill="currentColor"
-                    fillOpacity="0.1"
-                    height="40"
-                    rx="2"
-                    width="120"
-                    x="144"
-                    y="15"
-                  />
-                  <text
-                    fill="currentColor"
-                    fontFamily="monospace"
+                    x="67"
+                    y="52"
                     fontSize="8"
-                    fontWeight="600"
-                    x="152"
-                    y="31"
+                    fillOpacity="0.7"
+                    textAnchor="middle"
+                  >
+                    43-128 Octets
+                  </text>
+                </g>
+
+                {/* Connector Arrow */}
+                <line
+                  x1="126"
+                  y1="42"
+                  x2="152"
+                  y2="42"
+                  stroke="currentColor"
+                  strokeOpacity="0.5"
+                  strokeWidth="1.2"
+                />
+                <polygon points="150,39 156,42 150,45" fill="currentColor" />
+
+                {/* Step 2: SHA-256 Digest */}
+                <g
+                  stroke="currentColor"
+                  strokeOpacity="0.3"
+                  strokeWidth="1"
+                  fill="currentColor"
+                  fillOpacity="0.08"
+                >
+                  <rect x="158" y="16" width="138" height="52" rx="4" />
+                </g>
+                <g fill="currentColor" fontFamily="monospace">
+                  <text
+                    x="227"
+                    y="36"
+                    fontSize="9.5"
+                    fontWeight="700"
+                    textAnchor="middle"
+                    letterSpacing="0.5"
                   >
                     SHA-256 (S256)
                   </text>
                   <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7"
-                    opacity="0.7"
-                    x="152"
-                    y="43"
+                    x="227"
+                    y="52"
+                    fontSize="8"
+                    fillOpacity="0.7"
+                    textAnchor="middle"
                   >
                     BASE64URL_ENCODE
                   </text>
-                  <line x1="264" x2="295" y1="35" y2="35" />
-                  <polygon fill="currentColor" points="293,32 300,35 293,38" />
-                  <rect
-                    fill="currentColor"
-                    fillOpacity="0.12"
-                    height="36"
-                    rx="2"
-                    width="105"
-                    x="300"
-                    y="17"
-                  />
+                </g>
+
+                {/* Connector Arrow */}
+                <line
+                  x1="296"
+                  y1="42"
+                  x2="322"
+                  y2="42"
+                  stroke="currentColor"
+                  strokeOpacity="0.5"
+                  strokeWidth="1.2"
+                />
+                <polygon points="320,39 326,42 320,45" fill="currentColor" />
+
+                {/* Step 3: Code Challenge */}
+                <g
+                  stroke="currentColor"
+                  strokeOpacity="0.35"
+                  strokeWidth="1"
+                  fill="currentColor"
+                  fillOpacity="0.1"
+                >
+                  <rect x="328" y="18" width="124" height="48" rx="4" />
+                </g>
+                <g fill="currentColor" fontFamily="monospace">
                   <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7.5"
-                    fontWeight="600"
-                    x="308"
-                    y="32"
+                    x="390"
+                    y="37"
+                    fontSize="9"
+                    fontWeight="700"
+                    textAnchor="middle"
+                    letterSpacing="0.5"
                   >
                     CODE CHALLENGE
                   </text>
                   <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7"
-                    opacity="0.7"
-                    x="308"
-                    y="44"
+                    x="390"
+                    y="52"
+                    fontSize="8"
+                    fillOpacity="0.7"
+                    textAnchor="middle"
                   >
-                    1-Use Atomic Vault
+                    RFC-7636 Verified
                   </text>
                 </g>
-                <circle cx="204" cy="50" fill="currentColor" r="2" />
               </svg>
             </div>
             <div className="flex justify-between text-neutral-500">
@@ -376,100 +435,145 @@ export const CapabilityMatrixSection = () => {
 
         {/* Block 3: Concurrency / Real-Time Invalidation Bus */}
         <div className="py-8 border-b border-neutral-300 dark:border-neutral-800 grid grid-cols-1 lg:grid-cols-12 gap-6 items-baseline">
-          <div className="lg:col-span-3 text-xs text-neutral-500 dark:text-neutral-400">
-            03 // CONCURRENCY
+          <div className="lg:col-span-3 text-xs text-neutral-500 dark:text-neutral-400 flex items-center">
+            <span>03</span>
+            <TechSeparator />
+            <span>CONCURRENCY</span>
           </div>
           <div className="lg:col-span-4">
             <h3 className="text-lg font-bold font-sans text-neutral-900 dark:text-white mb-1.5">
               Real-Time Invalidation Bus
             </h3>
             <p className="text-xs font-sans text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              WebSocket-based instant revocation. Dropping a session on one
-              terminal destroys active credentials across all connected devices
-              in under 10ms.
+              WebSocket-based session management using Socket.io. Dropping a
+              session removes active database tokens and broadcasts revocation
+              events to all connected clients.
             </p>
           </div>
           <div className="lg:col-span-5 text-xs bg-white dark:bg-neutral-900 p-4 border border-neutral-300 dark:border-neutral-800 flex flex-col gap-2 shadow-xs">
-            {/* Diagram SVG */}
-            <div className="w-full h-20 mb-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#0c0d10] p-1.5 flex items-center justify-center">
+            {/* Diagram SVG: WebSocket Real-Time Invalidation */}
+            <div className="w-full min-h-26 mb-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#0c0d10] p-2.5 flex items-center justify-center">
               <svg
-                className="w-full h-full"
+                className="w-full h-auto max-h-24"
                 fill="none"
-                stroke="currentColor"
-                viewBox="0 0 420 70"
+                viewBox="0 0 460 84"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <g opacity="0.4" strokeWidth="0.5">
-                  <circle cx="210" cy="35" r="26" strokeDasharray="2 4" />
-                  <circle cx="210" cy="35" r="16" />
-                  <line x1="20" x2="400" y1="35" y2="35" />
+                {/* Hairline Center Axis */}
+                <line
+                  x1="8"
+                  y1="42"
+                  x2="452"
+                  y2="42"
+                  stroke="currentColor"
+                  strokeOpacity="0.12"
+                  strokeWidth="1"
+                />
+                <circle
+                  cx="230"
+                  cy="42"
+                  r="32"
+                  stroke="currentColor"
+                  strokeOpacity="0.15"
+                  strokeDasharray="3 3"
+                  strokeWidth="1"
+                />
+                <circle
+                  cx="230"
+                  cy="42"
+                  r="18"
+                  stroke="currentColor"
+                  strokeOpacity="0.25"
+                  strokeWidth="1"
+                />
+
+                {/* Left: Client Terminal */}
+                <g
+                  stroke="currentColor"
+                  strokeOpacity="0.25"
+                  strokeWidth="1"
+                  fill="currentColor"
+                  fillOpacity="0.06"
+                >
+                  <rect x="8" y="18" width="124" height="48" rx="4" />
                 </g>
-                <g strokeWidth="1.2">
-                  <rect
-                    fill="currentColor"
-                    fillOpacity="0.08"
-                    height="30"
-                    rx="2"
-                    width="95"
-                    x="15"
-                    y="20"
-                  />
+                <g fill="currentColor" fontFamily="monospace">
                   <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7.5"
-                    fontWeight="600"
-                    x="22"
-                    y="34"
+                    x="70"
+                    y="37"
+                    fontSize="9"
+                    fontWeight="700"
+                    textAnchor="middle"
+                    letterSpacing="0.5"
                   >
                     CLIENT TERMINAL
                   </text>
                   <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7"
-                    opacity="0.7"
-                    x="22"
-                    y="44"
+                    x="70"
+                    y="52"
+                    fontSize="8"
+                    fillOpacity="0.7"
+                    textAnchor="middle"
                   >
                     Revoke Trigger
                   </text>
-                  <path d="M 110 35 L 194 35" />
-                  <polygon fill="currentColor" points="191,32 198,35 191,38" />
-                  <circle cx="210" cy="35" fill="currentColor" r="4" />
-                  <path d="M 226 35 L 305 35" />
-                  <polygon fill="currentColor" points="302,32 309,35 302,38" />
-                  <rect
-                    fill="currentColor"
-                    fillOpacity="0.08"
-                    height="30"
-                    rx="2"
-                    width="95"
-                    x="310"
-                    y="20"
-                  />
+                </g>
+
+                {/* Arrow to Center Hub */}
+                <line
+                  x1="132"
+                  y1="42"
+                  x2="206"
+                  y2="42"
+                  stroke="currentColor"
+                  strokeOpacity="0.5"
+                  strokeWidth="1.2"
+                />
+                <polygon points="204,39 210,42 204,45" fill="currentColor" />
+                <circle cx="230" cy="42" r="4.5" fill="currentColor" />
+
+                {/* Arrow to Broadcast Bus */}
+                <line
+                  x1="250"
+                  y1="42"
+                  x2="322"
+                  y2="42"
+                  stroke="currentColor"
+                  strokeOpacity="0.5"
+                  strokeWidth="1.2"
+                />
+                <polygon points="320,39 326,42 320,45" fill="currentColor" />
+
+                {/* Right: Broadcast Bus */}
+                <g
+                  stroke="currentColor"
+                  strokeOpacity="0.35"
+                  strokeWidth="1"
+                  fill="currentColor"
+                  fillOpacity="0.1"
+                >
+                  <rect x="328" y="18" width="124" height="48" rx="4" />
+                </g>
+                <g fill="currentColor" fontFamily="monospace">
                   <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7.5"
-                    fontWeight="600"
-                    x="318"
-                    y="34"
+                    x="390"
+                    y="37"
+                    fontSize="9"
+                    fontWeight="700"
+                    textAnchor="middle"
+                    letterSpacing="0.5"
                   >
                     BROADCAST BUS
                   </text>
                   <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7"
-                    opacity="0.7"
-                    x="318"
-                    y="44"
+                    x="390"
+                    y="52"
+                    fontSize="8"
+                    fillOpacity="0.7"
+                    textAnchor="middle"
                   >
-                    &lt;10ms Cross-Device
+                    All Sessions Killed
                   </text>
-                  <path d="M 210 19 L 210 10 L 310 10" strokeDasharray="2 3" />
-                  <path d="M 210 51 L 210 60 L 310 60" strokeDasharray="2 3" />
                 </g>
               </svg>
             </div>
@@ -536,141 +640,180 @@ export const CapabilityMatrixSection = () => {
 
         {/* Block 4: Specification / Zero-Dependency SDK */}
         <div className="py-8 border-b border-neutral-300 dark:border-neutral-800 grid grid-cols-1 lg:grid-cols-12 gap-6 items-baseline">
-          <div className="lg:col-span-3 text-xs text-neutral-500 dark:text-neutral-400">
-            04 // SPECIFICATION
+          <div className="lg:col-span-3 text-xs text-neutral-500 dark:text-neutral-400 flex items-center">
+            <span>04</span>
+            <TechSeparator />
+            <span>SPECIFICATION</span>
           </div>
           <div className="lg:col-span-4">
             <h3 className="text-lg font-bold font-sans text-neutral-900 dark:text-white mb-1.5">
               Zero-Dependency Client SDK
             </h3>
             <p className="text-xs font-sans text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              Pure TypeScript, 100% type inference, zero runtime bloat. Executes
-              cleanly across Cloudflare Workers, Vercel Edge, Deno, Bun, and
-              standard Node.js.
+              Written in TypeScript with full type exports. Handles PKCE
+              challenge generation, session storage, automated token refresh,
+              and authenticated fetch requests.
             </p>
           </div>
           <div className="lg:col-span-5 flex flex-col gap-2">
-            {/* Diagram SVG */}
-            <div className="w-full h-20 mb-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#0c0d10] p-1.5 flex items-center justify-center">
+            {/* Diagram SVG: Universal Client SDK Architecture */}
+            <div className="w-full min-h-26 mb-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#0c0d10] p-2.5 flex items-center justify-center">
               <svg
-                className="w-full h-full"
+                className="w-full h-auto max-h-24"
                 fill="none"
-                stroke="currentColor"
-                viewBox="0 0 420 70"
+                viewBox="0 0 460 84"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <g opacity="0.4" strokeWidth="0.5">
-                  <line x1="15" x2="405" y1="35" y2="35" />
-                  <line
-                    strokeDasharray="2 4"
-                    x1="135"
-                    x2="135"
-                    y1="8"
-                    y2="62"
-                  />
-                  <line
-                    strokeDasharray="2 4"
-                    x1="280"
-                    x2="280"
-                    y1="8"
-                    y2="62"
-                  />
+                {/* Hairline Axes & Grid Alignment */}
+                <line
+                  x1="8"
+                  y1="42"
+                  x2="452"
+                  y2="42"
+                  stroke="currentColor"
+                  strokeOpacity="0.12"
+                  strokeWidth="1"
+                />
+                <line
+                  x1="145"
+                  y1="6"
+                  x2="145"
+                  y2="78"
+                  stroke="currentColor"
+                  strokeOpacity="0.15"
+                  strokeDasharray="3 3"
+                  strokeWidth="1"
+                />
+                <line
+                  x1="300"
+                  y1="6"
+                  x2="300"
+                  y2="78"
+                  stroke="currentColor"
+                  strokeOpacity="0.15"
+                  strokeDasharray="3 3"
+                  strokeWidth="1"
+                />
+
+                {/* Box 1: Core Type System */}
+                <g
+                  stroke="currentColor"
+                  strokeOpacity="0.25"
+                  strokeWidth="1"
+                  fill="currentColor"
+                  fillOpacity="0.06"
+                >
+                  <rect x="8" y="18" width="128" height="48" rx="4" />
                 </g>
-                <g strokeWidth="1.2">
-                  <rect
-                    fill="currentColor"
-                    fillOpacity="0.08"
-                    height="32"
-                    rx="2"
-                    width="100"
-                    x="15"
-                    y="19"
-                  />
+                <g fill="currentColor" fontFamily="monospace">
                   <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7.5"
-                    fontWeight="600"
-                    x="22"
-                    y="33"
+                    x="72"
+                    y="37"
+                    fontSize="9"
+                    fontWeight="700"
+                    textAnchor="middle"
+                    letterSpacing="0.5"
                   >
-                    CORE TYPE SYSTEM
+                    TYPE SYSTEM
                   </text>
                   <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7"
-                    opacity="0.7"
-                    x="22"
-                    y="43"
+                    x="72"
+                    y="52"
+                    fontSize="8"
+                    fillOpacity="0.7"
+                    textAnchor="middle"
                   >
-                    100% Strict Generics
-                  </text>
-                  <line x1="115" x2="150" y1="35" y2="35" />
-                  <polygon fill="currentColor" points="148,32 155,35 148,38" />
-                  <rect
-                    fill="currentColor"
-                    fillOpacity="0.1"
-                    height="32"
-                    rx="2"
-                    width="105"
-                    x="155"
-                    y="19"
-                  />
-                  <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7.5"
-                    fontWeight="600"
-                    x="162"
-                    y="33"
-                  >
-                    WEB CRYPTO API
-                  </text>
-                  <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7"
-                    opacity="0.7"
-                    x="162"
-                    y="43"
-                  >
-                    Zero External Node Deps
-                  </text>
-                  <line x1="260" x2="295" y1="35" y2="35" />
-                  <polygon fill="currentColor" points="293,32 300,35 293,38" />
-                  <rect
-                    fill="currentColor"
-                    fillOpacity="0.12"
-                    height="32"
-                    rx="2"
-                    width="105"
-                    x="300"
-                    y="19"
-                  />
-                  <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7.5"
-                    fontWeight="600"
-                    x="308"
-                    y="33"
-                  >
-                    ESM / CJS BUNDLE
-                  </text>
-                  <text
-                    fill="currentColor"
-                    fontFamily="monospace"
-                    fontSize="7"
-                    opacity="0.7"
-                    x="308"
-                    y="43"
-                  >
-                    Edge Boundary 3.8KB
+                    Strict TS Generics
                   </text>
                 </g>
-                <circle cx="135" cy="35" fill="currentColor" r="2" />
-                <circle cx="280" cy="35" fill="currentColor" r="2" />
+
+                {/* Arrow 1 */}
+                <line
+                  x1="136"
+                  y1="42"
+                  x2="162"
+                  y2="42"
+                  stroke="currentColor"
+                  strokeOpacity="0.5"
+                  strokeWidth="1.2"
+                />
+                <polygon points="160,39 166,42 160,45" fill="currentColor" />
+
+                {/* Box 2: Auto PKCE Engine */}
+                <g
+                  stroke="currentColor"
+                  strokeOpacity="0.3"
+                  strokeWidth="1"
+                  fill="currentColor"
+                  fillOpacity="0.08"
+                >
+                  <rect x="168" y="18" width="124" height="48" rx="4" />
+                </g>
+                <g fill="currentColor" fontFamily="monospace">
+                  <text
+                    x="230"
+                    y="37"
+                    fontSize="9"
+                    fontWeight="700"
+                    textAnchor="middle"
+                    letterSpacing="0.5"
+                  >
+                    AUTO PKCE
+                  </text>
+                  <text
+                    x="230"
+                    y="52"
+                    fontSize="8"
+                    fillOpacity="0.7"
+                    textAnchor="middle"
+                  >
+                    0 Config Crypto
+                  </text>
+                </g>
+
+                {/* Arrow 2 */}
+                <line
+                  x1="292"
+                  y1="42"
+                  x2="318"
+                  y2="42"
+                  stroke="currentColor"
+                  strokeOpacity="0.5"
+                  strokeWidth="1.2"
+                />
+                <polygon points="316,39 322,42 316,45" fill="currentColor" />
+
+                {/* Box 3: Runtime Footprint */}
+                <g
+                  stroke="currentColor"
+                  strokeOpacity="0.35"
+                  strokeWidth="1"
+                  fill="currentColor"
+                  fillOpacity="0.1"
+                >
+                  <rect x="324" y="18" width="128" height="48" rx="4" />
+                </g>
+                <g fill="currentColor" fontFamily="monospace">
+                  <text
+                    x="388"
+                    y="37"
+                    fontSize="9"
+                    fontWeight="700"
+                    textAnchor="middle"
+                    letterSpacing="0.5"
+                  >
+                    ZERO DEPS
+                  </text>
+                  <text
+                    x="388"
+                    y="52"
+                    fontSize="8"
+                    fillOpacity="0.7"
+                    textAnchor="middle"
+                  >
+                    3.8 KB ESM Bundle
+                  </text>
+                </g>
               </svg>
             </div>
 

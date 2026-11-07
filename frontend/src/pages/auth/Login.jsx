@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import AuthSphereLogo from "@/components/common/AuthSphereLogo";
+import CommunityTopology from "@/components/common/CommunityTopology";
 
 const loginSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email address"),
@@ -45,6 +46,7 @@ export const Login = () => {
 
   const handleSocialLogin = (provider) => {
     const baseUrl = `${import.meta.env.VITE_BACKEND_URL}/auth/${provider}`;
+
     window.location.href = sdk_request
       ? `${baseUrl}?sdk_request=${sdk_request}`
       : baseUrl;
@@ -57,6 +59,7 @@ export const Login = () => {
         onSuccess: (data) => {
           if (data.success) {
             toast.success("Login successful!");
+
             if (data.redirect_uri) {
               window.location.href = data.redirect_uri;
             } else {
@@ -69,7 +72,11 @@ export const Login = () => {
 
           if (data?.error_code === "EMAIL_NOT_VERIFIED") {
             toast.info(data.message || "Email verification required");
-            const verifyPath = `/verify?email=${encodeURIComponent(formData.email)}${sdk_request ? `&sdk_request=${sdk_request}` : ""}`;
+
+            const verifyPath = `/verify?email=${encodeURIComponent(
+              formData.email,
+            )}${sdk_request ? `&sdk_request=${sdk_request}` : ""}`;
+
             navigate(verifyPath);
             return;
           }
@@ -97,7 +104,7 @@ export const Login = () => {
           />
           <feColorMatrix
             type="matrix"
-            values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.8 0"
+            values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0 0 0 0 0.8 0"
           />
         </filter>
         <rect filter="url(#filmGrainLogin)" height="100%" width="100%" />
@@ -105,18 +112,16 @@ export const Login = () => {
 
       {/* Primary Split-Screen Layout */}
       <main className="relative z-10 w-full min-h-screen flex flex-col lg:flex-row items-stretch">
-        {/* ======================================================== */}
-        {/* LEFT PANEL: SIGN IN (Desktop: ~42%, max 560px)           */}
-        {/* ======================================================== */}
+        {/* LEFT PANEL: SIGN IN */}
         <section className="w-full lg:w-[42%] lg:max-w-140 bg-white dark:bg-[#0c0d10] flex flex-col justify-between p-8 sm:p-12 lg:p-16 border-b lg:border-b-0 lg:border-r border-[#E5E5E5] dark:border-[#222329] relative z-20">
-          {/* Top Brand Lockup & Back Link */}
           <div className="flex flex-col gap-10">
+            {/* Brand Lockup & Back Link */}
             <header className="flex items-center justify-between">
-              {/* AuthSphere Logo */}
               <Link to="/" className="flex items-center gap-3 group">
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-transform group-hover:scale-105">
                   <AuthSphereLogo className="w-8 h-8 object-contain" />
                 </div>
+
                 <div className="flex flex-col leading-none">
                   <span className="font-semibold text-[17px] tracking-tight text-neutral-900 dark:text-white">
                     AuthSphere
@@ -124,7 +129,6 @@ export const Login = () => {
                 </div>
               </Link>
 
-              {/* Navigation Link */}
               <Link
                 to="/"
                 className="group inline-flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white font-medium transition-colors"
@@ -136,11 +140,12 @@ export const Login = () => {
               </Link>
             </header>
 
-            {/* Editorial Typography Intro */}
+            {/* Intro */}
             <div className="flex flex-col gap-2 pt-2">
               <h1 className="text-3xl sm:text-[34px] font-semibold tracking-tight text-neutral-900 dark:text-white leading-tight">
                 Welcome back.
               </h1>
+
               <p className="text-sm sm:text-[15px] text-neutral-600 dark:text-neutral-400 font-normal">
                 Sign in to continue to your AuthSphere account.
               </p>
@@ -151,7 +156,7 @@ export const Login = () => {
               onSubmit={handleSubmit(handleLocalLogin)}
               className="flex flex-col gap-4 mt-1"
             >
-              {/* Email Field */}
+              {/* Email */}
               <div className="flex flex-col gap-1.5">
                 <label
                   className="text-xs font-medium text-neutral-900 dark:text-neutral-200 tracking-tight"
@@ -159,6 +164,7 @@ export const Login = () => {
                 >
                   Email address
                 </label>
+
                 <input
                   id="identity-email"
                   type="email"
@@ -166,6 +172,7 @@ export const Login = () => {
                   placeholder="name@company.com"
                   className="w-full h-10 px-3 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                 />
+
                 {errors.email && (
                   <p className="text-xs text-red-500 font-mono mt-0.5">
                     {errors.email.message}
@@ -173,7 +180,7 @@ export const Login = () => {
                 )}
               </div>
 
-              {/* Password Field */}
+              {/* Password */}
               <div className="flex flex-col gap-1.5">
                 <div className="flex justify-between items-baseline">
                   <label
@@ -182,6 +189,7 @@ export const Login = () => {
                   >
                     Password
                   </label>
+
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
@@ -191,6 +199,7 @@ export const Login = () => {
                     {showPassword ? "[Hide]" : "[Show]"}
                   </button>
                 </div>
+
                 <input
                   id="identity-pass"
                   type={showPassword ? "text" : "password"}
@@ -198,6 +207,7 @@ export const Login = () => {
                   placeholder="Enter your password"
                   className="w-full h-10 px-3 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white font-sans text-sm rounded border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                 />
+
                 {errors.password && (
                   <p className="text-xs text-red-500 font-mono mt-0.5">
                     {errors.password.message}
@@ -205,7 +215,7 @@ export const Login = () => {
                 )}
               </div>
 
-              {/* Options Row: Remember Me & Forgot Password */}
+              {/* Remember Me & Forgot Password */}
               <div className="flex items-center justify-between pt-1">
                 <label className="flex items-center gap-2 cursor-pointer select-none group">
                   <input
@@ -214,10 +224,12 @@ export const Login = () => {
                     onChange={(e) => setRememberMe(e.target.checked)}
                     className="w-3.5 h-3.5 rounded border-[#E5E5E5] dark:border-[#2a2b33] text-black dark:text-white focus:ring-0 focus:ring-offset-0 cursor-pointer accent-black dark:accent-white"
                   />
+
                   <span className="text-xs text-neutral-600 dark:text-neutral-400 group-hover:text-black dark:group-hover:text-white transition-colors">
                     Remember me
                   </span>
                 </label>
+
                 <Link
                   to="/forgot-password"
                   className="text-xs text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors"
@@ -226,7 +238,7 @@ export const Login = () => {
                 </Link>
               </div>
 
-              {/* Primary Black CTA Button */}
+              {/* Submit */}
               <button
                 type="submit"
                 disabled={isPending}
@@ -238,15 +250,16 @@ export const Login = () => {
               </button>
             </form>
 
-            {/* Subtle Divider Line */}
+            {/* Divider */}
             <div className="relative my-1 flex items-center justify-center">
               <div className="w-full h-px bg-[#E5E5E5] dark:bg-[#26262b]" />
+
               <span className="absolute px-3 bg-white dark:bg-[#0c0d10] text-[11px] text-neutral-500 dark:text-neutral-400 tracking-normal">
                 or continue with
               </span>
             </div>
 
-            {/* Clean Monochromatic Social Authentication Providers */}
+            {/* Social Authentication */}
             <div className="grid grid-cols-2 gap-2.5">
               {/* Google */}
               <button
@@ -296,7 +309,7 @@ export const Login = () => {
             </div>
           </div>
 
-          {/* Footer Copy */}
+          {/* Footer */}
           <footer className="pt-8 text-center sm:text-left">
             <p className="text-xs text-neutral-600 dark:text-neutral-400">
               New to AuthSphere?{" "}
@@ -310,478 +323,9 @@ export const Login = () => {
           </footer>
         </section>
 
-        {/* ======================================================== */}
-        {/* RIGHT PANEL: CONNECTED IDENTITY (Architectural Flow)     */}
-        {/* ======================================================== */}
-        <section className="w-full lg:w-[58%] flex-1 flex flex-col justify-between p-8 sm:p-12 lg:p-16 relative overflow-hidden bg-[#fafafa]/80 dark:bg-[#07080a] lg:bg-transparent">
-          {/* Architectural Zone Headers (Authentic Swiss Typography) */}
-          <header className="relative z-10 w-full flex items-center justify-between border-b border-[#E5E5E5] dark:border-[#222329] pb-4 text-neutral-500 dark:text-neutral-400 font-mono text-[11px] tracking-wider uppercase">
-            <span>IDENTITY PROVIDERS</span>
-            <span>AUTH CORE</span>
-            <span>APPLICATIONS</span>
-          </header>
-
-          {/* Center Blueprint Architectural Flow Graphic */}
-          <div className="relative z-10 my-auto py-10 w-full flex items-center justify-center">
-            <svg
-              className="w-full h-auto max-h-125 overflow-visible"
-              fill="none"
-              viewBox="0 0 780 400"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {/* Subtle Grid Calibration Lines */}
-              <line
-                stroke="currentColor"
-                className="text-neutral-200 dark:text-neutral-800"
-                strokeDasharray="2 3"
-                strokeWidth="1"
-                x1="40"
-                x2="740"
-                y1="200"
-                y2="200"
-              />
-              <line
-                stroke="currentColor"
-                className="text-neutral-200 dark:text-neutral-800"
-                strokeDasharray="2 4"
-                strokeWidth="0.75"
-                x1="390"
-                x2="390"
-                y1="40"
-                y2="360"
-              />
-
-              {/* Connecting Vector Lines: Left (Identity Providers) to Core */}
-              {/* Google -> Core */}
-              <path
-                d="M 180 140 H 280 V 200 H 330"
-                fill="none"
-                stroke="currentColor"
-                className="text-neutral-300 dark:text-neutral-700"
-                strokeWidth="1.25"
-              />
-              <path
-                className="flow-stream-in stroke-neutral-900 dark:stroke-white"
-                d="M 180 140 H 280 V 200 H 330"
-                fill="none"
-                strokeWidth="1.25"
-              />
-
-              {/* GitHub -> Core */}
-              <path
-                d="M 180 260 H 280 V 200 H 330"
-                fill="none"
-                stroke="currentColor"
-                className="text-neutral-300 dark:text-neutral-700"
-                strokeWidth="1.25"
-              />
-              <path
-                className="flow-stream-in stroke-neutral-900 dark:stroke-white"
-                d="M 180 260 H 280 V 200 H 330"
-                fill="none"
-                strokeWidth="1.25"
-              />
-
-              {/* Connecting Vector Lines: Core to Right (Applications) */}
-              {/* Core -> Web App */}
-              <path
-                d="M 450 200 H 500 V 110 H 600"
-                fill="none"
-                stroke="currentColor"
-                className="text-neutral-300 dark:text-neutral-700"
-                strokeWidth="1.25"
-              />
-              <path
-                className="flow-stream-out stroke-neutral-900 dark:stroke-white"
-                d="M 450 200 H 500 V 110 H 600"
-                fill="none"
-                strokeWidth="1.25"
-              />
-
-              {/* Core -> Client API */}
-              <path
-                d="M 450 200 H 600"
-                fill="none"
-                stroke="currentColor"
-                className="text-neutral-300 dark:text-neutral-700"
-                strokeWidth="1.25"
-              />
-              <path
-                className="flow-stream-out stroke-neutral-900 dark:stroke-white"
-                d="M 450 200 H 600"
-                fill="none"
-                strokeWidth="1.25"
-              />
-
-              {/* Core -> Mobile Client */}
-              <path
-                d="M 450 200 H 500 V 290 H 600"
-                fill="none"
-                stroke="currentColor"
-                className="text-neutral-300 dark:text-neutral-700"
-                strokeWidth="1.25"
-              />
-              <path
-                className="flow-stream-out stroke-neutral-900 dark:stroke-white"
-                d="M 450 200 H 500 V 290 H 600"
-                fill="none"
-                strokeWidth="1.25"
-              />
-
-              {/* ================= LEFT NODES: IDENTITY PROVIDERS ================= */}
-              {/* Google Node */}
-              <g transform="translate(60, 115)">
-                <rect
-                  className="fill-white dark:fill-[#121316] stroke-[#E5E5E5] dark:stroke-[#26262b]"
-                  height="50"
-                  rx="3"
-                  strokeWidth="1"
-                  width="120"
-                  x="0"
-                  y="0"
-                />
-                <circle
-                  cx="25"
-                  cy="25"
-                  className="fill-[#F8F8F8] dark:fill-[#1a1b22]"
-                  r="10"
-                />
-                <text
-                  className="fill-neutral-900 dark:fill-white font-sans text-[11px] font-semibold"
-                  textAnchor="middle"
-                  x="25"
-                  y="28.5"
-                >
-                  G
-                </text>
-                <text
-                  className="fill-neutral-900 dark:fill-white font-sans text-[12px] font-medium"
-                  x="44"
-                  y="24"
-                >
-                  Google
-                </text>
-                <text
-                  className="fill-neutral-500 dark:text-neutral-400 font-mono text-[9px]"
-                  x="44"
-                  y="36"
-                >
-                  OAUTH 2.0
-                </text>
-                <circle
-                  cx="120"
-                  cy="25"
-                  className="fill-neutral-900 dark:fill-white"
-                  r="2.5"
-                />
-              </g>
-
-              {/* GitHub Node */}
-              <g transform="translate(60, 235)">
-                <rect
-                  className="fill-white dark:fill-[#121316] stroke-[#E5E5E5] dark:stroke-[#26262b]"
-                  height="50"
-                  rx="3"
-                  strokeWidth="1"
-                  width="120"
-                  x="0"
-                  y="0"
-                />
-                <circle
-                  cx="25"
-                  cy="25"
-                  className="fill-black dark:fill-white"
-                  r="10"
-                />
-                <path
-                  d="M25 19.5c-3.04 0-5.5 2.46-5.5 5.5 0 2.43 1.58 4.5 3.76 5.22.28.05.38-.12.38-.27v-1.03c-1.53.33-1.85-.74-1.85-.74-.25-.64-.61-.81-.61-.81-.5-.34.04-.33.04-.33.55.04.84.57.84.57.49.84 1.29.6 1.6.46.05-.36.2-.6.35-.74-1.22-.14-2.5-0.61-2.5-2.72 0-.6.22-1.09.57-1.48-.06-.14-.25-.7.05-1.46 0 0 .46-.15 1.51.56.44-.12.91-.18 1.38-.18s.94.06 1.38.18c1.05-.71 1.51-.56 1.51-.56.3.76.11 1.32.05 1.46.35.39.57.88.57 1.48 0 2.12-1.29 2.58-2.51 2.71.2.17.38.51.38 1.02v1.51c0 .15.1.33.38.27 2.18-.73 3.75-2.79 3.75-5.22 0-3.04-2.46-5.5-5.5-5.5z"
-                  className="fill-white dark:fill-black"
-                />
-                <text
-                  className="fill-neutral-900 dark:fill-white font-sans text-[12px] font-medium"
-                  x="44"
-                  y="24"
-                >
-                  GitHub
-                </text>
-                <text
-                  className="fill-neutral-500 dark:text-neutral-400 font-mono text-[9px]"
-                  x="44"
-                  y="36"
-                >
-                  OIDC / SSO
-                </text>
-                <circle
-                  cx="120"
-                  cy="25"
-                  className="fill-neutral-900 dark:fill-white"
-                  r="2.5"
-                />
-              </g>
-
-              {/* ================= CENTER NODE: AUTHSPHERE CORE ================= */}
-              {/* Ambient Core Rings */}
-              <circle
-                cx="390"
-                cy="200"
-                fill="none"
-                r="75"
-                className="stroke-neutral-200 dark:stroke-neutral-800"
-                strokeWidth="1"
-              />
-              <circle
-                cx="390"
-                cy="200"
-                fill="none"
-                r="62"
-                className="stroke-neutral-300 dark:stroke-neutral-700"
-                strokeDasharray="3 4"
-                strokeWidth="1"
-              />
-
-              {/* Core Card Container */}
-              <g transform="translate(330, 140)">
-                <rect
-                  className="fill-black dark:fill-black stroke-neutral-800"
-                  height="120"
-                  rx="4"
-                  width="120"
-                  x="0"
-                  y="0"
-                />
-                {/* Technical Corner Precision Reticles */}
-                <line
-                  opacity="0.3"
-                  stroke="#FFFFFF"
-                  strokeWidth="1"
-                  x1="6"
-                  x2="12"
-                  y1="6"
-                  y2="6"
-                />
-                <line
-                  opacity="0.3"
-                  stroke="#FFFFFF"
-                  strokeWidth="1"
-                  x1="6"
-                  x2="6"
-                  y1="6"
-                  y2="12"
-                />
-                <line
-                  opacity="0.3"
-                  stroke="#FFFFFF"
-                  strokeWidth="1"
-                  x1="114"
-                  x2="108"
-                  y1="6"
-                  y2="6"
-                />
-                <line
-                  opacity="0.3"
-                  stroke="#FFFFFF"
-                  strokeWidth="1"
-                  x1="114"
-                  x2="114"
-                  y1="6"
-                  y2="12"
-                />
-                <line
-                  opacity="0.3"
-                  stroke="#FFFFFF"
-                  strokeWidth="1"
-                  x1="6"
-                  x2="12"
-                  y1="114"
-                  y2="114"
-                />
-                <line
-                  opacity="0.3"
-                  stroke="#FFFFFF"
-                  strokeWidth="1"
-                  x1="6"
-                  x2="6"
-                  y1="114"
-                  y2="108"
-                />
-                <line
-                  opacity="0.3"
-                  stroke="#FFFFFF"
-                  strokeWidth="1"
-                  x1="114"
-                  x2="108"
-                  y1="114"
-                  y2="114"
-                />
-                <line
-                  opacity="0.3"
-                  stroke="#FFFFFF"
-                  strokeWidth="1"
-                  x1="114"
-                  x2="114"
-                  y1="114"
-                  y2="108"
-                />
-
-                {/* Center Geometric Star Emblem */}
-                <g transform="translate(60, 48)">
-                  <polygon
-                    fill="#FFFFFF"
-                    points="0,-16 4.5,-4.5 16,0 4.5,4.5 0,16 -4.5,4.5 -16,0 -4.5,-4.5"
-                  />
-                  <circle cx="0" cy="0" fill="#000000" r="3" />
-                </g>
-
-                <text
-                  fill="#FFFFFF"
-                  fontFamily="Geist"
-                  fontSize="12"
-                  fontWeight="600"
-                  letterSpacing="0.02em"
-                  textAnchor="middle"
-                  x="60"
-                  y="82"
-                >
-                  AuthSphere
-                </text>
-                <text
-                  fill="#A3A3A3"
-                  fontFamily="JetBrains Mono"
-                  fontSize="8.5"
-                  letterSpacing="0.08em"
-                  textAnchor="middle"
-                  x="60"
-                  y="96"
-                >
-                  CORE ENGINE
-                </text>
-              </g>
-
-              {/* Core Port Anchor Dots */}
-              <circle
-                cx="330"
-                cy="200"
-                className="fill-neutral-900 dark:fill-white"
-                r="3"
-              />
-              <circle
-                cx="450"
-                cy="200"
-                className="fill-neutral-900 dark:fill-white"
-                r="3"
-              />
-
-              {/* ================= RIGHT NODES: CONNECTED APPLICATIONS ================= */}
-              {/* Web Application Node */}
-              <g transform="translate(600, 85)">
-                <rect
-                  className="fill-white dark:fill-[#121316] stroke-[#E5E5E5] dark:stroke-[#26262b]"
-                  height="50"
-                  rx="3"
-                  strokeWidth="1"
-                  width="130"
-                  x="0"
-                  y="0"
-                />
-                <circle
-                  cx="0"
-                  cy="25"
-                  className="fill-neutral-900 dark:fill-white"
-                  r="2.5"
-                />
-                <text
-                  className="fill-neutral-900 dark:fill-white font-sans text-[12px] font-medium"
-                  x="20"
-                  y="24"
-                >
-                  Web Application
-                </text>
-                <text
-                  className="fill-neutral-500 dark:text-neutral-400 font-mono text-[9px]"
-                  x="20"
-                  y="36"
-                >
-                  FRONTEND CLIENT
-                </text>
-              </g>
-
-              {/* Client API Node */}
-              <g transform="translate(600, 175)">
-                <rect
-                  className="fill-white dark:fill-[#121316] stroke-[#E5E5E5] dark:stroke-[#26262b]"
-                  height="50"
-                  rx="3"
-                  strokeWidth="1"
-                  width="130"
-                  x="0"
-                  y="0"
-                />
-                <circle
-                  cx="0"
-                  cy="25"
-                  className="fill-neutral-900 dark:fill-white"
-                  r="2.5"
-                />
-                <text
-                  className="fill-neutral-900 dark:fill-white font-sans text-[12px] font-medium"
-                  x="20"
-                  y="24"
-                >
-                  Client API
-                </text>
-                <text
-                  className="fill-neutral-500 dark:text-neutral-400 font-mono text-[9px]"
-                  x="20"
-                  y="36"
-                >
-                  BACKEND SERVICE
-                </text>
-              </g>
-
-              {/* Mobile Client Node */}
-              <g transform="translate(600, 265)">
-                <rect
-                  className="fill-white dark:fill-[#121316] stroke-[#E5E5E5] dark:stroke-[#26262b]"
-                  height="50"
-                  rx="3"
-                  strokeWidth="1"
-                  width="130"
-                  x="0"
-                  y="0"
-                />
-                <circle
-                  cx="0"
-                  cy="25"
-                  className="fill-neutral-900 dark:fill-white"
-                  r="2.5"
-                />
-                <text
-                  className="fill-neutral-900 dark:fill-white font-sans text-[12px] font-medium"
-                  x="20"
-                  y="24"
-                >
-                  Mobile Client
-                </text>
-                <text
-                  className="fill-neutral-500 dark:text-neutral-400 font-mono text-[9px]"
-                  x="20"
-                  y="36"
-                >
-                  NATIVE SDK
-                </text>
-              </g>
-            </svg>
-          </div>
-
-          {/* Conceptual Footer Description (Clean Swiss Graphic Design Tone) */}
-          <footer className="relative z-10 w-full pt-4 border-t border-[#E5E5E5] dark:border-[#222329] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-neutral-500 dark:text-neutral-400 text-xs">
-            <span className="font-normal">
-              Unified authentication fabric across distributed services.
-            </span>
-            <span className="font-mono text-[11px] text-neutral-400 dark:text-neutral-500">
-              v2.4.0 — ARCHITECTURE OVERVIEW
-            </span>
-          </footer>
+        {/* RIGHT PANEL: MATHEMATICAL HARMONIC FIELD */}
+        <section className="hidden lg:flex lg:w-[58%] flex-1 relative overflow-hidden bg-[#fafafa] dark:bg-[#080909]">
+          <CommunityTopology />
         </section>
       </main>
     </div>

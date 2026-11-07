@@ -141,7 +141,13 @@ const Documentation = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#fbf9f9] dark:bg-[#09090c] text-neutral-900 dark:text-neutral-100 antialiased relative isolate selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+      {/* Precision Engineering Matrix Background */}
+      <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-[#fbf9f9] dark:bg-[#09090c]">
+        <div className="absolute inset-0 grid-matrix opacity-40 dark:opacity-20" />
+        <div className="absolute inset-0 bg-radial from-transparent via-transparent to-neutral-200/50 dark:to-black/60" />
+      </div>
+
       <DocsHeader
         sections={sections}
         activeSection={activeSection}
@@ -149,7 +155,7 @@ const Documentation = () => {
         setIsSidebarOpen={setIsSidebarOpen}
       />
 
-      <div className="w-[90vw] mx-auto flex">
+      <div className="max-w-7xl mx-auto flex items-start">
         <DocsSidebar
           sections={sections}
           activeSection={activeSection}
@@ -157,7 +163,7 @@ const Documentation = () => {
           isOpen={isSidebarOpen}
         />
 
-        <main className="flex-1 px-6 md:px-12 py-12 min-w-0">
+        <main className="flex-1 px-4 sm:px-8 lg:px-12 py-8 min-w-0">
           <DocsProjectSelector
             user={user}
             projects={projects}
@@ -167,21 +173,25 @@ const Documentation = () => {
             }
           />
 
-          {/* Render Active Section */}
-          <ActiveComponent {...projectProps} />
+          {/* Render Active Section Content */}
+          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] p-6 sm:p-8 shadow-xs">
+            <ActiveComponent {...projectProps} />
+          </div>
 
-          {/* Navigation Buttons */}
-          <div className="mt-20 pt-10 border-t grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Navigation Controls */}
+          <div className="mt-8 pt-6 border-t border-neutral-200 dark:border-[#222329] grid grid-cols-1 sm:grid-cols-2 gap-4">
             {prevSection ? (
               <button
                 onClick={() => navigateTo(prevSection.id)}
-                className="flex flex-col items-start p-6 rounded-2xl border bg-card hover:border-primary/50 hover:shadow-md transition-all text-left group"
+                className="flex flex-col items-start p-4 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] hover:border-black dark:hover:border-white transition-all text-left group cursor-pointer shadow-xs"
               >
-                <span className="text-xs font-bold text-muted-foreground uppercase mb-2 flex items-center gap-1.5">
-                  <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-1 transition-transform" />{" "}
-                  Previous
+                <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1 flex items-center gap-1.5">
+                  <ArrowLeft className="h-3 w-3 group-hover:-translate-x-1 transition-transform" />
+                  PREVIOUS SECTION
                 </span>
-                <span className="font-bold text-lg">{prevSection.title}</span>
+                <span className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
+                  {prevSection.title}
+                </span>
               </button>
             ) : (
               <div />
@@ -190,13 +200,15 @@ const Documentation = () => {
             {nextSection && (
               <button
                 onClick={() => navigateTo(nextSection.id)}
-                className="flex flex-col items-end p-6 rounded-2xl border bg-card hover:border-primary/50 hover:shadow-md transition-all text-right group"
+                className="flex flex-col items-end p-4 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] hover:border-black dark:hover:border-white transition-all text-right group cursor-pointer shadow-xs"
               >
-                <span className="text-xs font-bold text-muted-foreground uppercase mb-2 flex items-center gap-1.5">
-                  Next{" "}
-                  <ArrowLeft className="h-3.5 w-3.5 rotate-180 group-hover:translate-x-1 transition-transform" />
+                <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1 flex items-center gap-1.5">
+                  NEXT SECTION
+                  <ArrowLeft className="h-3 w-3 rotate-180 group-hover:translate-x-1 transition-transform" />
                 </span>
-                <span className="font-bold text-lg">{nextSection.title}</span>
+                <span className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
+                  {nextSection.title}
+                </span>
               </button>
             )}
           </div>

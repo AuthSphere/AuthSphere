@@ -260,37 +260,39 @@ const ProjectWebhooksCard = ({ project, onUpdated }) => {
         </DialogContent>
       </Dialog>
 
-      {/* Header Section */}
-      <Card className="bg-card/30 border-border/50">
-        <CardHeader>
-          <div className="flex items-start justify-between">
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
-                <Webhook className="h-6 w-6 text-primary" />
-              </div>
-              <div className="space-y-2">
-                <CardTitle className="text-2xl">Webhook Endpoints</CardTitle>
-                <CardDescription className="text-sm leading-relaxed max-w-2xl">
-                  Configure HTTP endpoints to receive real-time event
-                  notifications from AuthSphere. Webhooks enable your
-                  application to react instantly to authentication events
-                  without polling.
-                </CardDescription>
-              </div>
-            </div>
-            {!isAdding && (
-              <Button
-                onClick={() => setIsAdding(true)}
-                size="sm"
-                className="gap-2"
-              >
-                <Plus className="h-4 w-4" />
-                New Endpoint
-              </Button>
-            )}
+      {/* ─── HEADER SECTION ─── */}
+      <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
+        <div className="px-6 py-4 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
+          <span className="font-semibold text-neutral-900 dark:text-white flex items-center gap-2">
+            <Webhook className="h-4 w-4 text-emerald-500" />
+            <span>EVENT DISPATCH &amp; WEBHOOK MATRIX</span>
+          </span>
+          <span className="text-[10px] text-neutral-500 font-mono">
+            SPEC: HMAC SHA-256
+          </span>
+        </div>
+        <div className="p-6 flex flex-col sm:flex-row items-start justify-between gap-4">
+          <div className="space-y-1">
+            <h2 className="text-xl font-bold tracking-tight text-neutral-900 dark:text-white">
+              Webhook Dispatch Endpoints
+            </h2>
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 max-w-2xl leading-relaxed">
+              Register HTTP destination endpoints to receive signed real-time
+              event payloads from AuthSphere Core without polling.
+            </p>
           </div>
-        </CardHeader>
-      </Card>
+          {!isAdding && (
+            <Button
+              onClick={() => setIsAdding(true)}
+              size="sm"
+              className="font-mono text-xs gap-1.5 h-9 px-4 bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 cursor-pointer shadow-sm shrink-0"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              <span>New Endpoint</span>
+            </Button>
+          )}
+        </div>
+      </div>
 
       {/* What Are Webhooks - Educational Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { toast } from "sonner";
 import { useVerifyOTP, useResendOTP } from "@/hooks/useAuthQuery";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import AuthSphereLogo from "@/components/common/AuthSphereLogo";
+import TechSeparator from "@/components/common/TechSeparator";
+import { ArrowLeft, RefreshCw, KeyRound, CheckCircle2 } from "lucide-react";
 
 const otpSchema = z.object({
   otp: z
@@ -12,20 +15,6 @@ const otpSchema = z.object({
     .length(6, "Code must be exactly 6 digits")
     .regex(/^\d+$/, "Code must contain only numbers"),
 });
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
-import { Loader2, Mail, ArrowLeft, RefreshCw, ShieldCheck } from "lucide-react";
-import VantaBackground from "@/components/ui/VantaBackground";
 
 const VerifyOTP = () => {
   const navigate = useNavigate();
@@ -35,7 +24,6 @@ const VerifyOTP = () => {
   const sdk_request = searchParams.get("sdk_request");
 
   const {
-    register,
     handleSubmit,
     formState: { errors },
     control,
@@ -48,6 +36,7 @@ const VerifyOTP = () => {
 
   const [timer, setTimer] = useState(60);
   const [isResending, setIsResending] = useState(false);
+  const inputRef = useRef(null);
 
   const { mutate: verify, isPending: isVerifying } = useVerifyOTP();
   const { mutate: resend } = useResendOTP();
@@ -67,14 +56,19 @@ const VerifyOTP = () => {
     return () => clearInterval(interval);
   }, [timer]);
 
+  // Focus input automatically on mount
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   const handleVerify = (data) => {
     verify(
       { email, otp: data.otp, sdk_request },
       {
-        onSuccess: (data) => {
+        onSuccess: (res) => {
           toast.success("Identity verified successfully!");
-          if (data.redirect_uri) {
-            window.location.href = data.redirect_uri;
+          if (res?.redirect_uri) {
+            window.location.href = res.redirect_uri;
           } else {
             navigate("/login");
           }
@@ -94,7 +88,7 @@ const VerifyOTP = () => {
       { email, sdk_request },
       {
         onSuccess: () => {
-          toast.success("New code sent to your email");
+          toast.success("New 6-digit challenge code dispatched");
           setTimer(60);
         },
         onError: (error) => {
@@ -105,128 +99,182 @@ const VerifyOTP = () => {
     );
   };
 
+  const digits = Array.from({ length: 6 }, (_, i) => otpValue[i] || "");
+
   return (
-    <VantaBackground>
-      <div className="flex min-h-screen items-center justify-center p-4">
-        <div className="w-full max-w-md space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="min-h-screen bg-[#fbf9f9] dark:bg-[#09090c] text-neutral-900 dark:text-neutral-100 antialiased flex flex-col justify-center items-center p-4 relative isolate selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+      {/* Precision Engineering Matrix Background */}
+      <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-[#fbf9f9] dark:bg-[#09090c]">
+        <div className="absolute inset-0 grid-matrix opacity-40 dark:opacity-20" />
+        <div className="absolute inset-0 bg-radial from-transparent via-transparent to-neutral-200/50 dark:to-black/60" />
+      </div>
+
+      <div className="w-full max-w-md space-y-4">
+        {/* Navigation Breadcrumb */}
+        <div className="flex items-center justify-between text-xs font-mono text-neutral-500">
           <Link
             to="/login"
-            className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors group"
+            className="inline-flex items-center gap-1.5 hover:text-black dark:hover:text-white transition-colors"
           >
-            <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-            Back to Login
+            <ArrowLeft className="h-3.5 w-3.5" />
+            <span>RETURN TO SIGN IN</span>
           </Link>
-
-          <Card className="bg-card border border-border shadow-lg relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-primary to-transparent opacity-20 dark:opacity-50" />
-
-            <CardHeader className="space-y-4 text-center pb-8">
-              <div className="flex justify-center flex-col items-center gap-4">
-                <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary ring-1 ring-primary/20 animate-pulse">
-                  <ShieldCheck className="h-8 w-8" />
-                </div>
-                <div className="space-y-1">
-                  <CardTitle className="text-2xl font-black tracking-tight">
-                    Verify Identity
-                  </CardTitle>
-                  <CardDescription className="text-muted-foreground/70">
-                    We sent a secure code to{" "}
-                    <span className="text-foreground font-semibold underline decoration-primary/30">
-                      {email}
-                    </span>
-                  </CardDescription>
-                </div>
-              </div>
-            </CardHeader>
-
-            <CardContent className="space-y-6">
-              <form onSubmit={handleSubmit(handleVerify)} className="space-y-6">
-                <div className="space-y-3">
-                  <Label
-                    htmlFor="otp"
-                    className={`text-xs font-bold uppercase tracking-widest ml-1 ${errors.otp ? "text-destructive" : "text-muted-foreground"}`}
-                  >
-                    6-Digit Verification Code
-                  </Label>
-                  <Input
-                    id="otp"
-                    type="text"
-                    inputMode="numeric"
-                    autoComplete="one-time-code"
-                    placeholder="0 0 0 0 0 0"
-                    className={`h-14 text-center text-2xl font-mono tracking-[0.5em] bg-background/50 border-border dark:border-white/10 focus:ring-primary/20 transition-all rounded-xl ${errors.otp ? "border-destructive focus:border-destructive" : "focus:border-primary/30"}`}
-                    {...register("otp")}
-                    onChange={(e) => {
-                      const val = e.target.value.replace(/\D/g, "").slice(0, 6);
-                      setValue("otp", val, { shouldValidate: !!errors.otp });
-                    }}
-                    disabled={isVerifying}
-                  />
-                  {errors.otp && (
-                    <p className="text-[10px] text-destructive font-medium ml-1">
-                      {errors.otp.message}
-                    </p>
-                  )}
-                </div>
-
-                <Button
-                  type="submit"
-                  className="w-full h-12 text-sm font-bold shadow-lg shadow-primary/20 transition-all active:scale-[0.98]"
-                  disabled={isVerifying || otpValue.length !== 6}
-                >
-                  {isVerifying ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Authenticating...
-                    </>
-                  ) : (
-                    "Confirm Verification"
-                  )}
-                </Button>
-              </form>
-            </CardContent>
-
-            <CardFooter className="flex flex-col gap-4 pb-8 border-t border-border dark:border-white/5 pt-6 mx-6 px-0 text-center">
-              <div className="space-y-2">
-                <p className="text-xs text-muted-foreground">
-                  Didn't receive the email? Check your spam folder or request a
-                  new one.
-                </p>
-                <button
-                  onClick={handleResend}
-                  disabled={timer > 0 || isResending}
-                  className={`
-                                        inline-flex items-center gap-2 text-xs font-bold transition-all
-                                        ${
-                                          timer > 0
-                                            ? "text-muted-foreground cursor-not-allowed opacity-50"
-                                            : "text-primary hover:text-primary/80 active:scale-95"
-                                        }
-                                    `}
-                >
-                  {isResending ? (
-                    <RefreshCw className="h-3 w-3 animate-spin text-primary" />
-                  ) : (
-                    <RefreshCw
-                      className={`h-3 w-3 ${timer > 0 ? "" : "text-primary"}`}
-                    />
-                  )}
-                  {timer > 0
-                    ? `Resend Code in ${timer}s`
-                    : "Resend Verification Code"}
-                </button>
-              </div>
-            </CardFooter>
-          </Card>
-
-          <div className="flex justify-center gap-6 text-[10px] uppercase font-bold tracking-widest text-muted-foreground/30">
-            <span>End-to-End Encrypted</span>
-            <span>•</span>
-            <span>Powered by AuthSphere</span>
+          <div className="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>CHALLENGE DISPATCHED</span>
           </div>
         </div>
+
+        {/* Precision Card Shell */}
+        <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] shadow-xs overflow-hidden">
+          {/* Card Technical Header Bar */}
+          <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
+            <div className="flex items-center">
+              <span className="font-bold text-neutral-900 dark:text-white">
+                02
+              </span>
+              <TechSeparator />
+              <span className="text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+                CRYPTOGRAPHIC CHALLENGE
+              </span>
+            </div>
+            <span className="text-[10px] text-neutral-400 font-mono">
+              SPEC: RFC-6238
+            </span>
+          </div>
+
+          <div className="p-6 sm:p-8 space-y-6">
+            {/* Brand Header */}
+            <div className="text-center space-y-2">
+              <div className="flex justify-center mb-3">
+                <AuthSphereLogo className="h-7 w-auto" />
+              </div>
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">
+                Verify Identity Enclave
+              </h1>
+              <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                A 6-digit one-time cryptographic code has been transmitted to:
+              </p>
+              <div className="inline-block px-2.5 py-1 rounded bg-neutral-100 dark:bg-[#181920] border border-neutral-200 dark:border-[#282932] font-mono text-xs text-neutral-900 dark:text-white font-medium">
+                {email || "developer@domain.com"}
+              </div>
+            </div>
+
+            {/* OTP Form */}
+            <form onSubmit={handleSubmit(handleVerify)} className="space-y-6">
+              {/* Interactive Digit Cell Display */}
+              <div className="space-y-2">
+                <div
+                  className="grid grid-cols-6 gap-2 sm:gap-2.5 cursor-text"
+                  onClick={() => inputRef.current?.focus()}
+                >
+                  {digits.map((digit, idx) => {
+                    const isCurrent = idx === otpValue.length;
+                    const isFilled = Boolean(digit);
+                    return (
+                      <div
+                        key={idx}
+                        className={`h-13 sm:h-14 rounded-lg border text-xl font-mono font-bold flex items-center justify-center transition-all ${
+                          isCurrent
+                            ? "border-black dark:border-white ring-1 ring-black/20 dark:ring-white/30 bg-neutral-50 dark:bg-[#16171d]"
+                            : isFilled
+                              ? "border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white"
+                              : "border-neutral-200 dark:border-[#262730] bg-neutral-50/50 dark:bg-[#0f1014] text-neutral-400"
+                        }`}
+                      >
+                        {digit ? (
+                          <span>{digit}</span>
+                        ) : isCurrent ? (
+                          <span className="w-2 h-4 bg-emerald-500 animate-pulse rounded-xs" />
+                        ) : null}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Hidden actual input */}
+                <input
+                  ref={inputRef}
+                  id="otp"
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  maxLength={6}
+                  value={otpValue}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/\D/g, "").slice(0, 6);
+                    setValue("otp", val, { shouldValidate: !!errors.otp });
+                  }}
+                  disabled={isVerifying}
+                  className="sr-only"
+                />
+
+                {errors.otp && (
+                  <p className="font-mono text-xs text-red-500 text-center mt-1">
+                    {errors.otp.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Submit CTA */}
+              <button
+                type="submit"
+                disabled={isVerifying || otpValue.length !== 6}
+                className="w-full h-10 bg-black dark:bg-white hover:bg-neutral-800 dark:hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed text-white dark:text-black text-xs font-mono font-semibold rounded flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer"
+              >
+                {isVerifying ? (
+                  <span>AUTHENTICATING CIPHER...</span>
+                ) : (
+                  <span>CONFIRM VERIFICATION →</span>
+                )}
+              </button>
+            </form>
+
+            {/* Resend Controls */}
+            <div className="pt-2 border-t border-neutral-100 dark:border-[#1e2026] text-center space-y-2">
+              <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                Code didn't arrive? Inspect spam filter or request a new
+                handshake:
+              </p>
+              <button
+                type="button"
+                onClick={handleResend}
+                disabled={timer > 0 || isResending}
+                className={`inline-flex items-center gap-1.5 text-xs font-mono font-medium transition-colors cursor-pointer ${
+                  timer > 0
+                    ? "text-neutral-400 dark:text-neutral-500 cursor-not-allowed"
+                    : "text-neutral-900 dark:text-white hover:underline"
+                }`}
+              >
+                <RefreshCw
+                  className={`h-3 w-3 ${isResending ? "animate-spin" : ""}`}
+                />
+                <span>
+                  {timer > 0
+                    ? `DISPATCH NEW CODE IN ${timer}s`
+                    : "DISPATCH NEW CODE"}
+                </span>
+              </button>
+            </div>
+          </div>
+
+          {/* Technical Telemetry Bar */}
+          <div className="px-5 py-2.5 border-t border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-[11px] font-mono text-neutral-500">
+            <div className="flex items-center gap-1.5">
+              <KeyRound className="h-3 w-3" />
+              <span>SHA-256 HMAC SECURED</span>
+            </div>
+            <span>TLS 1.3 ENCRYPTED</span>
+          </div>
+        </div>
+
+        {/* Sub-footer metadata */}
+        <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 dark:text-neutral-500 px-2">
+          <span>ZONE_01 // INGRESS GATEWAY</span>
+          <span>AUTHTOKEN ROTATION: 300s</span>
+        </div>
       </div>
-    </VantaBackground>
+    </div>
   );
 };
 

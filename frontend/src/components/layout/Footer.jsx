@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useAuthStore from "@/store/authStore";
 import AuthSphereLogo from "@/components/common/AuthSphereLogo";
+import watermarkDark from "@/assets/authsphere-watermark-dark.png";
+import watermarkLight from "@/assets/authsphere-watermark-light.png";
 import { toast } from "sonner";
 import {
   Shield,
@@ -13,7 +15,9 @@ import {
   Activity,
   Code2,
   Lock,
+  Share2,
 } from "lucide-react";
+import { AUTHTSPHERE_SOCIAL_CHANNELS } from "@/constants/socialLinks";
 
 export const Footer = () => {
   const { user } = useAuthStore();
@@ -30,7 +34,7 @@ export const Footer = () => {
     <footer className="w-full bg-white dark:bg-[#0a0a0a] text-neutral-900 dark:text-neutral-100 border-t border-neutral-200 dark:border-neutral-800/60 relative isolate overflow-hidden transition-colors duration-300">
       {/* Subtle Matrix Background */}
       <div className="absolute inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
       </div>
 
       <div className="w-full max-w-7xl mx-auto px-6 lg:px-12 pt-20 pb-12 relative z-10">
@@ -147,95 +151,21 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 3: Security Specs */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 mb-6">
-              <Lock className="h-4 w-4 text-neutral-900 dark:text-white" />
-              <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">
-                Security Specs
-              </h3>
-            </div>
-            <ul className="space-y-3.5 text-sm text-neutral-500 dark:text-neutral-400">
-              <li className="flex items-center justify-between group cursor-default">
-                <span className="group-hover:text-neutral-900 dark:group-hover:text-white transition-colors">
-                  RFC-7636 (PKCE S256)
-                </span>
-                <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400">
-                  ENFORCED
-                </span>
-              </li>
-              <li className="flex items-center justify-between group cursor-default">
-                <span className="group-hover:text-neutral-900 dark:group-hover:text-white transition-colors">
-                  RFC-7519 (JWT Tokens)
-                </span>
-                <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400">
-                  RS256
-                </span>
-              </li>
-              <li className="flex items-center justify-between group cursor-default">
-                <span className="group-hover:text-neutral-900 dark:group-hover:text-white transition-colors">
-                  Argon2id & Bcrypt
-                </span>
-                <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400">
-                  HASHING
-                </span>
-              </li>
-              <li className="flex items-center justify-between group cursor-default">
-                <span className="group-hover:text-neutral-900 dark:group-hover:text-white transition-colors">
-                  AES-256-GCM Vault
-                </span>
-                <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400">
-                  ENCRYPTED
-                </span>
-              </li>
-              <li className="flex items-center justify-between group cursor-default">
-                <span className="group-hover:text-neutral-900 dark:group-hover:text-white transition-colors">
-                  Third-Party Telemetry
-                </span>
-                <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                  ZERO LEAK
-                </span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 4: Ecosystem */}
+          {/* Column 3: Resources & Platform */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-6">
               <Activity className="h-4 w-4 text-neutral-900 dark:text-white" />
               <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">
-                Platform
+                Platform &amp; Specs
               </h3>
             </div>
             <ul className="space-y-3.5 text-sm text-neutral-500 dark:text-neutral-400">
-              <li>
-                <a
-                  href="https://github.com/AuthSphere"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between hover:text-neutral-900 dark:hover:text-white transition-colors group"
-                >
-                  <span>GitHub Organization</span>
-                  <ExternalLink className="h-3.5 w-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.npmjs.com/package/@authspherejs/sdk"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between hover:text-neutral-900 dark:hover:text-white transition-colors group"
-                >
-                  <span>NPM Registry</span>
-                  <ExternalLink className="h-3.5 w-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                </a>
-              </li>
               <li>
                 <Link
                   to="/docs"
                   className="hover:text-neutral-900 dark:hover:text-white transition-colors"
                 >
-                  Documentation & API
+                  Documentation &amp; API
                 </Link>
               </li>
               <li>
@@ -243,7 +173,7 @@ export const Footer = () => {
                   to="/pricing"
                   className="hover:text-neutral-900 dark:hover:text-white transition-colors"
                 >
-                  Pricing & Scale Tiers
+                  Pricing &amp; Scale Tiers
                 </Link>
               </li>
               <li>
@@ -254,18 +184,69 @@ export const Footer = () => {
                   Developer Console
                 </Link>
               </li>
+              <li className="flex items-center justify-between group cursor-default pt-1">
+                <span className="group-hover:text-neutral-900 dark:group-hover:text-white transition-colors">
+                  RFC-7636 (PKCE S256)
+                </span>
+                <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 font-mono">
+                  ENFORCED
+                </span>
+              </li>
+              <li className="flex items-center justify-between group cursor-default">
+                <span className="group-hover:text-neutral-900 dark:group-hover:text-white transition-colors">
+                  RFC-7519 (HS256 JWT)
+                </span>
+                <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono">
+                  ACTIVE
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 4: Community & Social Accounts */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-6">
+              <Share2 className="h-4 w-4 text-neutral-900 dark:text-white" />
+              <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">
+                Community &amp; Social
+              </h3>
+            </div>
+            <ul className="space-y-3.5 text-sm text-neutral-500 dark:text-neutral-400">
+              {AUTHTSPHERE_SOCIAL_CHANNELS.map((item) => (
+                <li key={item.name}>
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between hover:text-neutral-900 dark:hover:text-white transition-colors group"
+                  >
+                    <span className="flex items-center gap-2.5">
+                      <item.icon className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity text-current" />
+                      <span>{item.name}</span>
+                    </span>
+                    <ExternalLink className="h-3.5 w-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        {/* Elegant Typographic Watermark */}
+        {/* Typographic Architectural Watermark Logo */}
         <div
           aria-hidden="true"
-          className="w-full flex justify-center pb-8 select-none pointer-events-none overflow-hidden"
+          className="w-full flex items-center justify-center py-6 sm:py-10 select-none pointer-events-none overflow-hidden"
         >
-          <span className="font-sans font-bold text-[12vw] tracking-tighter text-neutral-900/[0.03] dark:text-white/[0.02] leading-none whitespace-nowrap">
-            AUTHSPHERE
-          </span>
+          <img
+            src={watermarkDark}
+            alt="AuthSphere Watermark"
+            className="hidden dark:block w-full max-w-4xl h-auto max-h-24 sm:max-h-36 md:max-h-44 object-contain opacity-25 hover:opacity-35 transition-opacity"
+          />
+          <img
+            src={watermarkLight}
+            alt="AuthSphere Watermark"
+            className="block dark:hidden w-full max-w-4xl h-auto max-h-24 sm:max-h-36 md:max-h-44 object-contain opacity-20 hover:opacity-30 transition-opacity"
+          />
         </div>
       </div>
 
@@ -282,15 +263,21 @@ export const Footer = () => {
             <span>© 2026 Core Infrastructure.</span>
           </div>
 
-          {/* Cryptographic Architecture Stack */}
-          <div className="hidden lg:flex items-center gap-4 text-xs font-mono tracking-wide">
-            <span>REACT 19</span>
-            <span className="text-neutral-300 dark:text-neutral-700">·</span>
-            <span>NODE.JS</span>
-            <span className="text-neutral-300 dark:text-neutral-700">·</span>
-            <span>MONGODB</span>
-            <span className="text-neutral-300 dark:text-neutral-700">·</span>
-            <span>SOCKET.IO</span>
+          {/* Official Social Channels Strip */}
+          <div className="flex items-center gap-2">
+            {AUTHTSPHERE_SOCIAL_CHANNELS.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${item.name} (${item.handle})`}
+                title={`${item.name} (${item.handle})`}
+                className="p-2 rounded-md border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-neutral-500 hover:text-neutral-900 dark:hover:text-white hover:border-neutral-300 dark:hover:border-neutral-700 transition-all shadow-xs"
+              >
+                <item.icon className="w-4 h-4 text-current" />
+              </a>
+            ))}
           </div>
 
           {/* Live Status */}

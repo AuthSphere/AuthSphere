@@ -1,4 +1,3 @@
- 
 import React, { useState } from "react";
 import { Lock, Webhook, Cpu, Layers, Copy, Check } from "lucide-react";
 
@@ -18,7 +17,7 @@ const FEATURES = [
   {
     icon: Lock,
     title: "Stateless Tokens",
-    description: "Signed RS256 Bearer tokens for distributed verification.",
+    description: "Signed HS256 Bearer tokens for distributed verification.",
   },
   {
     icon: Webhook,
@@ -93,7 +92,7 @@ const Integration = () => {
                 <p className="text-[10px] uppercase font-semibold text-muted-foreground tracking-wider mb-0.5">
                   Algorithm
                 </p>
-                <p className="text-base font-semibold text-foreground">RS256</p>
+                <p className="text-base font-semibold text-foreground">HS256</p>
               </div>
               <div>
                 <p className="text-[10px] uppercase font-semibold text-muted-foreground tracking-wider mb-0.5">

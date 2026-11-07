@@ -11,7 +11,10 @@ export default defineConfig([
       globals: globals.node,
     },
   },
-  globalIgnores(["dist"]),
+  globalIgnores(["dist", "**/*.d.ts"]),
+  {
+    files: ["**/*.{ts,tsx}"],
+  },
   {
     files: ["**/*.{js,jsx}"],
     extends: [
@@ -29,7 +32,13 @@ export default defineConfig([
       },
     },
     rules: {
-      "no-unused-vars": ["error", { varsIgnorePattern: "^[A-Z_]" }],
+      "no-unused-vars": [
+        "error",
+        {
+          varsIgnorePattern: "^[A-Z_]",
+          argsIgnorePattern: "^[A-Z_]",
+        },
+      ],
     },
   },
 ]);

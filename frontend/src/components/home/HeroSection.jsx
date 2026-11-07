@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useAuthStore from "@/store/authStore";
+import TechSeparator from "@/components/common/TechSeparator";
 
 export const HeroSection = () => {
   const { user } = useAuthStore();
 
   return (
-    <section className="relative w-full max-w-[1360px] mx-auto px-6 lg:px-12 pt-16 lg:pt-24 pb-20 border-b border-[#eaeaea] dark:border-[#222329] bg-transparent isolate">
+    <section className="relative w-full max-w-340 mx-auto px-6 lg:px-12 pt-16 lg:pt-24 pb-20 border-b border-[#eaeaea] dark:border-[#222329] bg-transparent isolate">
       {/* Background Architectural Grid with Transit-Flow SVG */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 opacity-20 dark:opacity-15">
         <svg
@@ -132,7 +133,7 @@ export const HeroSection = () => {
               [WS_BUS_ORIGIN]
             </text>
             <text x="865" y="415">
-              [DEVICE_REVOKE] 10ms
+              [SESSION_STORE] MONGODB_TTL
             </text>
           </g>
           <g stroke="currentColor" strokeWidth="0.75">
@@ -147,23 +148,27 @@ export const HeroSection = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center relative">
         {/* Left Column: Editorial Hero Pitch */}
         <div className="lg:col-span-7 flex flex-col gap-6">
-          <div className="flex items-center gap-3 text-xs font-mono text-neutral-500 dark:text-neutral-400 tracking-wider uppercase">
+          <div className="flex items-center gap-1.5 text-xs font-mono text-neutral-500 dark:text-neutral-400 tracking-wider uppercase">
             <span className="inline-block w-2 h-2 bg-neutral-900 dark:bg-white" />
-            <span>ARCHIVAL SPECIFICATION // RFC-7636 PKCE</span>
+            <span>OPEN SOURCE INFRASTRUCTURE</span>
+            <TechSeparator />
+            <span className="text-neutral-800 dark:text-neutral-200 font-semibold">
+              RFC-7636 PKCE
+            </span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-semibold tracking-tight text-neutral-900 dark:text-white leading-[1.08] text-balance">
             Authentication infrastructure.
             <br />
             <span className="font-normal text-neutral-500 dark:text-neutral-400">
-              Engineered for autonomy.
+              Built for developers.
             </span>
           </h1>
 
           <p className="text-base text-neutral-700 dark:text-neutral-300 max-w-xl leading-relaxed font-normal">
-            A minimal, zero-telemetry OAuth2 &amp; session engine designed for
-            developers who demand cryptographic certainty without proprietary
-            SaaS vendor lock-in.
+            An open-source authentication server and client SDK. Supports OAuth
+            2.0 with PKCE, Bcrypt password hashing with HaveIBeenPwned breach
+            detection, and MongoDB session tracking.
           </p>
 
           {/* CTA Cluster */}
@@ -203,222 +208,174 @@ export const HeroSection = () => {
           <div className="pt-8 mt-2 border-t border-neutral-300 dark:border-neutral-800 grid grid-cols-3 gap-6 font-mono text-xs">
             <div className="flex flex-col gap-1">
               <span className="text-[11px] text-neutral-500 uppercase tracking-wider">
-                Footprint
+                SDK Package
               </span>
               <span className="font-semibold text-neutral-900 dark:text-white">
-                3.8 KB ESM
+                @authspherejs/sdk
               </span>
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-[11px] text-neutral-500 uppercase tracking-wider">
-                Runtime
+                Token Format
               </span>
               <span className="font-semibold text-neutral-900 dark:text-white">
-                Web Crypto Native
+                HMAC-SHA256 (HS256)
               </span>
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-[11px] text-neutral-500 uppercase tracking-wider">
-                Telemetry
+                License
               </span>
               <span className="font-semibold text-neutral-900 dark:text-white">
-                Strict Zero (0%)
+                MIT Open Source
               </span>
             </div>
           </div>
         </div>
 
-        {/* Right Column: Technical Polyhedral Canvas */}
-        <div className="lg:col-span-5 flex items-center justify-center">
-          <div className="relative w-full max-w-[480px] border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#0c0d10] shadow-sm">
-            {/* FIG 01 Bar */}
-            <div className="flex items-center justify-between border-b border-[#eaeaea] dark:border-[#222329] px-3 py-2 text-[11px] font-mono text-neutral-600 dark:text-neutral-400 bg-neutral-50/80 dark:bg-neutral-900/60">
-              <div className="flex items-center gap-2">
-                <span className="inline-block w-1.5 h-1.5 bg-neutral-900 dark:bg-neutral-100" />
-                <span>FIG. 01 — CRYPTOGRAPHIC TOPOLOGY</span>
-              </div>
-              <span className="text-neutral-500">RFC 7636</span>
-            </div>
+        {/* Right Column: Technical Polyhedral Canvas (Transparent, No Card) */}
+        <div className="lg:col-span-5 flex items-center justify-center relative">
+          <div className="w-full max-w-120 aspect-square flex items-center justify-center relative select-none">
+            <svg
+              className="w-full h-full overflow-visible"
+              fill="none"
+              viewBox="0 0 520 520"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {/* Radar Circles and Crosshair Axes */}
+              <circle
+                className="stroke-neutral-300 dark:stroke-neutral-800"
+                cx="260"
+                cy="260"
+                r="200"
+                strokeDasharray="2 4"
+                strokeWidth="1"
+              />
+              <circle
+                className="stroke-neutral-300 dark:stroke-neutral-800"
+                cx="260"
+                cy="260"
+                r="130"
+                strokeWidth="0.75"
+              />
+              <line
+                className="stroke-neutral-300 dark:stroke-neutral-800"
+                strokeWidth="0.75"
+                x1="260"
+                x2="260"
+                y1="30"
+                y2="490"
+              />
+              <line
+                className="stroke-neutral-300 dark:stroke-neutral-800"
+                strokeWidth="0.75"
+                x1="30"
+                x2="490"
+                y1="260"
+                y2="260"
+              />
 
-            {/* SVG Interactive Rotating Geometry */}
-            <div className="w-full h-[400px] flex items-center justify-center p-2">
-              <svg
-                className="w-full h-full"
-                fill="none"
-                viewBox="0 0 520 520"
-                xmlns="http://www.w3.org/2000/svg"
+              {/* Rotating Faceted Polyhedron */}
+              <g>
+                <polygon
+                  className="fill-neutral-900 dark:fill-white stroke-neutral-900 dark:stroke-white"
+                  points="260,70 430,170 380,360 260,260"
+                  strokeWidth="1.5"
+                >
+                  <animateTransform
+                    attributeName="transform"
+                    dur="60s"
+                    from="0 260 260"
+                    repeatCount="indefinite"
+                    to="360 260 260"
+                    type="rotate"
+                  />
+                </polygon>
+                <polygon
+                  className="fill-neutral-300 dark:fill-neutral-800 stroke-neutral-900 dark:stroke-neutral-700"
+                  points="260,70 90,170 140,360 260,260"
+                  strokeWidth="1.5"
+                >
+                  <animateTransform
+                    attributeName="transform"
+                    dur="60s"
+                    from="0 260 260"
+                    repeatCount="indefinite"
+                    to="360 260 260"
+                    type="rotate"
+                  />
+                </polygon>
+                <polygon
+                  className="fill-neutral-100 dark:fill-neutral-900 stroke-neutral-900 dark:stroke-neutral-800"
+                  points="140,360 260,450 380,360 260,260"
+                  strokeWidth="1.5"
+                >
+                  <animateTransform
+                    attributeName="transform"
+                    dur="60s"
+                    from="0 260 260"
+                    repeatCount="indefinite"
+                    to="360 260 260"
+                    type="rotate"
+                  />
+                </polygon>
+              </g>
+
+              {/* Counter-Rotating Wireframe Hexagon */}
+              <g>
+                <polygon
+                  className="stroke-neutral-900 dark:stroke-white"
+                  fill="none"
+                  points="260,150 360,210 360,310 260,370 160,310 160,210"
+                  strokeWidth="1.5"
+                >
+                  <animateTransform
+                    attributeName="transform"
+                    dur="40s"
+                    from="360 260 260"
+                    repeatCount="indefinite"
+                    to="0 260 260"
+                    type="rotate"
+                  />
+                </polygon>
+              </g>
+
+              {/* Technical Precision Annotations */}
+              <text
+                className="fill-neutral-500 dark:fill-neutral-400 font-mono text-[10px]"
+                letterSpacing="1.5"
+                x="32"
+                y="50"
               >
-                <defs>
-                  <pattern
-                    height="20"
-                    id="archGrid"
-                    patternUnits="userSpaceOnUse"
-                    width="20"
-                  >
-                    <path
-                      className="stroke-neutral-300 dark:stroke-neutral-800"
-                      d="M 20 0 L 0 0 0 20"
-                      fill="none"
-                      strokeWidth="0.75"
-                    />
-                  </pattern>
-                </defs>
-                <rect
-                  fill="url(#archGrid)"
-                  height="480"
-                  opacity="0.65"
-                  width="480"
-                  x="20"
-                  y="20"
-                />
-                <circle
-                  className="stroke-neutral-400 dark:stroke-neutral-700"
-                  cx="260"
-                  cy="260"
-                  r="200"
-                  strokeDasharray="2 4"
-                  strokeWidth="1"
-                />
-                <circle
-                  className="stroke-neutral-400 dark:stroke-neutral-700"
-                  cx="260"
-                  cy="260"
-                  r="130"
-                  strokeWidth="0.75"
-                />
-                <line
-                  className="stroke-neutral-400 dark:stroke-neutral-700"
-                  strokeWidth="0.75"
-                  x1="260"
-                  x2="260"
-                  y1="30"
-                  y2="490"
-                />
-                <line
-                  className="stroke-neutral-400 dark:stroke-neutral-700"
-                  strokeWidth="0.75"
-                  x1="30"
-                  x2="490"
-                  y1="260"
-                  y2="260"
-                />
-                <g>
-                  <polygon
-                    className="dark:fill-white"
-                    fill="#090909"
-                    points="260,70 430,170 380,360 260,260"
-                    stroke="#090909"
-                    strokeWidth="1.5"
-                  >
-                    <animateTransform
-                      attributeName="transform"
-                      dur="60s"
-                      from="0 260 260"
-                      repeatCount="indefinite"
-                      to="360 260 260"
-                      type="rotate"
-                    />
-                  </polygon>
-                  <polygon
-                    className="dark:fill-neutral-800"
-                    fill="#e4e4e7"
-                    points="260,70 90,170 140,360 260,260"
-                    stroke="#090909"
-                    strokeWidth="1.5"
-                  >
-                    <animateTransform
-                      attributeName="transform"
-                      dur="60s"
-                      from="0 260 260"
-                      repeatCount="indefinite"
-                      to="360 260 260"
-                      type="rotate"
-                    />
-                  </polygon>
-                  <polygon
-                    className="dark:fill-neutral-900"
-                    fill="#f4f4f5"
-                    points="140,360 260,450 380,360 260,260"
-                    stroke="#090909"
-                    strokeWidth="1.5"
-                  >
-                    <animateTransform
-                      attributeName="transform"
-                      dur="60s"
-                      from="0 260 260"
-                      repeatCount="indefinite"
-                      to="360 260 260"
-                      type="rotate"
-                    />
-                  </polygon>
-                </g>
-                <g>
-                  <polygon
-                    className="stroke-neutral-900 dark:stroke-white"
-                    fill="none"
-                    points="260,150 360,210 360,310 260,370 160,310 160,210"
-                    strokeWidth="1.5"
-                  >
-                    <animateTransform
-                      attributeName="transform"
-                      dur="40s"
-                      from="360 260 260"
-                      repeatCount="indefinite"
-                      to="0 260 260"
-                      type="rotate"
-                    />
-                  </polygon>
-                </g>
-                <text
-                  className="fill-neutral-600 dark:fill-neutral-400"
-                  fontFamily="monospace"
-                  fontSize="10"
-                  letterSpacing="1.5"
-                  x="32"
-                  y="50"
-                >
-                  ENFORCED_STATE::S256
-                </text>
-                <text
-                  className="fill-neutral-600 dark:fill-neutral-400"
-                  fontFamily="monospace"
-                  fontSize="10"
-                  letterSpacing="1.5"
-                  textAnchor="end"
-                  x="488"
-                  y="50"
-                >
-                  KEY_EXCHANGE::AES-GCM
-                </text>
-                <text
-                  className="fill-neutral-500 dark:fill-neutral-500"
-                  fontFamily="monospace"
-                  fontSize="9"
-                  letterSpacing="1"
-                  x="32"
-                  y="475"
-                >
-                  ROUND_TRIP &lt; 1.2ms
-                </text>
-                <text
-                  className="fill-neutral-600 dark:fill-neutral-400"
-                  fontFamily="monospace"
-                  fontSize="9"
-                  letterSpacing="1.5"
-                  textAnchor="end"
-                  x="488"
-                  y="475"
-                >
-                  AUTH_BUS::SYNC
-                </text>
-              </svg>
-            </div>
-
-            {/* Bottom Status strip */}
-            <div className="flex items-center justify-between border-t border-[#eaeaea] dark:border-[#222329] px-3 py-1.5 text-[11px] font-mono text-neutral-600 dark:text-neutral-400 bg-neutral-50 dark:bg-neutral-900/50">
-              <span>DAEMON STATUS: OPERATIONAL</span>
-              <span className="text-neutral-500">SHA-256 S256 VALIDATED</span>
-            </div>
+                ENFORCED_STATE::S256
+              </text>
+              <text
+                className="fill-neutral-500 dark:fill-neutral-400 font-mono text-[10px]"
+                letterSpacing="1.5"
+                textAnchor="end"
+                x="488"
+                y="50"
+              >
+                HASHING::BCRYPT_10_SALT
+              </text>
+              <text
+                className="fill-neutral-500 dark:fill-neutral-400 font-mono text-[9px]"
+                letterSpacing="1"
+                x="32"
+                y="475"
+              >
+                SPEC::RFC_7636
+              </text>
+              <text
+                className="fill-neutral-500 dark:fill-neutral-400 font-mono text-[9px]"
+                letterSpacing="1.5"
+                textAnchor="end"
+                x="488"
+                y="475"
+              >
+                SOCKET_IO::REVOCATION
+              </text>
+            </svg>
           </div>
         </div>
       </div>

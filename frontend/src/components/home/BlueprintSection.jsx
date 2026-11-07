@@ -1,4 +1,5 @@
 import React from "react";
+import TechSeparator from "@/components/common/TechSeparator";
 
 export const BlueprintSection = () => {
   return (
@@ -38,22 +39,16 @@ export const BlueprintSection = () => {
               y2="448"
             />
           </g>
-          <g fill="currentColor" fontFamily="monospace" fontSize="8">
-            <text x="48" y="28">
-              SYS_AXIS::SEC_01 [LATENCY &lt; 0.4ms]
-            </text>
-            <text textAnchor="end" x="1312" y="28">
-              ENCRYPT_MATRIX::AES256
-            </text>
-          </g>
         </svg>
       </div>
 
       {/* Header and Eyebrow */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 relative z-10">
         <div className="max-w-2xl">
-          <div className="text-[11px] font-mono uppercase tracking-widest text-neutral-500 dark:text-neutral-400 mb-2">
-            01 // Architectural Blueprint
+          <div className="text-[11px] font-mono uppercase tracking-widest text-neutral-500 dark:text-neutral-400 mb-2 flex items-center">
+            <span>01</span>
+            <TechSeparator />
+            <span>Architectural Blueprint</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
             Identity should be simple. Infrastructure should be reliable.
@@ -140,7 +135,7 @@ export const BlueprintSection = () => {
                 <span className="font-semibold text-neutral-900 dark:text-white uppercase tracking-wider">
                   02. Secure Core Engine
                 </span>
-                <span className="text-neutral-500">IN-MEMORY BUS</span>
+                <span className="text-neutral-500">EXPRESS + MONGODB</span>
               </div>
               <div className="space-y-3 font-mono text-xs mt-4">
                 <div className="p-3 border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950">
@@ -151,8 +146,8 @@ export const BlueprintSection = () => {
                     PKCE Verifier
                   </div>
                   <div className="text-[11px] text-neutral-500 mt-1">
-                    Calculates SHA-256 code challenge with non-reusable single
-                    time nonces.
+                    Validates SHA-256 code verifier against stored S256 code
+                    challenge.
                   </div>
                 </div>
                 <div className="p-3 border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950">
@@ -163,8 +158,8 @@ export const BlueprintSection = () => {
                     Token Rotation Vault
                   </div>
                   <div className="text-[11px] text-neutral-500 mt-1">
-                    Atomic single-use refresh token invalidation with replay
-                    anomaly alarms.
+                    Single-use refresh token exchange with native MongoDB TTL
+                    expiration.
                   </div>
                 </div>
                 <div className="p-3 border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950">
@@ -172,18 +167,18 @@ export const BlueprintSection = () => {
                     MODULE 03
                   </div>
                   <div className="font-medium text-neutral-900 dark:text-white">
-                    WebSocket Session Sync
+                    WebSocket Session Revocation
                   </div>
                   <div className="text-[11px] text-neutral-500 mt-1">
-                    Instant cross-device revocation broadcast via lightweight
-                    binary bus.
+                    Cross-device session termination broadcast via Socket.io
+                    events.
                   </div>
                 </div>
               </div>
             </div>
             <div className="flex items-center justify-between pt-2 text-[11px] font-mono text-neutral-600 dark:text-neutral-400 border-t border-neutral-200 dark:border-neutral-800">
-              <span>ACTIVE TTL: 900 SEC</span>
-              <span>ENCRYPTION: AES-256</span>
+              <span>ACCESS TTL: 15 MIN</span>
+              <span>SIGNING: HMAC-SHA256</span>
             </div>
           </div>
 
@@ -226,10 +221,10 @@ export const BlueprintSection = () => {
                 <div className="p-3 border border-neutral-200 dark:border-neutral-800 flex items-center justify-between">
                   <div>
                     <div className="font-medium text-neutral-900 dark:text-white">
-                      Edge API Workers
+                      Backend APIs &amp; Services
                     </div>
                     <div className="text-[11px] text-neutral-500">
-                      Cloudflare / Fastly / Node
+                      Node.js / Express / Next.js
                     </div>
                   </div>
                   <span className="text-[11px] font-semibold text-neutral-900 dark:text-white">

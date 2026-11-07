@@ -1,164 +1,289 @@
 import React from "react";
-import { Settings2, ShieldCheck, Mail, Zap, Globe } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import {
+  Globe,
+  ShieldCheck,
+  Clock,
+  Mail,
+  AlertTriangle,
+  Sliders,
+  Radio,
+} from "lucide-react";
+import TechSeparator from "@/components/common/TechSeparator";
+import DocsCodeBlock from "../DocsCodeBlock";
 
 const Configuration = () => {
+  const rateLimitRules = [
+    {
+      endpoint: "Auth Endpoints (/sdk/login-local, /sdk/register)",
+      limit: "20 attempts / 1 hour",
+      action: "HTTP 429 Too Many Requests",
+      scope: "Per IP address via authLimiter",
+    },
+    {
+      endpoint: "Brute Force Protection",
+      limit: "5 failed attempts",
+      action: "15-minute lockout (configurable in Project settings)",
+      scope: "Per account credential",
+    },
+    {
+      endpoint: "Global API Limiter",
+      limit: "100 requests / 15 minutes",
+      action: "HTTP 429 Too Many Requests with RateLimit-* headers",
+      scope: "Per IP address via globalLimiter",
+    },
+    {
+      endpoint: "POST /sdk/verify-otp",
+      limit: "5 attempts per code",
+      action: "Invalidates OTP; user must request new code",
+      scope: "Per email + transaction ID",
+    },
+  ];
+
   return (
-    <article className="space-y-12 animate-in fade-in duration-500">
-      <div className="space-y-3">
-        <Badge
-          variant="outline"
-          className="bg-primary/5 text-primary border-primary/20"
-        >
-          Policy Engine v1.2
-        </Badge>
-        <h1 className="text-3xl font-bold tracking-tight">
-          Project Configuration & Policy Engine
+    <article className="space-y-8 text-neutral-900 dark:text-neutral-100 font-sans">
+      {/* Eyebrow Header */}
+      <div className="border-b border-neutral-200 dark:border-[#222329] pb-4 space-y-2">
+        <div className="flex items-center text-xs font-mono text-neutral-500 uppercase tracking-widest">
+          <span>07</span>
+          <TechSeparator />
+          <span>PROJECT SPECIFICATION</span>
+          <TechSeparator />
+          <span>CONFIGURATION &amp; POLICIES</span>
+        </div>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+          Project Configuration &amp; Security Policies
         </h1>
-        <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
-          AuthSphere provides a centralized command center for your identity
-          policies. Changes made in the dashboard are propagated across our
-          global edge nodes in under 2 seconds.
+        <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed max-w-3xl">
+          Fine-tune CORS whitelist origins, enforcement gates for unverified
+          users, rate limiting thresholds, and transactional email branding.
         </p>
       </div>
 
-      <div className="space-y-16">
-        {/* Security Policies */}
-        <section className="space-y-6">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-red-500/10 flex items-center justify-center text-red-500">
-              <ShieldCheck className="h-5 w-5" />
-            </div>
-            <h3 className="text-lg font-bold">Identity Security Policies</h3>
+      <div className="space-y-8">
+        {/* Origin & CORS Policies */}
+        <section className="space-y-4">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-mono font-bold text-neutral-500">
+              [01]
+            </span>
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+              CORS &amp; Allowed Origin Whitelisting
+            </h2>
           </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <h4 className="text-sm font-bold flex items-center gap-2">
-                Strict Verification
-              </h4>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                When enabled, the system enforces a <strong>hard-block</strong>{" "}
-                on unverified users. No JWTs will be issued until the user
-                successfully clears the email challenge. Recommended for
-                production environments to prevent account-takeover vectors.
-              </p>
-            </div>
-            <div className="space-y-4">
-              <h4 className="text-sm font-bold flex items-center gap-2">
-                Adaptive Rate Limiting
-              </h4>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Protects your project from brute-force attempts. Our engine
-                analyzes login velocity and automatically blacklists suspicious
-                IPs. You can configure custom thresholds for critical endpoints
-                like <code>/login</code> and <code>/register</code>.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Network & CORS */}
-        <section className="space-y-6">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500">
-              <Globe className="h-5 w-5" />
-            </div>
-            <h3 className="text-lg font-bold">Network & Origin Security</h3>
-          </div>
-
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            AuthSphere utilizes a dynamic Origin policy engine. Every SDK
-            request must contain an <code>Origin</code>
-            header matching your whitelist. Requests from unauthorized origins
-            are rejected with a <code>403 Forbidden</code> response.
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+            Every browser request to the AuthSphere SDK transmits an{" "}
+            <code>Origin</code> header. The AuthSphere gateway rejects requests
+            from unlisted origins with an immediate <code>403 Forbidden</code> (
+            <code>ORIGIN_NOT_ALLOWED</code>) response before any cryptographic
+            processing occurs.
           </p>
 
-          <div className="p-6 rounded-2xl border bg-card/50 space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
-              Best Practices
-            </h4>
-            <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3">
-              {[
-                "Avoid wildcards (*) in production.",
-                "Explicitly list dev/staging subdomains.",
-                "Enable HSTS on all client origins.",
-                "Use separate projects for Dev and Prod.",
-              ].map((li, i) => (
-                <li
-                  key={i}
-                  className="flex items-center gap-2 text-[11px] text-muted-foreground"
-                >
-                  <div className="h-1 w-1 rounded-full bg-primary" />
-                  {li}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-5 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] space-y-3">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                <Globe className="h-4 w-4" />
+                <span>VALID ORIGIN EXAMPLES</span>
+              </div>
+              <ul className="text-xs font-mono space-y-2 text-neutral-600 dark:text-neutral-400">
+                <li className="p-2 rounded bg-neutral-50 dark:bg-[#181920] border border-neutral-200 dark:border-[#25262f]">
+                  <code>https://app.yourdomain.com</code>
                 </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        {/* Brand Configuration */}
-        <section className="space-y-6">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-500">
-              <Settings2 className="h-5 w-5" />
-            </div>
-            <h3 className="text-lg font-bold">
-              Brand Syncing & Template Orchestration
-            </h3>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 items-start">
-            <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
-              <p>
-                Every project includes a dedicated **Email Customization
-                Engine**. You can override the default system appearance to
-                match your application's design system.
-              </p>
-              <ul className="space-y-2">
-                {[
-                  "Primary brand color for buttons and links",
-                  "Custom logo URL for email headers",
-                  "Configurable Support, Privacy, and Security URLs",
-                  "Technical metadata visibility toggles",
-                ].map((li, i) => (
-                  <li key={i} className="flex items-center gap-2">
-                    <div className="h-1 w-1 rounded-full bg-indigo-500" />
-                    {li}
-                  </li>
-                ))}
+                <li className="p-2 rounded bg-neutral-50 dark:bg-[#181920] border border-neutral-200 dark:border-[#25262f]">
+                  <code>http://localhost:5173</code> (Dev only)
+                </li>
+                <li className="p-2 rounded bg-neutral-50 dark:bg-[#181920] border border-neutral-200 dark:border-[#25262f]">
+                  <code>capacitor://localhost</code> (Mobile)
+                </li>
               </ul>
             </div>
-            <div className="p-5 rounded-2xl border bg-card/30 space-y-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider">
-                Test Delivery
-              </h4>
-              <p className="text-[11px] text-muted-foreground leading-relaxed">
-                Before going live, use the integrated **Deliverability Tester**.
-                It sends a real-world render of your template to your specific
-                inbox, allowing you to catch layout issues across different
-                email clients (Gmail, Outlook, Apple Mail).
-              </p>
+
+            <div className="p-5 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] space-y-3">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-600 dark:text-amber-400">
+                <AlertTriangle className="h-4 w-4" />
+                <span>ORIGIN CONSTRAINTS</span>
+              </div>
+              <ul className="text-xs font-sans space-y-2 text-neutral-600 dark:text-neutral-400">
+                <li className="flex items-start gap-2">
+                  <span className="font-mono text-[10px] text-neutral-400 mt-0.5">
+                    •
+                  </span>
+                  <span>
+                    No trailing slashes: <code>https://example.com/</code> will
+                    fail matching.
+                  </span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="font-mono text-[10px] text-neutral-400 mt-0.5">
+                    •
+                  </span>
+                  <span>
+                    No wildcards (<code>*</code>) allowed in production
+                    projects.
+                  </span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="font-mono text-[10px] text-neutral-400 mt-0.5">
+                    •
+                  </span>
+                  <span>
+                    Ports must be explicitly included for non-standard ports
+                    (e.g. <code>:3000</code>).
+                  </span>
+                </li>
+              </ul>
             </div>
           </div>
         </section>
 
-        {/* Real-time propagation */}
-        <div className="p-6 rounded-2xl bg-primary/5 border border-primary/10 flex gap-4 items-center">
-          <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-            <Zap className="h-5 w-5 text-primary" />
+        {/* Strict Verification Policy */}
+        <section className="space-y-4">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-mono font-bold text-neutral-500">
+              [02]
+            </span>
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+              Strict Email Verification Gate
+            </h2>
           </div>
-          <div className="space-y-1">
-            <h4 className="text-sm font-bold">
-              Real-time Policy Synchronization
-            </h4>
-            <p className="text-xs text-muted-foreground">
-              When you toggle a security policy, the AuthSphere SDKs in the wild
-              receive the update in real-time via our persistent socket bridge,
-              ensuring zero-lag security enforcement.
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+            In the project dashboard under <strong>Policies</strong>, you can
+            enforce hard verification before session tokens can be minted.
+          </p>
+
+          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-neutral-50/50 dark:bg-[#121316] p-5 space-y-3">
+            <div className="flex items-center justify-between text-xs font-mono">
+              <span className="font-bold text-neutral-900 dark:text-white">
+                Policy Behavior: strictVerification = true
+              </span>
+              <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[10px] font-bold">
+                ENFORCED
+              </span>
+            </div>
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed">
+              When a user submits credentials via <code>loginLocal()</code>,
+              AuthSphere checks the user's email verification status in the
+              database. If <code>is_verified: false</code>, the server halts
+              execution and responds with:
             </p>
+            <DocsCodeBlock
+              id="strict-verif-response"
+              code={`// HTTP 403 Forbidden
+{
+  "success": false,
+  "error_code": "EMAIL_NOT_VERIFIED",
+  "message": "User email address is not verified. Complete OTP verification.",
+  "sdk_request": "as_req_99f2b8a71c..."
+}`}
+              language="json"
+            />
           </div>
-        </div>
+        </section>
+
+        {/* Rate Limiting */}
+        <section className="space-y-4">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-mono font-bold text-neutral-500">
+              [03]
+            </span>
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+              Adaptive Rate Limiting &amp; Lockout Thresholds
+            </h2>
+          </div>
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+            AuthSphere enforces express-rate-limit middleware with standard
+            RateLimit-* response headers and project-level brute-force
+            thresholds. Excessive requests receive immediate 429 status codes:
+          </p>
+
+          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden">
+            <div className="px-5 py-2.5 border-b border-neutral-200 dark:border-[#222329] bg-neutral-100/60 dark:bg-[#15161b] text-[11px] font-mono text-neutral-500 font-semibold uppercase tracking-wider flex items-center justify-between">
+              <span>ENDPOINT</span>
+              <span>THRESHOLD &amp; ENFORCEMENT</span>
+            </div>
+            <div className="divide-y divide-neutral-200/60 dark:divide-[#1e2026]">
+              {rateLimitRules.map((rule, idx) => (
+                <div
+                  key={idx}
+                  className="px-5 py-3 flex flex-col md:flex-row md:items-center justify-between gap-2 text-xs font-mono"
+                >
+                  <div className="space-y-0.5">
+                    <span className="font-bold text-neutral-900 dark:text-white">
+                      {rule.endpoint}
+                    </span>
+                    <span className="block text-[11px] text-neutral-500 dark:text-neutral-400">
+                      Scope: {rule.scope}
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                      {rule.limit}
+                    </span>
+                    <span className="block text-[11px] text-neutral-500 dark:text-neutral-400">
+                      {rule.action}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Brand & Template Configuration */}
+        <section className="space-y-4">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-mono font-bold text-neutral-500">
+              [04]
+            </span>
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+              Transactional Email &amp; Delivery Parameters
+            </h2>
+          </div>
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+            You can customize every outbound OTP email directly in the{" "}
+            <strong>Email Customization</strong> section of the dashboard:
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-4 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] space-y-1.5">
+              <span className="text-[11px] font-mono text-neutral-500 uppercase">
+                BRANDING ACCENT
+              </span>
+              <p className="text-xs font-mono font-bold text-neutral-900 dark:text-white">
+                Primary Hex Color
+              </p>
+              <p className="text-xs text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed">
+                Controls the color of verification action buttons, OTP digit
+                boxes, and header banners.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] space-y-1.5">
+              <span className="text-[11px] font-mono text-neutral-500 uppercase">
+                ASSET HOSTING
+              </span>
+              <p className="text-xs font-mono font-bold text-neutral-900 dark:text-white">
+                Company Emblem URL
+              </p>
+              <p className="text-xs text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed">
+                HTTPS URL to your SVG or PNG logo, rendered in the header of all
+                transaction emails.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] space-y-1.5">
+              <span className="text-[11px] font-mono text-neutral-500 uppercase">
+                REPUTATION &amp; TRUST
+              </span>
+              <p className="text-xs font-mono font-bold text-neutral-900 dark:text-white">
+                Support &amp; Legal Links
+              </p>
+              <p className="text-xs text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed">
+                Configurable Privacy Policy, Terms, and Help Desk URLs injected
+                into RFC-compliant footers.
+              </p>
+            </div>
+          </div>
+        </section>
       </div>
     </article>
   );

@@ -1,75 +1,115 @@
 import React from "react";
 import { Layers } from "lucide-react";
 import DocsCodeBlock from "../DocsCodeBlock";
+import TechSeparator from "@/components/common/TechSeparator";
 
-const Frameworks = ({ publicKey }) => {
+const Frameworks = () => {
   return (
-    <article className="space-y-6 animate-in fade-in duration-500">
-      <div className="space-y-1.5">
-        <h1 className="text-2xl font-bold tracking-tight">
-          Modern Framework Integration
+    <article className="space-y-8 text-neutral-900 dark:text-neutral-100 font-sans">
+      {/* Eyebrow Header */}
+      <div className="border-b border-neutral-200 dark:border-[#222329] pb-4 space-y-2">
+        <div className="flex items-center text-xs font-mono text-neutral-500 uppercase tracking-widest">
+          <span>05</span>
+          <TechSeparator />
+          <span>FRAMEWORK ADAPTERS</span>
+          <TechSeparator />
+          <span>REACT &amp; NODE.JS</span>
+        </div>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+          Framework Integration Patterns
         </h1>
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          While the core SDK is vanilla-JS compatible, we provide high-level
-          primitives for modern component-based frameworks to simplify state
-          propagation and hydration.
+        <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed max-w-2xl">
+          Practical patterns for wiring AuthSphere into React SPAs, Next.js
+          applications, and backend API middleware.
         </p>
       </div>
 
       <div className="space-y-8">
-        {/* React Context */}
+        {/* React Hook Pattern */}
         <section className="space-y-3">
-          <h3 className="text-sm font-bold flex items-center gap-2">
-            <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-            React Context Architecture
-          </h3>
-          <p className="text-[12px] text-muted-foreground leading-relaxed">
-            The <code>AuthProvider</code> component implements a top-level
-            context provider that manages the reactive state of the currently
-            authenticated user. It handles automatic local storage hydration
-            during the initial mount and provides a centralized bus for
-            session-related events (login, logout, token refresh).
+          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white flex items-center gap-2">
+            <span>[01]</span>
+            <span>React SPA: State &amp; Protected Route</span>
+          </h2>
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+            Create a custom hook or wrapper component to gate access to
+            authenticated routes:
           </p>
           <DocsCodeBlock
-            id="react-provider"
-            code={`// App.jsx\nimport AuthSphere from '@authspherejs/sdk';\n\nAuthSphere.initAuth({\n  publicKey: '${publicKey}',\n  projectId: 'YOUR_PROJECT_ID',\n  redirectUri: window.location.origin + '/callback'\n});\n\nfunction App() {\n  return <MyRoutes />;\n}`}
+            id="react-protected-route"
+            code={`import React, { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import AuthSphere from '@authspherejs/sdk';
+
+export const ProtectedRoute = ({ children }) => {
+  const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Check if valid token exists in storage
+    const authed = AuthSphere.isAuthenticated();
+    setAuthenticated(authed);
+    setLoading(false);
+  }, []);
+
+  if (loading) return <div>Checking session...</div>;
+  if (!authenticated) return <Navigate to="/login" replace />;
+
+  return children;
+};`}
             language="javascript"
           />
         </section>
 
-        {/* Auth Hooks */}
+        {/* Backend Middleware */}
         <section className="space-y-3">
-          <h3 className="text-sm font-bold flex items-center gap-2">
-            <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-            Reactive Session Hooks
-          </h3>
-          <p className="text-[12px] text-muted-foreground leading-relaxed">
-            The <code>useAuth</code> hook provides typesafe access to the
-            authentication state. It exposes boolean flags like{" "}
-            <code>isLoading</code> and <code>isAuthenticated</code>, allowing
-            for deterministic UI rendering during the token validation phase.
+          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white flex items-center gap-2">
+            <span>[02]</span>
+            <span>Node / Express: JWT Verification Middleware</span>
+          </h2>
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+            AuthSphere access tokens are standard HMAC-SHA256 (HS256) JWTs. Your
+            backend can verify incoming{" "}
+            <code>Authorization: Bearer &lt;token&gt;</code> headers using
+            standard libraries like <code>jsonwebtoken</code>:
           </p>
           <DocsCodeBlock
-            id="react-hooks"
-            code={`import AuthSphere from '@authspherejs/sdk';\n\nconst UserProfile = () => {\n  const user = AuthSphere.getUser();\n  const authenticated = AuthSphere.isAuthenticated();\n\n  if (!authenticated) return <LoginButton />;\n\n  return ( \n    <div>\n       Welcome, {user.username}\n       <button onClick={() => AuthSphere.logout()}>Logout</button>\n    </div>\n  );\n}`}
+            id="node-express-middleware"
+            code={`import jwt from 'jsonwebtoken';
+
+export function requireAuth(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader?.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Missing or malformed Authorization header' });
+  }
+
+  const token = authHeader.split(' ')[1];
+  try {
+    const payload = jwt.verify(token, process.env.AUTHTOKEN_SECRET, {
+      algorithms: ['HS256'],
+    });
+
+    req.user = payload; // Contains sub (userId), email, username, and projectId
+    next();
+  } catch (err) {
+    return res.status(401).json({ error: 'Invalid or expired session token' });
+  }
+}`}
             language="javascript"
           />
         </section>
 
-        <div className="p-3 bg-indigo-500/5 border border-indigo-500/10 rounded-xl flex gap-3 items-start">
-          <Layers size={16} className="text-indigo-500 mt-0.5" />
-          <div className="space-y-1">
-            <p className="text-[11px] font-bold text-indigo-900 dark:text-indigo-100">
-              Server-Side Support
-            </p>
-            <p className="text-[10px] text-muted-foreground leading-relaxed italic">
-              Our SDKs are designed for universal execution. Use the same
-              primitives in Next.js (Client Components) or standard SPA
-              environments. SSR Support for middleware-based session guarding is
-              available via our <code>@authspherejs/sdk</code> cookie-aware
-              utilities.
-            </p>
-          </div>
+        {/* Next.js Note */}
+        <div className="p-4 rounded-xl border border-neutral-200 dark:border-[#222329] bg-neutral-50 dark:bg-[#15161b] space-y-1 font-mono text-xs">
+          <span className="font-bold text-neutral-900 dark:text-white">
+            NEXT.JS SERVER COMPONENTS &amp; COOKIES
+          </span>
+          <p className="text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed text-xs">
+            For Next.js App Router applications, set{" "}
+            <code>storageType: 'cookie'</code> in your client configuration so
+            access and refresh tokens are sent along with server-rendered
+            document requests.
+          </p>
         </div>
       </div>
     </article>

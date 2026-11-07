@@ -46,6 +46,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Link, useNavigate } from "react-router-dom";
 import { allProvidersList } from "@/lib/providers";
 import ProvidersPage from "@/pages/project/ProvidersPage";
+import TechSeparator from "@/components/common/TechSeparator";
 
 const ProjectSettings = ({ project, onUpdated }) => {
   const navigate = useNavigate();
@@ -266,35 +267,38 @@ const ProjectSettings = ({ project, onUpdated }) => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row gap-12 items-start mt-4">
-      {/* Sidebar Navigation */}
-      <aside className="w-full lg:w-64 shrink-0 lg:sticky lg:top-24">
-        <div className="hidden lg:block mb-8 px-4">
-          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] mb-4">
-            Project Settings
-          </p>
+    <div className="flex flex-col lg:flex-row gap-8 items-start mt-2">
+      {/* ─── SIDEBAR NAVIGATION ─── */}
+      <aside className="w-full lg:w-68 shrink-0 lg:sticky lg:top-24 space-y-3">
+        <div className="hidden lg:flex items-center gap-1.5 px-3 py-1 text-[10px] font-mono uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
+          <span>04</span>
+          <TechSeparator />
+          <span>PROJECT SPEC MATRIX</span>
         </div>
 
-        <div className="flex lg:flex-col gap-1 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 no-scrollbar lg:border-r lg:pr-8">
-          {sections.map((section) => {
+        <div className="flex lg:flex-col gap-1.5 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0 no-scrollbar border-b lg:border-b-0 lg:border-r border-[#eaeaea] dark:border-[#222329] lg:pr-6">
+          {sections.map((section, idx) => {
             const Icon = section.icon;
             const isActive = activeSection === section.id;
             return (
               <button
                 key={section.id}
                 onClick={() => setActiveSection(section.id)}
-                className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap lg:w-full group ${
+                className={`flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-mono transition-all duration-150 whitespace-nowrap lg:w-full cursor-pointer ${
                   isActive
-                    ? "bg-primary/10 text-primary shadow-[inset_0_0_0_1px_rgba(var(--primary),0.1)]"
+                    ? "bg-neutral-900 text-white dark:bg-white dark:text-black font-semibold shadow-xs"
                     : section.id === "danger"
-                      ? "text-red-500 hover:bg-red-500/5 hover:text-red-600"
-                      : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                      ? "text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30"
+                      : "text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-[#16171d] hover:text-neutral-900 dark:hover:text-white"
                 }`}
               >
-                <Icon
-                  className={`h-4 w-4 shrink-0 transition-transform duration-200 ${isActive ? "scale-110" : "group-hover:scale-110"}`}
-                />
-                <span>{section.label}</span>
+                <div className="flex items-center gap-2.5">
+                  <Icon className="h-3.5 w-3.5 shrink-0" />
+                  <span>{section.label}</span>
+                </div>
+                <span className="text-[10px] opacity-60 hidden lg:inline">
+                  [0{idx + 1}]
+                </span>
               </button>
             );
           })}
@@ -304,19 +308,17 @@ const ProjectSettings = ({ project, onUpdated }) => {
       {/* Content Area */}
       <div className="flex-1 space-y-8 min-w-0 pb-24">
         {activeSection === "general" && (
-          <Card className="border-none shadow-sm bg-card/50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-xl">
-                <Settings className="h-5 w-5 text-primary" />
-                General Settings
-              </CardTitle>
-              <CardDescription className="text-sm leading-relaxed mt-2">
-                Configure the basic identity and branding for your
-                authentication project. These settings control how your project
-                appears to developers and end users.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
+          <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
+            <div className="px-6 py-4 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
+              <span className="font-semibold text-neutral-900 dark:text-white flex items-center gap-2">
+                <Settings className="h-4 w-4 text-neutral-400" />
+                <span>GENERAL SPECIFICATION &amp; BRANDING</span>
+              </span>
+              <span className="text-[10px] text-neutral-500 font-mono">
+                [SECTION 01]
+              </span>
+            </div>
+            <div className="p-6 space-y-6">
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="space-y-3">
                   <Label htmlFor="name" className="text-sm font-semibold">
@@ -412,25 +414,22 @@ const ProjectSettings = ({ project, onUpdated }) => {
                   </p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         )}
 
         {activeSection === "auth" && (
-          <Card className="border-none shadow-sm bg-card/50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-xl">
-                <Globe className="h-5 w-5 text-primary" />
-                Authentication Flow Configuration
-              </CardTitle>
-              <CardDescription className="text-sm leading-relaxed mt-2">
-                Define where users can be redirected after authentication and
-                which domains can make API requests to your project. These
-                settings are critical for security and proper OAuth 2.0 flow
-                implementation.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-8">
+          <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
+            <div className="px-6 py-4 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
+              <span className="font-semibold text-neutral-900 dark:text-white flex items-center gap-2">
+                <Globe className="h-4 w-4 text-neutral-400" />
+                <span>AUTHENTICATION FLOW &amp; REDIRECT MATRIX</span>
+              </span>
+              <span className="text-[10px] text-neutral-500 font-mono">
+                [SECTION 02]
+              </span>
+            </div>
+            <div className="p-6 space-y-8">
               {/* Redirect URIs */}
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
@@ -623,24 +622,22 @@ const ProjectSettings = ({ project, onUpdated }) => {
                   </Button>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         )}
 
         {activeSection === "security" && (
-          <Card className="border-none shadow-sm bg-card/50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-xl">
-                <Lock className="h-5 w-5 text-primary" />
-                Security Policies & Session Management
-              </CardTitle>
-              <CardDescription className="text-sm leading-relaxed mt-2">
-                Configure authentication security measures, session token
-                lifetimes, and protection mechanisms. These settings directly
-                impact your application's security posture and user experience.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-8">
+          <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
+            <div className="px-6 py-4 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
+              <span className="font-semibold text-neutral-900 dark:text-white flex items-center gap-2">
+                <Lock className="h-4 w-4 text-neutral-400" />
+                <span>SECURITY POLICIES &amp; ENCLAVE PROTECTION</span>
+              </span>
+              <span className="text-[10px] text-neutral-500 font-mono">
+                [SECTION 03]
+              </span>
+            </div>
+            <div className="p-6 space-y-8">
               {/* Authentication Requirements */}
               <div className="space-y-4">
                 <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
@@ -955,17 +952,22 @@ const ProjectSettings = ({ project, onUpdated }) => {
                   </div>
                 )}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         )}
 
         {activeSection === "providers" && (
-          <div className="space-y-6">
-            <div className="flex flex-col gap-2">
-              <h2 className="text-2xl font-black tracking-tight flex items-center gap-3">
-                <ShieldCheck className="h-6 w-6 text-primary" />
-                Active Providers
-              </h2>
+          <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
+            <div className="px-6 py-4 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
+              <span className="font-semibold text-neutral-900 dark:text-white flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4 text-emerald-500" />
+                <span>ENROLLED IDENTITY PROVIDERS</span>
+              </span>
+              <span className="text-[10px] text-neutral-500 font-mono">
+                [SECTION 04]
+              </span>
+            </div>
+            <div className="p-6 space-y-6">
               <p className="text-muted-foreground text-sm max-w-2xl">
                 The following methods are currently enabled for your project. To
                 add more or configure settings, visit the main{" "}
@@ -1011,23 +1013,26 @@ const ProjectSettings = ({ project, onUpdated }) => {
         )}
 
         {activeSection === "danger" && (
-          <Card className="border-red-500/20 bg-red-500/5 shadow-inner">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-xl text-red-600">
-                <AlertTriangle className="h-5 w-5" />
-                Danger Zone
-              </CardTitle>
-              <CardDescription className="text-red-900/60">
-                Critical actions that cannot be undone. Be careful.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-red-200 rounded-xl bg-background/50 gap-4">
+          <div className="border border-red-200 dark:border-red-900/40 bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
+            <div className="px-6 py-4 border-b border-red-200 dark:border-red-900/40 flex items-center justify-between text-xs font-mono bg-red-50/50 dark:bg-red-950/20">
+              <span className="font-semibold text-red-600 dark:text-red-400 flex items-center gap-2">
+                <AlertTriangle className="h-4 w-4" />
+                <span>IRREVERSIBLE OPERATIONS // DANGER ZONE</span>
+              </span>
+              <span className="text-[10px] text-red-500 font-mono">
+                [SECTION 05]
+              </span>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-red-200/80 dark:border-red-900/30 rounded-xl bg-red-50/20 dark:bg-red-950/10 gap-4 font-mono text-xs">
                 <div>
-                  <h4 className="font-semibold text-red-950">Delete Project</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Permanently delete this project and all its data including
-                    users and settings.
+                  <h4 className="font-bold text-red-700 dark:text-red-400">
+                    Purge Project Namespace
+                  </h4>
+                  <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
+                    Permanently delete this project namespace and purge all
+                    associated cryptographic keys, registered users, and
+                    configuration policies.
                   </p>
                 </div>
 
@@ -1038,29 +1043,29 @@ const ProjectSettings = ({ project, onUpdated }) => {
                   <DialogTrigger asChild>
                     <Button
                       variant="destructive"
-                      className="gap-2 shadow-lg shadow-red-500/20"
+                      className="gap-2 font-mono text-xs cursor-pointer bg-red-600 hover:bg-red-700 text-white shrink-0"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-3.5 w-3.5" />
                       Delete Project
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[450px]">
+                  <DialogContent className="sm:max-w-112.5 border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#0c0d10] font-mono text-xs">
                     <DialogHeader>
-                      <div className="h-12 w-12 bg-destructive/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <AlertTriangle className="h-6 w-6 text-destructive" />
+                      <div className="h-12 w-12 rounded-xl bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 flex items-center justify-center mx-auto mb-2">
+                        <AlertTriangle className="h-6 w-6" />
                       </div>
-                      <DialogTitle className="text-center text-xl">
-                        Delete Project?
+                      <DialogTitle className="text-center text-lg font-bold text-neutral-900 dark:text-white">
+                        Purge Project Namespace?
                       </DialogTitle>
-                      <DialogDescription className="text-center">
+                      <DialogDescription className="text-center text-neutral-500 leading-relaxed text-xs">
                         This action <strong>cannot be undone</strong>. All user
-                        data, credentials, and settings will be purged
-                        immediately. Type <strong>{project.name}</strong> below
-                        to confirm.
+                        data, cryptographic credentials, and sessions will be
+                        permanently purged. Type <strong>{project.name}</strong>{" "}
+                        below to confirm.
                       </DialogDescription>
                     </DialogHeader>
 
-                    <div className="py-4">
+                    <div className="py-3">
                       <Label htmlFor="confirm" className="sr-only">
                         Project name
                       </Label>
@@ -1069,7 +1074,7 @@ const ProjectSettings = ({ project, onUpdated }) => {
                         placeholder={project.name}
                         value={confirmName}
                         onChange={(e) => setConfirmName(e.target.value)}
-                        className="text-center h-12 text-lg font-semibold"
+                        className="text-center h-10 font-mono text-sm font-semibold border-[#eaeaea] dark:border-[#2a2b33]"
                       />
                     </div>
 
@@ -1078,16 +1083,16 @@ const ProjectSettings = ({ project, onUpdated }) => {
                         variant="destructive"
                         disabled={confirmName !== project.name || deleting}
                         onClick={handleDeleteProject}
-                        className="w-full h-11"
+                        className="w-full h-10 font-mono text-xs bg-red-600 hover:bg-red-700 text-white cursor-pointer"
                       >
                         {deleting
-                          ? "Deleting..."
-                          : "I understand the consequences, delete this project"}
+                          ? "Purging Project..."
+                          : "Confirm Irreversible Deletion"}
                       </Button>
                       <Button
                         variant="ghost"
                         onClick={() => setDeleteDialogOpen(false)}
-                        className="w-full"
+                        className="w-full font-mono text-xs cursor-pointer"
                       >
                         Cancel
                       </Button>
@@ -1095,27 +1100,34 @@ const ProjectSettings = ({ project, onUpdated }) => {
                   </DialogContent>
                 </Dialog>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         )}
       </div>
 
       {/* Floating Action Bar */}
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 lg:left-auto lg:right-12 lg:translate-x-0 z-30">
         <div
-          className={`flex items-center gap-4 p-2 pl-6 rounded-2xl border bg-background/80 backdrop-blur-md shadow-2xl transition-all duration-500 mt-10 ${hasChanges ? "scale-100 opacity-100 translate-y-0" : "scale-95 opacity-0 translate-y-12 pointer-events-none"}`}
+          className={`flex items-center gap-4 p-2.5 pl-5 rounded-xl border border-[#eaeaea] dark:border-[#26262b] bg-white/95 dark:bg-[#121316]/95 backdrop-blur-md shadow-2xl transition-all duration-300 font-mono ${
+            hasChanges
+              ? "scale-100 opacity-100 translate-y-0"
+              : "scale-95 opacity-0 translate-y-12 pointer-events-none"
+          }`}
         >
           <div className="flex flex-col">
-            <span className="text-sm font-semibold">Unsaved Changes</span>
-            <span className="text-[10px] text-muted-foreground uppercase tracking-widest">
-              You have pending modifications
+            <span className="text-xs font-semibold text-neutral-900 dark:text-white flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+              Unsaved Changes
+            </span>
+            <span className="text-[10px] text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+              Pending modifications detected
             </span>
           </div>
           <Button
             onClick={handleSave}
             disabled={saving}
-            size="lg"
-            className="rounded-xl px-8 shadow-lg shadow-primary/20 h-12"
+            size="sm"
+            className="rounded-lg px-6 h-9 font-mono text-xs font-semibold bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 cursor-pointer shadow-sm"
           >
             {saving ? "Saving..." : "Save Changes"}
           </Button>

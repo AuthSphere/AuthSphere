@@ -79,7 +79,7 @@ const Hero = ({ user, errorCodes }) => {
             {/* Trust signals */}
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-2 border-t border-border/40">
               <TrustPill>OAuth 2.1 compliant</TrustPill>
-              <TrustPill>RS256 &bull; PKCE &bull; MFA</TrustPill>
+              <TrustPill>HS256 &bull; PKCE &bull; MFA</TrustPill>
               <TrustPill>Open source &bull; MIT</TrustPill>
             </div>
           </div>

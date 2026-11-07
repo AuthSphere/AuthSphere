@@ -1,140 +1,104 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import {
-  Globe,
-  UserPlus,
-  ShieldPlus,
-  Layers,
-  ArrowRightLeft,
-  Info,
-} from "lucide-react";
+import { Globe, ArrowRightLeft, ShieldCheck, GitMerge } from "lucide-react";
 import DocsCodeBlock from "../DocsCodeBlock";
-import { Badge } from "@/components/ui/badge";
+import TechSeparator from "@/components/common/TechSeparator";
 
 const SocialLogin = () => {
   return (
-    <article className="space-y-12 animate-in fade-in duration-500">
-      <div className="space-y-3">
-        <Badge
-          variant="outline"
-          className="bg-primary/5 text-primary border-primary/20"
-        >
-          Protocol: OIDC / OAuth 2.0
-        </Badge>
-        <h1 className="text-3xl font-bold tracking-tight">
-          Social Identity Integration
+    <article className="space-y-8 text-neutral-900 dark:text-neutral-100 font-sans">
+      {/* Eyebrow Header */}
+      <div className="border-b border-neutral-200 dark:border-[#222329] pb-4 space-y-2">
+        <div className="flex items-center text-xs font-mono text-neutral-500 uppercase tracking-widest">
+          <span>04</span>
+          <TechSeparator />
+          <span>FEDERATED IDENTITY</span>
+          <TechSeparator />
+          <span>SOCIAL &amp; OIDC LOGIN</span>
+        </div>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+          Social Login &amp; OAuth 2.0
         </h1>
-        <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
-          AuthSphere normalizes identity data from disparate third-party
-          providers into a strictly typed identity object. Our abstraction layer
-          handles the OIDC handshake, PKCE challenges, and state verification
-          automatically.
+        <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed max-w-2xl">
+          Authenticate users via Google, GitHub, and Discord with automated PKCE
+          S256 code challenges, CSRF state verification, and normalized user
+          profiles.
         </p>
       </div>
 
-      <div className="space-y-16">
-        {/* Handshake Flow */}
-        <section className="space-y-6">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500">
-              <ArrowRightLeft className="h-5 w-5" />
-            </div>
-            <h3 className="text-lg font-bold">The OIDC Handshake</h3>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                When <code>redirectToLogin</code> is called, the SDK initiates a
-                PKCE-hardened redirect to the provider's authorization endpoint.
-                We generate a cryptographically random <code>state</code> and{" "}
-                <code>nonce</code> to prevent Replay and CSRF attacks.
-              </p>
-              <div className="p-4 rounded-xl border bg-card/50">
-                <h4 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">
-                  Default Scopes
-                </h4>
-                <div className="flex flex-wrap gap-1.5">
-                  {["openid", "profile", "email"].map((s) => (
-                    <code
-                      key={s}
-                      className="px-1.5 py-0.5 rounded bg-muted text-[10px] text-primary"
-                    >
-                      {s}
-                    </code>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <DocsCodeBlock
-              id="social-init"
-              code={`// Trigger the redirect flow\nAuthSphere.redirectToLogin('google');\n\n// Supported: 'google', 'github', 'discord'`}
-              language="javascript"
-            />
-          </div>
-        </section>
-
-        {/* Identity Normalization */}
-        <section className="space-y-6">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-              <Layers className="h-5 w-5" />
-            </div>
-            <h3 className="text-lg font-bold">Identity Normalization</h3>
-          </div>
-
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            AuthSphere automatically maps provider-specific claims to a
-            standardized <code>User</code> object. This allows you to write one
-            set of logic for all identity sources.
+      <div className="space-y-8">
+        {/* Triggering Login */}
+        <section className="space-y-3">
+          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white flex items-center gap-2">
+            <span>[01]</span>
+            <span>Initiating the Social Handshake</span>
+          </h2>
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+            Call <code>redirectToLogin(provider)</code>. The SDK automatically
+            generates a cryptographic <code>code_verifier</code> and{" "}
+            <code>code_challenge</code> (PKCE S256), stores the state token to
+            prevent CSRF, and redirects the browser to the identity provider:
           </p>
-
           <DocsCodeBlock
-            id="user-object"
-            code={`// Standardized user object structure\n{\n  id: "as_7721...",\n  email: "dev@example.com",\n  name: "Alex Dev",\n  picture: "https://...",\n  provider: "google",\n  providerId: "1029384756...",\n  emailVerified: true\n}`}
+            id="social-login-call"
+            code={`import AuthSphere from '@authspherejs/sdk';
+
+// Trigger OAuth redirects on button click:
+const handleGoogle = () => AuthSphere.redirectToLogin('google');
+const handleGitHub = () => AuthSphere.redirectToLogin('github');
+const handleDiscord = () => AuthSphere.redirectToLogin('discord');`}
             language="javascript"
           />
         </section>
 
-        {/* Conflict Resolution */}
-        <section className="space-y-6">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500">
-              <ShieldPlus className="h-5 w-5" />
-            </div>
-            <h3 className="text-lg font-bold">Automatic Identity Merging</h3>
-          </div>
+        {/* Normalized User Object */}
+        <section className="space-y-3">
+          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white flex items-center gap-2">
+            <span>[02]</span>
+            <span>Normalized User Profile Schema</span>
+          </h2>
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+            Different providers return different claims (e.g. GitHub uses{" "}
+            <code>avatar_url</code> and <code>login</code>, while Google uses{" "}
+            <code>picture</code> and <code>email_verified</code>). AuthSphere
+            normalizes all of them into a consistent structure:
+          </p>
+          <DocsCodeBlock
+            id="normalized-user-schema"
+            code={`// Returned by AuthSphere.getUser() and handleAuthCallback():
+{
+  id: "usr_77a28b901fc",
+  email: "developer@example.com",
+  username: "octodev",
+  name: "Alex Rivera",
+  picture: "https://avatars.githubusercontent.com/u/1029384",
+  provider: "github", // 'google' | 'github' | 'discord' | 'local'
+  emailVerified: true,
+  createdAt: "2026-03-14T09:20:00.000Z"
+}`}
+            language="json"
+          />
+        </section>
 
-          <div className="p-8 rounded-3xl border bg-emerald-500/5 space-y-4">
-            <p className="text-sm text-muted-foreground leading-relaxed italic">
-              "What happens if a user signs up with Email/Password and later
-              tries to 'Sign in with Google' using the same email?"
-            </p>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              If the emails match and the incoming OIDC provider has verified
-              the email, AuthSphere automatically links the social identity to
-              the existing local account, preventing fragmented identity silos.
+        {/* Account Linking & Collisions */}
+        <section className="space-y-3">
+          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white flex items-center gap-2">
+            <span>[03]</span>
+            <span>Email Collision &amp; Provider Linking</span>
+          </h2>
+          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-neutral-50/50 dark:bg-[#121316] p-5 space-y-2 text-xs font-mono">
+            <div className="flex items-center gap-2 font-bold text-neutral-900 dark:text-white">
+              <GitMerge className="h-4 w-4 text-emerald-500" />
+              <span>DETERMINISTIC LINKING POLICY</span>
+            </div>
+            <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed font-sans">
+              If a user signs in with Google using{" "}
+              <code>alice@company.com</code> after previously registering with
+              password auth using the same email, AuthSphere automatically links
+              the Google identity provider to the existing account once the
+              email ownership is verified, preventing duplicate split profiles.
             </p>
           </div>
         </section>
-      </div>
-
-      <div className="p-6 rounded-2xl border bg-amber-500/5 border-amber-500/10 flex gap-4 items-start">
-        <Info className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
-        <div className="space-y-1">
-          <h4 className="text-sm font-bold text-amber-900 dark:text-amber-200">
-            Prerequisite Configuration
-          </h4>
-          <p className="text-xs text-muted-foreground leading-relaxed">
-            Before integrating social login, ensure you have configured the{" "}
-            <strong>Client ID</strong> and
-            <strong>Client Secret</strong> in the{" "}
-            <Link to="/dashboard" className="font-bold underline">
-              Providers Settings
-            </Link>
-            .
-          </p>
-        </div>
       </div>
     </article>
   );

@@ -19,23 +19,19 @@ import {
   ShieldAlert,
   BarChart2,
   Search,
-  Filter,
   X,
   ChevronDown,
   Download,
-  Info,
   Fingerprint,
   Monitor,
-  Cpu,
   Hash,
   Calendar,
   SlidersHorizontal,
   CheckCircle2,
-  XCircle,
-  ArrowUpRight,
   FileText,
   Eye,
   EyeOff,
+  Cpu,
 } from "lucide-react";
 import {
   BarChart,
@@ -47,24 +43,16 @@ import {
   Cell,
 } from "recharts";
 import { getGlobalLogs } from "@/api/AuditLogAPI";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from "@/components/ui/dialog";
 import {
   DropdownMenu,
@@ -74,6 +62,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import TechSeparator from "@/components/common/TechSeparator";
 
 /* ══════════════════════════════════════════════════════════════════
    CONSTANTS & CONFIG
@@ -126,11 +115,11 @@ const EVENT_META = {
 
 const CATEGORY_STYLES = {
   project:
-    "bg-emerald-500/10 text-emerald-600 border-emerald-500/20 dark:text-emerald-400",
+    "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 dark:text-emerald-400 font-mono",
   security:
-    "bg-rose-500/10 text-rose-600 border-rose-500/20 dark:text-rose-400",
-  user: "bg-blue-500/10 text-blue-600 border-blue-500/20 dark:text-blue-400",
-  api: "bg-amber-500/10 text-amber-600 border-amber-500/20 dark:text-amber-400",
+    "bg-rose-500/10 text-rose-600 border border-rose-500/20 dark:text-rose-400 font-mono",
+  user: "bg-blue-500/10 text-blue-600 border border-blue-500/20 dark:text-blue-400 font-mono",
+  api: "bg-amber-500/10 text-amber-600 border border-amber-500/20 dark:text-amber-400 font-mono",
 };
 
 const CATEGORY_CHART_COLORS = {
@@ -146,7 +135,6 @@ const ALL_CATEGORIES = ["project", "security", "user", "api"];
    UTILITY HELPERS
    ══════════════════════════════════════════════════════════════════ */
 
-/** Human-friendly relative date grouping label */
 const groupLabel = (dateStr) => {
   const d = new Date(dateStr);
   if (isToday(d)) return "Today";
@@ -154,7 +142,6 @@ const groupLabel = (dateStr) => {
   return format(d, "MMMM d, yyyy");
 };
 
-/** Group an array of logs by their date label */
 const groupByDate = (logs) => {
   const map = new Map();
   logs.forEach((log) => {
@@ -162,10 +149,9 @@ const groupByDate = (logs) => {
     if (!map.has(label)) map.set(label, []);
     map.get(label).push(log);
   });
-  return Array.from(map.entries()); // [[label, [logs]], ...]
+  return Array.from(map.entries());
 };
 
-/** Download logs as a .json file */
 const downloadJSON = (logs) => {
   const blob = new Blob([JSON.stringify(logs, null, 2)], {
     type: "application/json",
@@ -182,61 +168,32 @@ const downloadJSON = (logs) => {
    SUB-COMPONENTS
    ══════════════════════════════════════════════════════════════════ */
 
-/* ── Loading screen ── */
 const LoadingScreen = () => (
-  <div className="min-h-screen flex flex-col items-center justify-center gap-3">
-    <div className="h-10 w-10 rounded-xl bg-muted border border-border flex items-center justify-center">
-      <Loader2 className="h-5 w-5 animate-spin text-primary" />
-    </div>
-    <p className="text-xs text-muted-foreground font-medium">
-      Loading audit logs…
-    </p>
+  <div className="min-h-[60vh] flex flex-col items-center justify-center gap-3 font-mono text-xs">
+    <div className="w-6 h-6 border-2 border-black dark:border-white border-t-transparent animate-spin rounded-full" />
+    <span className="text-neutral-500">QUERYING IMMUTABLE AUDIT LEDGER...</span>
   </div>
 );
 
-/* ── Stat card ── */
-const StatCard = ({ label, value, icon: Icon, color, sub }) => (
-  <Card className="bg-card/50 border-border/50 hover:bg-card/70 transition-colors">
-    <CardContent className="p-4">
-      <div className="flex items-start justify-between mb-3">
-        <div
-          className={`h-8 w-8 rounded-lg bg-muted flex items-center justify-center ${color}`}
-        >
-          <Icon className="h-4 w-4" />
-        </div>
-      </div>
-      <p className="text-2xl font-semibold tabular-nums tracking-tight mb-0.5">
-        {value}
-      </p>
-      <p className="text-[11px] text-muted-foreground">{label}</p>
-      {sub && (
-        <p className="text-[10px] text-muted-foreground/50 mt-1 font-mono">
-          {sub}
-        </p>
-      )}
-    </CardContent>
-  </Card>
-);
-
-/* ── Custom recharts tooltip ── */
 const ChartTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-popover border border-border rounded-lg px-3 py-2 shadow-lg text-xs">
-      <p className="font-semibold text-foreground">{payload[0].payload.name}</p>
-      <p className="text-muted-foreground mt-0.5">
+    <div className="bg-white dark:bg-[#15161b] border border-neutral-200 dark:border-[#2a2b33] rounded-lg px-3 py-2 shadow-sm text-xs font-mono">
+      <p className="font-semibold text-neutral-900 dark:text-white">
+        {payload[0].payload.name}
+      </p>
+      <p className="text-neutral-500 mt-0.5">
         {payload[0].value} event{payload[0].value !== 1 ? "s" : ""}
       </p>
     </div>
   );
 };
 
-/* ── Event icon box ── */
 const EventIcon = ({ action, size = "md" }) => {
   const meta = EVENT_META[action];
   const Icon = meta?.icon ?? Activity;
-  const s = size === "sm" ? "h-7 w-7" : "h-8 w-8";
-  const ic = size === "sm" ? "h-3.5 w-3.5" : "h-4 w-4";
+  const s = size === "sm" ? "h-6 w-6" : "h-8 w-8";
+  const ic = size === "sm" ? "h-3 w-3" : "h-3.5 w-3.5";
   return (
     <div
       className={`${s} rounded-lg border flex items-center justify-center shrink-0`}
@@ -250,69 +207,62 @@ const EventIcon = ({ action, size = "md" }) => {
   );
 };
 
-/* ── Category badge ── */
 const CategoryBadge = ({ category, className = "" }) => (
   <Badge
     variant="outline"
-    className={`text-[9px] px-1.5 py-0 uppercase font-semibold tracking-wider border-none ${CATEGORY_STYLES[category] ?? ""} ${className}`}
+    className={`text-[9px] px-1.5 py-0 uppercase font-semibold tracking-wider ${CATEGORY_STYLES[category] ?? ""} ${className}`}
   >
     {category}
   </Badge>
 );
 
-/* ── Date group divider ── */
 const DateDivider = ({ label }) => (
-  <div className="flex items-center gap-3 px-5 py-2.5 bg-muted/20 border-y border-border/30 sticky top-0 z-10">
-    <Calendar className="h-3 w-3 text-muted-foreground/50 shrink-0" />
-    <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/60">
+  <div className="flex items-center gap-3 px-5 py-2 bg-neutral-50 dark:bg-[#14151a] border-y border-neutral-200 dark:border-[#222329] sticky top-0 z-10 font-mono">
+    <Calendar className="h-3 w-3 text-neutral-400 shrink-0" />
+    <span className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">
       {label}
     </span>
   </div>
 );
 
-/* ── Single log row ── */
 const LogRow = ({ log, onClick }) => (
   <_motion.div
     layout
     initial={{ opacity: 0, y: 4 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0 }}
-    transition={{ duration: 0.18 }}
+    transition={{ duration: 0.15 }}
     onClick={() => onClick(log)}
-    className="flex items-start gap-3.5 px-5 py-3.5 cursor-pointer hover:bg-muted/30 transition-colors group border-b border-border/30 last:border-0"
+    className="flex items-start gap-3.5 px-5 py-3 cursor-pointer hover:bg-neutral-50 dark:hover:bg-[#14151a] transition-colors group border-b border-neutral-100 dark:border-[#1e2026] last:border-0"
   >
     <EventIcon action={log.action} />
 
-    {/* Main content */}
     <div className="flex-1 min-w-0 space-y-1">
-      {/* Top row */}
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
-          <span className="text-[13px] font-medium text-foreground truncate leading-none">
+          <span className="text-xs font-mono font-semibold text-neutral-900 dark:text-white truncate">
             {log.action.replace(/_/g, " ")}
           </span>
           <CategoryBadge category={log.category} />
         </div>
-        <div className="flex items-center gap-1 shrink-0 text-[10px] text-muted-foreground/60">
-          <Clock className="h-3 w-3" />
+        <div className="flex items-center gap-1 shrink-0 text-[10px] font-mono text-neutral-400">
+          <Clock className="h-2.5 w-2.5" />
           <span>
             {formatDistanceToNow(new Date(log.createdAt), { addSuffix: true })}
           </span>
         </div>
       </div>
 
-      {/* Description */}
-      <p className="text-[11px] text-muted-foreground truncate leading-snug">
+      <p className="text-xs text-neutral-600 dark:text-neutral-400 truncate leading-snug">
         {log.description}
       </p>
 
-      {/* Meta row */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-0.5 text-[10px] text-muted-foreground/50 font-mono">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-0.5 text-[10px] text-neutral-400 font-mono">
         <span className="flex items-center gap-1">
           <MapPin className="h-2.5 w-2.5" />
-          {log.metadata?.ip ?? "local"}
+          {log.metadata?.ip ?? "127.0.0.1"}
         </span>
-        <span className="flex items-center gap-1 sm:flex">
+        <span className="flex items-center gap-1">
           <Clock className="h-2.5 w-2.5" />
           {format(new Date(log.createdAt), "HH:mm:ss")}
         </span>
@@ -323,56 +273,52 @@ const LogRow = ({ log, onClick }) => (
             {log.metadata.details.deviceInfo.browser}
           </span>
         )}
-        {/* Clickable hint */}
-        <span className="ml-auto text-primary/40 group-hover:text-primary/70 transition-colors flex items-center gap-0.5">
+        <span className="ml-auto text-neutral-400 group-hover:text-black dark:group-hover:text-white transition-colors flex items-center gap-1">
           <Eye className="h-2.5 w-2.5" />
-          <span className="hidden sm:inline">View details</span>
+          <span className="hidden sm:inline">INSPECT →</span>
         </span>
       </div>
     </div>
   </_motion.div>
 );
 
-/* ── Empty state ── */
 const EmptyState = ({ hasFilter, onClear }) => (
-  <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
-    <div className="h-12 w-12 rounded-2xl bg-muted border border-border flex items-center justify-center mb-4">
+  <div className="flex flex-col items-center justify-center py-16 px-4 text-center font-mono">
+    <div className="h-10 w-10 rounded-lg bg-neutral-100 dark:bg-[#181920] border border-neutral-200 dark:border-[#2a2b33] flex items-center justify-center mb-3">
       {hasFilter ? (
-        <Search className="h-5 w-5 text-muted-foreground/40" />
+        <Search className="h-4 w-4 text-neutral-400" />
       ) : (
-        <Activity className="h-5 w-5 text-muted-foreground/40" />
+        <Activity className="h-4 w-4 text-neutral-400" />
       )}
     </div>
-    <p className="text-sm font-medium text-foreground mb-1">
-      {hasFilter ? "No matching events" : "No events yet"}
+    <p className="text-xs font-semibold text-neutral-900 dark:text-white mb-1">
+      {hasFilter ? "NO MATCHING AUDIT RECORDS" : "NO AUDIT EVENTS RECORDED"}
     </p>
-    <p className="text-[12px] text-muted-foreground mb-4 max-w-xs leading-relaxed">
+    <p className="text-[11px] text-neutral-500 mb-4 max-w-xs leading-relaxed">
       {hasFilter
-        ? "Try adjusting your search query or category filters."
-        : "Audit events will appear here once your system starts generating them."}
+        ? "Try adjusting query parameters or category selection filters."
+        : "Cryptographic event log will populate as requests route through the enclave."}
     </p>
     {hasFilter && (
       <Button
         variant="outline"
         size="sm"
-        className="h-8 text-xs rounded-full"
+        className="h-8 text-xs font-mono rounded"
         onClick={onClear}
       >
         <X className="h-3 w-3 mr-1.5" />
-        Clear filters
+        RESET FILTERS
       </Button>
     )}
   </div>
 );
 
-/* ── Detail section label ── */
 const SectionLabel = ({ children }) => (
-  <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-muted-foreground/50 mb-3">
+  <p className="text-[9px] font-mono font-bold uppercase tracking-widest text-neutral-400 mb-2">
     {children}
   </p>
 );
 
-/* ── Metadata key/value pair ── */
 const MetaRow = ({ label, value, mono = false, copyable = false }) => {
   const [copied, setCopied] = useState(false);
 
@@ -383,20 +329,20 @@ const MetaRow = ({ label, value, mono = false, copyable = false }) => {
   };
 
   return (
-    <div className="space-y-0.5">
-      <p className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground/50">
+    <div className="space-y-0.5 font-mono text-xs">
+      <p className="text-[9px] uppercase tracking-wider text-neutral-400">
         {label}
       </p>
       <div className="flex items-center gap-1.5 group/copy">
         <p
-          className={`text-[12px] text-foreground break-all leading-snug ${mono ? "font-mono" : "font-medium"}`}
+          className={`text-neutral-900 dark:text-white break-all leading-snug ${mono ? "font-mono text-[11px]" : "font-sans text-xs"}`}
         >
-          {value ?? <span className="text-muted-foreground/40 italic">—</span>}
+          {value ?? <span className="text-neutral-400 italic">—</span>}
         </p>
         {copyable && value && (
           <button
             onClick={copy}
-            className="opacity-0 group-hover/copy:opacity-100 transition-opacity ml-1 text-muted-foreground/40 hover:text-primary"
+            className="opacity-0 group-hover/copy:opacity-100 transition-opacity ml-1 text-neutral-400 hover:text-black dark:hover:text-white cursor-pointer"
           >
             {copied ? (
               <CheckCircle2 className="h-3 w-3 text-emerald-500" />
@@ -410,7 +356,6 @@ const MetaRow = ({ label, value, mono = false, copyable = false }) => {
   );
 };
 
-/* ── Detail dialog ── */
 const LogDetailDialog = ({ log, onClose }) => {
   const [showRaw, setShowRaw] = useState(false);
 
@@ -421,121 +366,108 @@ const LogDetailDialog = ({ log, onClose }) => {
 
   return (
     <Dialog open={!!log} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="w-[92vw]! max-w-3xl! max-h-[85vh]! p-0 overflow-hidden rounded-2xl border border-border/70 bg-background shadow-2xl">
-        {/* Dialog top bar */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-border/50 bg-muted/20">
+      <DialogContent className="w-[92vw]! max-w-3xl! max-h-[85vh]! p-0 overflow-hidden rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] shadow-xl">
+        <div className="flex items-center justify-between px-6 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b]">
           <div className="flex items-center gap-3">
             <EventIcon action={log.action} size="sm" />
             <div>
-              <DialogTitle className="text-sm font-semibold tracking-tight leading-none">
+              <DialogTitle className="text-xs font-mono font-bold tracking-tight text-neutral-900 dark:text-white">
                 {log.action.replace(/_/g, " ")}
               </DialogTitle>
-              <div className="flex items-center gap-2 mt-1">
+              <div className="flex items-center gap-2 mt-0.5">
                 <CategoryBadge category={log.category} />
-                <span className="text-[10px] text-muted-foreground/50 font-mono">
-                  {log._id?.slice(-8)}
+                <span className="text-[10px] text-neutral-400 font-mono">
+                  ID: {log._id}
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-7 text-[11px] gap-1.5 text-muted-foreground hover:text-foreground"
-              onClick={() => setShowRaw((v) => !v)}
-            >
-              {showRaw ? (
-                <EyeOff className="h-3.5 w-3.5" />
-              ) : (
-                <Eye className="h-3.5 w-3.5" />
-              )}
-              {showRaw ? "Formatted" : "Raw JSON"}
-            </Button>
-          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-7 text-xs font-mono gap-1.5 border-neutral-200 dark:border-[#2a2b33]"
+            onClick={() => setShowRaw((v) => !v)}
+          >
+            {showRaw ? (
+              <EyeOff className="h-3.5 w-3.5" />
+            ) : (
+              <Eye className="h-3.5 w-3.5" />
+            )}
+            {showRaw ? "FORMATTED" : "RAW JSON"}
+          </Button>
         </div>
 
-        {/* Dialog body */}
         <div className="overflow-y-auto max-h-[calc(85vh-70px)]">
           {showRaw ? (
-            /* ── Raw JSON view ── */
-            <div className="p-5">
-              <div className="rounded-xl border border-border/50 bg-[#0a0a0a] overflow-hidden">
-                <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/6">
-                  <div className="flex items-center gap-2">
-                    <FileText className="h-3.5 w-3.5 text-white/30" />
-                    <span className="text-[10px] font-mono text-white/30 uppercase tracking-wider">
-                      raw payload
-                    </span>
-                  </div>
+            <div className="p-5 font-mono">
+              <div className="rounded-lg border border-neutral-800 bg-[#07080a] overflow-hidden">
+                <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-800 text-[10px] text-neutral-400">
+                  <span>PAYLOAD_RAW // SYNTAX_JSON</span>
                   <button
                     onClick={() => {
                       navigator.clipboard.writeText(rawPayload);
-                      toast.success("Copied");
+                      toast.success("JSON copied to clipboard");
                     }}
-                    className="text-[10px] font-mono text-primary/60 hover:text-primary transition-colors"
+                    className="text-emerald-400 hover:underline cursor-pointer"
                   >
-                    copy
+                    COPY ALL
                   </button>
                 </div>
-                <pre className="p-4 text-[11px] font-mono leading-relaxed text-green-400 overflow-auto max-h-[55vh] whitespace-pre-wrap wrap-break-word">
+                <pre className="p-4 text-[11px] font-mono leading-relaxed text-emerald-400 overflow-auto max-h-[50vh] whitespace-pre-wrap">
                   {rawPayload}
                 </pre>
               </div>
             </div>
           ) : (
-            /* ── Formatted view ── */
-            <div className="grid sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-border/40">
-              {/* Column 1 — Event details */}
+            <div className="grid sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-neutral-200 dark:divide-[#222329]">
               <div className="p-6 space-y-5">
-                {/* Description */}
                 <div>
-                  <SectionLabel>Description</SectionLabel>
-                  <p className="text-[13px] text-foreground/80 leading-relaxed">
+                  <SectionLabel>EVENT DESCRIPTION</SectionLabel>
+                  <p className="text-xs text-neutral-800 dark:text-neutral-200 leading-relaxed font-mono">
                     {log.description}
                   </p>
                 </div>
 
-                {/* Timing */}
                 <div>
-                  <SectionLabel>Timing</SectionLabel>
+                  <SectionLabel>TEMPORAL COORDINATES</SectionLabel>
                   <div className="space-y-3">
                     <MetaRow
                       label="Timestamp"
                       value={format(
                         new Date(log.createdAt),
-                        "MMM dd, yyyy · HH:mm:ss 'UTC'",
+                        "yyyy-MM-dd HH:mm:ss 'UTC'",
                       )}
+                      mono
                     />
                     <MetaRow
-                      label="Relative"
+                      label="Relative Velocity"
                       value={formatDistanceToNow(new Date(log.createdAt), {
                         addSuffix: true,
                       })}
+                      mono
                     />
                   </div>
                 </div>
 
-                {/* Origin */}
                 <div>
-                  <SectionLabel>Origin</SectionLabel>
+                  <SectionLabel>NETWORK INGRESS</SectionLabel>
                   <div className="space-y-3">
                     <MetaRow
                       label="IP Address"
-                      value={log.metadata?.ip ?? "Local"}
+                      value={log.metadata?.ip ?? "127.0.0.1"}
                       mono
                       copyable
                     />
                     <MetaRow
-                      label="Project"
-                      value={log.projectId ?? "System"}
+                      label="Project ID"
+                      value={log.projectId ?? "SYSTEM_GLOBAL"}
                       mono
                       copyable
                     />
                     <MetaRow
-                      label="Developer ID"
-                      value={log.developerId ?? "Unknown"}
+                      label="Subject / Developer ID"
+                      value={log.developerId ?? "ROOT"}
                       mono
                       copyable
                     />
@@ -543,68 +475,40 @@ const LogDetailDialog = ({ log, onClose }) => {
                 </div>
               </div>
 
-              {/* Column 2 — Device & payload */}
               <div className="p-6 space-y-5">
-                {/* Device */}
                 {device ? (
                   <div>
-                    <SectionLabel>Device</SectionLabel>
+                    <SectionLabel>DEVICE FINGERPRINT</SectionLabel>
                     <div className="space-y-3">
-                      <MetaRow label="OS" value={device.os} />
-                      <MetaRow label="Browser" value={device.browser} />
-                      <MetaRow label="User Agent" value={device.ua} mono />
+                      <MetaRow label="Platform OS" value={device.os} mono />
+                      <MetaRow
+                        label="Client Browser"
+                        value={device.browser}
+                        mono
+                      />
+                      <MetaRow
+                        label="Raw User-Agent"
+                        value={device.ua}
+                        mono
+                        copyable
+                      />
                     </div>
                   </div>
                 ) : (
                   <div>
-                    <SectionLabel>Device</SectionLabel>
-                    <div className="flex items-center gap-2 py-3 px-3 rounded-lg bg-muted/30 border border-border/40">
-                      <Monitor className="h-3.5 w-3.5 text-muted-foreground/40 shrink-0" />
-                      <p className="text-[11px] text-muted-foreground/50 italic">
-                        No device information captured
-                      </p>
-                    </div>
+                    <SectionLabel>DEVICE FINGERPRINT</SectionLabel>
+                    <p className="text-[11px] text-neutral-400 font-mono italic">
+                      Zero hardware telemetry payload captured.
+                    </p>
                   </div>
                 )}
 
-                {/* Extra metadata fields */}
-                {log.metadata?.details &&
-                  Object.keys(log.metadata.details).length > 0 && (
-                    <div>
-                      <SectionLabel>Additional Details</SectionLabel>
-                      <div className="space-y-3">
-                        {Object.entries(log.metadata.details)
-                          .filter(([k]) => k !== "deviceInfo")
-                          .slice(0, 6)
-                          .map(([k, v]) => (
-                            <MetaRow
-                              key={k}
-                              label={k.replace(/([A-Z])/g, " $1").trim()}
-                              value={
-                                typeof v === "object"
-                                  ? JSON.stringify(v)
-                                  : String(v)
-                              }
-                              mono
-                              copyable
-                            />
-                          ))}
-                      </div>
-                    </div>
-                  )}
-
-                {/* Full event ID */}
                 <div>
-                  <SectionLabel>Event ID</SectionLabel>
-                  <MetaRow label="Log ID" value={log._id} mono copyable />
-                </div>
-
-                {/* Security status */}
-                <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-primary/5 border border-primary/10">
-                  <Fingerprint className="h-3.5 w-3.5 text-primary/60 shrink-0" />
-                  <p className="text-[11px] text-muted-foreground">
-                    Immutable · Cryptographically signed
-                  </p>
+                  <SectionLabel>VERIFICATION CERTIFICATE</SectionLabel>
+                  <div className="flex items-center gap-2 p-3 rounded-lg bg-neutral-50 dark:bg-[#15161b] border border-neutral-200 dark:border-[#222329] font-mono text-[11px] text-neutral-600 dark:text-neutral-400">
+                    <Fingerprint className="h-4 w-4 text-emerald-500 shrink-0" />
+                    <span>Cryptographically immutable audit node.</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -622,21 +526,24 @@ const FilterDropdown = ({ activeCategories, onChange }) => (
       <Button
         variant="outline"
         size="sm"
-        className="h-9 gap-1.5 text-[12px] rounded-lg border-border/60"
+        className="h-9 gap-1.5 text-xs font-mono border-neutral-200 dark:border-[#2a2b33]"
       >
         <SlidersHorizontal className="h-3.5 w-3.5" />
-        Filter
+        <span>FILTER</span>
         {activeCategories.length < ALL_CATEGORIES.length && (
-          <span className="ml-0.5 h-4 min-w-[16px] px-0.5 rounded-full bg-primary text-primary-foreground text-[9px] font-bold flex items-center justify-center">
+          <span className="ml-1 h-4 px-1 rounded bg-black dark:bg-white text-white dark:text-black text-[9px] font-bold">
             {activeCategories.length}
           </span>
         )}
-        <ChevronDown className="h-3 w-3 text-muted-foreground ml-0.5" />
+        <ChevronDown className="h-3 w-3 text-neutral-400 ml-0.5" />
       </Button>
     </DropdownMenuTrigger>
-    <DropdownMenuContent align="end" className="w-44 rounded-xl">
-      <DropdownMenuLabel className="text-[10px] uppercase tracking-wider text-muted-foreground/60 font-semibold">
-        Categories
+    <DropdownMenuContent
+      align="end"
+      className="w-44 font-mono text-xs border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316]"
+    >
+      <DropdownMenuLabel className="text-[10px] uppercase tracking-wider text-neutral-400 font-semibold">
+        CATEGORIES
       </DropdownMenuLabel>
       <DropdownMenuSeparator />
       {ALL_CATEGORIES.map((cat) => (
@@ -650,10 +557,10 @@ const FilterDropdown = ({ activeCategories, onChange }) => (
                 : activeCategories.filter((c) => c !== cat),
             )
           }
-          className="text-[12px] capitalize"
+          className="text-xs capitalize font-mono"
         >
           <span
-            className={`mr-2 h-2 w-2 rounded-full inline-block`}
+            className="mr-2 h-2 w-2 rounded-full inline-block"
             style={{ backgroundColor: CATEGORY_CHART_COLORS[cat] }}
           />
           {cat}
@@ -663,9 +570,9 @@ const FilterDropdown = ({ activeCategories, onChange }) => (
       <DropdownMenuCheckboxItem
         checked={activeCategories.length === ALL_CATEGORIES.length}
         onCheckedChange={(checked) => onChange(checked ? ALL_CATEGORIES : [])}
-        className="text-[12px]"
+        className="text-xs font-mono"
       >
-        All categories
+        ALL CATEGORIES
       </DropdownMenuCheckboxItem>
     </DropdownMenuContent>
   </DropdownMenu>
@@ -683,7 +590,6 @@ const AuditLogs = () => {
   const [activeCategories, setActiveCategories] = useState(ALL_CATEGORIES);
   const navigate = useNavigate();
 
-  /* ── Fetch ── */
   useEffect(() => {
     (async () => {
       try {
@@ -697,7 +603,6 @@ const AuditLogs = () => {
     })();
   }, []);
 
-  /* ── Filtered logs ── */
   const filteredLogs = useMemo(() => {
     const q = searchQuery.toLowerCase();
     return logs.filter((log) => {
@@ -711,10 +616,8 @@ const AuditLogs = () => {
     });
   }, [logs, searchQuery, activeCategories]);
 
-  /* ── Grouped logs ── */
   const groupedLogs = useMemo(() => groupByDate(filteredLogs), [filteredLogs]);
 
-  /* ── Stats ── */
   const stats = useMemo(
     () => ({
       total: logs.length,
@@ -729,7 +632,6 @@ const AuditLogs = () => {
     [logs],
   );
 
-  /* ── Handlers ── */
   const clearFilters = useCallback(() => {
     setSearchQuery("");
     setActiveCategories(ALL_CATEGORIES);
@@ -738,197 +640,188 @@ const AuditLogs = () => {
   const hasActiveFilter =
     searchQuery.length > 0 || activeCategories.length < ALL_CATEGORIES.length;
 
-  /* ── Loading ── */
   if (loading) return <LoadingScreen />;
 
-  /* ══════════════════════════════════════════════════════════════
-     RENDER
-     ══════════════════════════════════════════════════════════════ */
   return (
-    <div className="h-[93vh] w-[90vw] mx-auto py-6 pt-0 flex flex-col overflow-hidden">
-      {/* ────────────────────────────────────────────────────────
-          PAGE HEADER
-         ──────────────────────────────────────────────────────── */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-5 border-b border-border/50 shrink-0">
-        <div className="space-y-1">
-          {/* Back button */}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => navigate(-1)}
-            className="group -ml-2 h-7 text-muted-foreground hover:text-foreground text-xs gap-1"
-          >
-            <ChevronLeft className="h-3.5 w-3.5 group-hover:-translate-x-0.5 transition-transform" />
-            Back
-          </Button>
+    <div className="min-h-screen bg-[#fbf9f9] dark:bg-[#09090c] text-neutral-900 dark:text-neutral-100 antialiased relative isolate selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+      {/* Precision Engineering Matrix Background */}
+      <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-[#fbf9f9] dark:bg-[#09090c]">
+        <div className="absolute inset-0 grid-matrix opacity-40 dark:opacity-20" />
+        <div className="absolute inset-0 bg-radial from-transparent via-transparent to-neutral-200/50 dark:to-black/60" />
+      </div>
 
-          <h1 className="text-2xl font-semibold tracking-tight">Audit Logs</h1>
-          <p className="text-[12px] text-muted-foreground">
-            Security monitoring and event tracking across all your projects.
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        {/* Engineering Eyebrow */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-neutral-200 dark:border-[#222329] pb-3 gap-2">
+          <div className="flex items-center text-xs font-mono text-neutral-500 uppercase tracking-widest">
+            <Link
+              to="/dashboard"
+              className="hover:text-black dark:hover:text-white inline-flex items-center gap-1.5"
+            >
+              <ChevronLeft className="h-3.5 w-3.5" />
+              <span>DASHBOARD</span>
+            </Link>
+            <TechSeparator />
+            <span>GLOBAL AUDIT &amp; COMPLIANCE LEDGER</span>
+          </div>
+          <div className="inline-flex items-center gap-2">
+            <div className="inline-flex items-center gap-1.5 font-mono text-xs text-emerald-600 dark:text-emerald-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span>RFC-6962 IMMUTABLE TRAIL</span>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-7 text-xs font-mono border-neutral-200 dark:border-[#2a2b33] gap-1.5"
+              onClick={() => {
+                downloadJSON(filteredLogs);
+                toast.success("Audit ledger exported as JSON");
+              }}
+            >
+              <Download className="h-3 w-3" />
+              <span>EXPORT JSON</span>
+            </Button>
+          </div>
+        </div>
+
+        {/* Page Title */}
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+            Audit Logs
+          </h1>
+          <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-1 font-mono">
+            Cryptographically signed event ledger monitoring all security,
+            administrative, and tenant events.
           </p>
         </div>
 
-        {/* Header right */}
-        <div className="flex items-center gap-2 pb-0.5">
-          {/* Live badge */}
-          <Badge
-            variant="outline"
-            className="rounded-full border-primary/20 bg-primary/5 text-primary
-                       text-[9px] font-bold tracking-[0.14em] uppercase px-3 py-0.5 gap-1.5"
-          >
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
+        {/* 4 Precision Metric Tiles */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] p-5 shadow-xs">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-1">
+              01 // TOTAL EVENTS
             </span>
-            Live
-          </Badge>
+            <div className="flex items-baseline gap-2">
+              <span className="text-2xl font-bold font-mono text-neutral-900 dark:text-white">
+                {stats.total}
+              </span>
+              <span className="text-[10px] font-mono text-neutral-400">
+                ({filteredLogs.length} VISIBLE)
+              </span>
+            </div>
+          </div>
 
-          {/* Export */}
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-8 gap-1.5 text-[12px] rounded-full border-border/60 hidden sm:flex"
-            onClick={() => {
-              downloadJSON(filteredLogs);
-              toast.success("Logs exported as JSON");
-            }}
-          >
-            <Download className="h-3.5 w-3.5" />
-            Export
-          </Button>
+          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] p-5 shadow-xs">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-1">
+              02 // SECURITY ALERTS
+            </span>
+            <div className="flex items-baseline gap-2">
+              <span className="text-2xl font-bold font-mono text-rose-600 dark:text-rose-400">
+                {stats.security}
+              </span>
+              <span className="text-[10px] font-mono text-neutral-400">
+                FLAGGED
+              </span>
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] p-5 shadow-xs">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-1">
+              03 // UNIQUE INGRESS IPS
+            </span>
+            <div className="flex items-baseline gap-2">
+              <span className="text-2xl font-bold font-mono text-neutral-900 dark:text-white">
+                {stats.uniqueIps}
+              </span>
+              <span className="text-[10px] font-mono text-neutral-400">
+                ORIGINS
+              </span>
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] p-5 shadow-xs">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-1">
+              04 // LEDGER INTEGRITY
+            </span>
+            <div className="flex items-baseline gap-2">
+              <span className="text-xl font-bold font-mono text-emerald-600 dark:text-emerald-400">
+                99.999%
+              </span>
+              <span className="text-[10px] font-mono text-emerald-500">
+                VERIFIED
+              </span>
+            </div>
+          </div>
         </div>
-      </div>
 
-      {/* ────────────────────────────────────────────────────────
-          STATS ROW
-         ──────────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 py-4 shrink-0">
-        <StatCard
-          label="Total Events"
-          value={stats.total}
-          icon={Activity}
-          color="text-primary"
-          sub={`${filteredLogs.length} visible`}
-        />
-        <StatCard
-          label="Security Alerts"
-          value={stats.security}
-          icon={ShieldAlert}
-          color="text-rose-500"
-          sub={stats.security > 0 ? "Requires review" : "All clear"}
-        />
-        <StatCard
-          label="Unique IPs"
-          value={stats.uniqueIps}
-          icon={Globe}
-          color="text-blue-500"
-          sub="Distinct origins"
-        />
-        <StatCard
-          label="Uptime"
-          value="99.9%"
-          icon={Clock}
-          color="text-emerald-500"
-          sub="30-day average"
-        />
-      </div>
-
-      {/* ────────────────────────────────────────────────────────
-          MAIN TWO-COLUMN LAYOUT
-         ──────────────────────────────────────────────────────── */}
-      <div className="grid lg:grid-cols-12 gap-4 flex-1 min-h-0">
-        {/* ── LEFT SIDEBAR ── */}
-        <div className="lg:col-span-4 flex flex-col gap-4 min-h-0 overflow-y-auto">
-          {/* Event Distribution Chart */}
-          <Card className="bg-card/30 border-border/50 shrink-0">
-            <CardHeader className="pb-2 pt-4 px-5">
-              <CardTitle className="text-[13px] font-semibold flex items-center gap-2">
-                <BarChart2 className="h-3.5 w-3.5 text-primary" />
-                Event Distribution
-              </CardTitle>
-              <CardDescription className="text-[11px]">
-                Volume by category
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="px-5 pb-4">
-              {stats.byCategory.length > 0 ? (
-                <div className="h-[130px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      data={stats.byCategory}
-                      layout="vertical"
-                      margin={{ left: -28, right: 8, top: 4, bottom: 4 }}
-                    >
-                      <XAxis type="number" hide />
-                      <YAxis
-                        dataKey="name"
-                        type="category"
-                        axisLine={false}
-                        tickLine={false}
-                        tick={{
-                          fontSize: 11,
-                          fontWeight: 500,
-                          fill: "hsl(var(--muted-foreground))",
-                        }}
-                        width={68}
-                      />
-                      <RechartsTooltip
-                        cursor={{ fill: "hsl(var(--muted)/0.3)" }}
-                        content={<ChartTooltip />}
-                      />
-                      <Bar dataKey="value" radius={[0, 5, 5, 0]} barSize={16}>
-                        {stats.byCategory.map((entry, i) => (
-                          <Cell key={i} fill={entry.color} fillOpacity={0.75} />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              ) : (
-                <div className="h-[130px] flex items-center justify-center">
-                  <p className="text-[11px] text-muted-foreground/50 italic">
-                    No data
-                  </p>
-                </div>
-              )}
-
-              {/* Category legend */}
-              <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3 pt-3 border-t border-border/40">
-                {ALL_CATEGORIES.map((cat) => (
-                  <div key={cat} className="flex items-center gap-1.5">
-                    <div
-                      className="h-1.5 w-1.5 rounded-full"
-                      style={{ backgroundColor: CATEGORY_CHART_COLORS[cat] }}
-                    />
-                    <span className="text-[10px] text-muted-foreground capitalize">
-                      {cat}
-                    </span>
-                    <span className="text-[10px] text-muted-foreground/40 font-mono">
-                      {logs.filter((l) => l.category === cat).length}
-                    </span>
-                  </div>
-                ))}
+        {/* Main Split Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          {/* Left Column: Category Distribution & Origin Analytics */}
+          <div className="lg:col-span-4 space-y-6">
+            <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
+              <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
+                <span className="font-bold text-neutral-900 dark:text-white">
+                  EVENT DISTRIBUTION
+                </span>
+                <span className="text-neutral-400 text-[10px]">
+                  CATEGORY SHARE
+                </span>
               </div>
-            </CardContent>
-          </Card>
+              <div className="p-5">
+                {stats.byCategory.length > 0 ? (
+                  <div className="h-32">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart
+                        data={stats.byCategory}
+                        layout="vertical"
+                        margin={{ left: -24, right: 8, top: 4, bottom: 4 }}
+                      >
+                        <XAxis type="number" hide />
+                        <YAxis
+                          dataKey="name"
+                          type="category"
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{
+                            fontSize: 10,
+                            fontFamily: "monospace",
+                            fill: "currentColor",
+                          }}
+                          width={68}
+                        />
+                        <RechartsTooltip
+                          cursor={{ fill: "rgba(0,0,0,0.05)" }}
+                          content={<ChartTooltip />}
+                        />
+                        <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={12}>
+                          {stats.byCategory.map((entry, i) => (
+                            <Cell key={i} fill={entry.color} />
+                          ))}
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                ) : (
+                  <div className="h-32 flex items-center justify-center font-mono text-xs text-neutral-400">
+                    NO CATEGORY DATA
+                  </div>
+                )}
+              </div>
+            </div>
 
-          {/* Top IPs */}
-          {stats.uniqueIps > 0 && (
-            <Card className="bg-card/30 border-border/50 shrink-0">
-              <CardHeader className="pb-2 pt-4 px-5">
-                <CardTitle className="text-[13px] font-semibold flex items-center gap-2">
-                  <Globe className="h-3.5 w-3.5 text-blue-500" />
-                  Top Origins
-                </CardTitle>
-                <CardDescription className="text-[11px]">
-                  Most active IP addresses
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="px-5 pb-4">
-                <div className="space-y-2">
+            {/* Top Origins IP Box */}
+            {stats.uniqueIps > 0 && (
+              <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
+                <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
+                  <span className="font-bold text-neutral-900 dark:text-white">
+                    TOP ORIGIN IPS
+                  </span>
+                  <span className="text-neutral-400 text-[10px]">GEO_IP</span>
+                </div>
+                <div className="p-5 space-y-2.5 font-mono text-xs">
                   {Array.from(
                     logs.reduce((acc, l) => {
-                      const ip = l.metadata?.ip ?? "local";
+                      const ip = l.metadata?.ip ?? "127.0.0.1";
                       acc.set(ip, (acc.get(ip) ?? 0) + 1);
                       return acc;
                     }, new Map()),
@@ -938,183 +831,101 @@ const AuditLogs = () => {
                     .map(([ip, count]) => (
                       <div
                         key={ip}
-                        className="flex items-center justify-between gap-3"
+                        className="flex items-center justify-between gap-3 text-xs"
                       >
-                        <span className="text-[11px] font-mono text-foreground/70 truncate">
+                        <span className="text-neutral-700 dark:text-neutral-300 truncate">
                           {ip}
                         </span>
                         <div className="flex items-center gap-2 shrink-0">
-                          <div className="h-1 w-16 bg-muted rounded-full overflow-hidden">
+                          <div className="h-1 w-16 bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-blue-500/60 rounded-full"
+                              className="h-full bg-black dark:bg-white rounded-full"
                               style={{
                                 width: `${(count / logs.length) * 100}%`,
                               }}
                             />
                           </div>
-                          <span className="text-[10px] font-mono text-muted-foreground/60 w-4 text-right">
+                          <span className="text-neutral-400 text-[10px] w-4 text-right">
                             {count}
                           </span>
                         </div>
                       </div>
                     ))}
                 </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Security info card */}
-          <Card className="bg-primary/4 border-primary/10 shrink-0">
-            <CardContent className="p-5 space-y-3">
-              <div className="flex items-center gap-2 text-primary">
-                <Shield className="h-3.5 w-3.5" />
-                <h4 className="text-[13px] font-semibold">Security Info</h4>
               </div>
-              <p className="text-[11px] text-muted-foreground leading-relaxed">
-                Audit logs are immutable and cryptographically signed. They
-                provide a forensic trail of all administrative actions across
-                your environment.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <Badge
-                  variant="outline"
-                  className="text-[9px] border-primary/20 text-primary font-mono rounded-full"
-                >
-                  AES-256 Encrypted
-                </Badge>
-                <Badge
-                  variant="outline"
-                  className="text-[9px] border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-mono rounded-full"
-                >
-                  GDPR Compliant
-                </Badge>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* ── RIGHT: ACTIVITY STREAM ── */}
-        <div className="lg:col-span-8 flex flex-col min-h-0">
-          {/* Search + filter bar */}
-          <div className="flex items-center gap-2 mb-3 shrink-0">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground/50" />
-              <Input
-                placeholder="Search events, actions, IPs…"
-                className="pl-9 h-9 text-[12px] bg-muted/30 border-border/50 rounded-lg focus-visible:ring-1"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground/40 hover:text-muted-foreground"
-                >
-                  <X className="h-3.5 w-3.5" />
-                </button>
-              )}
-            </div>
-            <FilterDropdown
-              activeCategories={activeCategories}
-              onChange={setActiveCategories}
-            />
+            )}
           </div>
 
-          {/* Active filter chips */}
-          {hasActiveFilter && (
-            <div className="flex flex-wrap items-center gap-1.5 mb-3 shrink-0">
-              {searchQuery && (
-                <span className="inline-flex items-center gap-1 h-5 px-2 rounded-full bg-primary/8 border border-primary/15 text-[10px] text-primary font-medium">
-                  "{searchQuery}"
-                  <button onClick={() => setSearchQuery("")}>
-                    <X className="h-2.5 w-2.5" />
-                  </button>
-                </span>
-              )}
-              {activeCategories.length < ALL_CATEGORIES.length &&
-                activeCategories.map((c) => (
-                  <span
-                    key={c}
-                    className="inline-flex items-center gap-1 h-5 px-2 rounded-full border text-[10px] font-medium"
-                    style={{
-                      backgroundColor: `${CATEGORY_CHART_COLORS[c]}12`,
-                      borderColor: `${CATEGORY_CHART_COLORS[c]}28`,
-                      color: CATEGORY_CHART_COLORS[c],
-                    }}
-                  >
-                    {c}
-                    <button
-                      onClick={() =>
-                        setActiveCategories((p) => p.filter((x) => x !== c))
-                      }
-                    >
-                      <X className="h-2.5 w-2.5" />
-                    </button>
-                  </span>
-                ))}
-              <button
-                onClick={clearFilters}
-                className="text-[10px] text-muted-foreground/50 hover:text-muted-foreground underline-offset-2 hover:underline ml-1"
-              >
-                Clear all
-              </button>
-            </div>
-          )}
-
-          {/* Stream card */}
-          <Card className="bg-card/30 border-border/50 flex-1 min-h-0 flex flex-col overflow-hidden">
-            {/* Card header */}
-            <div className="flex items-center justify-between px-5 py-3.5 border-b border-border/40 shrink-0">
-              <div className="flex items-center gap-2">
-                <Activity className="h-3.5 w-3.5 text-primary" />
-                <span className="text-[13px] font-semibold">
-                  Activity Stream
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                {hasActiveFilter && (
-                  <span className="text-[10px] text-muted-foreground/50 font-mono">
-                    {filteredLogs.length} / {logs.length}
-                  </span>
-                )}
-                <span className="text-[10px] font-mono text-muted-foreground bg-muted/50 px-2 py-0.5 rounded-md">
-                  {filteredLogs.length} event
-                  {filteredLogs.length !== 1 ? "s" : ""}
-                </span>
-              </div>
-            </div>
-
-            {/* Scrollable log list */}
-            <div className="flex-1 min-h-0 overflow-y-auto">
-              {filteredLogs.length === 0 ? (
-                <EmptyState
-                  hasFilter={hasActiveFilter}
-                  onClear={clearFilters}
+          {/* Right Column: Activity Stream */}
+          <div className="lg:col-span-8 space-y-4">
+            {/* Search and Filter Command Bar */}
+            <div className="flex items-center gap-2">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-400" />
+                <Input
+                  placeholder="Filter events by description, action, or IP..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-9 h-9 text-xs font-mono bg-white dark:bg-[#121316] border-neutral-200 dark:border-[#2a2b33] rounded-md focus:border-black dark:focus:border-white"
                 />
-              ) : (
-                <AnimatePresence mode="popLayout">
-                  {groupedLogs.map(([label, group]) => (
-                    <React.Fragment key={label}>
-                      <DateDivider label={label} />
-                      {group.map((log) => (
-                        <LogRow
-                          key={log._id}
-                          log={log}
-                          onClick={setSelectedLog}
-                        />
-                      ))}
-                    </React.Fragment>
-                  ))}
-                </AnimatePresence>
-              )}
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-black dark:hover:text-white"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                )}
+              </div>
+              <FilterDropdown
+                activeCategories={activeCategories}
+                onChange={setActiveCategories}
+              />
             </div>
-          </Card>
+
+            {/* Stream Shell */}
+            <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
+              <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
+                <div className="flex items-center gap-2">
+                  <Activity className="h-3.5 w-3.5 text-neutral-500" />
+                  <span className="font-bold text-neutral-900 dark:text-white">
+                    CHRONOLOGICAL ACTIVITY STREAM
+                  </span>
+                </div>
+                <span className="text-neutral-500 text-[11px]">
+                  {filteredLogs.length} RECORD
+                  {filteredLogs.length !== 1 ? "S" : ""}
+                </span>
+              </div>
+
+              <div className="divide-y divide-neutral-100 dark:divide-[#1e2026] max-h-160 overflow-y-auto">
+                {filteredLogs.length === 0 ? (
+                  <EmptyState
+                    hasFilter={hasActiveFilter}
+                    onClear={clearFilters}
+                  />
+                ) : (
+                  <AnimatePresence mode="popLayout">
+                    {groupedLogs.map(([label, group]) => (
+                      <React.Fragment key={label}>
+                        <DateDivider label={label} />
+                        {group.map((log) => (
+                          <LogRow
+                            key={log._id}
+                            log={log}
+                            onClick={setSelectedLog}
+                          />
+                        ))}
+                      </React.Fragment>
+                    ))}
+                  </AnimatePresence>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* ────────────────────────────────────────────────────────
-          DETAIL DIALOG
-         ──────────────────────────────────────────────────────── */}
       <LogDetailDialog log={selectedLog} onClose={() => setSelectedLog(null)} />
     </div>
   );

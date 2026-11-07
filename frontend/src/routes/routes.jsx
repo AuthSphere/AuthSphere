@@ -27,6 +27,7 @@ const ProvidersPage = lazy(() => import("@/pages/project/ProvidersPage"));
 const EmailCustomizationPage = lazy(
   () => import("@/pages/project/EmailCustomizationPage"),
 );
+const NotFound = lazy(() => import("@/pages/public/NotFound"));
 
 export const routes = [
   {
@@ -168,15 +169,6 @@ export const routes = [
   },
   {
     path: "*",
-    element: (
-      <MainLayout>
-        <div className="flex h-[calc(100vh-160px)] items-center justify-center">
-          <div className="text-center space-y-2">
-            <h1 className="text-4xl font-bold">404</h1>
-            <p className="text-muted-foreground">Page Not Found</p>
-          </div>
-        </div>
-      </MainLayout>
-    ),
+    element: <NotFound />,
   },
 ];

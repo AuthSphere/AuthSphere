@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import TechSeparator from "@/components/common/TechSeparator";
 
 const CODE_SNIPPETS = {
   "init.ts": {
@@ -126,8 +127,10 @@ export const DeveloperExperienceSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left: Editorial Pitch */}
           <div className="lg:col-span-5 flex flex-col gap-6">
-            <div className="text-[11px] font-mono tracking-widest text-neutral-400 uppercase">
-              03 // Developer Experience
+            <div className="text-[11px] font-mono tracking-widest text-neutral-400 uppercase flex items-center">
+              <span>03</span>
+              <TechSeparator />
+              <span>Developer Experience</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white leading-tight">
               Less authentication boilerplate. More building.

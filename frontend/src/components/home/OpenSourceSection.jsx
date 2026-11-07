@@ -1,4 +1,5 @@
 import React from "react";
+import TechSeparator from "@/components/common/TechSeparator";
 
 export const OpenSourceSection = () => {
   return (
@@ -6,13 +7,15 @@ export const OpenSourceSection = () => {
       id="community"
       className="w-full bg-[#09090c] text-white py-24 border-b border-neutral-800 isolate"
     >
-      <div className="max-w-[1360px] mx-auto px-6 lg:px-12">
+      <div className="max-w-340 mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left: Editorial Pitch */}
           <div className="lg:col-span-7 flex flex-col gap-6">
-            <div className="inline-flex items-center gap-2 self-start px-2.5 py-1 rounded bg-[#18191D] border border-[#26262b] text-[11px] font-mono text-neutral-400">
+            <div className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded bg-[#18191D] border border-[#26262b] text-[11px] font-mono text-neutral-400">
               <span className="w-1.5 h-1.5 rounded-full bg-white" />
-              <span>04 // PUBLIC REPOSITORY &amp; ROADMAP</span>
+              <span>04</span>
+              <TechSeparator />
+              <span>PUBLIC REPOSITORY &amp; ROADMAP</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white leading-tight">
               Built in the open.

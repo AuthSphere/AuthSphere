@@ -1,4 +1,3 @@
- 
 import React from "react";
 import {
   Globe,
@@ -88,7 +87,7 @@ const Architecture = () => {
             </div>
             <div className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground bg-muted/60 px-2.5 py-1 rounded border border-border/40">
               <span className="h-2 w-2 rounded-full bg-emerald-500" />
-              <span>RS256 &bull; Sub-millisecond</span>
+              <span>HS256 &bull; Sub-millisecond</span>
             </div>
           </div>
 
