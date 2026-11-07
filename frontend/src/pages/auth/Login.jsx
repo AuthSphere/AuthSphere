@@ -17,7 +17,7 @@ const loginSchema = z.object({
 export const Login = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { user } = useAuthStore();
+  const { user, setUser } = useAuthStore();
   const { mutate, isPending } = useLogin();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -58,6 +58,9 @@ export const Login = () => {
       {
         onSuccess: (data) => {
           if (data.success) {
+            if (data.developer) {
+              setUser(data.developer);
+            }
             toast.success("Login successful!");
 
             if (data.redirect_uri) {

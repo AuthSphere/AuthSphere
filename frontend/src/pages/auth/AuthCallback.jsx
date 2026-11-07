@@ -43,7 +43,7 @@ const AuthCallback = () => {
         if (res.data.success) {
           setStage(3);
           toast.success("Cryptographic handshake verified!");
-          await checkAuth();
+          await checkAuth(true);
           setTimeout(() => {
             navigate("/dashboard");
           }, 600);
