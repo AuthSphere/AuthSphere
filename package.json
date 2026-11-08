@@ -40,6 +40,6 @@
     ]
   },
   "dependencies": {
-    "@exortek/express-mongo-sanitize": "^4.0.0"
+    "express-mongo-sanitize": "^2.2.0"
   }
 }
