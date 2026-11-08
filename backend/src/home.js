@@ -29,7 +29,7 @@ const homeHandler = (req, res) => {
       monitoring: "/health",
     },
     resources: {
-      documentation: "https://authsphere.vercel.app/docs",
+      documentation: `${conf.frontendUrl}/docs`,
       repository: "https://github.com/AuthSphere",
       status_page: "https://status.authsphere.io",
       frontend: conf.frontendUrl,
