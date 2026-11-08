@@ -31,7 +31,6 @@ const NotFound = lazy(() => import("@/pages/public/NotFound"));
  * state remain persistent across sibling view transitions without remounting overhead.
  */
 export const routes = [
-  // Standalone public routes (custom header/footer or full-screen enclave)
   {
     path: "/",
     element: <Home />,
@@ -53,7 +52,6 @@ export const routes = [
     element: <VerifyOTP />,
   },
 
-  // Public content views sharing standard MainLayout
   {
     element: <MainLayout />,
     children: [
@@ -68,7 +66,6 @@ export const routes = [
     ],
   },
 
-  // Authenticated Developer Enclave routes sharing MainLayout & session guard
   {
     element: (
       <ProtectedRoute>
@@ -111,7 +108,6 @@ export const routes = [
     ],
   },
 
-  // Route resolution failure fallback
   {
     path: "*",
     element: <NotFound />,
