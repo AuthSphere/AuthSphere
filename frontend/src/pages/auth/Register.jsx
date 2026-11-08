@@ -232,6 +232,7 @@ export const Register = () => {
                   <input
                     id="fullName"
                     type="text"
+                    autoComplete="username"
                     {...register("username")}
                     placeholder="Your developer handle"
                     className="w-full h-10.5 px-3.5 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded-lg border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors shadow-2xs"
@@ -258,6 +259,8 @@ export const Register = () => {
                   <input
                     id="email"
                     type="email"
+                    autoComplete="email"
+                    inputMode="email"
                     {...register("email")}
                     placeholder="you@example.com"
                     className="w-full h-10.5 px-3.5 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded-lg border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors shadow-2xs"
@@ -281,6 +284,7 @@ export const Register = () => {
                     <input
                       id="password"
                       type={showPassword ? "text" : "password"}
+                      autoComplete="new-password"
                       {...register("password")}
                       placeholder="Min 6 chars"
                       className="w-full h-10.5 pl-3.5 pr-9 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded-lg border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors shadow-2xs"
@@ -321,6 +325,7 @@ export const Register = () => {
                     <input
                       id="confirmPassword"
                       type={showConfirmPassword ? "text" : "password"}
+                      autoComplete="new-password"
                       {...register("confirmPassword")}
                       placeholder="Repeat password"
                       className="w-full h-10.5 pl-3.5 pr-9 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded-lg border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors shadow-2xs"

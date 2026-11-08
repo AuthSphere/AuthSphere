@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useSearchParams, Link } from "react-router-dom";
+import {
+  useNavigate,
+  useSearchParams,
+  useLocation,
+  Link,
+} from "react-router-dom";
 import useAuthStore from "@/store/authStore";
 import { toast } from "sonner";
 import { useLogin } from "@/hooks/useAuthQuery";
@@ -35,20 +40,25 @@ export const Login = () => {
     },
   });
 
+  const location = useLocation();
   const sdk_request = searchParams.get("sdk_request");
+  const redirectTarget = location.state?.from || "/dashboard";
 
   // Redirect if already logged in (Only for dashboard login)
   useEffect(() => {
     if (user && !sdk_request) {
-      navigate("/dashboard");
+      navigate(redirectTarget, { replace: true });
     }
-  }, [user, navigate, sdk_request]);
+  }, [user, navigate, sdk_request, redirectTarget]);
 
   const handleSocialLogin = (provider) => {
-    const baseUrl = `${import.meta.env.VITE_BACKEND_URL}/auth/${provider}`;
+    const rawBackendUrl =
+      import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
+    const cleanBackendUrl = rawBackendUrl.replace(/\/+$/, "");
+    const baseUrl = `${cleanBackendUrl}/auth/${provider}`;
 
     window.location.href = sdk_request
-      ? `${baseUrl}?sdk_request=${sdk_request}`
+      ? `${baseUrl}?sdk_request=${encodeURIComponent(sdk_request)}`
       : baseUrl;
   };
 
@@ -66,7 +76,7 @@ export const Login = () => {
             if (data.redirect_uri) {
               window.location.href = data.redirect_uri;
             } else {
-              window.location.href = "/dashboard";
+              navigate(redirectTarget, { replace: true });
             }
           }
         },
@@ -171,6 +181,8 @@ export const Login = () => {
                 <input
                   id="identity-email"
                   type="email"
+                  autoComplete="username"
+                  inputMode="email"
                   {...register("email")}
                   placeholder="name@company.com"
                   className="w-full h-10 px-3 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
@@ -206,6 +218,7 @@ export const Login = () => {
                 <input
                   id="identity-pass"
                   type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
                   {...register("password")}
                   placeholder="Enter your password"
                   className="w-full h-10 px-3 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white font-sans text-sm rounded border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
@@ -233,12 +246,12 @@ export const Login = () => {
                   </span>
                 </label>
 
-                <Link
-                  to="/forgot-password"
-                  className="text-xs text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors"
+                <span
+                  className="text-xs text-neutral-400 dark:text-neutral-500 cursor-not-allowed select-none"
+                  title="Password recovery is currently disabled"
                 >
                   Forgot password?
-                </Link>
+                </span>
               </div>
 
               {/* Submit */}

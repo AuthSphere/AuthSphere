@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   BookOpen,
   Zap,
@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 
 import useAuthStore from "@/store/authStore";
-import { getProjects } from "@/api/ProjectAPI";
+import { useProjects } from "@/hooks/useProjects";
 
 // Documentation Components
 import DocsHeader from "@/components/documentation/DocsHeader";
@@ -38,27 +38,15 @@ import ErrorHandling from "@/components/documentation/sections/ErrorHandling";
 
 const Documentation = () => {
   const { user } = useAuthStore();
-  const [activeSection, setActiveSection] = useState("introduction");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [projects, setProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user) {
-      const fetchProjects = async () => {
-        try {
-          const res = await getProjects();
-          if (res.success && res.data.length > 0) {
-            setProjects(res.data);
-            setSelectedProject(res.data[0]);
-          }
-        } catch (error) {
-          console.error("Failed to fetch projects for docs", error);
-        }
-      };
-      fetchProjects();
-    }
-  }, [user]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { data: projects = [] } = useProjects({ enabled: Boolean(user) });
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
+
+  const selectedProject =
+    projects.find((p) => p._id === selectedProjectId) || projects[0] || null;
 
   const sections = [
     {
@@ -124,8 +112,14 @@ const Documentation = () => {
     },
   ];
 
+  const currentHash = location.hash ? location.hash.replace("#", "") : "";
+  const validSectionIds = sections.map((s) => s.id);
+  const activeSection = validSectionIds.includes(currentHash)
+    ? currentHash
+    : "introduction";
+
   const navigateTo = (id) => {
-    setActiveSection(id);
+    navigate(`/docs#${id}`);
     setIsSidebarOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -168,9 +162,7 @@ const Documentation = () => {
             user={user}
             projects={projects}
             selectedProject={selectedProject}
-            onSelectProject={(val) =>
-              setSelectedProject(projects.find((p) => p._id === val))
-            }
+            onSelectProject={(val) => setSelectedProjectId(val)}
           />
 
           {/* Render Active Section Content */}

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { format, formatDistanceToNow } from "date-fns";
+import { format, formatDistanceToNow, isValid } from "date-fns";
 import {
   XAxis,
   YAxis,
@@ -45,12 +45,18 @@ const COLORS = [
   "#EC4899",
 ];
 
+const safeFormatDate = (dateVal, formatStr = "MMM dd, yyyy") => {
+  if (!dateVal) return "";
+  const d = new Date(dateVal);
+  return isValid(d) ? format(d, formatStr) : String(dateVal);
+};
+
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white dark:bg-[#14151a] border border-[#eaeaea] dark:border-[#222329] rounded-md p-3 shadow-md font-mono text-xs">
         <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mb-1">
-          {label ? format(new Date(label), "MMM dd, yyyy") : ""}
+          {safeFormatDate(label)}
         </p>
         {payload.map((entry, index) => (
           <div key={index} className="flex items-center gap-2 text-xs">
@@ -75,9 +81,11 @@ const ProjectAnalytics = () => {
   const { overview, charts, activity, isLoading, isError } =
     useAnalytics(projectId);
 
-  if (isError) {
-    toast.error("Failed to load analytics data");
-  }
+  useEffect(() => {
+    if (isError) {
+      toast.error("Failed to load analytics data");
+    }
+  }, [isError]);
 
   if (isLoading) {
     return (

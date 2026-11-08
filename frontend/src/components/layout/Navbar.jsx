@@ -429,7 +429,10 @@ const UserMenu = ({ user, initials, logout, loggingOut, navigate }) => (
       <DropdownMenuSeparator className="my-1 bg-neutral-100 dark:bg-neutral-800" />
 
       <DropdownMenuItem
-        onClick={logout}
+        onClick={async () => {
+          await logout();
+          navigate("/login");
+        }}
         disabled={loggingOut}
         className="flex items-center gap-2.5 px-2.5 py-2 rounded-md text-xs font-medium cursor-pointer text-destructive focus:text-destructive hover:bg-red-50 dark:hover:bg-red-950/30"
       >
@@ -565,9 +568,10 @@ const MobileMenu = ({
               <div className="h-px bg-[#EAEAEA] dark:border-[#222329] my-1.5" />
 
               <button
-                onClick={() => {
-                  logout();
+                onClick={async () => {
+                  await logout();
                   close();
+                  navigate("/login");
                 }}
                 disabled={loggingOut}
                 className="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs text-destructive hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors w-full text-left"

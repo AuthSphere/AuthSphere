@@ -1,11 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, BookOpen, Cpu, ShieldAlert } from "lucide-react";
+import { ArrowLeft, BookOpen } from "lucide-react";
 import AuthSphereLogo from "@/components/common/AuthSphereLogo";
 import TechSeparator from "@/components/common/TechSeparator";
+import useAuthStore from "@/store/authStore";
 
 export const NotFound = () => {
+  const { user } = useAuthStore();
   return (
     <div className="min-h-screen bg-[#fbf9f9] dark:bg-[#09090c] text-neutral-900 dark:text-neutral-100 antialiased flex flex-col justify-center items-center p-4 relative isolate selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
       {/* Precision Engineering Matrix Background */}
@@ -54,10 +56,17 @@ export const NotFound = () => {
                 asChild
                 className="w-full sm:w-auto h-9 px-5 font-mono text-xs bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 shadow-sm"
               >
-                <Link to="/dashboard">
-                  <ArrowLeft className="h-3.5 w-3.5 mr-1.5" />
-                  RETURN TO DASHBOARD
-                </Link>
+                {user ? (
+                  <Link to="/dashboard">
+                    <ArrowLeft className="h-3.5 w-3.5 mr-1.5" />
+                    RETURN TO DASHBOARD
+                  </Link>
+                ) : (
+                  <Link to="/">
+                    <ArrowLeft className="h-3.5 w-3.5 mr-1.5" />
+                    RETURN HOME
+                  </Link>
+                )}
               </Button>
               <Button
                 asChild

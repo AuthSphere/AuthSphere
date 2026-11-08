@@ -1,4 +1,5 @@
 import api from "./axios";
+import { ApiError } from "./errors/ApiError";
 
 /**
  * Base endpoint for project-related operations
@@ -157,7 +158,7 @@ export const deleteWebhook = async (projectId, webhookId) => {
     );
     return data;
   } catch (error) {
-    throw error.response?.data || error;
+    throw normalizeError(error);
   }
 };
 
@@ -169,7 +170,7 @@ export const testWebhook = async (projectId, webhookId, event) => {
     );
     return data;
   } catch (error) {
-    throw error.response?.data || error;
+    throw normalizeError(error);
   }
 };
 
@@ -177,13 +178,5 @@ export const testWebhook = async (projectId, webhookId, event) => {
    Error Normalization Helper
 ======================================================== */
 const normalizeError = (error) => {
-  if (error?.response?.data) {
-    return new Error(error.response.data.message || "Request failed");
-  }
-
-  if (error?.message) {
-    return new Error(error.message);
-  }
-
-  return new Error("An unexpected error occurred");
+  return ApiError.fromAxios(error);
 };

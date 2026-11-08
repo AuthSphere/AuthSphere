@@ -43,20 +43,32 @@ const ProviderCard = ({
   isUpcoming,
   index,
 }) => {
+  const [imageError, setImageError] = useState(false);
+
+  const handleClick = () => {
+    if (isUpcoming) return;
+    if (!isConfigured && !isSelected) {
+      toast.error(`${p.name} - Configuration Required`, {
+        description:
+          backendMessage || "Please add keys to your backend .env file.",
+      });
+      return;
+    }
+    onToggle(p.id);
+  };
+
   return (
     <div
-      onClick={() => {
-        if (isUpcoming) return;
-        if (!isConfigured && !isSelected) {
-          toast.error(`${p.name} - Configuration Required`, {
-            description:
-              backendMessage || "Please add keys to your backend .env file.",
-          });
-          return;
+      role="button"
+      tabIndex={isUpcoming ? -1 : 0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          handleClick();
         }
-        onToggle(p.id);
       }}
-      className={`group relative flex flex-col items-center justify-between p-4 rounded-xl border transition-all duration-200 cursor-pointer select-none overflow-hidden ${
+      onClick={handleClick}
+      className={`group relative flex flex-col items-center justify-between p-4 rounded-xl border transition-all duration-200 cursor-pointer select-none overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white ${
         isSelected
           ? "border-black dark:border-white bg-white dark:bg-[#15161c] shadow-sm ring-1 ring-black/10 dark:ring-white/20"
           : isUpcoming
@@ -76,17 +88,18 @@ const ProviderCard = ({
 
       {/* Logo Container */}
       <div className="h-10 w-10 my-1 rounded-lg bg-white dark:bg-[#181920] border border-neutral-200 dark:border-[#2a2b33] flex items-center justify-center p-2 shadow-xs shrink-0">
-        <img
-          src={p.logo}
-          alt={p.name}
-          className="h-full w-full object-contain"
-          onError={(e) => {
-            e.currentTarget.style.display = "none";
-          }}
-        />
-        <div className="hidden only-child:block text-[11px] font-bold font-mono text-neutral-500">
-          {p.name.charAt(0)}
-        </div>
+        {!imageError && p.logo ? (
+          <img
+            src={p.logo}
+            alt=""
+            className="h-full w-full object-contain"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="text-[11px] font-bold font-mono text-neutral-500">
+            {p.name.charAt(0)}
+          </div>
+        )}
       </div>
 
       {/* Name and State Tag */}

@@ -1,5 +1,6 @@
-import { Navigate } from "react-router-dom";
 import { lazy } from "react";
+import ProtectedRoute from "./ProtectedRoute";
+import MainLayout from "@/components/layout/MainLayout";
 
 const Home = lazy(() => import("@/pages/public/Home"));
 const Login = lazy(() => import("@/pages/auth/Login"));
@@ -8,10 +9,6 @@ const VerifyOTP = lazy(() => import("@/pages/auth/VerifyOTP"));
 const Dashboard = lazy(() => import("@/pages/dashboard/Dashboard"));
 const Documentation = lazy(() => import("@/pages/public/Documentation"));
 const AuthCallback = lazy(() => import("@/pages/auth/AuthCallback"));
-
-import ProtectedRoute from "./ProtectedRoute";
-import MainLayout from "@/components/layout/MainLayout";
-
 const ProjectDetailPage = lazy(
   () => import("@/pages/project/ProjectDetailPage"),
 );
@@ -23,152 +20,102 @@ const Pricing = lazy(() => import("@/pages/public/Pricing"));
 const Settings = lazy(() => import("@/pages/dashboard/Settings"));
 const AuditLogs = lazy(() => import("@/pages/dashboard/AuditLogs"));
 const ProvidersPage = lazy(() => import("@/pages/project/ProvidersPage"));
-
 const EmailCustomizationPage = lazy(
   () => import("@/pages/project/EmailCustomizationPage"),
 );
 const NotFound = lazy(() => import("@/pages/public/NotFound"));
 
+/**
+ * Nested Application Route Hierarchy.
+ * Uses React Router nested route configuration to ensure MainLayout and navigation
+ * state remain persistent across sibling view transitions without remounting overhead.
+ */
 export const routes = [
+  // Standalone public routes (custom header/footer or full-screen enclave)
   {
     path: "/",
-    element: (
-      <MainLayout showNavAndFooter={false}>
-        <Home />
-      </MainLayout>
-    ),
-  },
-
-  {
-    path: "/pricing",
-    element: (
-      <MainLayout>
-        <Pricing />
-      </MainLayout>
-    ),
-  },
-  {
-    path: "/docs",
-    element: (
-      <MainLayout>
-        <Documentation />
-      </MainLayout>
-    ),
+    element: <Home />,
   },
   {
     path: "/login",
-    element: (
-      <MainLayout showNavAndFooter={false}>
-        <Login />
-      </MainLayout>
-    ),
+    element: <Login />,
   },
   {
     path: "/register",
-    element: (
-      <MainLayout showNavAndFooter={false}>
-        <Register />
-      </MainLayout>
-    ),
+    element: <Register />,
   },
   {
     path: "/auth/callback",
-    element: (
-      <MainLayout showNavAndFooter={false}>
-        <AuthCallback />
-      </MainLayout>
-    ),
+    element: <AuthCallback />,
   },
   {
     path: "/verify",
-    element: (
-      <MainLayout showNavAndFooter={false}>
-        <VerifyOTP />
-      </MainLayout>
-    ),
+    element: <VerifyOTP />,
   },
+
+  // Public content views sharing standard MainLayout
   {
-    path: "/dashboard",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "/pricing",
+        element: <Pricing />,
+      },
+      {
+        path: "/docs",
+        element: <Documentation />,
+      },
+    ],
+  },
+
+  // Authenticated Developer Enclave routes sharing MainLayout & session guard
+  {
     element: (
       <ProtectedRoute>
-        <MainLayout>
-          <Dashboard />
-        </MainLayout>
+        <MainLayout />
       </ProtectedRoute>
     ),
+    children: [
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "/projects/:projectId",
+        element: <ProjectDetailPage />,
+      },
+      {
+        path: "/projects/:projectId/analytics",
+        element: <ProjectAnalytics />,
+      },
+      {
+        path: "/projects/:projectId/email-customization",
+        element: <EmailCustomizationPage />,
+      },
+      {
+        path: "/projects/:projectId/providers",
+        element: <ProvidersPage />,
+      },
+      {
+        path: "/settings",
+        element: <Settings />,
+      },
+      {
+        path: "/settings/sessions",
+        element: <SessionManagement />,
+      },
+      {
+        path: "/audit-logs",
+        element: <AuditLogs />,
+      },
+    ],
   },
-  {
-    path: "/projects/:projectId",
-    element: (
-      <ProtectedRoute>
-        <MainLayout>
-          <ProjectDetailPage />
-        </MainLayout>
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/projects/:projectId/analytics",
-    element: (
-      <ProtectedRoute>
-        <MainLayout>
-          <ProjectAnalytics />
-        </MainLayout>
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/projects/:projectId/email-customization",
-    element: (
-      <ProtectedRoute>
-        <MainLayout>
-          <EmailCustomizationPage />
-        </MainLayout>
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/projects/:projectId/providers",
-    element: (
-      <ProtectedRoute>
-        <MainLayout>
-          <ProvidersPage />
-        </MainLayout>
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/settings",
-    element: (
-      <ProtectedRoute>
-        <MainLayout>
-          <Settings />
-        </MainLayout>
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/settings/sessions",
-    element: (
-      <ProtectedRoute>
-        <MainLayout>
-          <SessionManagement />
-        </MainLayout>
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/audit-logs",
-    element: (
-      <ProtectedRoute>
-        <MainLayout>
-          <AuditLogs />
-        </MainLayout>
-      </ProtectedRoute>
-    ),
-  },
+
+  // Route resolution failure fallback
   {
     path: "*",
     element: <NotFound />,
   },
 ];
+
+export default routes;

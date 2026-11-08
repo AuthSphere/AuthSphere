@@ -3,14 +3,15 @@ import useAuthStore from "../store/authStore";
 import { Loader2 } from "lucide-react";
 
 const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useAuthStore();
+  const { user, loading, status } = useAuthStore();
   const location = useLocation();
 
-  /* ---------------- LOADING STATE ---------------- */
-  if (loading) {
+  /* ---------------- LOADING / VERIFYING STATE ---------------- */
+  if (loading || status === "unknown" || status === "checking") {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+      <div className="min-h-screen flex flex-col items-center justify-center gap-2 font-mono text-xs text-neutral-500 dark:text-neutral-400">
+        <Loader2 className="h-6 w-6 animate-spin text-neutral-900 dark:text-white mb-1" />
+        <span>AUTHENTICATING SESSION...</span>
       </div>
     );
   }

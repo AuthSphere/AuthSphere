@@ -1,7 +1,11 @@
 import axios from "axios";
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+const rawBaseUrl =
+  import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
+const cleanBaseUrl = rawBaseUrl.replace(/\/+$/, "");
+
+export const api = axios.create({
+  baseURL: cleanBaseUrl,
   withCredentials: true,
 });
 
@@ -30,16 +34,16 @@ const NO_REFRESH_URLS = [
   "/auth/",
 ];
 
-// Public pages where an unauthenticated state should NOT trigger a forced redirect to /login
-const PUBLIC_ROUTES = [
-  "/",
-  "/login",
-  "/register",
-  "/pricing",
-  "/docs",
-  "/verify",
-  "/auth/callback",
-];
+// Injected callbacks to avoid circular dependencies between Axios and state stores
+let authCallbacks = {
+  onTokenRefreshed: null,
+  onAuthFailure: null,
+};
+
+export const setAxiosAuthCallbacks = ({ onTokenRefreshed, onAuthFailure }) => {
+  if (onTokenRefreshed) authCallbacks.onTokenRefreshed = onTokenRefreshed;
+  if (onAuthFailure) authCallbacks.onAuthFailure = onAuthFailure;
+};
 
 api.interceptors.response.use(
   (response) => response,
@@ -68,25 +72,19 @@ api.interceptors.response.use(
       try {
         await api.post("/developers/refresh-token", {}, { _skipRefresh: true });
 
-        // ✅ DISPATCH EVENT TO UPDATE AUTH CONTEXT
-        window.dispatchEvent(new Event("token-refreshed"));
+        // Synchronize auth state without window DOM events
+        if (authCallbacks.onTokenRefreshed) {
+          await authCallbacks.onTokenRefreshed();
+        }
 
         processQueue(null);
         return api(originalRequest);
       } catch (refreshError) {
-        processQueue(refreshError, null);
+        processQueue(refreshError);
 
-        // ✅ CLEAR SESSION
-        window.dispatchEvent(new Event("auth-failed"));
-
-        // Only redirect if the user is on a protected route
-        const currentPath = window.location.pathname;
-        const isPublic = PUBLIC_ROUTES.some((route) =>
-          route === "/" ? currentPath === "/" : currentPath.startsWith(route),
-        );
-
-        if (!isPublic) {
-          window.location.href = "/login";
+        // Notify auth store of invalid session
+        if (authCallbacks.onAuthFailure) {
+          authCallbacks.onAuthFailure();
         }
 
         return Promise.reject(refreshError);

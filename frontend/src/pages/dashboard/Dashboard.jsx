@@ -52,15 +52,20 @@ import {
 
 import { getDashboardStats } from "@/api/DeveloperAPI";
 import CreateProjectModal from "@/components/project/CreateProjectModal";
-import { format, formatDistanceToNow } from "date-fns";
+import { format, formatDistanceToNow, isValid } from "date-fns";
 import { usePWA } from "@/hooks/usePWA";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
+    const formattedDate =
+      label && isValid(new Date(label))
+        ? format(new Date(label), "MMM dd, yyyy")
+        : label || "";
+
     return (
       <div className="bg-white dark:bg-[#14151a] border border-[#eaeaea] dark:border-[#222329] rounded-md p-3 shadow-md font-mono text-xs">
         <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mb-1">
-          {label ? format(new Date(label), "MMM dd, yyyy") : ""}
+          {formattedDate}
         </p>
         <p className="font-semibold text-neutral-900 dark:text-white flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />

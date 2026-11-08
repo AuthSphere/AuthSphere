@@ -21,7 +21,7 @@ export default defineConfig({
         process.env.NODE_ENV === "production" &&
         process.env.ENABLE_PWA !== "true",
       registerType: "autoUpdate",
-      includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
+      includeAssets: ["assets/AuthSphere(main).png", "assets/AuthSphere.png"],
       manifest: {
         name: "AuthSphere Dashboard",
         short_name: "AuthSphere",
@@ -55,8 +55,14 @@ export default defineConfig({
     host: true,
   },
   build: {
-    chunkSizeWarningLimit: 2000,
     rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules/recharts")) {
+            return "vendor-recharts";
+          }
+        },
+      },
       onwarn(warning, warn) {
         if (warning.code === "INVALID_ANNOTATION") return;
         warn(warning);
