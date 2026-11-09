@@ -58,18 +58,18 @@ const CreateProjectModal = ({ open, onClose, onCreated }) => {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-125 bg-white dark:bg-[#0c0d10] border border-[#eaeaea] dark:border-[#222329] p-6 shadow-lg rounded-xl">
+      <DialogContent className="sm:max-w-125 bg-card border border-border p-6 shadow-lg rounded-xl text-card-foreground">
         <DialogHeader className="space-y-1">
           <div className="flex items-center gap-2 mb-1">
-            <span className="w-1.5 h-1.5 bg-black dark:bg-white rounded-full" />
-            <span className="font-mono text-[10px] uppercase tracking-widest text-neutral-500">
+            <span className="w-1.5 h-1.5 bg-primary rounded-full" />
+            <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
               NEW NAMESPACE
             </span>
           </div>
-          <DialogTitle className="text-xl font-bold tracking-tight text-neutral-900 dark:text-white">
+          <DialogTitle className="text-xl font-bold tracking-tight text-foreground">
             Create Identity Project
           </DialogTitle>
-          <DialogDescription className="text-xs text-neutral-500 dark:text-neutral-400">
+          <DialogDescription className="text-xs text-muted-foreground">
             Provision a new isolated authentication namespace and generate
             client credentials.
           </DialogDescription>
@@ -79,7 +79,7 @@ const CreateProjectModal = ({ open, onClose, onCreated }) => {
           <div className="space-y-1.5">
             <Label
               htmlFor="name"
-              className="text-xs font-semibold text-neutral-800 dark:text-neutral-200"
+              className="text-xs font-semibold text-foreground"
             >
               Project Name
             </Label>
@@ -91,16 +91,16 @@ const CreateProjectModal = ({ open, onClose, onCreated }) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 disabled={loading}
-                className="pl-9 h-9 text-xs bg-white dark:bg-[#14151a] border-[#eaeaea] dark:border-[#26262b] text-neutral-900 dark:text-white placeholder:text-neutral-400"
+                className="pl-9 h-9 text-xs bg-background border-input text-foreground placeholder:text-muted-foreground"
               />
-              <Zap className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-400" />
+              <Zap className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
             </div>
           </div>
 
           <div className="space-y-1.5">
             <Label
               htmlFor="redirectUri"
-              className="text-xs font-semibold text-neutral-800 dark:text-neutral-200"
+              className="text-xs font-semibold text-foreground"
             >
               OAuth Callback URL
             </Label>
@@ -111,29 +111,29 @@ const CreateProjectModal = ({ open, onClose, onCreated }) => {
                 value={redirectUri}
                 onChange={(e) => setRedirectUri(e.target.value)}
                 disabled={loading}
-                className="pl-9 h-9 font-mono text-xs bg-white dark:bg-[#14151a] border-[#eaeaea] dark:border-[#26262b] text-neutral-900 dark:text-white placeholder:text-neutral-400"
+                className="pl-9 h-9 font-mono text-xs bg-background border-input text-foreground placeholder:text-muted-foreground"
               />
-              <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-400" />
+              <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
             </div>
-            <p className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400">
+            <p className="text-[11px] font-mono text-muted-foreground">
               Strict redirect validation enforced via RFC-6749.
             </p>
           </div>
 
-          <div className="p-3 bg-neutral-50 dark:bg-[#14151a] rounded border border-[#eaeaea] dark:border-[#222329] text-xs font-mono text-neutral-600 dark:text-neutral-400 flex items-center justify-between">
+          <div className="p-3 bg-muted rounded border border-border text-xs font-mono text-muted-foreground flex items-center justify-between">
             <span>CRYPTO SCHEME</span>
-            <span className="font-semibold text-neutral-900 dark:text-white">
+            <span className="font-semibold text-foreground">
               AES-256 + PKCE SHA-256
             </span>
           </div>
         </div>
 
-        <DialogFooter className="gap-2 sm:gap-0 pt-2 border-t border-[#eaeaea] dark:border-[#222329]">
+        <DialogFooter className="gap-2 sm:gap-0 pt-2 border-t border-border">
           <Button
             variant="outline"
             onClick={onClose}
             disabled={loading}
-            className="h-9 px-4 text-xs font-mono border-[#eaeaea] dark:border-[#222329] hover:bg-neutral-100 dark:hover:bg-neutral-800 cursor-pointer"
+            className="h-9 px-4 text-xs font-mono border-border cursor-pointer"
           >
             Cancel
           </Button>
@@ -141,11 +141,11 @@ const CreateProjectModal = ({ open, onClose, onCreated }) => {
           <Button
             onClick={handleCreate}
             disabled={loading || !name.trim() || !redirectUri.trim()}
-            className="h-9 px-4 text-xs font-semibold bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 gap-2 cursor-pointer shadow-xs disabled:opacity-50"
+            className="h-9 px-4 text-xs font-semibold gap-2 cursor-pointer shadow-xs disabled:opacity-50"
           >
             {loading ? (
               <>
-                <div className="h-3.5 w-3.5 border-2 border-white/30 dark:border-black/30 border-t-white dark:border-t-black rounded-full animate-spin" />
+                <div className="h-3.5 w-3.5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
                 <span>Provisioning...</span>
               </>
             ) : (

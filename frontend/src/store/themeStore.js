@@ -1,43 +1,48 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+let mediaQueryListener = null;
+
+const applyThemeToDOM = (theme) => {
+  if (typeof window === "undefined") return;
+  const root = window.document.documentElement;
+  root.classList.remove("light", "dark");
+
+  const media = window.matchMedia("(prefers-color-scheme: dark)");
+
+  if (mediaQueryListener) {
+    media.removeEventListener("change", mediaQueryListener);
+    mediaQueryListener = null;
+  }
+
+  if (theme === "system") {
+    const resolved = media.matches ? "dark" : "light";
+    root.classList.add(resolved);
+
+    mediaQueryListener = (e) => {
+      root.classList.remove("light", "dark");
+      root.classList.add(e.matches ? "dark" : "light");
+    };
+    media.addEventListener("change", mediaQueryListener);
+  } else {
+    root.classList.add(theme);
+  }
+};
+
 const useThemeStore = create(
   persist(
     (set) => ({
-      theme: "dark", // Default to dark initially as requested
+      theme: "dark",
       setTheme: (theme) => {
-        const root = window.document.documentElement;
-        root.classList.remove("light", "dark");
-
-        if (theme === "system") {
-          const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-            .matches
-            ? "dark"
-            : "light";
-          root.classList.add(systemTheme);
-        } else {
-          root.classList.add(theme);
-        }
+        applyThemeToDOM(theme);
         set({ theme });
       },
     }),
     {
       name: "authsphere-ui-theme",
       onRehydrateStorage: () => (state) => {
-        // Ensure class is applied on initial load
-        if (state) {
-          const root = window.document.documentElement;
-          root.classList.remove("light", "dark");
-          if (state.theme === "system") {
-            const systemTheme = window.matchMedia(
-              "(prefers-color-scheme: dark)",
-            ).matches
-              ? "dark"
-              : "light";
-            root.classList.add(systemTheme);
-          } else {
-            root.classList.add(state.theme);
-          }
+        if (state?.theme) {
+          applyThemeToDOM(state.theme);
         }
       },
     },

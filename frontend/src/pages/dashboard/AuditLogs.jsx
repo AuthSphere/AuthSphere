@@ -526,23 +526,23 @@ const FilterDropdown = ({ activeCategories, onChange }) => (
       <Button
         variant="outline"
         size="sm"
-        className="h-9 gap-1.5 text-xs font-mono border-neutral-200 dark:border-[#2a2b33]"
+        className="h-9 gap-1.5 text-xs font-mono border-border bg-card hover:bg-accent text-foreground"
       >
         <SlidersHorizontal className="h-3.5 w-3.5" />
         <span>FILTER</span>
         {activeCategories.length < ALL_CATEGORIES.length && (
-          <span className="ml-1 h-4 px-1 rounded bg-black dark:bg-white text-white dark:text-black text-[9px] font-bold">
+          <span className="ml-1 h-4 px-1 rounded bg-primary text-primary-foreground text-[9px] font-bold">
             {activeCategories.length}
           </span>
         )}
-        <ChevronDown className="h-3 w-3 text-neutral-400 ml-0.5" />
+        <ChevronDown className="h-3 w-3 text-muted-foreground ml-0.5" />
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent
       align="end"
-      className="w-44 font-mono text-xs border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316]"
+      className="w-44 font-mono text-xs border-border bg-popover text-popover-foreground"
     >
-      <DropdownMenuLabel className="text-[10px] uppercase tracking-wider text-neutral-400 font-semibold">
+      <DropdownMenuLabel className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
         CATEGORIES
       </DropdownMenuLabel>
       <DropdownMenuSeparator />
@@ -643,20 +643,20 @@ const AuditLogs = () => {
   if (loading) return <LoadingScreen />;
 
   return (
-    <div className="min-h-screen bg-[#fbf9f9] dark:bg-[#09090c] text-neutral-900 dark:text-neutral-100 antialiased relative isolate selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+    <div className="min-h-screen bg-background text-foreground antialiased relative isolate selection:bg-primary selection:text-primary-foreground">
       {/* Precision Engineering Matrix Background */}
-      <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-[#fbf9f9] dark:bg-[#09090c]">
+      <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-background">
         <div className="absolute inset-0 grid-matrix opacity-40 dark:opacity-20" />
         <div className="absolute inset-0 bg-radial from-transparent via-transparent to-neutral-200/50 dark:to-black/60" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Engineering Eyebrow */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-neutral-200 dark:border-[#222329] pb-3 gap-2">
-          <div className="flex items-center text-xs font-mono text-neutral-500 uppercase tracking-widest">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-border pb-3 gap-2">
+          <div className="flex items-center text-xs font-mono text-muted-foreground uppercase tracking-widest">
             <Link
               to="/dashboard"
-              className="hover:text-black dark:hover:text-white inline-flex items-center gap-1.5"
+              className="hover:text-foreground inline-flex items-center gap-1.5"
             >
               <ChevronLeft className="h-3.5 w-3.5" />
               <span>DASHBOARD</span>
@@ -672,7 +672,7 @@ const AuditLogs = () => {
             <Button
               variant="outline"
               size="sm"
-              className="h-7 text-xs font-mono border-neutral-200 dark:border-[#2a2b33] gap-1.5"
+              className="h-7 text-xs font-mono border-border bg-card hover:bg-accent text-foreground gap-1.5"
               onClick={() => {
                 downloadJSON(filteredLogs);
                 toast.success("Audit ledger exported as JSON");
@@ -686,10 +686,10 @@ const AuditLogs = () => {
 
         {/* Page Title */}
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
             Audit Logs
           </h1>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-1 font-mono">
+          <p className="text-xs text-muted-foreground mt-1 font-mono">
             Cryptographically signed event ledger monitoring all security,
             administrative, and tenant events.
           </p>
@@ -697,50 +697,50 @@ const AuditLogs = () => {
 
         {/* 4 Precision Metric Tiles */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] p-5 shadow-xs">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-1">
+          <div className="rounded-xl border border-border bg-card p-5 shadow-xs">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground block mb-1">
               01 // TOTAL EVENTS
             </span>
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-bold font-mono text-neutral-900 dark:text-white">
+              <span className="text-2xl font-bold font-mono text-foreground">
                 {stats.total}
               </span>
-              <span className="text-[10px] font-mono text-neutral-400">
+              <span className="text-[10px] font-mono text-muted-foreground/80">
                 ({filteredLogs.length} VISIBLE)
               </span>
             </div>
           </div>
 
-          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] p-5 shadow-xs">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-1">
+          <div className="rounded-xl border border-border bg-card p-5 shadow-xs">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground block mb-1">
               02 // SECURITY ALERTS
             </span>
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-bold font-mono text-rose-600 dark:text-rose-400">
                 {stats.security}
               </span>
-              <span className="text-[10px] font-mono text-neutral-400">
+              <span className="text-[10px] font-mono text-muted-foreground/80">
                 FLAGGED
               </span>
             </div>
           </div>
 
-          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] p-5 shadow-xs">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-1">
+          <div className="rounded-xl border border-border bg-card p-5 shadow-xs">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground block mb-1">
               03 // UNIQUE INGRESS IPS
             </span>
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-bold font-mono text-neutral-900 dark:text-white">
+              <span className="text-2xl font-bold font-mono text-foreground">
                 {stats.uniqueIps}
               </span>
-              <span className="text-[10px] font-mono text-neutral-400">
+              <span className="text-[10px] font-mono text-muted-foreground/80">
                 ORIGINS
               </span>
             </div>
           </div>
 
-          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] p-5 shadow-xs">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-1">
+          <div className="rounded-xl border border-border bg-card p-5 shadow-xs">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground block mb-1">
               04 // LEDGER INTEGRITY
             </span>
             <div className="flex items-baseline gap-2">
@@ -758,12 +758,12 @@ const AuditLogs = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Left Column: Category Distribution & Origin Analytics */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
-              <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
-                <span className="font-bold text-neutral-900 dark:text-white">
+            <div className="rounded-xl border border-border bg-card overflow-hidden shadow-xs">
+              <div className="px-5 py-3 border-b border-border bg-muted/50 flex items-center justify-between text-xs font-mono">
+                <span className="font-bold text-foreground">
                   EVENT DISTRIBUTION
                 </span>
-                <span className="text-neutral-400 text-[10px]">
+                <span className="text-muted-foreground text-[10px]">
                   CATEGORY SHARE
                 </span>
               </div>
@@ -802,7 +802,7 @@ const AuditLogs = () => {
                     </ResponsiveContainer>
                   </div>
                 ) : (
-                  <div className="h-32 flex items-center justify-center font-mono text-xs text-neutral-400">
+                  <div className="h-32 flex items-center justify-center font-mono text-xs text-muted-foreground">
                     NO CATEGORY DATA
                   </div>
                 )}
@@ -811,12 +811,14 @@ const AuditLogs = () => {
 
             {/* Top Origins IP Box */}
             {stats.uniqueIps > 0 && (
-              <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
-                <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
-                  <span className="font-bold text-neutral-900 dark:text-white">
+              <div className="rounded-xl border border-border bg-card overflow-hidden shadow-xs">
+                <div className="px-5 py-3 border-b border-border bg-muted/50 flex items-center justify-between text-xs font-mono">
+                  <span className="font-bold text-foreground">
                     TOP ORIGIN IPS
                   </span>
-                  <span className="text-neutral-400 text-[10px]">GEO_IP</span>
+                  <span className="text-muted-foreground text-[10px]">
+                    GEO_IP
+                  </span>
                 </div>
                 <div className="p-5 space-y-2.5 font-mono text-xs">
                   {Array.from(
@@ -833,19 +835,17 @@ const AuditLogs = () => {
                         key={ip}
                         className="flex items-center justify-between gap-3 text-xs"
                       >
-                        <span className="text-neutral-700 dark:text-neutral-300 truncate">
-                          {ip}
-                        </span>
+                        <span className="text-foreground truncate">{ip}</span>
                         <div className="flex items-center gap-2 shrink-0">
-                          <div className="h-1 w-16 bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden">
+                          <div className="h-1 w-16 bg-muted rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-black dark:bg-white rounded-full"
+                              className="h-full bg-primary rounded-full"
                               style={{
                                 width: `${(count / logs.length) * 100}%`,
                               }}
                             />
                           </div>
-                          <span className="text-neutral-400 text-[10px] w-4 text-right">
+                          <span className="text-muted-foreground text-[10px] w-4 text-right">
                             {count}
                           </span>
                         </div>
@@ -861,17 +861,17 @@ const AuditLogs = () => {
             {/* Search and Filter Command Bar */}
             <div className="flex items-center gap-2">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
                 <Input
                   placeholder="Filter events by description, action, or IP..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9 h-9 text-xs font-mono bg-white dark:bg-[#121316] border-neutral-200 dark:border-[#2a2b33] rounded-md focus:border-black dark:focus:border-white"
+                  className="pl-9 h-9 text-xs font-mono bg-background border-input rounded-md focus:border-ring text-foreground"
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery("")}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-black dark:hover:text-white"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                   >
                     <X className="h-3.5 w-3.5" />
                   </button>
@@ -884,21 +884,21 @@ const AuditLogs = () => {
             </div>
 
             {/* Stream Shell */}
-            <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
-              <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
+            <div className="rounded-xl border border-border bg-card overflow-hidden shadow-xs">
+              <div className="px-5 py-3 border-b border-border bg-muted/50 flex items-center justify-between text-xs font-mono">
                 <div className="flex items-center gap-2">
-                  <Activity className="h-3.5 w-3.5 text-neutral-500" />
-                  <span className="font-bold text-neutral-900 dark:text-white">
+                  <Activity className="h-3.5 w-3.5 text-muted-foreground" />
+                  <span className="font-bold text-foreground">
                     CHRONOLOGICAL ACTIVITY STREAM
                   </span>
                 </div>
-                <span className="text-neutral-500 text-[11px]">
+                <span className="text-muted-foreground text-[11px]">
                   {filteredLogs.length} RECORD
                   {filteredLogs.length !== 1 ? "S" : ""}
                 </span>
               </div>
 
-              <div className="divide-y divide-neutral-100 dark:divide-[#1e2026] max-h-160 overflow-y-auto">
+              <div className="divide-y divide-border max-h-160 overflow-y-auto">
                 {filteredLogs.length === 0 ? (
                   <EmptyState
                     hasFilter={hasActiveFilter}

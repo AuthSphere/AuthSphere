@@ -52,17 +52,22 @@ import {
 
 import { getDashboardStats } from "@/api/DeveloperAPI";
 import CreateProjectModal from "@/components/project/CreateProjectModal";
-import { format, formatDistanceToNow } from "date-fns";
+import { format, formatDistanceToNow, isValid } from "date-fns";
 import { usePWA } from "@/hooks/usePWA";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
+    const formattedDate =
+      label && isValid(new Date(label))
+        ? format(new Date(label), "MMM dd, yyyy")
+        : label || "";
+
     return (
-      <div className="bg-white dark:bg-[#14151a] border border-[#eaeaea] dark:border-[#222329] rounded-md p-3 shadow-md font-mono text-xs">
-        <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mb-1">
-          {label ? format(new Date(label), "MMM dd, yyyy") : ""}
+      <div className="bg-popover text-popover-foreground border border-border rounded-md p-3 shadow-md font-mono text-xs">
+        <p className="text-[11px] text-muted-foreground mb-1">
+          {formattedDate}
         </p>
-        <p className="font-semibold text-neutral-900 dark:text-white flex items-center gap-1.5">
+        <p className="font-semibold text-foreground flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
           <span>{payload[0].value} Authentications</span>
         </p>
@@ -184,7 +189,7 @@ export function App() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#09090c] text-neutral-900 dark:text-neutral-100 antialiased selection:bg-black selection:text-white relative isolate">
+    <div className="min-h-screen bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground relative isolate">
       {/* Precision Engineering Matrix Background */}
       <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
         <div className="absolute inset-0 grid-matrix opacity-40 dark:opacity-20" />
@@ -195,11 +200,11 @@ export function App() {
         {/* ======================================================== */}
         {/* CONSOLE HEADER & TECHNICAL COMMAND BAR                   */}
         {/* ======================================================== */}
-        <header className="pb-6 border-b border-[#eaeaea] dark:border-[#222329] flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+        <header className="pb-6 border-b border-border flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2.5 flex-wrap">
-              <span className="w-2 h-0.5 bg-black dark:bg-white" />
-              <span className="font-mono text-[11px] text-neutral-500 dark:text-neutral-400 uppercase tracking-widest flex items-center">
+              <span className="w-2 h-0.5 bg-foreground" />
+              <span className="font-mono text-[11px] text-muted-foreground uppercase tracking-widest flex items-center">
                 <span>FIG. 04</span>
                 <TechSeparator />
                 <span>OPERATIONAL CONSOLE</span>
@@ -208,16 +213,16 @@ export function App() {
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 <span>RUNTIME ACTIVE</span>
               </div>
-              <span className="font-mono text-[11px] text-neutral-400 dark:text-neutral-500 hidden sm:inline">
+              <span className="font-mono text-[11px] text-muted-foreground/70 hidden sm:inline">
                 SPEC: RFC-7636 / RFC-7519 PKCE
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
               Console Overview
             </h1>
-            <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 max-w-2xl leading-relaxed">
+            <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
               Welcome back,{" "}
-              <span className="font-semibold text-neutral-900 dark:text-white">
+              <span className="font-semibold text-foreground">
                 {user.username}
               </span>
               . High-throughput identity namespaces, concurrent session
@@ -233,7 +238,7 @@ export function App() {
               onClick={() => fetchStats(true)}
               disabled={isRefreshing || statsLoading}
               title="Refresh telemetry stream"
-              className="h-9 px-3 text-xs font-mono border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] hover:bg-neutral-100 dark:hover:bg-[#1a1b22] text-neutral-900 dark:text-white cursor-pointer"
+              className="h-9 px-3 text-xs font-mono border-border bg-card hover:bg-accent text-foreground cursor-pointer"
             >
               <RefreshCw
                 className={`h-3.5 w-3.5 mr-1.5 ${
@@ -247,7 +252,7 @@ export function App() {
                 variant="outline"
                 size="sm"
                 onClick={installPWA}
-                className="h-9 px-3 text-xs font-mono border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] hover:bg-neutral-100 dark:hover:bg-[#1a1b22] text-neutral-900 dark:text-white cursor-pointer"
+                className="h-9 px-3 text-xs font-mono border-border bg-card hover:bg-accent text-foreground cursor-pointer"
               >
                 <Download className="h-3.5 w-3.5 mr-1.5" />
                 Install PWA
@@ -257,7 +262,7 @@ export function App() {
               variant="outline"
               size="sm"
               onClick={() => navigate("/audit-logs")}
-              className="h-9 px-3 text-xs font-mono border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] hover:bg-neutral-100 dark:hover:bg-[#1a1b22] text-neutral-900 dark:text-white cursor-pointer"
+              className="h-9 px-3 text-xs font-mono border-border bg-card hover:bg-accent text-foreground cursor-pointer"
             >
               <FileSpreadsheet className="h-3.5 w-3.5 mr-1.5" />
               Audit Logs
@@ -266,7 +271,7 @@ export function App() {
               variant="outline"
               size="sm"
               onClick={() => navigate("/docs")}
-              className="h-9 px-3 text-xs font-mono border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] hover:bg-neutral-100 dark:hover:bg-[#1a1b22] text-neutral-900 dark:text-white cursor-pointer"
+              className="h-9 px-3 text-xs font-mono border-border bg-card hover:bg-accent text-foreground cursor-pointer"
             >
               <Code2 className="h-3.5 w-3.5 mr-1.5" />
               API Docs
@@ -274,7 +279,7 @@ export function App() {
             <Button
               size="sm"
               onClick={() => setCreateOpen(true)}
-              className="h-9 px-4 text-xs font-semibold bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 cursor-pointer shadow-xs gap-1.5"
+              className="h-9 px-4 text-xs font-semibold bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer shadow-xs gap-1.5"
             >
               <Plus className="h-3.5 w-3.5" />
               <span>New Project</span>
@@ -330,38 +335,38 @@ export function App() {
           ].map((metric, i) => (
             <Card
               key={i}
-              className="bg-white dark:bg-[#0c0d10] border border-[#eaeaea] dark:border-[#222329] hover:border-black dark:hover:border-white transition-all duration-200 rounded-lg p-5 shadow-2xs group relative overflow-hidden"
+              className="bg-card border border-border hover:border-foreground/40 transition-all duration-200 rounded-lg p-5 shadow-2xs group relative overflow-hidden"
             >
               {/* Corner accent reticles */}
-              <div className="absolute top-1.5 left-1.5 w-1 h-1 border-t border-l border-neutral-300 dark:border-neutral-700 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute top-1.5 right-1.5 w-1 h-1 border-t border-r border-neutral-300 dark:border-neutral-700 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute top-1.5 left-1.5 w-1 h-1 border-t border-l border-border opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute top-1.5 right-1.5 w-1 h-1 border-t border-r border-border opacity-0 group-hover:opacity-100 transition-opacity" />
 
-              <div className="flex items-center justify-between text-[10px] font-mono text-neutral-500 dark:text-neutral-400 mb-3">
+              <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground mb-3">
                 <span className="flex items-center">
                   <span>{metric.num}</span>
                   <TechSeparator />
                   <span>{metric.title}</span>
                 </span>
-                <div className="h-7 w-7 rounded border border-[#eaeaea] dark:border-[#222329] bg-neutral-50 dark:bg-[#14151a] flex items-center justify-center text-neutral-700 dark:text-neutral-300 group-hover:text-black dark:group-hover:text-white transition-colors">
+                <div className="h-7 w-7 rounded border border-border bg-muted/50 flex items-center justify-center text-muted-foreground group-hover:text-foreground transition-colors">
                   <metric.icon className="h-3.5 w-3.5" />
                 </div>
               </div>
 
-              <div className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white mb-1">
+              <div className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground mb-1">
                 {statsLoading ? (
-                  <div className="h-8 w-16 bg-neutral-200 dark:bg-neutral-800 animate-pulse rounded" />
+                  <div className="h-8 w-16 bg-muted animate-pulse rounded" />
                 ) : (
                   metric.value
                 )}
               </div>
 
-              <p className="text-xs font-medium text-neutral-600 dark:text-neutral-400">
+              <p className="text-xs font-medium text-muted-foreground">
                 {metric.label}
               </p>
 
-              <div className="flex items-center justify-between pt-3 mt-3 border-t border-[#eaeaea] dark:border-[#222329] text-[10px] font-mono text-neutral-500 dark:text-neutral-400">
+              <div className="flex items-center justify-between pt-3 mt-3 border-t border-border text-[10px] font-mono text-muted-foreground">
                 <span>{metric.badge}</span>
-                <span className="font-semibold text-neutral-900 dark:text-white">
+                <span className="font-semibold text-foreground">
                   {metric.trend}
                 </span>
               </div>
@@ -377,28 +382,28 @@ export function App() {
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="bg-neutral-100 dark:bg-[#14151a] border border-[#eaeaea] dark:border-[#222329] p-1 rounded-md gap-1 h-auto flex flex-wrap">
+          <TabsList className="bg-muted border border-border p-1 rounded-md gap-1 h-auto flex flex-wrap">
             <TabsTrigger
               value="overview"
-              className="px-4 py-1.5 text-xs font-mono rounded text-neutral-600 dark:text-neutral-400 data-[state=active]:bg-white dark:data-[state=active]:bg-[#1f2026] data-[state=active]:text-neutral-900 dark:data-[state=active]:text-white data-[state=active]:shadow-xs transition-all cursor-pointer"
+              className="px-4 py-1.5 text-xs font-mono rounded text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-xs transition-all cursor-pointer"
             >
               Overview
             </TabsTrigger>
             <TabsTrigger
               value="projects"
-              className="px-4 py-1.5 text-xs font-mono rounded text-neutral-600 dark:text-neutral-400 data-[state=active]:bg-white dark:data-[state=active]:bg-[#1f2026] data-[state=active]:text-neutral-900 dark:data-[state=active]:text-white data-[state=active]:shadow-xs transition-all cursor-pointer"
+              className="px-4 py-1.5 text-xs font-mono rounded text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-xs transition-all cursor-pointer"
             >
               Projects ({stats.totalProjects})
             </TabsTrigger>
             <TabsTrigger
               value="users"
-              className="px-4 py-1.5 text-xs font-mono rounded text-neutral-600 dark:text-neutral-400 data-[state=active]:bg-white dark:data-[state=active]:bg-[#1f2026] data-[state=active]:text-neutral-900 dark:data-[state=active]:text-white data-[state=active]:shadow-xs transition-all cursor-pointer"
+              className="px-4 py-1.5 text-xs font-mono rounded text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-xs transition-all cursor-pointer"
             >
               Users Directory ({stats.totalEndUsers})
             </TabsTrigger>
             <TabsTrigger
               value="activity"
-              className="px-4 py-1.5 text-xs font-mono rounded text-neutral-600 dark:text-neutral-400 data-[state=active]:bg-white dark:data-[state=active]:bg-[#1f2026] data-[state=active]:text-neutral-900 dark:data-[state=active]:text-white data-[state=active]:shadow-xs transition-all cursor-pointer"
+              className="px-4 py-1.5 text-xs font-mono rounded text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-xs transition-all cursor-pointer"
             >
               Activity &amp; Telemetry
             </TabsTrigger>
@@ -412,15 +417,15 @@ export function App() {
               {/* PRIMARY CONTENT STREAM (lg: col-span-8) */}
               <div className="lg:col-span-8 space-y-6">
                 {/* 1. COMPACT REAL-TIME TELEMETRY GRAPH */}
-                <Card className="bg-white dark:bg-[#0c0d10] border border-[#eaeaea] dark:border-[#222329] rounded-lg p-5 shadow-2xs">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#eaeaea] dark:border-[#222329] gap-3">
+                <Card className="bg-card border border-border rounded-lg p-5 shadow-2xs">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-border gap-3">
                     <div className="flex items-center gap-2">
-                      <Activity className="h-4 w-4 text-neutral-900 dark:text-white" />
+                      <Activity className="h-4 w-4 text-foreground" />
                       <div>
-                        <h3 className="text-xs font-bold uppercase tracking-wider font-mono text-neutral-900 dark:text-white">
+                        <h3 className="text-xs font-bold uppercase tracking-wider font-mono text-foreground">
                           Authentication Velocity (30 Days)
                         </h3>
-                        <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                        <p className="text-[11px] text-muted-foreground">
                           Total Volume: {totalVolume} events · Peak Day:{" "}
                           {peakDayVolume}
                         </p>
@@ -430,7 +435,7 @@ export function App() {
                       variant="ghost"
                       size="sm"
                       onClick={() => setActiveTab("activity")}
-                      className="text-xs font-mono text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white cursor-pointer h-7 px-2"
+                      className="text-xs font-mono text-muted-foreground hover:text-foreground cursor-pointer h-7 px-2"
                     >
                       Expand Telemetry
                       <ChevronRight className="h-3.5 w-3.5 ml-1" />
@@ -515,16 +520,16 @@ export function App() {
                 </Card>
 
                 {/* 2. RECENT AUTHENTICATIONS STREAM */}
-                <Card className="bg-white dark:bg-[#0c0d10] border border-[#eaeaea] dark:border-[#222329] rounded-lg overflow-hidden shadow-2xs">
-                  <CardHeader className="p-5 border-b border-[#eaeaea] dark:border-[#222329] flex flex-row items-center justify-between">
+                <Card className="bg-card border border-border rounded-lg overflow-hidden shadow-2xs">
+                  <CardHeader className="p-5 border-b border-border flex flex-row items-center justify-between">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <Users className="h-4 w-4 text-neutral-900 dark:text-white" />
-                        <CardTitle className="text-base font-bold text-neutral-900 dark:text-white">
+                        <Users className="h-4 w-4 text-foreground" />
+                        <CardTitle className="text-base font-bold text-foreground">
                           Recent Ingress Stream
                         </CardTitle>
                       </div>
-                      <CardDescription className="text-xs text-neutral-500 dark:text-neutral-400">
+                      <CardDescription className="text-xs text-muted-foreground">
                         Live stream of authenticated developer users across
                         namespaces
                       </CardDescription>
@@ -533,7 +538,7 @@ export function App() {
                       variant="ghost"
                       size="sm"
                       onClick={() => setActiveTab("users")}
-                      className="text-xs font-mono text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white cursor-pointer"
+                      className="text-xs font-mono text-muted-foreground hover:text-foreground cursor-pointer"
                     >
                       View All ({stats.totalEndUsers})
                       <ChevronRight className="h-3.5 w-3.5 ml-1" />
@@ -542,19 +547,19 @@ export function App() {
 
                   <CardContent className="p-0">
                     {stats.recentUsers.length > 0 ? (
-                      <div className="divide-y divide-[#eaeaea] dark:divide-[#222329]">
+                      <div className="divide-y divide-border">
                         {stats.recentUsers.slice(0, 5).map((u) => (
                           <div
                             key={u._id}
-                            className="flex items-center justify-between p-4 hover:bg-neutral-50/70 dark:hover:bg-[#14151a]/50 transition-colors"
+                            className="flex items-center justify-between p-4 hover:bg-muted/40 transition-colors"
                           >
                             <div className="flex items-center gap-3 min-w-0">
-                              <div className="h-9 w-9 rounded-md border border-[#eaeaea] dark:border-[#222329] bg-neutral-100 dark:bg-[#18191e] flex items-center justify-center font-mono text-xs font-bold text-neutral-900 dark:text-white shrink-0">
+                              <div className="h-9 w-9 rounded-md border border-border bg-muted flex items-center justify-center font-mono text-xs font-bold text-foreground shrink-0">
                                 {u.username.charAt(0).toUpperCase()}
                               </div>
                               <div className="min-w-0">
                                 <div className="flex items-center gap-2">
-                                  <p className="text-xs font-semibold text-neutral-900 dark:text-white truncate">
+                                  <p className="text-xs font-semibold text-foreground truncate">
                                     {u.username}
                                   </p>
                                   <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono text-[9px] font-medium">
@@ -562,17 +567,17 @@ export function App() {
                                     Verified
                                   </span>
                                 </div>
-                                <p className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 truncate">
+                                <p className="text-[11px] font-mono text-muted-foreground truncate">
                                   {u.email}
                                 </p>
                               </div>
                             </div>
 
                             <div className="text-right shrink-0 ml-4">
-                              <span className="inline-block px-2 py-0.5 rounded border border-[#eaeaea] dark:border-[#222329] bg-neutral-50 dark:bg-[#14151a] font-mono text-[10px] text-neutral-700 dark:text-neutral-300 mb-1">
+                              <span className="inline-block px-2 py-0.5 rounded border border-border bg-muted/50 font-mono text-[10px] text-foreground mb-1">
                                 {u.projectId?.name || "Global Production"}
                               </span>
-                              <div className="flex items-center justify-end gap-1 text-[10px] font-mono text-neutral-400">
+                              <div className="flex items-center justify-end gap-1 text-[10px] font-mono text-muted-foreground">
                                 <Clock className="h-3 w-3" />
                                 <span>
                                   {formatDistanceToNow(new Date(u.createdAt), {
@@ -586,11 +591,11 @@ export function App() {
                       </div>
                     ) : (
                       <div className="text-center py-14 px-4">
-                        <Users className="h-8 w-8 mx-auto mb-2 text-neutral-300 dark:text-neutral-700" />
-                        <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
+                        <Users className="h-8 w-8 mx-auto mb-2 text-muted-foreground/60" />
+                        <p className="text-xs font-medium text-muted-foreground">
                           No authentication events recorded yet.
                         </p>
-                        <p className="text-[11px] text-neutral-400 mt-1">
+                        <p className="text-[11px] text-muted-foreground/70 mt-1">
                           Deploy a project and connect an OAuth provider to
                           begin authenticating users.
                         </p>
@@ -600,30 +605,30 @@ export function App() {
                 </Card>
 
                 {/* 3. INTERACTIVE CLIENT SDK SNIPPET HUB */}
-                <Card className="bg-white dark:bg-[#0c0d10] border border-[#eaeaea] dark:border-[#222329] rounded-lg p-5 shadow-2xs space-y-4">
+                <Card className="bg-card border border-border rounded-lg p-5 shadow-2xs space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div className="space-y-0.5">
                       <div className="flex items-center gap-2">
-                        <Terminal className="h-4 w-4 text-neutral-900 dark:text-white" />
-                        <span className="font-mono text-[10px] uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
+                        <Terminal className="h-4 w-4 text-foreground" />
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                           SDK INTEGRATION HUB // RFC-7636 PKCE READY
                         </span>
                       </div>
-                      <p className="text-xs font-semibold text-neutral-900 dark:text-white">
+                      <p className="text-xs font-semibold text-foreground">
                         Drop-in authentication for your client applications
                       </p>
                     </div>
 
                     {/* SDK Syntax Tabs */}
-                    <div className="flex items-center bg-neutral-100 dark:bg-[#14151a] border border-[#eaeaea] dark:border-[#222329] rounded p-0.5 self-start sm:self-auto">
+                    <div className="flex items-center bg-muted border border-border rounded p-0.5 self-start sm:self-auto">
                       {["npm", "pnpm", "react", "curl"].map((tab) => (
                         <button
                           key={tab}
                           onClick={() => setSdkTab(tab)}
                           className={`px-2.5 py-1 text-[10px] font-mono rounded cursor-pointer transition-all ${
                             sdkTab === tab
-                              ? "bg-white dark:bg-[#1f2026] text-neutral-900 dark:text-white font-bold shadow-2xs"
-                              : "text-neutral-500 hover:text-neutral-900 dark:hover:text-white"
+                              ? "bg-background text-foreground font-bold shadow-2xs"
+                              : "text-muted-foreground hover:text-foreground"
                           }`}
                         >
                           {tab.toUpperCase()}
@@ -633,14 +638,14 @@ export function App() {
                   </div>
 
                   {/* Code Snippet Box */}
-                  <div className="relative rounded-md bg-[#09090c] border border-neutral-800 p-3.5 font-mono text-xs text-neutral-200 overflow-x-auto group">
+                  <div className="relative rounded-md bg-muted/40 border border-border p-3.5 font-mono text-xs text-foreground overflow-x-auto group">
                     <pre className="text-[11px] leading-relaxed select-all">
                       <code>{sdkSnippets[sdkTab]}</code>
                     </pre>
                     <button
                       type="button"
                       onClick={() => handleCopyCode(sdkSnippets[sdkTab])}
-                      className="absolute top-2.5 right-2.5 p-1.5 rounded border border-neutral-700 bg-neutral-900/90 text-neutral-400 hover:text-white hover:border-neutral-500 transition-colors cursor-pointer"
+                      className="absolute top-2.5 right-2.5 p-1.5 rounded border border-border bg-background text-muted-foreground hover:text-foreground hover:border-foreground/40 transition-colors cursor-pointer"
                       title="Copy snippet"
                     >
                       {copiedCode ? (
@@ -651,14 +656,14 @@ export function App() {
                     </button>
                   </div>
 
-                  <div className="flex items-center justify-between text-[11px] text-neutral-500 dark:text-neutral-400 pt-1">
+                  <div className="flex items-center justify-between text-[11px] text-muted-foreground pt-1">
                     <span>
                       Zero external dependencies · Built-in token refresh daemon
                     </span>
                     <button
                       type="button"
                       onClick={() => navigate("/docs")}
-                      className="inline-flex items-center gap-1 font-mono text-neutral-900 dark:text-white hover:underline cursor-pointer"
+                      className="inline-flex items-center gap-1 font-mono text-foreground hover:underline cursor-pointer"
                     >
                       <span>Full SDK Guide</span>
                       <ExternalLink className="h-3 w-3" />
@@ -670,11 +675,11 @@ export function App() {
               {/* SIDEBAR: SYSTEM TOPOLOGY & QUICK OPERATIONS (lg: col-span-4) */}
               <div className="lg:col-span-4 space-y-6">
                 {/* 1. IDENTITY PROVIDERS STATUS HUB */}
-                <Card className="bg-white dark:bg-[#0c0d10] border border-[#eaeaea] dark:border-[#222329] rounded-lg p-5 shadow-2xs">
-                  <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#eaeaea] dark:border-[#222329]">
+                <Card className="bg-card border border-border rounded-lg p-5 shadow-2xs">
+                  <div className="flex items-center justify-between mb-3 pb-2 border-b border-border">
                     <div className="flex items-center gap-2">
-                      <Cpu className="h-4 w-4 text-neutral-900 dark:text-white" />
-                      <h3 className="text-xs font-bold uppercase tracking-wider font-mono text-neutral-900 dark:text-white">
+                      <Cpu className="h-4 w-4 text-foreground" />
+                      <h3 className="text-xs font-bold uppercase tracking-wider font-mono text-foreground">
                         Connected Providers
                       </h3>
                     </div>
@@ -713,13 +718,13 @@ export function App() {
                     ].map((prov, idx) => (
                       <div
                         key={idx}
-                        className="flex items-center justify-between p-2 rounded border border-[#eaeaea] dark:border-[#222329] bg-neutral-50/70 dark:bg-[#121316]"
+                        className="flex items-center justify-between p-2 rounded border border-border bg-muted/50"
                       >
                         <div>
-                          <p className="text-[11px] font-semibold text-neutral-900 dark:text-white">
+                          <p className="text-[11px] font-semibold text-foreground">
                             {prov.name}
                           </p>
-                          <p className="text-[9.5px] text-neutral-500 dark:text-neutral-400">
+                          <p className="text-[9.5px] text-muted-foreground">
                             {prov.proto}
                           </p>
                         </div>
@@ -735,7 +740,7 @@ export function App() {
                     variant="outline"
                     size="sm"
                     onClick={() => setActiveTab("projects")}
-                    className="w-full mt-4 h-8 text-xs font-mono border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] hover:bg-neutral-100 dark:hover:bg-[#1a1b22] text-neutral-900 dark:text-white cursor-pointer"
+                    className="w-full mt-4 h-8 text-xs font-mono border-border bg-card hover:bg-accent text-foreground cursor-pointer"
                   >
                     <span>Manage Provider Keys</span>
                     <ArrowUpRight className="h-3.5 w-3.5 ml-1" />
@@ -743,22 +748,22 @@ export function App() {
                 </Card>
 
                 {/* 2. SECURITY ENCLAVE SPECIFICATION */}
-                <Card className="bg-white dark:bg-[#0c0d10] border border-[#eaeaea] dark:border-[#222329] rounded-lg p-5 shadow-2xs">
+                <Card className="bg-card border border-border rounded-lg p-5 shadow-2xs">
                   <div className="flex items-center gap-2 mb-3">
-                    <ShieldCheck className="h-4 w-4 text-neutral-900 dark:text-white" />
-                    <h3 className="text-xs font-bold uppercase tracking-wider font-mono text-neutral-900 dark:text-white">
+                    <ShieldCheck className="h-4 w-4 text-foreground" />
+                    <h3 className="text-xs font-bold uppercase tracking-wider font-mono text-foreground">
                       Cryptographic Enclave
                     </h3>
                   </div>
 
-                  <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mb-3 leading-relaxed">
+                  <p className="text-[11px] text-muted-foreground mb-3 leading-relaxed">
                     Zero-trust identity core runtime specifications and
                     cryptography enforcement.
                   </p>
 
                   <div className="space-y-2 font-mono text-xs">
-                    <div className="flex items-center justify-between py-1.5 border-b border-[#eaeaea] dark:border-[#222329]">
-                      <span className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                    <div className="flex items-center justify-between py-1.5 border-b border-border">
+                      <span className="text-[11px] text-muted-foreground">
                         OAuth 2.0 / OIDC
                       </span>
                       <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
@@ -767,38 +772,38 @@ export function App() {
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between py-1.5 border-b border-[#eaeaea] dark:border-[#222329]">
-                      <span className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                    <div className="flex items-center justify-between py-1.5 border-b border-border">
+                      <span className="text-[11px] text-muted-foreground">
                         PKCE Challenge
                       </span>
-                      <span className="text-[11px] font-semibold text-neutral-900 dark:text-white">
+                      <span className="text-[11px] font-semibold text-foreground">
                         S256 Enforced
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between py-1.5 border-b border-[#eaeaea] dark:border-[#222329]">
-                      <span className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                    <div className="flex items-center justify-between py-1.5 border-b border-border">
+                      <span className="text-[11px] text-muted-foreground">
                         Token Signature
                       </span>
-                      <span className="text-[11px] font-semibold text-neutral-900 dark:text-white">
+                      <span className="text-[11px] font-semibold text-foreground">
                         HMAC-SHA256 (HS256)
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between py-1.5 border-b border-[#eaeaea] dark:border-[#222329]">
-                      <span className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                    <div className="flex items-center justify-between py-1.5 border-b border-border">
+                      <span className="text-[11px] text-muted-foreground">
                         Token Rotation
                       </span>
-                      <span className="text-[11px] font-semibold text-neutral-900 dark:text-white">
+                      <span className="text-[11px] font-semibold text-foreground">
                         Single-Use Vault
                       </span>
                     </div>
 
                     <div className="flex items-center justify-between py-1.5">
-                      <span className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                      <span className="text-[11px] text-muted-foreground">
                         Session Revocation
                       </span>
-                      <span className="text-[11px] font-semibold text-neutral-900 dark:text-white">
+                      <span className="text-[11px] font-semibold text-foreground">
                         Socket.io Broadcast
                       </span>
                     </div>
@@ -806,10 +811,10 @@ export function App() {
                 </Card>
 
                 {/* 3. DEVELOPER QUICK OPERATIONS */}
-                <Card className="bg-white dark:bg-[#0c0d10] border border-[#eaeaea] dark:border-[#222329] rounded-lg p-5 shadow-2xs">
+                <Card className="bg-card border border-border rounded-lg p-5 shadow-2xs">
                   <div className="flex items-center gap-2 mb-3">
-                    <Layers className="h-4 w-4 text-neutral-900 dark:text-white" />
-                    <h3 className="text-xs font-bold uppercase tracking-wider font-mono text-neutral-900 dark:text-white">
+                    <Layers className="h-4 w-4 text-foreground" />
+                    <h3 className="text-xs font-bold uppercase tracking-wider font-mono text-foreground">
                       Developer Operations
                     </h3>
                   </div>
@@ -818,37 +823,37 @@ export function App() {
                     <button
                       type="button"
                       onClick={() => navigate("/audit-logs")}
-                      className="w-full flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-50 dark:hover:bg-[#14151a] text-xs font-medium text-neutral-800 dark:text-neutral-200 transition-colors border border-transparent hover:border-[#eaeaea] dark:hover:border-[#26262b] cursor-pointer"
+                      className="w-full flex items-center justify-between p-2.5 rounded-md hover:bg-muted text-xs font-medium text-foreground transition-colors border border-transparent hover:border-border cursor-pointer"
                     >
                       <div className="flex items-center gap-2.5">
-                        <FileSpreadsheet className="h-4 w-4 text-neutral-500" />
+                        <FileSpreadsheet className="h-4 w-4 text-muted-foreground" />
                         <span>Audit Event Stream</span>
                       </div>
-                      <ChevronRight className="h-3.5 w-3.5 text-neutral-400" />
+                      <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
                     </button>
 
                     <button
                       type="button"
                       onClick={() => navigate("/sessions")}
-                      className="w-full flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-50 dark:hover:bg-[#14151a] text-xs font-medium text-neutral-800 dark:text-neutral-200 transition-colors border border-transparent hover:border-[#eaeaea] dark:hover:border-[#26262b] cursor-pointer"
+                      className="w-full flex items-center justify-between p-2.5 rounded-md hover:bg-muted text-xs font-medium text-foreground transition-colors border border-transparent hover:border-border cursor-pointer"
                     >
                       <div className="flex items-center gap-2.5">
-                        <Activity className="h-4 w-4 text-neutral-500" />
+                        <Activity className="h-4 w-4 text-muted-foreground" />
                         <span>Session Manager</span>
                       </div>
-                      <ChevronRight className="h-3.5 w-3.5 text-neutral-400" />
+                      <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
                     </button>
 
                     <button
                       type="button"
                       onClick={() => navigate("/settings")}
-                      className="w-full flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-50 dark:hover:bg-[#14151a] text-xs font-medium text-neutral-800 dark:text-neutral-200 transition-colors border border-transparent hover:border-[#eaeaea] dark:hover:border-[#26262b] cursor-pointer"
+                      className="w-full flex items-center justify-between p-2.5 rounded-md hover:bg-muted text-xs font-medium text-foreground transition-colors border border-transparent hover:border-border cursor-pointer"
                     >
                       <div className="flex items-center gap-2.5">
-                        <Key className="h-4 w-4 text-neutral-500" />
+                        <Key className="h-4 w-4 text-muted-foreground" />
                         <span>Developer Settings</span>
                       </div>
-                      <ChevronRight className="h-3.5 w-3.5 text-neutral-400" />
+                      <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
                     </button>
                   </div>
                 </Card>
@@ -867,26 +872,26 @@ export function App() {
           {/* TAB 3: USERS DIRECTORY                                   */}
           {/* ======================================================== */}
           <TabsContent value="users">
-            <Card className="bg-white dark:bg-[#0c0d10] border border-[#eaeaea] dark:border-[#222329] rounded-lg overflow-hidden shadow-2xs">
-              <CardHeader className="p-5 border-b border-[#eaeaea] dark:border-[#222329]">
+            <Card className="bg-card border border-border rounded-lg overflow-hidden shadow-2xs">
+              <CardHeader className="p-5 border-b border-border">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <Users className="h-4 w-4 text-neutral-900 dark:text-white" />
-                      <CardTitle className="text-base font-bold text-neutral-900 dark:text-white">
+                      <Users className="h-4 w-4 text-foreground" />
+                      <CardTitle className="text-base font-bold text-foreground">
                         Developer User Directory
                       </CardTitle>
                     </div>
-                    <CardDescription className="text-xs text-neutral-500 dark:text-neutral-400">
+                    <CardDescription className="text-xs text-muted-foreground">
                       Search and inspect authenticated accounts across all
                       identity partitions
                     </CardDescription>
                   </div>
                   <div className="relative w-full md:w-80">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
                     <Input
                       placeholder="Search username, email, namespace..."
-                      className="pl-9 h-9 text-xs bg-neutral-50 dark:bg-[#14151a] border-[#eaeaea] dark:border-[#26262b] text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:border-black dark:focus:border-white transition-colors"
+                      className="pl-9 h-9 text-xs bg-background border-input text-foreground placeholder:text-muted-foreground focus:border-ring transition-colors"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -898,7 +903,7 @@ export function App() {
                 {filteredUsers.length > 0 ? (
                   <div className="overflow-x-auto">
                     <table className="w-full text-left">
-                      <thead className="bg-neutral-50/80 dark:bg-[#121316] border-b border-[#eaeaea] dark:border-[#222329] font-mono text-[11px] uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+                      <thead className="bg-muted/50 border-b border-border font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
                         <tr>
                           <th className="py-3 px-5 font-semibold">
                             User Identity
@@ -917,27 +922,27 @@ export function App() {
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#eaeaea] dark:divide-[#222329] text-xs">
+                      <tbody className="divide-y divide-border text-xs">
                         {filteredUsers.map((u) => (
                           <tr
                             key={u._id}
-                            className="hover:bg-neutral-50/70 dark:hover:bg-[#14151a]/50 transition-colors"
+                            className="hover:bg-muted/40 transition-colors"
                           >
                             <td className="py-3.5 px-5">
                               <div className="flex items-center gap-3">
-                                <div className="h-8 w-8 rounded-md border border-[#eaeaea] dark:border-[#222329] bg-neutral-100 dark:bg-[#18191e] flex items-center justify-center font-mono text-[11px] font-bold text-neutral-900 dark:text-white shrink-0">
+                                <div className="h-8 w-8 rounded-md border border-border bg-muted flex items-center justify-center font-mono text-[11px] font-bold text-foreground shrink-0">
                                   {u.username.charAt(0).toUpperCase()}
                                 </div>
-                                <span className="font-semibold text-neutral-900 dark:text-white">
+                                <span className="font-semibold text-foreground">
                                   {u.username}
                                 </span>
                               </div>
                             </td>
-                            <td className="py-3.5 px-5 font-mono text-neutral-600 dark:text-neutral-300">
+                            <td className="py-3.5 px-5 font-mono text-muted-foreground">
                               {u.email}
                             </td>
                             <td className="py-3.5 px-5">
-                              <span className="inline-block px-2 py-0.5 rounded border border-[#eaeaea] dark:border-[#222329] bg-neutral-50 dark:bg-[#14151a] font-mono text-[10px] text-neutral-800 dark:text-neutral-200">
+                              <span className="inline-block px-2 py-0.5 rounded border border-border bg-muted/50 font-mono text-[10px] text-foreground">
                                 {u.projectId?.name || "Global Production"}
                               </span>
                             </td>
@@ -947,7 +952,7 @@ export function App() {
                                 Active
                               </span>
                             </td>
-                            <td className="py-3.5 px-5 text-right font-mono text-neutral-500 dark:text-neutral-400">
+                            <td className="py-3.5 px-5 text-right font-mono text-muted-foreground">
                               {format(new Date(u.createdAt), "MMM d, yyyy")}
                             </td>
                           </tr>
@@ -957,11 +962,11 @@ export function App() {
                   </div>
                 ) : (
                   <div className="text-center py-16 px-4">
-                    <Users className="h-8 w-8 mx-auto mb-2 text-neutral-300 dark:text-neutral-700" />
-                    <p className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">
+                    <Users className="h-8 w-8 mx-auto mb-2 text-muted-foreground/60" />
+                    <p className="text-xs font-semibold text-foreground">
                       No matching user records found
                     </p>
-                    <p className="text-[11px] text-neutral-400 mt-1">
+                    <p className="text-[11px] text-muted-foreground mt-1">
                       {searchTerm
                         ? "Try searching with a different term."
                         : "Users will appear here once authenticated."}
@@ -971,7 +976,7 @@ export function App() {
                         variant="outline"
                         size="sm"
                         onClick={() => setSearchTerm("")}
-                        className="mt-3 text-xs font-mono border-[#eaeaea] dark:border-[#222329]"
+                        className="mt-3 text-xs font-mono border-border"
                       >
                         Clear Search
                       </Button>
@@ -986,32 +991,32 @@ export function App() {
           {/* TAB 4: ACTIVITY & TELEMETRY                              */}
           {/* ======================================================== */}
           <TabsContent value="activity">
-            <Card className="bg-white dark:bg-[#0c0d10] border border-[#eaeaea] dark:border-[#222329] rounded-lg p-5 sm:p-6 shadow-2xs space-y-6">
-              <CardHeader className="p-0 pb-5 border-b border-[#eaeaea] dark:border-[#222329]">
+            <Card className="bg-card border border-border rounded-lg p-5 sm:p-6 shadow-2xs space-y-6">
+              <CardHeader className="p-0 pb-5 border-b border-border">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <Activity className="h-4 w-4 text-neutral-900 dark:text-white" />
-                      <CardTitle className="text-base font-bold text-neutral-900 dark:text-white">
+                      <Activity className="h-4 w-4 text-foreground" />
+                      <CardTitle className="text-base font-bold text-foreground">
                         Authentication Traffic Telemetry
                       </CardTitle>
                     </div>
-                    <CardDescription className="text-xs text-neutral-500 dark:text-neutral-400">
+                    <CardDescription className="text-xs text-muted-foreground">
                       Real-time ingress authentication activity and user
                       registration volume
                     </CardDescription>
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <div className="bg-neutral-100 dark:bg-[#14151a] border border-[#eaeaea] dark:border-[#222329] rounded-md p-0.5 flex">
+                    <div className="bg-muted border border-border rounded-md p-0.5 flex">
                       {["7d", "30d", "90d"].map((range) => (
                         <button
                           key={range}
                           onClick={() => setActivityRange(range)}
                           className={`px-3 py-1 text-[11px] font-mono font-semibold rounded transition-all cursor-pointer ${
                             activityRange === range
-                              ? "bg-white dark:bg-[#1f2026] text-neutral-900 dark:text-white shadow-2xs"
-                              : "text-neutral-500 hover:text-neutral-900 dark:hover:text-white"
+                              ? "bg-background text-foreground shadow-2xs"
+                              : "text-muted-foreground hover:text-foreground"
                           }`}
                         >
                           {range.toUpperCase()}
@@ -1022,7 +1027,7 @@ export function App() {
                       variant="outline"
                       size="sm"
                       onClick={() => navigate("/audit-logs")}
-                      className="h-8 px-3 text-xs font-mono border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] hover:bg-neutral-100 dark:hover:bg-[#1a1b22] text-neutral-900 dark:text-white cursor-pointer"
+                      className="h-8 px-3 text-xs font-mono border-border bg-card hover:bg-accent text-foreground cursor-pointer"
                     >
                       <FileSpreadsheet className="h-3.5 w-3.5 mr-1.5" />
                       View Raw Logs
@@ -1033,34 +1038,34 @@ export function App() {
 
               {/* Metric Summary Badges */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 py-1">
-                <div className="p-3 rounded border border-[#eaeaea] dark:border-[#222329] bg-neutral-50/60 dark:bg-[#121316]/60">
-                  <p className="text-[10px] font-mono uppercase text-neutral-500">
+                <div className="p-3 rounded border border-border bg-muted/40">
+                  <p className="text-[10px] font-mono uppercase text-muted-foreground">
                     Period Total
                   </p>
-                  <p className="text-lg font-bold font-mono text-neutral-900 dark:text-white">
+                  <p className="text-lg font-bold font-mono text-foreground">
                     {totalVolume}
                   </p>
                 </div>
-                <div className="p-3 rounded border border-[#eaeaea] dark:border-[#222329] bg-neutral-50/60 dark:bg-[#121316]/60">
-                  <p className="text-[10px] font-mono uppercase text-neutral-500">
+                <div className="p-3 rounded border border-border bg-muted/40">
+                  <p className="text-[10px] font-mono uppercase text-muted-foreground">
                     Peak Day
                   </p>
-                  <p className="text-lg font-bold font-mono text-neutral-900 dark:text-white">
+                  <p className="text-lg font-bold font-mono text-foreground">
                     {peakDayVolume}
                   </p>
                 </div>
-                <div className="p-3 rounded border border-[#eaeaea] dark:border-[#222329] bg-neutral-50/60 dark:bg-[#121316]/60">
-                  <p className="text-[10px] font-mono uppercase text-neutral-500">
+                <div className="p-3 rounded border border-border bg-muted/40">
+                  <p className="text-[10px] font-mono uppercase text-muted-foreground">
                     Daily Average
                   </p>
-                  <p className="text-lg font-bold font-mono text-neutral-900 dark:text-white">
+                  <p className="text-lg font-bold font-mono text-foreground">
                     {stats.signupTrend?.length
                       ? (totalVolume / stats.signupTrend.length).toFixed(1)
                       : "0.0"}
                   </p>
                 </div>
-                <div className="p-3 rounded border border-[#eaeaea] dark:border-[#222329] bg-neutral-50/60 dark:bg-[#121316]/60">
-                  <p className="text-[10px] font-mono uppercase text-neutral-500">
+                <div className="p-3 rounded border border-border bg-muted/40">
+                  <p className="text-[10px] font-mono uppercase text-muted-foreground">
                     SLA Accuracy
                   </p>
                   <p className="text-lg font-bold font-mono text-emerald-600 dark:text-emerald-400">
@@ -1134,12 +1139,12 @@ export function App() {
                     </AreaChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div className="h-full flex flex-col items-center justify-center border border-dashed border-[#eaeaea] dark:border-[#222329] rounded-lg">
-                    <Activity className="h-8 w-8 mb-2 text-neutral-300 dark:text-neutral-700" />
-                    <p className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">
+                  <div className="h-full flex flex-col items-center justify-center border border-dashed border-border rounded-lg">
+                    <Activity className="h-8 w-8 mb-2 text-muted-foreground/60" />
+                    <p className="text-xs font-semibold text-foreground">
                       No activity telemetry captured yet
                     </p>
-                    <p className="text-[11px] text-neutral-400 mt-1">
+                    <p className="text-[11px] text-muted-foreground mt-1">
                       Authentication requests over time will be graphed here.
                     </p>
                   </div>

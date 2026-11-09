@@ -1,16 +1,14 @@
-import React from "react";
-
 const DocsSidebar = ({ sections, activeSection, onNavigate, isOpen }) => {
   return (
     <aside
       className={`
-      fixed inset-0 z-40 bg-white/95 dark:bg-[#09090c]/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none
-      md:sticky md:top-28 md:h-[calc(100vh-120px)] md:block w-64 shrink-0 border-r border-neutral-200 dark:border-[#222329] p-4 transition-transform duration-200 overflow-y-auto
+      fixed inset-0 z-40 bg-background/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none
+      md:sticky md:top-28 md:h-[calc(100vh-120px)] md:block w-64 shrink-0 border-r border-border p-4 transition-transform duration-200 overflow-y-auto
       ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
     `}
     >
       <div className="space-y-1">
-        <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-neutral-400 dark:text-neutral-500 px-3 py-2">
+        <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-muted-foreground px-3 py-2">
           DOCUMENTATION INDEX
         </div>
         {sections.map((s, idx) => {
@@ -22,12 +20,12 @@ const DocsSidebar = ({ sections, activeSection, onNavigate, isOpen }) => {
               onClick={() => onNavigate(s.id)}
               className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-mono transition-all text-left cursor-pointer ${
                 isActive
-                  ? "bg-black dark:bg-white text-white dark:text-black font-bold shadow-xs"
-                  : "text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-[#15161c] hover:text-black dark:hover:text-white"
+                  ? "bg-primary text-primary-foreground font-semibold shadow-xs"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
             >
               <span
-                className={`text-[10px] ${isActive ? "opacity-75" : "text-neutral-400"}`}
+                className={`text-[10px] ${isActive ? "opacity-75" : "text-muted-foreground"}`}
               >
                 [{indexNum}]
               </span>

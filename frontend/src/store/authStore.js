@@ -1,44 +1,71 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import api from "../api/axios";
+import api, { setAxiosAuthCallbacks } from "../api/axios";
 
+/**
+ * Production Auth Store for AuthSphere
+ * Defines explicit session lifecycle: unknown -> checking -> authenticated | unauthenticated.
+ * Treats the backend session as the single source of truth while persisting display data
+ * to localStorage for non-blocking UI initial rendering.
+ */
 const useAuthStore = create(
   persist(
     (set, get) => ({
       user: null,
+      status: "unknown", // "unknown" | "checking" | "authenticated" | "unauthenticated"
       loading: true,
       loggingOut: false,
 
-      setUser: (user) => set({ user }),
+      setUser: (user) => {
+        set({
+          user,
+          status: user ? "authenticated" : "unauthenticated",
+          loading: false,
+        });
+      },
+
       setLoading: (loading) => set({ loading }),
 
       checkAuth: async (force = false) => {
-        const currentUser = get().user;
-
-        // If not logged in and not forced (e.g. from OAuth callback or explicit login),
-        // we know there is no active session. Don't make an unnecessary API call that would 401.
-        if (!currentUser && !force) {
-          set({ loading: false });
+        // Prevent duplicate concurrent verification runs
+        if (get().status === "checking" && !force) {
           return;
         }
 
-        set({ loading: true });
+        const currentUser = get().user;
+        set({ status: "checking", loading: true });
+
         try {
+          // If no local user exists, do not attempt automatic token refresh on 401
           const res = await api.get("/developers/me", {
             _skipRefresh: !currentUser,
           });
-          if (res.data?.success) {
-            set({ user: res.data.data });
+
+          if (res.data?.success && res.data.data) {
+            set({
+              user: res.data.data,
+              status: "authenticated",
+              loading: false,
+            });
           } else {
-            set({ user: null });
+            set({
+              user: null,
+              status: "unauthenticated",
+              loading: false,
+            });
+            localStorage.removeItem("auth-storage");
           }
         } catch (err) {
-          set({ user: null });
+          set({
+            user: null,
+            status: "unauthenticated",
+            loading: false,
+          });
+          localStorage.removeItem("auth-storage");
+
           if (err.response?.status !== 401) {
-            console.error("Auth check failed:", err.message);
+            console.error("Auth session check failed:", err.message);
           }
-        } finally {
-          set({ loading: false });
         }
       },
 
@@ -49,49 +76,46 @@ const useAuthStore = create(
         } catch (error) {
           console.error("Logout request failed:", error);
         } finally {
-          set({ user: null, loggingOut: false });
-          // Clear storage on logout to be safe
+          set({
+            user: null,
+            status: "unauthenticated",
+            loading: false,
+            loggingOut: false,
+          });
           localStorage.removeItem("auth-storage");
-          window.location.href = "/login";
         }
       },
     }),
     {
-      name: "auth-storage", // name of the item in the storage (must be unique)
-      partialize: (state) => ({ user: state.user }), // only persist the user object
+      name: "auth-storage",
+      partialize: (state) => ({ user: state.user }),
     },
   ),
 );
 
-// Setup listeners for axios interceptor events
-// This should be called once in the app (e.g., in App.jsx or a focused component)
-export const setupAuthListeners = () => {
-  const { setUser } = useAuthStore.getState();
-
-  const handleTokenRefreshed = async () => {
+// Register Axios auth callbacks directly without global window DOM events
+setAxiosAuthCallbacks({
+  onTokenRefreshed: async () => {
     try {
       const res = await api.get("/developers/me", { _skipRefresh: true });
-      if (res.data?.success) {
-        setUser(res.data.data);
+      if (res.data?.success && res.data.data) {
+        useAuthStore.getState().setUser(res.data.data);
       }
     } catch (err) {
-      console.error("Failed to fetch user after token refresh:", err);
-      setUser(null);
+      console.error("Failed to re-fetch user identity after refresh:", err);
+      useAuthStore.getState().setUser(null);
     }
-  };
+  },
+  onAuthFailure: () => {
+    useAuthStore.getState().setUser(null);
+    localStorage.removeItem("auth-storage");
+  },
+});
 
-  const handleAuthFailed = () => {
-    setUser(null);
-  };
-
-  window.addEventListener("token-refreshed", handleTokenRefreshed);
-  window.addEventListener("auth-failed", handleAuthFailed);
-
-  // Return generic cleanup function, though likely used at app root level
-  return () => {
-    window.removeEventListener("token-refreshed", handleTokenRefreshed);
-    window.removeEventListener("auth-failed", handleAuthFailed);
-  };
-};
+/**
+ * Kept for backward compatibility with existing component calls.
+ * Returns a no-op cleanup function.
+ */
+export const setupAuthListeners = () => () => {};
 
 export default useAuthStore;

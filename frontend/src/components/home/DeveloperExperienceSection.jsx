@@ -71,7 +71,7 @@ export const DeveloperExperienceSection = () => {
   };
 
   return (
-    <section className="w-full bg-[#09090c] text-white py-24 border-b border-neutral-800 relative isolate">
+    <section className="w-full bg-neutral-950 text-neutral-100 py-24 border-b border-border relative isolate">
       {/* Background Ambient SVG */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 opacity-10">
         <svg
@@ -143,12 +143,12 @@ export const DeveloperExperienceSection = () => {
             </p>
 
             {/* Quick Install Box */}
-            <div className="p-4 rounded bg-[#121316] border border-[#26262b] flex flex-col gap-2 mt-2">
+            <div className="p-4 rounded-lg bg-card/60 border border-border flex flex-col gap-2 mt-2">
               <div className="text-[11px] font-mono text-neutral-400 flex items-center justify-between">
                 <span>INSTALL VIA NPM / PNPM / YARN</span>
                 <span className="text-white">STABLE RELEASE</span>
               </div>
-              <div className="flex items-center justify-between bg-black px-3 py-2.5 rounded border border-neutral-800">
+              <div className="flex items-center justify-between bg-black px-3 py-2.5 rounded border border-border">
                 <span className="font-mono text-xs text-white select-all">
                   npm install @authspherejs/sdk
                 </span>
@@ -205,9 +205,9 @@ export const DeveloperExperienceSection = () => {
           </div>
 
           {/* Right: Code Terminal Window */}
-          <div className="lg:col-span-7 bg-[#121316] border border-[#26262b] rounded-lg overflow-hidden shadow-xl">
+          <div className="lg:col-span-7 bg-neutral-900/90 border border-border rounded-lg overflow-hidden shadow-xl">
             {/* Window title bar */}
-            <div className="px-4 py-3 bg-[#18191D] border-b border-[#26262b] flex items-center justify-between">
+            <div className="px-4 py-3 bg-neutral-900 border-b border-border flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-neutral-600 inline-block" />
                 <span className="w-2.5 h-2.5 rounded-full bg-neutral-600 inline-block" />
@@ -219,7 +219,7 @@ export const DeveloperExperienceSection = () => {
               <div>
                 <button
                   onClick={handleCopySnippet}
-                  className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#24252B] font-mono text-[11px] text-neutral-300 hover:text-white transition-all cursor-pointer"
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-neutral-800 font-mono text-[11px] text-neutral-300 hover:text-white transition-all cursor-pointer"
                   id="copy-code-btn"
                 >
                   <span className="material-symbols-outlined text-[13px]">
@@ -233,14 +233,14 @@ export const DeveloperExperienceSection = () => {
             </div>
 
             {/* Tab strip */}
-            <div className="flex items-center gap-1 px-4 pt-2 bg-[#18191D]/40 border-b border-[#26262b] font-mono text-xs">
+            <div className="flex items-center gap-1 px-4 pt-2 bg-neutral-900/50 border-b border-border font-mono text-xs">
               {Object.keys(CODE_SNIPPETS).map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
                   className={`px-3 py-1.5 rounded-t font-medium transition-colors cursor-pointer ${
                     activeTab === tab
-                      ? "bg-[#121316] text-white border-t border-x border-[#26262b]"
+                      ? "bg-neutral-950 text-white border-t border-x border-border"
                       : "text-neutral-500 hover:text-neutral-300"
                   }`}
                 >
@@ -250,7 +250,7 @@ export const DeveloperExperienceSection = () => {
             </div>
 
             {/* Code Content (Monochrome Syntax) */}
-            <pre className="p-6 font-mono text-xs leading-relaxed overflow-x-auto text-neutral-300 bg-[#121316] select-text">
+            <pre className="p-6 font-mono text-xs leading-relaxed overflow-x-auto text-neutral-300 bg-neutral-950 select-text">
               <code>{CODE_SNIPPETS[activeTab].code}</code>
             </pre>
           </div>

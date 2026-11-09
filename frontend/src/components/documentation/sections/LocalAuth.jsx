@@ -5,20 +5,20 @@ import TechSeparator from "@/components/common/TechSeparator";
 
 const LocalAuth = () => {
   return (
-    <article className="space-y-8 text-neutral-900 dark:text-neutral-100 font-sans">
+    <article className="space-y-8 text-foreground font-sans">
       {/* Eyebrow Header */}
-      <div className="border-b border-neutral-200 dark:border-[#222329] pb-4 space-y-2">
-        <div className="flex items-center text-xs font-mono text-neutral-500 uppercase tracking-widest">
+      <div className="border-b border-border pb-4 space-y-2">
+        <div className="flex items-center text-xs font-mono text-muted-foreground uppercase tracking-widest">
           <span>03</span>
           <TechSeparator />
           <span>AUTHENTICATION FLOWS</span>
           <TechSeparator />
           <span>EMAIL &amp; PASSWORD</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
           Local Credential Authentication
         </h1>
-        <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed max-w-2xl">
+        <p className="text-xs sm:text-sm text-muted-foreground font-mono leading-relaxed max-w-2xl">
           Standard email and password registration, salted Bcrypt password
           hashing with HaveIBeenPwned breach validation, and 6-digit OTP
           verification.
@@ -28,11 +28,11 @@ const LocalAuth = () => {
       <div className="space-y-8">
         {/* Registration */}
         <section className="space-y-3">
-          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white flex items-center gap-2">
+          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-foreground flex items-center gap-2">
             <span>[01]</span>
             <span>Registering a New User</span>
           </h2>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed">
             Call <code>register()</code> with the user's credentials. If your
             project has strict email verification enabled, the account is
             created in a <code>PENDING</code> state and a 6-digit verification
@@ -60,11 +60,11 @@ try {
 
         {/* Verifying the OTP Code */}
         <section className="space-y-3">
-          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white flex items-center gap-2">
+          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-foreground flex items-center gap-2">
             <span>[02]</span>
             <span>Verifying the 6-Digit Email Code</span>
           </h2>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed">
             Confirm the challenge code using <code>verifyOTP()</code>. Once
             confirmed, the user account transitions to <code>ACTIVE</code> and
             initial JWT tokens are issued:
@@ -89,11 +89,11 @@ try {
 
         {/* Logging in */}
         <section className="space-y-3">
-          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white flex items-center gap-2">
+          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-foreground flex items-center gap-2">
             <span>[03]</span>
             <span>Authenticating Existing Users</span>
           </h2>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed">
             Pass the email and password to <code>loginLocal()</code>. If the
             user hasn't verified their email yet, the SDK throws an error with{" "}
             <code>sdk_request</code> so you can redirect them to your

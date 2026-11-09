@@ -276,7 +276,7 @@ const ProjectSettings = ({ project, onUpdated }) => {
           <span>PROJECT SPEC MATRIX</span>
         </div>
 
-        <div className="flex lg:flex-col gap-1.5 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0 no-scrollbar border-b lg:border-b-0 lg:border-r border-[#eaeaea] dark:border-[#222329] lg:pr-6">
+        <div className="flex lg:flex-col gap-1.5 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0 no-scrollbar border-b lg:border-b-0 lg:border-r border-border lg:pr-6">
           {sections.map((section, idx) => {
             const Icon = section.icon;
             const isActive = activeSection === section.id;
@@ -286,10 +286,10 @@ const ProjectSettings = ({ project, onUpdated }) => {
                 onClick={() => setActiveSection(section.id)}
                 className={`flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-mono transition-all duration-150 whitespace-nowrap lg:w-full cursor-pointer ${
                   isActive
-                    ? "bg-neutral-900 text-white dark:bg-white dark:text-black font-semibold shadow-xs"
+                    ? "bg-primary text-primary-foreground font-semibold shadow-xs"
                     : section.id === "danger"
-                      ? "text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30"
-                      : "text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-[#16171d] hover:text-neutral-900 dark:hover:text-white"
+                      ? "text-destructive hover:bg-destructive/10"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
                 }`}
               >
                 <div className="flex items-center gap-2.5">
@@ -308,13 +308,13 @@ const ProjectSettings = ({ project, onUpdated }) => {
       {/* Content Area */}
       <div className="flex-1 space-y-8 min-w-0 pb-24">
         {activeSection === "general" && (
-          <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
-            <div className="px-6 py-4 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
-              <span className="font-semibold text-neutral-900 dark:text-white flex items-center gap-2">
-                <Settings className="h-4 w-4 text-neutral-400" />
+          <div className="border border-border bg-card text-card-foreground rounded-xl shadow-xs overflow-hidden">
+            <div className="px-6 py-4 border-b border-border flex items-center justify-between text-xs font-mono bg-muted/50">
+              <span className="font-semibold text-foreground flex items-center gap-2">
+                <Settings className="h-4 w-4 text-muted-foreground" />
                 <span>GENERAL SPECIFICATION &amp; BRANDING</span>
               </span>
-              <span className="text-[10px] text-neutral-500 font-mono">
+              <span className="text-[10px] text-muted-foreground font-mono">
                 [SECTION 01]
               </span>
             </div>
@@ -419,13 +419,13 @@ const ProjectSettings = ({ project, onUpdated }) => {
         )}
 
         {activeSection === "auth" && (
-          <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
-            <div className="px-6 py-4 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
-              <span className="font-semibold text-neutral-900 dark:text-white flex items-center gap-2">
-                <Globe className="h-4 w-4 text-neutral-400" />
+          <div className="border border-border bg-card text-card-foreground rounded-xl shadow-xs overflow-hidden">
+            <div className="px-6 py-4 border-b border-border flex items-center justify-between text-xs font-mono bg-muted/50">
+              <span className="font-semibold text-foreground flex items-center gap-2">
+                <Globe className="h-4 w-4 text-muted-foreground" />
                 <span>AUTHENTICATION FLOW &amp; REDIRECT MATRIX</span>
               </span>
-              <span className="text-[10px] text-neutral-500 font-mono">
+              <span className="text-[10px] text-muted-foreground font-mono">
                 [SECTION 02]
               </span>
             </div>
@@ -627,13 +627,13 @@ const ProjectSettings = ({ project, onUpdated }) => {
         )}
 
         {activeSection === "security" && (
-          <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
-            <div className="px-6 py-4 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
-              <span className="font-semibold text-neutral-900 dark:text-white flex items-center gap-2">
-                <Lock className="h-4 w-4 text-neutral-400" />
+          <div className="border border-border bg-card text-card-foreground rounded-xl shadow-xs overflow-hidden">
+            <div className="px-6 py-4 border-b border-border flex items-center justify-between text-xs font-mono bg-muted/50">
+              <span className="font-semibold text-foreground flex items-center gap-2">
+                <Lock className="h-4 w-4 text-muted-foreground" />
                 <span>SECURITY POLICIES &amp; ENCLAVE PROTECTION</span>
               </span>
-              <span className="text-[10px] text-neutral-500 font-mono">
+              <span className="text-[10px] text-muted-foreground font-mono">
                 [SECTION 03]
               </span>
             </div>
@@ -957,13 +957,13 @@ const ProjectSettings = ({ project, onUpdated }) => {
         )}
 
         {activeSection === "providers" && (
-          <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
-            <div className="px-6 py-4 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
-              <span className="font-semibold text-neutral-900 dark:text-white flex items-center gap-2">
+          <div className="border border-border bg-card text-card-foreground rounded-xl shadow-xs overflow-hidden">
+            <div className="px-6 py-4 border-b border-border flex items-center justify-between text-xs font-mono bg-muted/50">
+              <span className="font-semibold text-foreground flex items-center gap-2">
                 <ShieldCheck className="h-4 w-4 text-emerald-500" />
                 <span>ENROLLED IDENTITY PROVIDERS</span>
               </span>
-              <span className="text-[10px] text-neutral-500 font-mono">
+              <span className="text-[10px] text-muted-foreground font-mono">
                 [SECTION 04]
               </span>
             </div>
@@ -975,9 +975,6 @@ const ProjectSettings = ({ project, onUpdated }) => {
                   to="#"
                   onClick={(e) => {
                     e.preventDefault();
-                    // This is a bit hacky since we are inside a component that doesn't know about the parent's tabs
-                    // but usually in this context, the user just clicks the 'Catalog' tab above.
-                    // We'll just provide a textual hint.
                   }}
                   className="text-primary hover:underline font-semibold"
                 >
@@ -991,16 +988,16 @@ const ProjectSettings = ({ project, onUpdated }) => {
               {activeProvidersList.map((p) => (
                 <div
                   key={p.id}
-                  className="flex flex-col items-center justify-center p-4 border rounded-xl bg-background/50"
+                  className="flex flex-col items-center justify-center p-4 border border-border rounded-xl bg-card"
                 >
-                  <div className="h-10 w-10 mb-2 rounded-lg bg-white border flex items-center justify-center p-2 shadow-sm">
+                  <div className="h-10 w-10 mb-2 rounded-lg bg-muted border border-border flex items-center justify-center p-2 shadow-xs">
                     <img
                       src={p.logo}
                       alt={p.name}
                       className="h-full w-full object-contain"
                     />
                   </div>
-                  <span className="text-[11px] font-semibold text-center">
+                  <span className="text-[11px] font-semibold text-center text-foreground">
                     {p.name}
                   </span>
                   <span className="text-[9px] text-primary font-bold uppercase mt-1">
@@ -1013,23 +1010,23 @@ const ProjectSettings = ({ project, onUpdated }) => {
         )}
 
         {activeSection === "danger" && (
-          <div className="border border-red-200 dark:border-red-900/40 bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
-            <div className="px-6 py-4 border-b border-red-200 dark:border-red-900/40 flex items-center justify-between text-xs font-mono bg-red-50/50 dark:bg-red-950/20">
-              <span className="font-semibold text-red-600 dark:text-red-400 flex items-center gap-2">
+          <div className="border border-destructive/30 bg-card text-card-foreground rounded-xl shadow-xs overflow-hidden">
+            <div className="px-6 py-4 border-b border-destructive/20 flex items-center justify-between text-xs font-mono bg-destructive/10">
+              <span className="font-semibold text-destructive flex items-center gap-2">
                 <AlertTriangle className="h-4 w-4" />
                 <span>IRREVERSIBLE OPERATIONS // DANGER ZONE</span>
               </span>
-              <span className="text-[10px] text-red-500 font-mono">
+              <span className="text-[10px] text-destructive font-mono">
                 [SECTION 05]
               </span>
             </div>
             <div className="p-6 space-y-4">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-red-200/80 dark:border-red-900/30 rounded-xl bg-red-50/20 dark:bg-red-950/10 gap-4 font-mono text-xs">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-destructive/20 rounded-xl bg-destructive/5 gap-4 font-mono text-xs">
                 <div>
-                  <h4 className="font-bold text-red-700 dark:text-red-400">
+                  <h4 className="font-bold text-destructive">
                     Purge Project Namespace
                   </h4>
-                  <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
+                  <p className="text-[11px] text-muted-foreground mt-0.5">
                     Permanently delete this project namespace and purge all
                     associated cryptographic keys, registered users, and
                     configuration policies.
@@ -1043,21 +1040,21 @@ const ProjectSettings = ({ project, onUpdated }) => {
                   <DialogTrigger asChild>
                     <Button
                       variant="destructive"
-                      className="gap-2 font-mono text-xs cursor-pointer bg-red-600 hover:bg-red-700 text-white shrink-0"
+                      className="gap-2 font-mono text-xs cursor-pointer shrink-0"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                       Delete Project
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-112.5 border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#0c0d10] font-mono text-xs">
+                  <DialogContent className="sm:max-w-112.5 border border-border bg-card text-card-foreground font-mono text-xs">
                     <DialogHeader>
-                      <div className="h-12 w-12 rounded-xl bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 flex items-center justify-center mx-auto mb-2">
+                      <div className="h-12 w-12 rounded-xl bg-destructive/10 text-destructive flex items-center justify-center mx-auto mb-2">
                         <AlertTriangle className="h-6 w-6" />
                       </div>
-                      <DialogTitle className="text-center text-lg font-bold text-neutral-900 dark:text-white">
+                      <DialogTitle className="text-center text-lg font-bold text-foreground">
                         Purge Project Namespace?
                       </DialogTitle>
-                      <DialogDescription className="text-center text-neutral-500 leading-relaxed text-xs">
+                      <DialogDescription className="text-center text-muted-foreground leading-relaxed text-xs">
                         This action <strong>cannot be undone</strong>. All user
                         data, cryptographic credentials, and sessions will be
                         permanently purged. Type <strong>{project.name}</strong>{" "}
@@ -1074,7 +1071,7 @@ const ProjectSettings = ({ project, onUpdated }) => {
                         placeholder={project.name}
                         value={confirmName}
                         onChange={(e) => setConfirmName(e.target.value)}
-                        className="text-center h-10 font-mono text-sm font-semibold border-[#eaeaea] dark:border-[#2a2b33]"
+                        className="text-center h-10 font-mono text-sm font-semibold border-input bg-background"
                       />
                     </div>
 
@@ -1083,7 +1080,7 @@ const ProjectSettings = ({ project, onUpdated }) => {
                         variant="destructive"
                         disabled={confirmName !== project.name || deleting}
                         onClick={handleDeleteProject}
-                        className="w-full h-10 font-mono text-xs bg-red-600 hover:bg-red-700 text-white cursor-pointer"
+                        className="w-full h-10 font-mono text-xs cursor-pointer"
                       >
                         {deleting
                           ? "Purging Project..."
@@ -1108,18 +1105,18 @@ const ProjectSettings = ({ project, onUpdated }) => {
       {/* Floating Action Bar */}
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 lg:left-auto lg:right-12 lg:translate-x-0 z-30">
         <div
-          className={`flex items-center gap-4 p-2.5 pl-5 rounded-xl border border-[#eaeaea] dark:border-[#26262b] bg-white/95 dark:bg-[#121316]/95 backdrop-blur-md shadow-2xl transition-all duration-300 font-mono ${
+          className={`flex items-center gap-4 p-2.5 pl-5 rounded-xl border border-border bg-card/95 backdrop-blur-md shadow-2xl transition-all duration-300 font-mono ${
             hasChanges
               ? "scale-100 opacity-100 translate-y-0"
               : "scale-95 opacity-0 translate-y-12 pointer-events-none"
           }`}
         >
           <div className="flex flex-col">
-            <span className="text-xs font-semibold text-neutral-900 dark:text-white flex items-center gap-1.5">
+            <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
               Unsaved Changes
             </span>
-            <span className="text-[10px] text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+            <span className="text-[10px] text-muted-foreground uppercase tracking-wider">
               Pending modifications detected
             </span>
           </div>
@@ -1127,7 +1124,7 @@ const ProjectSettings = ({ project, onUpdated }) => {
             onClick={handleSave}
             disabled={saving}
             size="sm"
-            className="rounded-lg px-6 h-9 font-mono text-xs font-semibold bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 cursor-pointer shadow-sm"
+            className="rounded-lg px-6 h-9 font-mono text-xs font-semibold cursor-pointer shadow-sm"
           >
             {saving ? "Saving..." : "Save Changes"}
           </Button>

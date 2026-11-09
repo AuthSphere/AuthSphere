@@ -37,23 +37,21 @@ const ProjectDetailHeader = ({ project }) => {
   const activeProvidersCount = project.providers?.length || 0;
 
   return (
-    <header className="space-y-5 pb-6 border-b border-[#eaeaea] dark:border-[#222329]">
+    <header className="space-y-5 pb-6 border-b border-border">
       {/* ─── TECHNICAL EYEBROW & BREADCRUMB ─── */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-2 text-xs font-mono">
           <button
             onClick={() => navigate("/dashboard")}
-            className="flex items-center gap-1.5 text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors cursor-pointer group"
+            className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors cursor-pointer group"
           >
             <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
             <span>CONSOLE</span>
           </button>
           <TechSeparator />
-          <span className="text-neutral-500 dark:text-neutral-400 uppercase">
-            PROJECTS
-          </span>
+          <span className="text-muted-foreground uppercase">PROJECTS</span>
           <TechSeparator />
-          <span className="font-semibold text-neutral-900 dark:text-white uppercase tracking-wider">
+          <span className="font-semibold text-foreground uppercase tracking-wider">
             {project.name}
           </span>
         </div>
@@ -64,7 +62,7 @@ const ProjectDetailHeader = ({ project }) => {
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>RUNTIME ACTIVE</span>
           </div>
-          <span className="font-mono text-[11px] text-neutral-400 dark:text-neutral-500 hidden sm:inline">
+          <span className="font-mono text-[11px] text-muted-foreground hidden sm:inline">
             SPEC: RFC-7636 / HS256
           </span>
         </div>
@@ -74,14 +72,14 @@ const ProjectDetailHeader = ({ project }) => {
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div className="space-y-1.5">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-neutral-100 dark:bg-[#14151a] border border-[#eaeaea] dark:border-[#26262b] flex items-center justify-center shrink-0">
-              <KeyRound className="w-5 h-5 text-neutral-900 dark:text-white" />
+            <div className="w-10 h-10 rounded-lg bg-muted border border-border flex items-center justify-center shrink-0">
+              <KeyRound className="w-5 h-5 text-foreground" />
             </div>
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
                 {project.name}
               </h1>
-              <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 mt-0.5">
+              <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
                 Authentication namespace, cryptographic signing keys, and
                 identity runtime policies.
               </p>
@@ -95,9 +93,9 @@ const ProjectDetailHeader = ({ project }) => {
             variant="outline"
             size="sm"
             onClick={() => navigate(`/projects/${project._id}/analytics`)}
-            className="h-9 px-3 text-xs font-mono border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] hover:bg-neutral-100 dark:hover:bg-[#1a1b22] text-neutral-900 dark:text-white cursor-pointer"
+            className="h-9 px-3 text-xs font-mono border-border bg-card hover:bg-accent text-foreground cursor-pointer"
           >
-            <BarChart3 className="h-3.5 w-3.5 mr-1.5 text-neutral-500" />
+            <BarChart3 className="h-3.5 w-3.5 mr-1.5 text-muted-foreground" />
             <span>Analytics Engine</span>
           </Button>
 
@@ -105,10 +103,10 @@ const ProjectDetailHeader = ({ project }) => {
             variant="outline"
             size="sm"
             asChild
-            className="h-9 px-3 text-xs font-mono border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] hover:bg-neutral-100 dark:hover:bg-[#1a1b22] text-neutral-900 dark:text-white cursor-pointer"
+            className="h-9 px-3 text-xs font-mono border-border bg-card hover:bg-accent text-foreground cursor-pointer"
           >
             <a href="/documentation" target="_blank" rel="noreferrer">
-              <ExternalLink className="h-3.5 w-3.5 mr-1.5 text-neutral-500" />
+              <ExternalLink className="h-3.5 w-3.5 mr-1.5 text-muted-foreground" />
               <span>Specs &amp; Docs</span>
             </a>
           </Button>
@@ -123,16 +121,16 @@ const ProjectDetailHeader = ({ project }) => {
             <TooltipTrigger asChild>
               <button
                 onClick={copyId}
-                className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-md border border-[#eaeaea] dark:border-[#26262b] bg-neutral-50 dark:bg-[#121316] hover:bg-neutral-100 dark:hover:bg-[#1a1b22] text-neutral-800 dark:text-neutral-200 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-md border border-border bg-muted hover:bg-accent text-foreground transition-colors cursor-pointer"
               >
-                <Hash className="h-3.5 w-3.5 text-neutral-400" />
+                <Hash className="h-3.5 w-3.5 text-muted-foreground" />
                 <span className="text-[11px] font-mono tracking-tight">
                   {project._id}
                 </span>
                 {copied ? (
                   <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
                 ) : (
-                  <Copy className="h-3.5 w-3.5 text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200" />
+                  <Copy className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground" />
                 )}
               </button>
             </TooltipTrigger>
@@ -143,28 +141,28 @@ const ProjectDetailHeader = ({ project }) => {
         </TooltipProvider>
 
         {/* Created Timestamp */}
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-[#eaeaea] dark:border-[#26262b] bg-white dark:bg-[#121316] text-neutral-600 dark:text-neutral-400 text-[11px]">
-          <Calendar className="h-3.5 w-3.5 text-neutral-400" />
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-border bg-card text-muted-foreground text-[11px]">
+          <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
           <span>
             CREATED: {new Date(project.createdAt).toISOString().split("T")[0]}
           </span>
         </div>
 
         {/* Identity Providers Count */}
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-[#eaeaea] dark:border-[#26262b] bg-white dark:bg-[#121316] text-neutral-600 dark:text-neutral-400 text-[11px]">
-          <Layers className="h-3.5 w-3.5 text-neutral-400" />
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-border bg-card text-muted-foreground text-[11px]">
+          <Layers className="h-3.5 w-3.5 text-muted-foreground" />
           <span>{activeProvidersCount} PROVIDERS CONFIGURED</span>
         </div>
 
         {/* Security Specs */}
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-[#eaeaea] dark:border-[#26262b] bg-white dark:bg-[#121316] text-neutral-600 dark:text-neutral-400 text-[11px]">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-border bg-card text-muted-foreground text-[11px]">
           <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
           <span>PKCE S256 ENFORCED</span>
         </div>
 
         {/* Engine Version */}
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-[#eaeaea] dark:border-[#26262b] bg-white dark:bg-[#121316] text-neutral-500 dark:text-neutral-400 text-[11px] ml-auto">
-          <Activity className="h-3.5 w-3.5 text-neutral-400" />
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-border bg-card text-muted-foreground text-[11px] ml-auto">
+          <Activity className="h-3.5 w-3.5 text-muted-foreground" />
           <span>v2.6.0 CORE</span>
         </div>
       </div>
