@@ -58,7 +58,7 @@ const ProjectKeysCard = ({ project, onKeysRotated }) => {
       setRotating(true);
       const res = await rotateProjectKeys(project._id);
       if (res.success) {
-        toast.success("Cryptographic keys rotated successfully");
+        toast.success("API keys rotated successfully");
         onKeysRotated?.();
       } else {
         toast.error(res.message || "Failed to rotate keys");
@@ -99,29 +99,18 @@ export function App() {
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 items-start mt-2">
-      {/* ─── MAIN COLUMN ─── */}
       <div className="flex-1 space-y-6 min-w-0 w-full">
-        {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="font-mono text-[11px] text-neutral-500 dark:text-neutral-400 uppercase tracking-widest flex items-center">
-                <span>01</span>
-                <TechSeparator />
-                <span>CRYPTOGRAPHIC VAULT</span>
-              </span>
-            </div>
             <h2 className="text-xl font-bold tracking-tight text-neutral-900 dark:text-white">
               API Credentials &amp; Discovery Endpoints
             </h2>
             <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-0.5">
-              Cryptographic client identifier, project keys, and RFC-compliant
-              OpenID configuration.
+              Client identifier, project keys, and OpenID configuration
+              endpoints.
             </p>
           </div>
 
-          {/* Key Rotation Dialog */}
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button
@@ -145,10 +134,9 @@ export function App() {
                   Rotate API Keys?
                 </AlertDialogTitle>
                 <AlertDialogDescription className="text-center text-xs font-mono text-muted-foreground leading-relaxed">
-                  This will immediately revoke and invalidate the active public
-                  key and regenerate cryptographic signing credentials. Existing
-                  client sessions and integrated SDK instances must be updated
-                  with the new key.
+                  This will immediately invalidate the active API keys and
+                  generate new credentials. Existing client integrations will
+                  need to be updated with the new key.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter className="mt-4">
@@ -168,27 +156,19 @@ export function App() {
 
         {/* ─── GRID: CLIENT ID & API REFERENCE ─── */}
         <div className="grid md:grid-cols-2 gap-5">
-          {/* Card 1: Credentials */}
           <div className="border border-border bg-card text-card-foreground rounded-xl shadow-xs overflow-hidden flex flex-col justify-between">
             <div className="px-5 py-3 border-b border-border flex items-center justify-between text-xs font-mono bg-muted/50">
               <span className="font-semibold text-foreground flex items-center gap-1.5">
                 <KeyRound className="h-3.5 w-3.5 text-muted-foreground" />
                 <span>ACTIVE CREDENTIALS</span>
               </span>
-              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold px-2 py-0.5 rounded border border-emerald-500/20 bg-emerald-500/10">
-                PROD
-              </span>
             </div>
 
             <div className="p-5 space-y-4">
-              {/* Public Key (Client ID) */}
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between text-xs font-mono">
                   <span className="text-muted-foreground">
-                    PUBLIC_KEY (CLIENT_ID)
-                  </span>
-                  <span className="text-[10px] text-muted-foreground">
-                    HS256
+                    PUBLIC KEY (CLIENT ID)
                   </span>
                 </div>
                 <div className="flex items-center justify-between p-2.5 bg-muted/60 rounded-lg border border-border font-mono text-xs">
@@ -212,9 +192,7 @@ export function App() {
               {/* Project ID */}
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between text-xs font-mono">
-                  <span className="text-muted-foreground">
-                    PROJECT_ID (NAMESPACE)
-                  </span>
+                  <span className="text-muted-foreground">PROJECT ID</span>
                 </div>
                 <div className="flex items-center justify-between p-2.5 bg-muted/60 rounded-lg border border-border font-mono text-xs">
                   <span className="text-foreground truncate select-all">
@@ -236,7 +214,7 @@ export function App() {
             </div>
 
             <div className="px-5 py-2.5 border-t border-border bg-muted/30 text-[11px] font-mono text-muted-foreground">
-              Validated against RFC 7636 PKCE S256 handshake.
+              Configured for OAuth 2.0 PKCE authentication.
             </div>
           </div>
 
@@ -246,9 +224,6 @@ export function App() {
               <span className="font-semibold text-foreground flex items-center gap-1.5">
                 <Globe className="h-3.5 w-3.5 text-muted-foreground" />
                 <span>OIDC PROTOCOL ENDPOINTS</span>
-              </span>
-              <span className="text-[10px] text-muted-foreground font-mono">
-                PORT 443
               </span>
             </div>
 
@@ -261,20 +236,6 @@ export function App() {
                   {window.location.origin}/api/v1/auth
                 </code>
               </div>
-
-              <div className="space-y-1.5">
-                <span className="text-xs font-mono text-muted-foreground">
-                  OPENID DISCOVERY MANIFEST
-                </span>
-                <code className="block text-xs font-mono text-foreground bg-muted/60 p-2.5 rounded-lg border border-border truncate">
-                  /.well-known/openid-configuration
-                </code>
-              </div>
-            </div>
-
-            <div className="px-5 py-2.5 border-t border-border bg-muted/30 text-[11px] font-mono text-muted-foreground flex items-center justify-between">
-              <span>ALGORITHM: HS256</span>
-              <span>FORMAT: JWT</span>
             </div>
           </div>
         </div>
@@ -338,7 +299,7 @@ export function App() {
             <div className="flex items-center gap-2">
               <TerminalIcon className="h-3.5 w-3.5 text-muted-foreground" />
               <span className="font-semibold text-foreground">
-                CLIENT INTEGRATION SUITE
+                SDK QUICK START
               </span>
             </div>
             {/* Tabs */}
@@ -434,7 +395,7 @@ export function App() {
         {/* Verification Checklist */}
         <div className="border border-border bg-card text-card-foreground rounded-xl shadow-xs overflow-hidden">
           <div className="px-4 py-3 border-b border-border text-xs font-mono font-semibold text-foreground bg-muted/50">
-            PRE-FLIGHT CHECKLIST
+            SETUP CHECKLIST
           </div>
           <div className="p-4 space-y-2.5 font-mono text-xs">
             {[

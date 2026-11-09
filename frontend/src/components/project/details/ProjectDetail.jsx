@@ -61,19 +61,17 @@ const ProjectDetail = () => {
     if (projectId) loadProject();
   }, [projectId, loadProject]);
 
-  /* LOADING STATE */
   if (loading) {
     return (
       <div className="min-h-120 flex flex-col items-center justify-center gap-3">
         <div className="w-8 h-8 border-2 border-border border-t-primary rounded-full animate-spin mb-2" />
         <p className="font-mono text-xs text-muted-foreground tracking-wider">
-          INITIALIZING NAMESPACE CONSOLE...
+          Loading project...
         </p>
       </div>
     );
   }
 
-  /* ERROR STATE */
   if (error) {
     return (
       <div className="max-w-xl mx-auto mt-16 p-8 rounded-xl border border-destructive/30 bg-card text-card-foreground text-center space-y-4 shadow-sm">
@@ -82,7 +80,7 @@ const ProjectDetail = () => {
         </div>
         <div>
           <h2 className="text-lg font-bold text-foreground">
-            Namespace Resolution Error
+            Project Not Found
           </h2>
           <p className="text-xs font-mono text-muted-foreground mt-1">
             {error}
@@ -96,7 +94,7 @@ const ProjectDetail = () => {
               className="font-mono text-xs gap-2 border-border"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
-              Return to Console
+              Back to Dashboard
             </Button>
           </Link>
           <Button
@@ -105,21 +103,18 @@ const ProjectDetail = () => {
             className="font-mono text-xs gap-2"
           >
             <RefreshCw className="h-3.5 w-3.5" />
-            Retry Query
+            Try Again
           </Button>
         </div>
       </div>
     );
   }
 
-  /* MAIN RENDER */
   return (
     <div className="w-full space-y-6 animate-in fade-in duration-300">
-      {/* Header */}
       <ProjectDetailHeader project={project} />
 
       <Tabs defaultValue="keys" className="space-y-6">
-        {/* Sticky Technical Tab Navigation */}
         <div className="sticky top-16 z-20 py-2.5 bg-background/90 backdrop-blur-md border-b border-border">
           <TabsList className="h-auto p-1 bg-muted rounded-lg border border-border flex flex-wrap gap-1">
             <TabsTrigger
@@ -127,42 +122,39 @@ const ProjectDetail = () => {
               className="rounded-md px-3.5 py-1.5 font-mono text-xs gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all cursor-pointer"
             >
               <Key className="h-3.5 w-3.5" />
-              <span>[01] API KEYS</span>
+              <span>API KEYS</span>
             </TabsTrigger>
             <TabsTrigger
               value="users"
               className="rounded-md px-3.5 py-1.5 font-mono text-xs gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all cursor-pointer"
             >
               <Users className="h-3.5 w-3.5" />
-              <span>[02] USERS</span>
+              <span>USERS</span>
             </TabsTrigger>
             <TabsTrigger
               value="security"
               className="rounded-md px-3.5 py-1.5 font-mono text-xs gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all cursor-pointer"
             >
               <ShieldCheck className="h-3.5 w-3.5" />
-              <span>[03] SECURITY &amp; LOGS</span>
+              <span>SECURITY &amp; LOGS</span>
             </TabsTrigger>
             <TabsTrigger
               value="settings"
               className="rounded-md px-3.5 py-1.5 font-mono text-xs gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all cursor-pointer"
             >
               <Settings2 className="h-3.5 w-3.5" />
-              <span>[04] SETTINGS</span>
+              <span>SETTINGS</span>
             </TabsTrigger>
             <TabsTrigger
               value="catalog"
               className="rounded-md px-3.5 py-1.5 font-mono text-xs gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all cursor-pointer"
             >
               <Globe className="h-3.5 w-3.5" />
-              <span>[05] PROVIDERS</span>
+              <span>PROVIDERS</span>
             </TabsTrigger>
           </TabsList>
         </div>
 
-        {/* --- TABS CONTENT --- */}
-
-        {/* 1. API Keys */}
         <TabsContent
           value="keys"
           className="focus-visible:outline-none focus-visible:ring-0"
@@ -170,7 +162,6 @@ const ProjectDetail = () => {
           <ProjectKeysCard project={project} onKeysRotated={loadProject} />
         </TabsContent>
 
-        {/* 2. User Management */}
         <TabsContent
           value="users"
           className="focus-visible:outline-none focus-visible:ring-0"
@@ -178,7 +169,6 @@ const ProjectDetail = () => {
           <ProjectUsersCard projectId={projectId} />
         </TabsContent>
 
-        {/* 3. Security & Logs */}
         <TabsContent
           value="security"
           className="focus-visible:outline-none focus-visible:ring-0"
@@ -196,7 +186,7 @@ const ProjectDetail = () => {
                   value="live"
                   className="gap-2 font-mono text-xs data-[state=active]:bg-card data-[state=active]:text-card-foreground data-[state=active]:shadow-xs"
                 >
-                  <Terminal className="h-3 w-3" /> Telemetry Stream
+                  <Terminal className="h-3 w-3" /> Live Events
                 </TabsTrigger>
                 <TabsTrigger
                   value="webhooks"
@@ -216,11 +206,11 @@ const ProjectDetail = () => {
                 <div className="flex flex-col gap-1">
                   <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
                     <Terminal className="h-4 w-4 text-emerald-500" />
-                    Real-time Protocol Telemetry
+                    Real-time Event Stream
                   </h3>
                   <p className="text-muted-foreground text-xs font-mono">
-                    Streaming live authentication &amp; session revocation
-                    events directly from AuthSphere Enclave.
+                    Streaming live authentication and session events for this
+                    project.
                   </p>
                 </div>
                 <LiveEventsStream projectId={projectId} />
@@ -233,7 +223,6 @@ const ProjectDetail = () => {
           </Tabs>
         </TabsContent>
 
-        {/* 4. Settings */}
         <TabsContent
           value="settings"
           className="focus-visible:outline-none focus-visible:ring-0"

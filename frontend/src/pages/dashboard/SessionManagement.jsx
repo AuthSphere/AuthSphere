@@ -68,7 +68,7 @@ const SessionCard = ({ session, onRevoke }) => (
       {session.current ? (
         <span className="inline-flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-widest bg-emerald-500/20 text-emerald-300 dark:text-emerald-400 px-2 py-0.5 rounded">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          CURRENT ENCLAVE
+          CURRENT SESSION
         </span>
       ) : (
         <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-mono">
@@ -100,13 +100,13 @@ const SessionCard = ({ session, onRevoke }) => (
           <span className="flex items-center gap-1.5">
             <Clock className="h-3 w-3" />
             <span>
-              Minted: {new Date(session.createdAt).toLocaleDateString()}
+              Created: {new Date(session.createdAt).toLocaleDateString()}
             </span>
           </span>
           <span className="flex items-center gap-1.5">
             <Activity className="h-3 w-3 text-emerald-500" />
             <span>
-              Last activity: {formatDistanceToNow(new Date(session.lastActive))}{" "}
+              Last active: {formatDistanceToNow(new Date(session.lastActive))}{" "}
               ago
             </span>
           </span>
@@ -131,12 +131,11 @@ const SessionCard = ({ session, onRevoke }) => (
                 <AlertTriangle className="h-5 w-5 text-destructive" />
               </div>
               <AlertDialogTitle className="text-center font-bold text-base">
-                Revoke Session Token?
+                Revoke Session?
               </AlertDialogTitle>
               <AlertDialogDescription className="text-center text-xs text-muted-foreground">
-                This action will immediately terminate the cryptographic session
-                enclave on this remote hardware. The client will be signed out
-                instantly.
+                This action will immediately sign out this session on the remote
+                device.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
@@ -172,7 +171,7 @@ const SessionManagement = () => {
       <div className="min-h-[60vh] flex flex-col items-center justify-center gap-3 font-mono text-xs">
         <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
         <span className="text-muted-foreground">
-          QUERYING ACTIVE SESSION ENCLAVES...
+          Loading active sessions...
         </span>
       </div>
     );
@@ -198,11 +197,11 @@ const SessionManagement = () => {
               <span>SETTINGS</span>
             </Link>
             <TechSeparator />
-            <span>SESSION RUNTIME MATRIX</span>
+            <span>ACTIVE SESSIONS</span>
           </div>
           <div className="inline-flex items-center gap-1.5 font-mono text-xs text-emerald-600 dark:text-emerald-400">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>EDGESYNC ACTIVE</span>
+            <span>SYNC ACTIVE</span>
           </div>
         </div>
 
@@ -210,11 +209,10 @@ const SessionManagement = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-              Cryptographic Session Matrix
+              Session Management
             </h1>
             <p className="text-xs text-muted-foreground mt-1">
-              Active identity tokens and hardware-fingerprinted enclaves across
-              all devices.
+              Manage your active login sessions across devices and browsers.
             </p>
           </div>
 
@@ -306,11 +304,11 @@ const SessionManagement = () => {
 
           <div className="rounded-xl border border-border bg-card text-card-foreground p-5 shadow-xs">
             <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground block mb-1">
-              02 // ENCLAVE ENCRYPTION
+              02 // SESSION PROTECTION
             </span>
             <div className="flex items-baseline gap-2">
               <span className="text-xl font-bold font-mono text-foreground">
-                AES-256-GCM
+                HTTP-Only Cookie
               </span>
               <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold">
                 ACTIVE
@@ -320,7 +318,7 @@ const SessionManagement = () => {
 
           <div className="rounded-xl border border-border bg-card text-card-foreground p-5 shadow-xs">
             <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground block mb-1">
-              03 // SESSION TIMEOUT POLICY
+              03 // SESSION EXPIRATION
             </span>
             <div className="flex items-baseline gap-2">
               <span className="text-3xl font-bold font-mono text-foreground">
@@ -336,8 +334,8 @@ const SessionManagement = () => {
         {/* Sessions List */}
         <div className="space-y-4">
           <div className="flex items-center justify-between text-xs font-mono text-muted-foreground pb-1">
-            <span>REGISTERED DEVICE ENCLAVES ({sessions.length})</span>
-            <span>TOKEN SPEC: RFC-7519</span>
+            <span>ACTIVE SESSIONS ({sessions.length})</span>
+            <span>FORMAT: STANDARD JWT</span>
           </div>
 
           <div className="space-y-3">
@@ -355,14 +353,12 @@ const SessionManagement = () => {
         <div className="rounded-xl border border-border bg-card text-card-foreground p-6 shadow-xs space-y-4">
           <div className="flex items-center gap-2 text-xs font-mono font-bold text-foreground">
             <Cpu className="h-4 w-4 text-emerald-500" />
-            <span>CRYPTOGRAPHIC TERMINATION SPECIFICATION</span>
+            <span>SESSION REVOCATION DETAILS</span>
           </div>
           <p className="text-xs text-muted-foreground leading-relaxed font-mono">
-            AuthSphere maintains a low-latency distributed token revocation
-            ledger. When a session is revoked, its unique JTI (JWT ID) is
-            immediately blacklisted in Redis with sub-millisecond edge
-            synchronization, guaranteeing that downstream API services reject
-            revoked tokens on their very next request.
+            When a session is revoked, its refresh token is immediately
+            invalidated in the database, preventing any further access token
+            renewals across your applications.
           </p>
         </div>
       </div>

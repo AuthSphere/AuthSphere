@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import useAuthStore from "@/store/authStore";
 import TechSeparator from "@/components/common/TechSeparator";
 
@@ -118,22 +119,22 @@ export const HeroSection = () => {
             opacity="0.65"
           >
             <text x="145" y="110">
-              [X:0x7F] NODE_OIDC_01
+              OIDC_PROVIDER
             </text>
             <text x="485" y="230">
-              [COORD_GATE] SHA-256_HASH
+              AUTH_GATEWAY
             </text>
             <text x="785" y="230">
-              [ROTATION_VAULT] 0xAE19
+              TOKEN_ENGINE
             </text>
             <text x="1185" y="130">
-              [EDGE_CLIENT] RFC_7636
+              CLIENT_APP
             </text>
             <text x="225" y="555">
-              [WS_BUS_ORIGIN]
+              WEBSOCKET_SYNC
             </text>
             <text x="865" y="415">
-              [SESSION_STORE] MONGODB_TTL
+              SESSION_STORE
             </text>
           </g>
           <g stroke="currentColor" strokeWidth="0.75">
@@ -150,9 +151,11 @@ export const HeroSection = () => {
         <div className="lg:col-span-7 flex flex-col gap-6">
           <div className="flex items-center gap-1.5 text-xs font-mono text-muted-foreground tracking-wider uppercase">
             <span className="inline-block w-2 h-2 bg-primary" />
-            <span>OPEN SOURCE INFRASTRUCTURE</span>
+            <span>OPEN SOURCE AUTHENTICATION</span>
             <TechSeparator />
-            <span className="text-foreground font-semibold">RFC-7636 PKCE</span>
+            <span className="text-foreground font-semibold">
+              OAUTH 2.0 &amp; PKCE
+            </span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-semibold tracking-tight text-foreground leading-[1.08] text-balance">
@@ -165,8 +168,8 @@ export const HeroSection = () => {
 
           <p className="text-base text-muted-foreground max-w-xl leading-relaxed font-normal">
             An open-source authentication server and client SDK. Supports OAuth
-            2.0 with PKCE, Bcrypt password hashing with HaveIBeenPwned breach
-            detection, and MongoDB session tracking.
+            2.0 with PKCE, secure password hashing with breach detection, and
+            real-time session tracking.
           </p>
 
           {/* CTA Cluster */}
@@ -175,10 +178,8 @@ export const HeroSection = () => {
               to={user ? "/dashboard" : "/login"}
               className="inline-flex items-center justify-center gap-2 px-5 h-10 rounded-sm bg-primary text-primary-foreground text-xs font-mono font-medium hover:bg-primary/90 transition-colors shadow-sm"
             >
-              <span>Initialize AuthSphere</span>
-              <span className="material-symbols-outlined text-[16px]">
-                arrow_forward
-              </span>
+              <span>Get Started</span>
+              <ArrowRight className="h-4 w-4" />
             </Link>
 
             <a
@@ -217,7 +218,7 @@ export const HeroSection = () => {
                 Token Format
               </span>
               <span className="font-semibold text-foreground">
-                HMAC-SHA256 (HS256)
+                Standard JWT (HS256)
               </span>
             </div>
             <div className="flex flex-col gap-1">
@@ -345,7 +346,7 @@ export const HeroSection = () => {
                 x="32"
                 y="50"
               >
-                ENFORCED_STATE::S256
+                PKCE S256
               </text>
               <text
                 className="fill-muted-foreground font-mono text-[10px]"
@@ -354,7 +355,7 @@ export const HeroSection = () => {
                 x="488"
                 y="50"
               >
-                HASHING::BCRYPT_10_SALT
+                BCRYPT HASHING
               </text>
               <text
                 className="fill-muted-foreground font-mono text-[9px]"
@@ -362,7 +363,7 @@ export const HeroSection = () => {
                 x="32"
                 y="475"
               >
-                SPEC::RFC_7636
+                OAUTH 2.0 READY
               </text>
               <text
                 className="fill-muted-foreground font-mono text-[9px]"
@@ -371,7 +372,7 @@ export const HeroSection = () => {
                 x="488"
                 y="475"
               >
-                SOCKET_IO::REVOCATION
+                LIVE REVOCATION
               </text>
             </svg>
           </div>

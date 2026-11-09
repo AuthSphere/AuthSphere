@@ -40,13 +40,11 @@ export const Footer = () => {
         <div className="flex flex-col lg:flex-row justify-between items-start gap-12 pb-16 border-b border-border">
           <div className="space-y-6 max-w-2xl">
             <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground leading-[1.15]">
-              Open-source identity and access management for autonomous
-              developers.
+              Open-source identity and access management for modern developers.
             </h2>
             <p className="text-base text-muted-foreground leading-relaxed max-w-xl">
-              Native PKCE S256, cryptographically isolated multi-tenant
-              environments, and real-time WebSocket telemetry without
-              third-party tracking.
+              PKCE S256 authentication, multi-tenant project isolation, and
+              real-time session management without third-party tracking.
             </p>
           </div>
 
@@ -79,9 +77,7 @@ export const Footer = () => {
               to={user ? "/dashboard" : "/register"}
               className="inline-flex items-center justify-center gap-2 h-10 px-5 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-all shadow-xs focus:outline-none focus:ring-2 focus:ring-ring shrink-0"
             >
-              <span>
-                {user ? "Console Dashboard" : "Initialize AuthSphere"}
-              </span>
+              <span>{user ? "Dashboard" : "Get Started"}</span>
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -135,7 +131,7 @@ export const Footer = () => {
                 "Google Identity (OIDC)",
                 "GitHub OAuth2 (REST)",
                 "Discord OAuth2 (v10)",
-                "WebSocket Telemetry Bus",
+                "WebSocket Session Sync",
               ].map((item) => (
                 <li key={item}>
                   <Link
@@ -184,15 +180,15 @@ export const Footer = () => {
               </li>
               <li className="flex items-center justify-between group cursor-default pt-1">
                 <span className="group-hover:text-foreground transition-colors">
-                  RFC-7636 (PKCE S256)
+                  OAuth 2.0 &amp; PKCE
                 </span>
                 <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-muted text-muted-foreground font-mono border border-border">
-                  ENFORCED
+                  SUPPORTED
                 </span>
               </li>
               <li className="flex items-center justify-between group cursor-default">
                 <span className="group-hover:text-foreground transition-colors">
-                  RFC-7519 (HS256 JWT)
+                  Standard JWT (HS256)
                 </span>
                 <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono border border-emerald-500/20">
                   ACTIVE
@@ -219,7 +215,7 @@ export const Footer = () => {
                     className="flex items-center justify-between hover:text-foreground transition-colors group"
                   >
                     <span className="flex items-center gap-2.5">
-                      <item.icon className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity text-current" />
+                      <item.icon className="w-4 h-4 shrink-0 transition-transform group-hover:scale-110" />
                       <span>{item.name}</span>
                     </span>
                     <ExternalLink className="h-3.5 w-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
@@ -256,7 +252,7 @@ export const Footer = () => {
             <AuthSphereLogo className="w-5 h-5 text-foreground" />
             <span className="font-medium text-foreground">AuthSphere</span>
             <span className="text-border">|</span>
-            <span>© 2026 Core Infrastructure.</span>
+            <span>© 2026 AuthSphere. All rights reserved.</span>
           </div>
 
           {/* Official Social Channels Strip */}
@@ -269,9 +265,9 @@ export const Footer = () => {
                 rel="noopener noreferrer"
                 aria-label={`${item.name} (${item.handle})`}
                 title={`${item.name} (${item.handle})`}
-                className="p-2 rounded-md border border-border bg-card text-muted-foreground hover:text-foreground hover:border-border/80 transition-all shadow-xs"
+                className="p-2 rounded-md border border-border bg-card hover:bg-muted/50 hover:border-border/80 transition-all shadow-xs group"
               >
-                <item.icon className="w-4 h-4 text-current" />
+                <item.icon className="w-4 h-4 shrink-0 transition-transform group-hover:scale-110" />
               </a>
             ))}
           </div>

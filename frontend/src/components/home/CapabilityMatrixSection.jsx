@@ -167,7 +167,7 @@ export const CapabilityMatrixSection = () => {
                     textAnchor="middle"
                     letterSpacing="0.5"
                   >
-                    STATE GATE
+                    STATE VERIFIER
                   </text>
                   <text
                     x="190"
@@ -176,7 +176,7 @@ export const CapabilityMatrixSection = () => {
                     fillOpacity="0.7"
                     textAnchor="middle"
                   >
-                    CSRF &amp; Nonce Sync
+                    CSRF &amp; State Match
                   </text>
                 </g>
                 <circle cx="258" cy="42" r="3" fill="currentColor" />
@@ -212,7 +212,7 @@ export const CapabilityMatrixSection = () => {
                     textAnchor="middle"
                     letterSpacing="0.5"
                   >
-                    NORMALIZED
+                    USER PROFILE
                   </text>
                   <text
                     x="379"
@@ -221,7 +221,7 @@ export const CapabilityMatrixSection = () => {
                     fillOpacity="0.7"
                     textAnchor="middle"
                   >
-                    Uniform Token Matrix
+                    Standard User Model
                   </text>
                 </g>
               </svg>
@@ -326,7 +326,7 @@ export const CapabilityMatrixSection = () => {
                     fillOpacity="0.7"
                     textAnchor="middle"
                   >
-                    43-128 Octets
+                    Random Secret String
                   </text>
                 </g>
 
@@ -370,7 +370,7 @@ export const CapabilityMatrixSection = () => {
                     fillOpacity="0.7"
                     textAnchor="middle"
                   >
-                    BASE64URL_ENCODE
+                    Base64URL Digest
                   </text>
                 </g>
 
@@ -414,20 +414,20 @@ export const CapabilityMatrixSection = () => {
                     fillOpacity="0.7"
                     textAnchor="middle"
                   >
-                    RFC-7636 Verified
+                    S256 Challenge
                   </text>
                 </g>
               </svg>
             </div>
             <div className="flex justify-between text-muted-foreground">
               <span>CODE CHALLENGE</span>
-              <span>S256 ENFORCED</span>
+              <span>S256 METHOD</span>
             </div>
             <div className="text-foreground select-all truncate text-[11px]">
               E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM
             </div>
             <div className="flex justify-between text-[11px] text-muted-foreground pt-1 border-t border-border">
-              <span>ROTATION: ATOMIC 1-USE</span>
+              <span>ROTATION: SINGLE-USE</span>
               <span>REPLAY PROTECTION: YES</span>
             </div>
           </div>
@@ -438,11 +438,11 @@ export const CapabilityMatrixSection = () => {
           <div className="lg:col-span-3 text-xs text-muted-foreground flex items-center">
             <span>03</span>
             <TechSeparator />
-            <span>CONCURRENCY</span>
+            <span>SESSIONS</span>
           </div>
           <div className="lg:col-span-4">
             <h3 className="text-lg font-bold font-sans text-foreground mb-1.5">
-              Real-Time Invalidation Bus
+              Real-Time Session Revocation
             </h3>
             <p className="text-xs font-sans text-muted-foreground leading-relaxed">
               WebSocket-based session management using Socket.io. Dropping a
@@ -506,7 +506,7 @@ export const CapabilityMatrixSection = () => {
                     textAnchor="middle"
                     letterSpacing="0.5"
                   >
-                    CLIENT TERMINAL
+                    ACTIVE CLIENT
                   </text>
                   <text
                     x="70"
@@ -515,7 +515,7 @@ export const CapabilityMatrixSection = () => {
                     fillOpacity="0.7"
                     textAnchor="middle"
                   >
-                    Revoke Trigger
+                    Revoke Request
                   </text>
                 </g>
 
@@ -563,7 +563,7 @@ export const CapabilityMatrixSection = () => {
                     textAnchor="middle"
                     letterSpacing="0.5"
                   >
-                    BROADCAST BUS
+                    BROADCAST EVENT
                   </text>
                   <text
                     x="390"
@@ -572,7 +572,7 @@ export const CapabilityMatrixSection = () => {
                     fillOpacity="0.7"
                     textAnchor="middle"
                   >
-                    All Sessions Killed
+                    All Sessions Revoked
                   </text>
                 </g>
               </svg>
@@ -601,7 +601,7 @@ export const CapabilityMatrixSection = () => {
                   }
                   id="session-tag-1"
                 >
-                  {revoked ? "TERMINATED" : "CONNECTED"}
+                  {revoked ? "REVOKED" : "CONNECTED"}
                 </span>
               </div>
               <div className="flex justify-between">
@@ -616,11 +616,11 @@ export const CapabilityMatrixSection = () => {
                   }
                   id="session-tag-2"
                 >
-                  {revoked ? "TERMINATED" : "CONNECTED"}
+                  {revoked ? "REVOKED" : "CONNECTED"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Ubuntu Daemon</span>
+                <span className="text-muted-foreground">Background Worker</span>
                 <span
                   className={
                     revoked
@@ -629,7 +629,7 @@ export const CapabilityMatrixSection = () => {
                   }
                   id="session-tag-3"
                 >
-                  {revoked ? "TERMINATED" : "CONNECTED"}
+                  {revoked ? "REVOKED" : "CONNECTED"}
                 </span>
               </div>
             </div>
@@ -765,7 +765,7 @@ export const CapabilityMatrixSection = () => {
                     fillOpacity="0.7"
                     textAnchor="middle"
                   >
-                    0 Config Crypto
+                    Built-in Crypto
                   </text>
                 </g>
 

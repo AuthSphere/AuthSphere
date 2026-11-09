@@ -54,12 +54,11 @@ export class ErrorBoundary extends React.Component {
 
                 <div className="space-y-2">
                   <h1 className="text-lg font-bold font-mono uppercase tracking-wider text-foreground">
-                    Application Interface Interrupted
+                    Something went wrong
                   </h1>
                   <p className="text-xs text-muted-foreground font-mono max-w-sm mx-auto leading-relaxed">
-                    An unexpected runtime exception was isolated by the
-                    AuthSphere safety boundary. Your session and secure keys
-                    remain unaffected.
+                    An unexpected error occurred. Please try again or return to
+                    the home page.
                   </p>
                 </div>
 
@@ -69,7 +68,7 @@ export class ErrorBoundary extends React.Component {
                     className="w-full sm:w-auto h-9 px-5 font-mono text-xs bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm"
                   >
                     <RefreshCw className="h-3.5 w-3.5 mr-1.5" />
-                    RETRY ENCLAVE
+                    Try Again
                   </Button>
                   <Button
                     variant="outline"
@@ -79,7 +78,7 @@ export class ErrorBoundary extends React.Component {
                     className="w-full sm:w-auto h-9 px-5 font-mono text-xs border-border"
                   >
                     <Home className="h-3.5 w-3.5 mr-1.5" />
-                    RETURN HOME
+                    Return Home
                   </Button>
                 </div>
               </div>

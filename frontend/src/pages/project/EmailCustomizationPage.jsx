@@ -58,7 +58,7 @@ const EmailCustomizationPage = () => {
       <div className="min-h-[60vh] flex flex-col items-center justify-center gap-3 font-mono text-xs">
         <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
         <span className="text-muted-foreground">
-          QUERYING SMTP &amp; TEMPLATE CONFIGURATION...
+          Loading email templates...
         </span>
       </div>
     );
@@ -83,12 +83,12 @@ const EmailCustomizationPage = () => {
             >
               <Link to={`/projects/${projectId}`}>
                 <ArrowLeft className="h-3.5 w-3.5 mr-1.5" />
-                RETURN TO PROJECT
+                Back to Project
               </Link>
             </Button>
             <Button onClick={loadProject} className="h-8 font-mono text-xs">
               <RefreshCw className="h-3.5 w-3.5 mr-1.5" />
-              RETRY HANDSHAKE
+              Try Again
             </Button>
           </div>
         </div>
@@ -98,14 +98,12 @@ const EmailCustomizationPage = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased relative isolate selection:bg-primary selection:text-primary-foreground">
-      {/* Precision Engineering Matrix Background */}
       <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-background">
         <div className="absolute inset-0 grid-matrix opacity-40 dark:opacity-20" />
         <div className="absolute inset-0 bg-radial from-transparent via-transparent to-muted/50 dark:to-background/60" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-        {/* Engineering Eyebrow */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-border pb-3 gap-2">
           <div className="flex items-center text-xs font-mono text-muted-foreground uppercase tracking-widest">
             <Link
@@ -115,18 +113,9 @@ const EmailCustomizationPage = () => {
               <ArrowLeft className="h-3.5 w-3.5" />
               <span>{project?.name || "PROJECT"}</span>
             </Link>
-            <TechSeparator />
-            <span>COMMUNICATION RUNTIME</span>
-            <TechSeparator />
-            <span>EMAIL CUSTOMIZER</span>
-          </div>
-          <div className="inline-flex items-center gap-1.5 font-mono text-xs text-emerald-600 dark:text-emerald-400">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>RFC-5322 COMPLIANT // ACTIVE</span>
           </div>
         </div>
 
-        {/* Editor component */}
         <EmailTemplateEditor project={project} onUpdated={loadProject} />
       </div>
     </div>

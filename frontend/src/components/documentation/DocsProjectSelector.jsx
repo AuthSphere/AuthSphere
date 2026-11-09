@@ -26,9 +26,9 @@ const DocsProjectSelector = ({
         </div>
         <div>
           <div className="flex items-center text-[10px] font-mono text-muted-foreground uppercase tracking-wider">
-            <span>INLINE TELEMETRY</span>
+            <span>PROJECT CONTEXT</span>
             <TechSeparator />
-            <span>DYNAMIC CODE SAMPLES</span>
+            <span>LIVE CODE SAMPLES</span>
           </div>
           <h3 className="text-xs font-mono font-bold text-foreground mt-0.5">
             Personalized Project Variables

@@ -136,7 +136,6 @@ const Documentation = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased relative isolate selection:bg-primary selection:text-primary-foreground">
-      {/* Precision Engineering Matrix Background */}
       <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-background">
         <div className="absolute inset-0 grid-matrix opacity-40 dark:opacity-20" />
         <div className="absolute inset-0 bg-radial from-transparent via-transparent to-muted/40 dark:to-black/60" />

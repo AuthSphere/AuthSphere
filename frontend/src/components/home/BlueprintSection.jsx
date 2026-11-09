@@ -63,7 +63,7 @@ export const BlueprintSection = () => {
         <div className="self-start md:self-auto">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded border border-border bg-card text-[11px] font-mono text-foreground">
             <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-            PKCE RFC 7636 ENFORCED
+            OAuth 2.0 &amp; PKCE Enforced
           </span>
         </div>
       </div>
@@ -71,14 +71,14 @@ export const BlueprintSection = () => {
       {/* High-Precision Flow Grid */}
       <div className="border border-border bg-card relative z-10 shadow-xs">
         <div className="grid grid-cols-1 lg:grid-cols-12">
-          {/* Column 1: Inbound Providers */}
+          {/* Column 1: Identity Providers */}
           <div className="lg:col-span-4 p-6 border-b lg:border-b-0 lg:border-r border-border flex flex-col justify-between gap-6">
             <div>
               <div className="flex items-center justify-between text-xs font-mono pb-3 border-b border-border">
                 <span className="font-semibold text-foreground uppercase tracking-wider">
-                  01. Inbound Providers
+                  01. Identity Providers
                 </span>
-                <span className="text-muted-foreground">PORT:443</span>
+                <span className="text-muted-foreground">HTTPS / OAUTH</span>
               </div>
               <div className="space-y-3 font-mono text-xs mt-4">
                 <div className="p-3 border border-border bg-background flex items-center justify-between">
@@ -123,19 +123,19 @@ export const BlueprintSection = () => {
               </div>
             </div>
             <div className="text-[11px] font-mono text-muted-foreground pt-2 border-t border-border">
-              Callback handler validates CSRF state token &amp; code challenge
-              before key dispatch.
+              Callback handler validates CSRF state token and code challenge
+              before token dispatch.
             </div>
           </div>
 
-          {/* Column 2: Secure Core Engine */}
+          {/* Column 2: Authentication Core */}
           <div className="lg:col-span-4 p-6 border-b lg:border-b-0 lg:border-r border-border flex flex-col justify-between gap-6 bg-muted/30">
             <div>
               <div className="flex items-center justify-between text-xs font-mono pb-3 border-b border-border">
                 <span className="font-semibold text-foreground uppercase tracking-wider">
-                  02. Secure Core Engine
+                  02. Authentication Core
                 </span>
-                <span className="text-muted-foreground">EXPRESS + MONGODB</span>
+                <span className="text-muted-foreground">Node.js + MongoDB</span>
               </div>
               <div className="space-y-3 font-mono text-xs mt-4">
                 <div className="p-3 border border-border bg-card">
@@ -155,7 +155,7 @@ export const BlueprintSection = () => {
                     MODULE 02
                   </div>
                   <div className="font-medium text-foreground">
-                    Token Rotation Vault
+                    Token Refresh &amp; Rotation
                   </div>
                   <div className="text-[11px] text-muted-foreground mt-1">
                     Single-use refresh token exchange with native MongoDB TTL
@@ -167,7 +167,7 @@ export const BlueprintSection = () => {
                     MODULE 03
                   </div>
                   <div className="font-medium text-foreground">
-                    WebSocket Session Revocation
+                    Real-time Session Revocation
                   </div>
                   <div className="text-[11px] text-muted-foreground mt-1">
                     Cross-device session termination broadcast via Socket.io
@@ -177,19 +177,21 @@ export const BlueprintSection = () => {
               </div>
             </div>
             <div className="flex items-center justify-between pt-2 text-[11px] font-mono text-muted-foreground border-t border-border">
-              <span>ACCESS TTL: 15 MIN</span>
-              <span>SIGNING: HMAC-SHA256</span>
+              <span>Access Token: 15m</span>
+              <span>JWT (HS256)</span>
             </div>
           </div>
 
-          {/* Column 3: Consuming Endpoints */}
+          {/* Column 3: Client Applications */}
           <div className="lg:col-span-4 p-6 flex flex-col justify-between gap-6">
             <div>
               <div className="flex items-center justify-between text-xs font-mono pb-3 border-b border-border">
                 <span className="font-semibold text-foreground uppercase tracking-wider">
-                  03. Consuming Endpoints
+                  03. Client Applications
                 </span>
-                <span className="text-muted-foreground">CLIENT / EDGE</span>
+                <span className="text-muted-foreground">
+                  Web, Mobile &amp; API
+                </span>
               </div>
               <div className="space-y-3 font-mono text-xs mt-4">
                 <div className="p-3 border border-border bg-background flex items-center justify-between">
@@ -208,7 +210,7 @@ export const BlueprintSection = () => {
                 <div className="p-3 border border-border bg-background flex items-center justify-between">
                   <div>
                     <div className="font-medium text-foreground">
-                      Mobile Runtime
+                      Mobile Apps
                     </div>
                     <div className="text-[11px] text-muted-foreground">
                       React Native / Expo / Swift

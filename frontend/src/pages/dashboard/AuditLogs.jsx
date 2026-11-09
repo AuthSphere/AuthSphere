@@ -292,12 +292,12 @@ const EmptyState = ({ hasFilter, onClear }) => (
       )}
     </div>
     <p className="text-xs font-semibold text-neutral-900 dark:text-white mb-1">
-      {hasFilter ? "NO MATCHING AUDIT RECORDS" : "NO AUDIT EVENTS RECORDED"}
+      {hasFilter ? "No matching audit records" : "No audit events recorded"}
     </p>
     <p className="text-[11px] text-neutral-500 mb-4 max-w-xs leading-relaxed">
       {hasFilter
         ? "Try adjusting query parameters or category selection filters."
-        : "Cryptographic event log will populate as requests route through the enclave."}
+        : "Audit events will appear here as activity occurs in your projects."}
     </p>
     {hasFilter && (
       <Button
@@ -307,7 +307,7 @@ const EmptyState = ({ hasFilter, onClear }) => (
         onClick={onClear}
       >
         <X className="h-3 w-3 mr-1.5" />
-        RESET FILTERS
+        Reset Filters
       </Button>
     )}
   </div>
@@ -498,16 +498,16 @@ const LogDetailDialog = ({ log, onClose }) => {
                   <div>
                     <SectionLabel>DEVICE FINGERPRINT</SectionLabel>
                     <p className="text-[11px] text-neutral-400 font-mono italic">
-                      Zero hardware telemetry payload captured.
+                      No device information recorded.
                     </p>
                   </div>
                 )}
 
                 <div>
-                  <SectionLabel>VERIFICATION CERTIFICATE</SectionLabel>
+                  <SectionLabel>RECORD INTEGRITY</SectionLabel>
                   <div className="flex items-center gap-2 p-3 rounded-lg bg-neutral-50 dark:bg-[#15161b] border border-neutral-200 dark:border-[#222329] font-mono text-[11px] text-neutral-600 dark:text-neutral-400">
                     <Fingerprint className="h-4 w-4 text-emerald-500 shrink-0" />
-                    <span>Cryptographically immutable audit node.</span>
+                    <span>Verified audit log entry.</span>
                   </div>
                 </div>
               </div>
@@ -690,8 +690,8 @@ const AuditLogs = () => {
             Audit Logs
           </h1>
           <p className="text-xs text-muted-foreground mt-1 font-mono">
-            Cryptographically signed event ledger monitoring all security,
-            administrative, and tenant events.
+            Event ledger tracking security, administrative, and authentication
+            activity across your projects.
           </p>
         </div>
 

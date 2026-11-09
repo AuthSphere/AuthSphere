@@ -92,7 +92,7 @@ const ProjectAnalytics = () => {
       <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-3">
         <div className="w-8 h-8 border-2 border-border border-t-primary rounded-full animate-spin mb-2" />
         <p className="font-mono text-xs text-muted-foreground tracking-wider">
-          SYNCHRONIZING TELEMETRY STREAM...
+          Loading analytics data...
         </p>
       </div>
     );
@@ -109,14 +109,12 @@ const ProjectAnalytics = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground relative isolate">
-      {/* Precision Engineering Matrix Background */}
       <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-background">
         <div className="absolute inset-0 grid-matrix opacity-40 dark:opacity-20" />
         <div className="absolute inset-0 bg-radial from-transparent via-transparent to-muted/30 dark:to-background/60" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* ─── COMMAND BAR & HEADER ─── */}
         <header className="pb-6 border-b border-border flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2 text-xs font-mono flex-wrap">
@@ -127,22 +125,14 @@ const ProjectAnalytics = () => {
                 <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
                 <span>PROJECT PROFILE</span>
               </Link>
-              <TechSeparator />
-              <span className="font-semibold text-foreground uppercase tracking-wider">
-                TELEMETRY &amp; ANALYTICS
-              </span>
-              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span>TELEMETRY ACTIVE</span>
-              </div>
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-              Project Performance Telemetry
+              Project Analytics
             </h1>
             <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl leading-relaxed">
-              Real-time audit velocity, concurrent principal sessions, provider
-              distribution, and protocol round-trip latency.
+              Authentication activity, daily active users, provider
+              distribution, and security events.
             </p>
           </div>
 
@@ -201,7 +191,7 @@ const ProjectAnalytics = () => {
             >
               <div className="flex items-center justify-between font-mono text-xs mb-3">
                 <span className="text-[10px] text-muted-foreground tracking-wider">
-                  {m.index} // {m.label}
+                  {m.label}
                 </span>
                 <m.icon className={`h-4 w-4 ${m.color}`} />
               </div>
@@ -344,9 +334,6 @@ const ProjectAnalytics = () => {
               <span className="font-semibold text-foreground uppercase tracking-wider">
                 IDENTITY PROVIDER SHARE
               </span>
-              <span className="text-[10px] text-muted-foreground">
-                SPEC: OIDC
-              </span>
             </div>
 
             <div className="p-5 flex-1 flex flex-col justify-between">
@@ -410,7 +397,7 @@ const ProjectAnalytics = () => {
               ) : (
                 <div className="h-44 flex flex-col items-center justify-center text-center font-mono text-xs text-muted-foreground">
                   <ShieldCheck className="h-8 w-8 text-muted-foreground/40 mb-2" />
-                  <p>No provider telemetry recorded yet.</p>
+                  <p>No provider activity recorded yet.</p>
                 </div>
               )}
             </div>

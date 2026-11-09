@@ -32,19 +32,6 @@ const ProjectCard = ({ project }) => {
       className="group cursor-pointer bg-card border border-border hover:border-primary transition-all duration-200 rounded-lg shadow-2xs hover:shadow-xs relative overflow-hidden"
     >
       <CardHeader className="p-5 pb-3">
-        <div className="flex items-start justify-between mb-3">
-          <div className="h-9 w-9 rounded border border-border bg-muted flex items-center justify-center text-foreground transition-transform group-hover:scale-105">
-            <Shield className="h-4 w-4" />
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono text-[10px] font-semibold">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Active
-            </span>
-            <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 transition-all" />
-          </div>
-        </div>
-
         <CardTitle className="text-lg font-semibold tracking-tight text-foreground group-hover:text-primary transition-colors">
           {project.name}
         </CardTitle>

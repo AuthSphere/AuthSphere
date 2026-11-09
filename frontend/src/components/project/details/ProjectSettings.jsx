@@ -10,6 +10,7 @@ import {
   AlertTriangle,
   Clock,
   Mail,
+  ExternalLink,
 } from "lucide-react";
 import {
   Card,
@@ -43,6 +44,7 @@ import {
 import { updateProject, deleteProject } from "@/api/ProjectAPI";
 import { toast } from "sonner";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
 import { Link, useNavigate } from "react-router-dom";
 import { allProvidersList } from "@/lib/providers";
 import ProvidersPage from "@/pages/project/ProvidersPage";
@@ -270,14 +272,8 @@ const ProjectSettings = ({ project, onUpdated }) => {
     <div className="flex flex-col lg:flex-row gap-8 items-start mt-2">
       {/* ─── SIDEBAR NAVIGATION ─── */}
       <aside className="w-full lg:w-68 shrink-0 lg:sticky lg:top-24 space-y-3">
-        <div className="hidden lg:flex items-center gap-1.5 px-3 py-1 text-[10px] font-mono uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
-          <span>04</span>
-          <TechSeparator />
-          <span>PROJECT SPEC MATRIX</span>
-        </div>
-
         <div className="flex lg:flex-col gap-1.5 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0 no-scrollbar border-b lg:border-b-0 lg:border-r border-border lg:pr-6">
-          {sections.map((section, idx) => {
+          {sections.map((section) => {
             const Icon = section.icon;
             const isActive = activeSection === section.id;
             return (
@@ -296,9 +292,6 @@ const ProjectSettings = ({ project, onUpdated }) => {
                   <Icon className="h-3.5 w-3.5 shrink-0" />
                   <span>{section.label}</span>
                 </div>
-                <span className="text-[10px] opacity-60 hidden lg:inline">
-                  [0{idx + 1}]
-                </span>
               </button>
             );
           })}
@@ -313,9 +306,6 @@ const ProjectSettings = ({ project, onUpdated }) => {
               <span className="font-semibold text-foreground flex items-center gap-2">
                 <Settings className="h-4 w-4 text-muted-foreground" />
                 <span>GENERAL SPECIFICATION &amp; BRANDING</span>
-              </span>
-              <span className="text-[10px] text-muted-foreground font-mono">
-                [SECTION 01]
               </span>
             </div>
             <div className="p-6 space-y-6">
@@ -424,9 +414,6 @@ const ProjectSettings = ({ project, onUpdated }) => {
               <span className="font-semibold text-foreground flex items-center gap-2">
                 <Globe className="h-4 w-4 text-muted-foreground" />
                 <span>AUTHENTICATION FLOW &amp; REDIRECT MATRIX</span>
-              </span>
-              <span className="text-[10px] text-muted-foreground font-mono">
-                [SECTION 02]
               </span>
             </div>
             <div className="p-6 space-y-8">
@@ -632,9 +619,6 @@ const ProjectSettings = ({ project, onUpdated }) => {
               <span className="font-semibold text-foreground flex items-center gap-2">
                 <Lock className="h-4 w-4 text-muted-foreground" />
                 <span>SECURITY POLICIES &amp; ENCLAVE PROTECTION</span>
-              </span>
-              <span className="text-[10px] text-muted-foreground font-mono">
-                [SECTION 03]
               </span>
             </div>
             <div className="p-6 space-y-8">
@@ -963,48 +947,115 @@ const ProjectSettings = ({ project, onUpdated }) => {
                 <ShieldCheck className="h-4 w-4 text-emerald-500" />
                 <span>ENROLLED IDENTITY PROVIDERS</span>
               </span>
-              <span className="text-[10px] text-muted-foreground font-mono">
-                [SECTION 04]
-              </span>
-            </div>
-            <div className="p-6 space-y-6">
-              <p className="text-muted-foreground text-sm max-w-2xl">
-                The following methods are currently enabled for your project. To
-                add more or configure settings, visit the main{" "}
-                <Link
-                  to="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                  }}
-                  className="text-primary hover:underline font-semibold"
-                >
-                  Identity Catalog
-                </Link>{" "}
-                tab.
-              </p>
+              <Badge
+                variant="outline"
+                className="font-mono text-[10px] font-medium bg-background/50 border-border gap-1.5 py-0.5"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                <span>
+                  {activeProvidersList.length}{" "}
+                  {activeProvidersList.length === 1
+                    ? "METHOD ACTIVE"
+                    : "METHODS ACTIVE"}
+                </span>
+              </Badge>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-              {activeProvidersList.map((p) => (
-                <div
-                  key={p.id}
-                  className="flex flex-col items-center justify-center p-4 border border-border rounded-xl bg-card"
-                >
-                  <div className="h-10 w-10 mb-2 rounded-lg bg-muted border border-border flex items-center justify-center p-2 shadow-xs">
-                    <img
-                      src={p.logo}
-                      alt={p.name}
-                      className="h-full w-full object-contain"
-                    />
-                  </div>
-                  <span className="text-[11px] font-semibold text-center text-foreground">
-                    {p.name}
-                  </span>
-                  <span className="text-[9px] text-primary font-bold uppercase mt-1">
-                    Active
-                  </span>
+            <div className="p-6 space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border border-border/80 bg-muted/30">
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-foreground">
+                    Active Authentication Methods
+                  </p>
+                  <p className="text-xs text-muted-foreground leading-relaxed max-w-2xl">
+                    These identity providers are currently provisioned for your
+                    project authentication flows. To configure credentials,
+                    adjust scopes, or connect new providers, visit the catalog.
+                  </p>
                 </div>
-              ))}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  asChild
+                  className="gap-2 shrink-0 self-start sm:self-auto font-mono text-xs bg-background/50 hover:bg-background"
+                >
+                  <Link to={`/projects/${project._id}/providers`}>
+                    <ExternalLink className="h-3.5 w-3.5" />
+                    <span>Catalog</span>
+                  </Link>
+                </Button>
+              </div>
+
+              {activeProvidersList.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-10 px-4 text-center rounded-xl border border-dashed border-border bg-muted/20">
+                  <div className="h-10 w-10 rounded-full bg-muted border border-border flex items-center justify-center mb-3 text-muted-foreground">
+                    <ShieldCheck className="h-5 w-5" />
+                  </div>
+                  <h4 className="text-sm font-semibold text-foreground">
+                    No Providers Configured
+                  </h4>
+                  <p className="text-xs text-muted-foreground max-w-sm mt-1 mb-4 leading-relaxed">
+                    You haven't enabled any identity providers for this project
+                    yet. Head over to the catalog to configure authentication
+                    methods.
+                  </p>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    asChild
+                    className="gap-2 font-mono text-xs"
+                  >
+                    <Link to={`/projects/${project._id}/providers`}>
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      <span>Open Identity Catalog</span>
+                    </Link>
+                  </Button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5">
+                  {activeProvidersList.map((p) => (
+                    <div
+                      key={p.id}
+                      className="group relative flex flex-col items-center justify-between p-4 rounded-xl border border-border bg-background/50 hover:bg-muted/40 hover:border-border/80 transition-all duration-200 shadow-2xs text-center"
+                    >
+                      <div className="w-full flex items-center justify-between text-[10px] font-mono text-muted-foreground mb-3">
+                        <span className="truncate uppercase text-[9px] font-medium tracking-wider">
+                          {p.type?.split(" ")[0] || "AUTH"}
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-[9px] font-semibold text-emerald-600 dark:text-emerald-400">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                          <span>ACTIVE</span>
+                        </span>
+                      </div>
+
+                      <div className="h-12 w-12 rounded-xl bg-card border border-border/80 flex items-center justify-center p-2.5 shadow-xs mb-3 group-hover:scale-105 transition-transform duration-200">
+                        {p.logo ? (
+                          <img
+                            src={p.logo}
+                            alt={p.name}
+                            className="h-full w-full object-contain"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <ShieldCheck className="h-6 w-6 text-muted-foreground" />
+                        )}
+                      </div>
+
+                      <div className="w-full space-y-0.5">
+                        <p
+                          className="text-xs font-semibold text-foreground truncate"
+                          title={p.name}
+                        >
+                          {p.name}
+                        </p>
+                        <p className="text-[10px] font-mono text-muted-foreground truncate">
+                          {p.id}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -1014,10 +1065,11 @@ const ProjectSettings = ({ project, onUpdated }) => {
             <div className="px-6 py-4 border-b border-destructive/20 flex items-center justify-between text-xs font-mono bg-destructive/10">
               <span className="font-semibold text-destructive flex items-center gap-2">
                 <AlertTriangle className="h-4 w-4" />
-                <span>IRREVERSIBLE OPERATIONS // DANGER ZONE</span>
-              </span>
-              <span className="text-[10px] text-destructive font-mono">
-                [SECTION 05]
+                <span>
+                  IRREVERSIBLE OPERATIONS
+                  <TechSeparator />
+                  DANGER ZONE
+                </span>
               </span>
             </div>
             <div className="p-6 space-y-4">
