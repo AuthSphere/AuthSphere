@@ -102,19 +102,19 @@ const VerifyOTP = () => {
   const digits = Array.from({ length: 6 }, (_, i) => otpValue[i] || "");
 
   return (
-    <div className="min-h-screen bg-[#fbf9f9] dark:bg-[#09090c] text-neutral-900 dark:text-neutral-100 antialiased flex flex-col justify-center items-center p-4 relative isolate selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+    <div className="min-h-screen bg-background text-foreground antialiased flex flex-col justify-center items-center p-4 relative isolate selection:bg-primary selection:text-primary-foreground">
       {/* Precision Engineering Matrix Background */}
-      <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-[#fbf9f9] dark:bg-[#09090c]">
+      <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-background">
         <div className="absolute inset-0 grid-matrix opacity-40 dark:opacity-20" />
         <div className="absolute inset-0 bg-radial from-transparent via-transparent to-neutral-200/50 dark:to-black/60" />
       </div>
 
       <div className="w-full max-w-md space-y-4">
         {/* Navigation Breadcrumb */}
-        <div className="flex items-center justify-between text-xs font-mono text-neutral-500">
+        <div className="flex items-center justify-between text-xs font-mono text-muted-foreground">
           <Link
             to="/login"
-            className="inline-flex items-center gap-1.5 hover:text-black dark:hover:text-white transition-colors"
+            className="inline-flex items-center gap-1.5 hover:text-foreground transition-colors"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             <span>RETURN TO SIGN IN</span>
@@ -126,19 +126,17 @@ const VerifyOTP = () => {
         </div>
 
         {/* Precision Card Shell */}
-        <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] shadow-xs overflow-hidden">
+        <div className="rounded-xl border border-border bg-card shadow-xs overflow-hidden">
           {/* Card Technical Header Bar */}
-          <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
+          <div className="px-5 py-3 border-b border-border bg-muted/50 flex items-center justify-between text-xs font-mono">
             <div className="flex items-center">
-              <span className="font-bold text-neutral-900 dark:text-white">
-                02
-              </span>
+              <span className="font-bold text-foreground">02</span>
               <TechSeparator />
-              <span className="text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">
+              <span className="text-muted-foreground uppercase tracking-wider">
                 CRYPTOGRAPHIC CHALLENGE
               </span>
             </div>
-            <span className="text-[10px] text-neutral-400 font-mono">
+            <span className="text-[10px] text-muted-foreground/80 font-mono">
               SPEC: RFC-6238
             </span>
           </div>
@@ -149,13 +147,13 @@ const VerifyOTP = () => {
               <div className="flex justify-center mb-3">
                 <AuthSphereLogo className="h-7 w-auto" />
               </div>
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
                 Verify Identity Enclave
               </h1>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400">
+              <p className="text-xs text-muted-foreground">
                 A 6-digit one-time cryptographic code has been transmitted to:
               </p>
-              <div className="inline-block px-2.5 py-1 rounded bg-neutral-100 dark:bg-[#181920] border border-neutral-200 dark:border-[#282932] font-mono text-xs text-neutral-900 dark:text-white font-medium">
+              <div className="inline-block px-2.5 py-1 rounded bg-muted border border-border font-mono text-xs text-foreground font-medium">
                 {email || "developer@domain.com"}
               </div>
             </div>
@@ -176,10 +174,10 @@ const VerifyOTP = () => {
                         key={idx}
                         className={`h-13 sm:h-14 rounded-lg border text-xl font-mono font-bold flex items-center justify-center transition-all ${
                           isCurrent
-                            ? "border-black dark:border-white ring-1 ring-black/20 dark:ring-white/30 bg-neutral-50 dark:bg-[#16171d]"
+                            ? "border-ring ring-1 ring-ring/30 bg-muted text-foreground"
                             : isFilled
-                              ? "border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white"
-                              : "border-neutral-200 dark:border-[#262730] bg-neutral-50/50 dark:bg-[#0f1014] text-neutral-400"
+                              ? "border-border bg-background text-foreground"
+                              : "border-border/60 bg-muted/30 text-muted-foreground/60"
                         }`}
                       >
                         {digit ? (
@@ -210,7 +208,7 @@ const VerifyOTP = () => {
                 />
 
                 {errors.otp && (
-                  <p className="font-mono text-xs text-red-500 text-center mt-1">
+                  <p className="font-mono text-xs text-destructive text-center mt-1">
                     {errors.otp.message}
                   </p>
                 )}
@@ -220,7 +218,7 @@ const VerifyOTP = () => {
               <button
                 type="submit"
                 disabled={isVerifying || otpValue.length !== 6}
-                className="w-full h-10 bg-black dark:bg-white hover:bg-neutral-800 dark:hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed text-white dark:text-black text-xs font-mono font-semibold rounded flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer"
+                className="w-full h-10 bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed text-xs font-mono font-semibold rounded-md flex items-center justify-center gap-2 transition-all shadow-xs cursor-pointer"
               >
                 {isVerifying ? (
                   <span>AUTHENTICATING CIPHER...</span>
@@ -231,8 +229,8 @@ const VerifyOTP = () => {
             </form>
 
             {/* Resend Controls */}
-            <div className="pt-2 border-t border-neutral-100 dark:border-[#1e2026] text-center space-y-2">
-              <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
+            <div className="pt-2 border-t border-border text-center space-y-2">
+              <p className="text-[11px] text-muted-foreground">
                 Code didn't arrive? Inspect spam filter or request a new
                 handshake:
               </p>
@@ -242,8 +240,8 @@ const VerifyOTP = () => {
                 disabled={timer > 0 || isResending}
                 className={`inline-flex items-center gap-1.5 text-xs font-mono font-medium transition-colors cursor-pointer ${
                   timer > 0
-                    ? "text-neutral-400 dark:text-neutral-500 cursor-not-allowed"
-                    : "text-neutral-900 dark:text-white hover:underline"
+                    ? "text-muted-foreground cursor-not-allowed"
+                    : "text-foreground hover:underline"
                 }`}
               >
                 <RefreshCw
@@ -259,7 +257,7 @@ const VerifyOTP = () => {
           </div>
 
           {/* Technical Telemetry Bar */}
-          <div className="px-5 py-2.5 border-t border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-[11px] font-mono text-neutral-500">
+          <div className="px-5 py-2.5 border-t border-border bg-muted/50 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
             <div className="flex items-center gap-1.5">
               <KeyRound className="h-3 w-3" />
               <span>SHA-256 HMAC SECURED</span>
@@ -269,7 +267,7 @@ const VerifyOTP = () => {
         </div>
 
         {/* Sub-footer metadata */}
-        <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 dark:text-neutral-500 px-2">
+        <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground/80 px-2">
           <span>ZONE_01 // INGRESS GATEWAY</span>
           <span>AUTHTOKEN ROTATION: 300s</span>
         </div>

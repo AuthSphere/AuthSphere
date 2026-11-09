@@ -1,12 +1,5 @@
-import React from "react";
-
-/**
- * High-precision architectural separator icon replacing raw `//` ASCII characters
- * across headers, badges, and section indices.
- */
 export const TechSeparator = ({ variant = "diamond", className = "" }) => {
   if (variant === "chevron") {
-    // Dual angled micro-chevrons (developer pipeline / CLI aesthetic)
     return (
       <span
         aria-hidden="true"
@@ -30,7 +23,6 @@ export const TechSeparator = ({ variant = "diamond", className = "" }) => {
   }
 
   if (variant === "reticle") {
-    // Blueprint coordinate reticle / crosshair
     return (
       <span
         aria-hidden="true"
@@ -54,7 +46,6 @@ export const TechSeparator = ({ variant = "diamond", className = "" }) => {
   }
 
   if (variant === "slash") {
-    // Stylized vector dual-slash with terminal nodes
     return (
       <span
         aria-hidden="true"
@@ -89,7 +80,6 @@ export const TechSeparator = ({ variant = "diamond", className = "" }) => {
     );
   }
 
-  // Default: Cryptographic Node / Architectural Diamond
   return (
     <span
       aria-hidden="true"

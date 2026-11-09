@@ -48,6 +48,12 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -95,6 +101,12 @@
   /* Destructive & Feedback */
   --destructive: #e11d48;
   --destructive-foreground: #ffffff;
+  --success: #10b981;
+  --success-foreground: #ffffff;
+  --warning: #f59e0b;
+  --warning-foreground: #ffffff;
+  --info: #0284c7;
+  --info-foreground: #ffffff;
 
   /* Engineering Hairline Delimiters */
   --border: #eaeaea;
@@ -145,6 +157,12 @@
   /* Destructive & Feedback */
   --destructive: #f43f5e;
   --destructive-foreground: #ffffff;
+  --success: #10b981;
+  --success-foreground: #09090c;
+  --warning: #f59e0b;
+  --warning-foreground: #09090c;
+  --info: #38bdf8;
+  --info-foreground: #09090c;
 
   /* Structural Hairline Delimiters */
   --border: #222329;

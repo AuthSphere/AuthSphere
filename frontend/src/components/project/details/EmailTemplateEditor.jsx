@@ -156,10 +156,10 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
       {/* Top Header Command Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
             Email Customization
           </h1>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-0.5 font-mono">
+          <p className="text-xs text-muted-foreground mt-0.5 font-mono">
             Calibrate branded verification emails, OTP challenge templates, and
             legal links.
           </p>
@@ -170,7 +170,7 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
             variant="outline"
             size="sm"
             onClick={resetToDefault}
-            className="h-8 font-mono text-xs border-neutral-200 dark:border-[#2a2b33] gap-1.5"
+            className="h-8 font-mono text-xs border-border gap-1.5"
           >
             <RefreshCw className="h-3 w-3" />
             <span>RESET DEFAULTS</span>
@@ -180,7 +180,7 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
             size="sm"
             onClick={handleSave}
             disabled={!hasChanges || saving}
-            className="h-8 px-4 font-mono text-xs bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 disabled:opacity-50 cursor-pointer shadow-xs gap-1.5"
+            className="h-8 px-4 font-mono text-xs disabled:opacity-50 cursor-pointer shadow-xs gap-1.5"
           >
             {saving ? (
               <RefreshCw className="h-3 w-3 animate-spin" />
@@ -197,13 +197,13 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
         {/* Editor Form Columns (5 cols) */}
         <div className="lg:col-span-5 space-y-4">
           {/* Card 1: Branding & Visuals */}
-          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
-            <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
-              <span className="font-bold text-neutral-900 dark:text-white uppercase flex items-center gap-2">
-                <Layout className="h-3.5 w-3.5 text-neutral-400" />
+          <div className="rounded-xl border border-border bg-card text-card-foreground overflow-hidden shadow-xs">
+            <div className="px-5 py-3 border-b border-border bg-muted/50 flex items-center justify-between text-xs font-mono">
+              <span className="font-bold text-foreground uppercase flex items-center gap-2">
+                <Layout className="h-3.5 w-3.5 text-muted-foreground" />
                 <span>01 // BRANDING ASSETS</span>
               </span>
-              <span className="text-neutral-400 text-[10px]">
+              <span className="text-muted-foreground text-[10px]">
                 VISUAL_IDENTITY
               </span>
             </div>
@@ -211,7 +211,7 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
               <div className="space-y-1.5">
                 <Label
                   htmlFor="logo"
-                  className="text-xs font-mono text-neutral-500"
+                  className="text-xs font-mono text-muted-foreground"
                 >
                   LOGO ASSET URL
                 </Label>
@@ -220,20 +220,20 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
                   value={logoUrl}
                   onChange={(e) => setLogoUrl(e.target.value)}
                   placeholder="https://app.domain.com/brand-logo.png"
-                  className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
+                  className="h-9 text-xs font-mono bg-background border-input text-foreground"
                 />
               </div>
 
               <div className="space-y-1.5">
                 <Label
                   htmlFor="color"
-                  className="text-xs font-mono text-neutral-500"
+                  className="text-xs font-mono text-muted-foreground"
                 >
                   ACCENT COLOR (HEX)
                 </Label>
                 <div className="flex gap-2">
                   <div
-                    className="h-9 w-9 rounded border border-neutral-200 dark:border-[#2a2b33] shrink-0"
+                    className="h-9 w-9 rounded border border-border shrink-0"
                     style={{ backgroundColor: primaryColor }}
                   />
                   <Input
@@ -241,7 +241,7 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
                     value={primaryColor}
                     onChange={(e) => setPrimaryColor(e.target.value)}
                     placeholder="#000000"
-                    className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
+                    className="h-9 text-xs font-mono bg-background border-input text-foreground"
                   />
                 </div>
               </div>
@@ -249,19 +249,21 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
           </div>
 
           {/* Card 2: Subject & Body Content */}
-          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
-            <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
-              <span className="font-bold text-neutral-900 dark:text-white uppercase flex items-center gap-2">
-                <Type className="h-3.5 w-3.5 text-neutral-400" />
+          <div className="rounded-xl border border-border bg-card text-card-foreground overflow-hidden shadow-xs">
+            <div className="px-5 py-3 border-b border-border bg-muted/50 flex items-center justify-between text-xs font-mono">
+              <span className="font-bold text-foreground uppercase flex items-center gap-2">
+                <Type className="h-3.5 w-3.5 text-muted-foreground" />
                 <span>02 // COPY &amp; CONTENT</span>
               </span>
-              <span className="text-neutral-400 text-[10px]">PAYLOAD_TEXT</span>
+              <span className="text-muted-foreground text-[10px]">
+                PAYLOAD_TEXT
+              </span>
             </div>
             <div className="p-5 space-y-4">
               <div className="space-y-1.5">
                 <Label
                   htmlFor="subject"
-                  className="text-xs font-mono text-neutral-500"
+                  className="text-xs font-mono text-muted-foreground"
                 >
                   SUBJECT LINE
                 </Label>
@@ -269,14 +271,14 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
                   id="subject"
                   value={subjectLine}
                   onChange={(e) => setSubjectLine(e.target.value)}
-                  className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
+                  className="h-9 text-xs font-mono bg-background border-input text-foreground"
                 />
               </div>
 
               <div className="space-y-1.5">
                 <Label
                   htmlFor="body"
-                  className="text-xs font-mono text-neutral-500"
+                  className="text-xs font-mono text-muted-foreground"
                 >
                   BODY COPY (HTML SUPPORTED)
                 </Label>
@@ -284,90 +286,92 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
                   id="body"
                   value={customBody}
                   onChange={(e) => setCustomBody(e.target.value)}
-                  className="min-h-24 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33] leading-relaxed"
+                  className="min-h-24 text-xs font-mono bg-background border-input text-foreground leading-relaxed"
                 />
               </div>
             </div>
           </div>
 
           {/* Card 3: Footer & Compliance URLs */}
-          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden shadow-xs">
-            <div className="px-5 py-3 border-b border-neutral-200 dark:border-[#222329] bg-neutral-50/80 dark:bg-[#15161b] flex items-center justify-between text-xs font-mono">
-              <span className="font-bold text-neutral-900 dark:text-white uppercase flex items-center gap-2">
-                <LinkIcon className="h-3.5 w-3.5 text-neutral-400" />
+          <div className="rounded-xl border border-border bg-card text-card-foreground overflow-hidden shadow-xs">
+            <div className="px-5 py-3 border-b border-border bg-muted/50 flex items-center justify-between text-xs font-mono">
+              <span className="font-bold text-foreground uppercase flex items-center gap-2">
+                <LinkIcon className="h-3.5 w-3.5 text-muted-foreground" />
                 <span>03 // LEGAL LINKS &amp; FOOTER</span>
               </span>
-              <span className="text-neutral-400 text-[10px]">COMPLIANCE</span>
+              <span className="text-muted-foreground text-[10px]">
+                COMPLIANCE
+              </span>
             </div>
             <div className="p-5 space-y-4">
               <div className="space-y-1.5">
-                <Label className="text-xs font-mono text-neutral-500">
+                <Label className="text-xs font-mono text-muted-foreground">
                   COMPANY PHYSICAL ADDRESS
                 </Label>
                 <Input
                   value={companyAddress}
                   onChange={(e) => setCompanyAddress(e.target.value)}
                   placeholder="100 Mission St, San Francisco, CA"
-                  className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
+                  className="h-9 text-xs font-mono bg-background border-input text-foreground"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <Label className="text-xs font-mono text-neutral-500">
+                  <Label className="text-xs font-mono text-muted-foreground">
                     SUPPORT URL
                   </Label>
                   <Input
                     value={supportUrl}
                     onChange={(e) => setSupportUrl(e.target.value)}
                     placeholder="https://..."
-                    className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
+                    className="h-9 text-xs font-mono bg-background border-input text-foreground"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-xs font-mono text-neutral-500">
+                  <Label className="text-xs font-mono text-muted-foreground">
                     PRIVACY URL
                   </Label>
                   <Input
                     value={privacyUrl}
                     onChange={(e) => setPrivacyUrl(e.target.value)}
                     placeholder="https://..."
-                    className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
+                    className="h-9 text-xs font-mono bg-background border-input text-foreground"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <Label className="text-xs font-mono text-neutral-500">
+                  <Label className="text-xs font-mono text-muted-foreground">
                     SECURITY URL
                   </Label>
                   <Input
                     value={securityUrl}
                     onChange={(e) => setSecurityUrl(e.target.value)}
                     placeholder="https://..."
-                    className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
+                    className="h-9 text-xs font-mono bg-background border-input text-foreground"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-xs font-mono text-neutral-500">
+                  <Label className="text-xs font-mono text-muted-foreground">
                     FOOTER SIGNATURE
                   </Label>
                   <Input
                     value={footerText}
                     onChange={(e) => setFooterText(e.target.value)}
-                    className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
+                    className="h-9 text-xs font-mono bg-background border-input text-foreground"
                   />
                 </div>
               </div>
 
-              <div className="flex items-center justify-between pt-2 border-t border-neutral-100 dark:border-[#1e2026]">
+              <div className="flex items-center justify-between pt-2 border-t border-border">
                 <div className="space-y-0.5">
-                  <Label className="text-xs font-mono font-semibold text-neutral-900 dark:text-white flex items-center gap-1.5">
+                  <Label className="text-xs font-mono font-semibold text-foreground flex items-center gap-1.5">
                     <Shield className="h-3.5 w-3.5 text-emerald-500" />
                     <span>INCLUDE CLIENT TELEMETRY</span>
                   </Label>
-                  <p className="text-[10px] text-neutral-500">
+                  <p className="text-[10px] text-muted-foreground">
                     Renders IP address, browser, and UTC timestamp in email
                     footer.
                   </p>
@@ -381,26 +385,28 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
           </div>
 
           {/* Card 4: Send Test Email */}
-          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] p-5 shadow-xs">
+          <div className="rounded-xl border border-border bg-card text-card-foreground p-5 shadow-xs">
             <div className="flex items-center justify-between mb-3 text-xs font-mono">
-              <span className="font-bold text-neutral-900 dark:text-white flex items-center gap-2">
-                <Send className="h-3.5 w-3.5 text-neutral-500" />
+              <span className="font-bold text-foreground flex items-center gap-2">
+                <Send className="h-3.5 w-3.5 text-muted-foreground" />
                 <span>DISPATCH SAMPLE TRANSMISSION</span>
               </span>
-              <span className="text-[10px] text-neutral-400">TEST PING</span>
+              <span className="text-[10px] text-muted-foreground">
+                TEST PING
+              </span>
             </div>
             <div className="flex gap-2">
               <Input
                 value={testEmail}
                 onChange={(e) => setTestEmail(e.target.value)}
                 placeholder="developer@domain.com"
-                className="h-9 text-xs font-mono bg-white dark:bg-[#14151a] border-neutral-200 dark:border-[#2a2b33]"
+                className="h-9 text-xs font-mono bg-background border-input text-foreground"
               />
               <Button
                 size="sm"
                 onClick={handleSendTest}
                 disabled={sendingTest || !testEmail}
-                className="h-9 px-4 font-mono text-xs bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 shrink-0 cursor-pointer shadow-xs gap-1.5"
+                className="h-9 px-4 font-mono text-xs shrink-0 cursor-pointer shadow-xs gap-1.5"
               >
                 {sendingTest ? (
                   <RefreshCw className="h-3 w-3 animate-spin" />
@@ -416,19 +422,19 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
         {/* Live Preview Panel (7 cols) */}
         <div className="lg:col-span-7 space-y-3">
           <div className="flex items-center justify-between text-xs font-mono">
-            <div className="flex items-center gap-2 text-neutral-500">
+            <div className="flex items-center gap-2 text-muted-foreground">
               <Eye className="h-3.5 w-3.5" />
-              <span className="font-semibold text-neutral-900 dark:text-white uppercase">
+              <span className="font-semibold text-foreground uppercase">
                 RENDERED RECIPIENT PREVIEW
               </span>
             </div>
-            <div className="flex items-center gap-1 bg-neutral-100 dark:bg-[#15161b] p-0.5 rounded border border-neutral-200 dark:border-[#2a2b33]">
+            <div className="flex items-center gap-1 bg-muted p-0.5 rounded border border-border">
               <button
                 onClick={() => setPreviewDevice("desktop")}
                 className={`px-2.5 py-1 rounded text-[11px] font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
                   previewDevice === "desktop"
-                    ? "bg-white dark:bg-neutral-800 text-black dark:text-white font-bold shadow-xs"
-                    : "text-neutral-500 hover:text-black dark:hover:text-white"
+                    ? "bg-primary text-primary-foreground font-bold shadow-xs"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 <Laptop className="h-3 w-3" />
@@ -438,8 +444,8 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
                 onClick={() => setPreviewDevice("mobile")}
                 className={`px-2.5 py-1 rounded text-[11px] font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
                   previewDevice === "mobile"
-                    ? "bg-white dark:bg-neutral-800 text-black dark:text-white font-bold shadow-xs"
-                    : "text-neutral-500 hover:text-black dark:hover:text-white"
+                    ? "bg-primary text-primary-foreground font-bold shadow-xs"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 <Smartphone className="h-3 w-3" />
@@ -449,7 +455,7 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
           </div>
 
           {/* Email Preview Frame */}
-          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-neutral-100/60 dark:bg-[#0c0d11] p-4 flex justify-center shadow-xs">
+          <div className="rounded-xl border border-border bg-muted/40 p-4 flex justify-center shadow-xs">
             <div
               className={`bg-white text-neutral-900 shadow-md rounded-lg overflow-hidden transition-all duration-200 border border-neutral-200 ${
                 previewDevice === "mobile" ? "w-90" : "w-full max-w-xl"

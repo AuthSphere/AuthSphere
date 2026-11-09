@@ -9,8 +9,8 @@ const ProtectedRoute = ({ children }) => {
   /* ---------------- LOADING / VERIFYING STATE ---------------- */
   if (loading || status === "unknown" || status === "checking") {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-2 font-mono text-xs text-neutral-500 dark:text-neutral-400">
-        <Loader2 className="h-6 w-6 animate-spin text-neutral-900 dark:text-white mb-1" />
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-2 font-mono text-xs text-muted-foreground">
+        <Loader2 className="h-6 w-6 animate-spin text-foreground mb-1" />
         <span>AUTHENTICATING SESSION...</span>
       </div>
     );

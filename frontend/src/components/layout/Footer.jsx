@@ -31,21 +31,19 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="w-full bg-white dark:bg-[#0a0a0a] text-neutral-900 dark:text-neutral-100 border-t border-neutral-200 dark:border-neutral-800/60 relative isolate overflow-hidden transition-colors duration-300">
-      {/* Subtle Matrix Background */}
+    <footer className="w-full bg-card text-card-foreground border-t border-border relative isolate overflow-hidden transition-colors duration-300">
       <div className="absolute inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
       </div>
 
       <div className="w-full max-w-7xl mx-auto px-6 lg:px-12 pt-20 pb-12 relative z-10">
-        {/* Top Header Section */}
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-12 pb-16 border-b border-neutral-200 dark:border-neutral-800/60">
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-12 pb-16 border-b border-border">
           <div className="space-y-6 max-w-2xl">
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-900 dark:text-white leading-[1.15]">
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground leading-[1.15]">
               Open-source identity and access management for autonomous
               developers.
             </h2>
-            <p className="text-base text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-xl">
+            <p className="text-base text-muted-foreground leading-relaxed max-w-xl">
               Native PKCE S256, cryptographically isolated multi-tenant
               environments, and real-time WebSocket telemetry without
               third-party tracking.
@@ -55,10 +53,10 @@ export const Footer = () => {
           {/* Quick Action Cluster */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto shrink-0">
             {/* Terminal Copy Snippet */}
-            <div className="group flex items-center justify-between gap-3 h-10 px-4 rounded-md bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-colors shadow-sm">
+            <div className="group flex items-center justify-between gap-3 h-10 px-4 rounded-md bg-muted/50 border border-border hover:border-border/80 transition-colors shadow-xs">
               <div className="flex items-center gap-2.5">
-                <Terminal className="h-4 w-4 text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors" />
-                <span className="font-mono text-[13px] text-neutral-700 dark:text-neutral-300">
+                <Terminal className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                <span className="font-mono text-[13px] text-foreground">
                   npm i @authspherejs/sdk
                 </span>
               </div>
@@ -66,7 +64,7 @@ export const Footer = () => {
                 type="button"
                 onClick={handleCopyCommand}
                 aria-label="Copy SDK install command"
-                className="p-1.5 -mr-1.5 rounded-md text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-200/50 dark:hover:bg-neutral-800 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-neutral-900/20 dark:focus:ring-white/20"
+                className="p-1.5 -mr-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-ring"
               >
                 {copied ? (
                   <Check className="h-3.5 w-3.5 text-emerald-500" />
@@ -79,7 +77,7 @@ export const Footer = () => {
             {/* Primary Action Button */}
             <Link
               to={user ? "/dashboard" : "/register"}
-              className="inline-flex items-center justify-center gap-2 h-10 px-5 rounded-md bg-neutral-900 dark:bg-white text-white dark:text-black text-sm font-medium hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900/20 dark:focus:ring-white/20 shrink-0"
+              className="inline-flex items-center justify-center gap-2 h-10 px-5 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-all shadow-xs focus:outline-none focus:ring-2 focus:ring-ring shrink-0"
             >
               <span>
                 {user ? "Console Dashboard" : "Initialize AuthSphere"}
@@ -94,12 +92,12 @@ export const Footer = () => {
           {/* Column 1: Architecture */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-6">
-              <Shield className="h-4 w-4 text-neutral-900 dark:text-white" />
-              <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">
+              <Shield className="h-4 w-4 text-foreground" />
+              <h3 className="text-sm font-semibold text-foreground">
                 Architecture
               </h3>
             </div>
-            <ul className="space-y-3.5 text-sm text-neutral-500 dark:text-neutral-400">
+            <ul className="space-y-3.5 text-sm text-muted-foreground">
               {[
                 "OAuth 2.0 & OIDC Core",
                 "Native PKCE S256",
@@ -114,7 +112,7 @@ export const Footer = () => {
                         ? "#overview"
                         : "#features"
                     }
-                    className="hover:text-neutral-900 dark:hover:text-white transition-colors"
+                    className="hover:text-foreground transition-colors"
                   >
                     {item}
                   </a>
@@ -126,12 +124,12 @@ export const Footer = () => {
           {/* Column 2: Integrations */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-6">
-              <Code2 className="h-4 w-4 text-neutral-900 dark:text-white" />
-              <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">
+              <Code2 className="h-4 w-4 text-foreground" />
+              <h3 className="text-sm font-semibold text-foreground">
                 Integrations
               </h3>
             </div>
-            <ul className="space-y-3.5 text-sm text-neutral-500 dark:text-neutral-400">
+            <ul className="space-y-3.5 text-sm text-muted-foreground">
               {[
                 "TypeScript Client SDK",
                 "Google Identity (OIDC)",
@@ -142,7 +140,7 @@ export const Footer = () => {
                 <li key={item}>
                   <Link
                     to="/docs"
-                    className="hover:text-neutral-900 dark:hover:text-white transition-colors"
+                    className="hover:text-foreground transition-colors"
                   >
                     {item}
                   </Link>
@@ -154,16 +152,16 @@ export const Footer = () => {
           {/* Column 3: Resources & Platform */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-6">
-              <Activity className="h-4 w-4 text-neutral-900 dark:text-white" />
-              <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">
+              <Activity className="h-4 w-4 text-foreground" />
+              <h3 className="text-sm font-semibold text-foreground">
                 Platform &amp; Specs
               </h3>
             </div>
-            <ul className="space-y-3.5 text-sm text-neutral-500 dark:text-neutral-400">
+            <ul className="space-y-3.5 text-sm text-muted-foreground">
               <li>
                 <Link
                   to="/docs"
-                  className="hover:text-neutral-900 dark:hover:text-white transition-colors"
+                  className="hover:text-foreground transition-colors"
                 >
                   Documentation &amp; API
                 </Link>
@@ -171,7 +169,7 @@ export const Footer = () => {
               <li>
                 <Link
                   to="/pricing"
-                  className="hover:text-neutral-900 dark:hover:text-white transition-colors"
+                  className="hover:text-foreground transition-colors"
                 >
                   Pricing &amp; Scale Tiers
                 </Link>
@@ -179,24 +177,24 @@ export const Footer = () => {
               <li>
                 <Link
                   to="/login"
-                  className="hover:text-neutral-900 dark:hover:text-white transition-colors"
+                  className="hover:text-foreground transition-colors"
                 >
                   Developer Console
                 </Link>
               </li>
               <li className="flex items-center justify-between group cursor-default pt-1">
-                <span className="group-hover:text-neutral-900 dark:group-hover:text-white transition-colors">
+                <span className="group-hover:text-foreground transition-colors">
                   RFC-7636 (PKCE S256)
                 </span>
-                <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 font-mono">
+                <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-muted text-muted-foreground font-mono border border-border">
                   ENFORCED
                 </span>
               </li>
               <li className="flex items-center justify-between group cursor-default">
-                <span className="group-hover:text-neutral-900 dark:group-hover:text-white transition-colors">
+                <span className="group-hover:text-foreground transition-colors">
                   RFC-7519 (HS256 JWT)
                 </span>
-                <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono">
+                <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono border border-emerald-500/20">
                   ACTIVE
                 </span>
               </li>
@@ -206,19 +204,19 @@ export const Footer = () => {
           {/* Column 4: Community & Social Accounts */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-6">
-              <Share2 className="h-4 w-4 text-neutral-900 dark:text-white" />
-              <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">
+              <Share2 className="h-4 w-4 text-foreground" />
+              <h3 className="text-sm font-semibold text-foreground">
                 Community &amp; Social
               </h3>
             </div>
-            <ul className="space-y-3.5 text-sm text-neutral-500 dark:text-neutral-400">
+            <ul className="space-y-3.5 text-sm text-muted-foreground">
               {AUTHTSPHERE_SOCIAL_CHANNELS.map((item) => (
                 <li key={item.name}>
                   <a
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between hover:text-neutral-900 dark:hover:text-white transition-colors group"
+                    className="flex items-center justify-between hover:text-foreground transition-colors group"
                   >
                     <span className="flex items-center gap-2.5">
                       <item.icon className="w-4 h-4 opacity-75 group-hover:opacity-100 transition-opacity text-current" />
@@ -251,15 +249,13 @@ export const Footer = () => {
       </div>
 
       {/* Bottom Legal & Telemetry Bar */}
-      <div className="w-full border-t border-neutral-200 dark:border-neutral-800/60 bg-neutral-50/50 dark:bg-neutral-900/20 backdrop-blur-md relative z-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-6 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-neutral-500 dark:text-neutral-400">
+      <div className="w-full border-t border-border bg-muted/20 backdrop-blur-md relative z-20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-6 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-muted-foreground">
           {/* Brand & Copyright */}
           <div className="flex items-center gap-3">
-            <AuthSphereLogo className="w-5 h-5 text-neutral-900 dark:text-white" />
-            <span className="font-medium text-neutral-900 dark:text-white">
-              AuthSphere
-            </span>
-            <span className="text-neutral-300 dark:text-neutral-700">|</span>
+            <AuthSphereLogo className="w-5 h-5 text-foreground" />
+            <span className="font-medium text-foreground">AuthSphere</span>
+            <span className="text-border">|</span>
             <span>© 2026 Core Infrastructure.</span>
           </div>
 
@@ -273,7 +269,7 @@ export const Footer = () => {
                 rel="noopener noreferrer"
                 aria-label={`${item.name} (${item.handle})`}
                 title={`${item.name} (${item.handle})`}
-                className="p-2 rounded-md border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-neutral-500 hover:text-neutral-900 dark:hover:text-white hover:border-neutral-300 dark:hover:border-neutral-700 transition-all shadow-xs"
+                className="p-2 rounded-md border border-border bg-card text-muted-foreground hover:text-foreground hover:border-border/80 transition-all shadow-xs"
               >
                 <item.icon className="w-4 h-4 text-current" />
               </a>

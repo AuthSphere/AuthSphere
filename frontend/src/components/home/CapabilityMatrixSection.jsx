@@ -21,45 +21,45 @@ export const CapabilityMatrixSection = () => {
   return (
     <section
       id="features"
-      className="w-full max-w-340 mx-auto px-6 lg:px-12 py-20 border-b border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#09090c] isolate"
+      className="w-full max-w-340 mx-auto px-6 lg:px-12 py-20 border-b border-border bg-background isolate"
     >
       <div className="max-w-2xl mb-12">
-        <div className="text-[11px] font-mono uppercase tracking-widest text-neutral-500 dark:text-neutral-400 mb-2 flex items-center">
+        <div className="text-[11px] font-mono uppercase tracking-widest text-muted-foreground mb-2 flex items-center">
           <span>02</span>
           <TechSeparator />
           <span>Capability Matrix</span>
         </div>
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
           Everything your authentication layer needs.
         </h2>
-        <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-2 leading-relaxed">
+        <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
           Open-source protocols implemented with strict adherence to RFC
           standards, full developer control, and zero proprietary lock-in.
         </p>
       </div>
 
       {/* 4 Asymmetric Blocks */}
-      <div className="border-t border-neutral-300 dark:border-neutral-800 font-mono">
+      <div className="border-t border-border font-mono">
         {/* Block 1: Providers */}
-        <div className="py-8 border-b border-neutral-300 dark:border-neutral-800 grid grid-cols-1 lg:grid-cols-12 gap-6 items-baseline">
-          <div className="lg:col-span-3 text-xs text-neutral-500 dark:text-neutral-400 flex items-center">
+        <div className="py-8 border-b border-border grid grid-cols-1 lg:grid-cols-12 gap-6 items-baseline">
+          <div className="lg:col-span-3 text-xs text-muted-foreground flex items-center">
             <span>01</span>
             <TechSeparator />
             <span>PROVIDERS</span>
           </div>
           <div className="lg:col-span-4">
-            <h3 className="text-lg font-bold font-sans text-neutral-900 dark:text-white mb-1.5">
+            <h3 className="text-lg font-bold font-sans text-foreground mb-1.5">
               Multi-Tenant OAuth Adapters
             </h3>
-            <p className="text-xs font-sans text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            <p className="text-xs font-sans text-muted-foreground leading-relaxed">
               Native adapters for Google, GitHub, and Discord. Pre-wired state
               parameter hashing, CSRF cookie verification, and standardized
               identity profiles.
             </p>
           </div>
-          <div className="lg:col-span-5 text-xs bg-white dark:bg-neutral-900 p-4 border border-neutral-300 dark:border-neutral-800 flex flex-col gap-2 shadow-xs">
+          <div className="lg:col-span-5 text-xs bg-card p-4 border border-border flex flex-col gap-2 shadow-xs">
             {/* Diagram SVG: OAuth Providers to Normalized Token Pipeline */}
-            <div className="w-full min-h-26 mb-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#0c0d10] p-2.5 flex items-center justify-center">
+            <div className="w-full min-h-26 mb-2 border border-border bg-muted/40 p-2.5 flex items-center justify-center">
               <svg
                 className="w-full h-auto max-h-24"
                 fill="none"
@@ -226,16 +226,16 @@ export const CapabilityMatrixSection = () => {
                 </g>
               </svg>
             </div>
-            <div className="flex justify-between text-neutral-500">
+            <div className="flex justify-between text-muted-foreground">
               <span>ACTIVE PROVIDERS</span>
               <span>NORMALIZATION</span>
             </div>
-            <div className="flex gap-4 font-semibold text-neutral-900 dark:text-white">
+            <div className="flex gap-4 font-semibold text-foreground">
               <span>Google (OIDC)</span>
               <span>GitHub</span>
               <span>Discord</span>
             </div>
-            <div className="text-[11px] text-neutral-500 pt-1 border-t border-neutral-200 dark:border-neutral-800">
+            <div className="text-[11px] text-muted-foreground pt-1 border-t border-border">
               Payload: &#123; id: &quot;usr_99x&quot;, email:
               &quot;dev@authsphere.io&quot;, verified: true &#125;
             </div>
@@ -243,24 +243,24 @@ export const CapabilityMatrixSection = () => {
         </div>
 
         {/* Block 2: Cryptography */}
-        <div className="py-8 border-b border-neutral-300 dark:border-neutral-800 grid grid-cols-1 lg:grid-cols-12 gap-6 items-baseline">
-          <div className="lg:col-span-3 text-xs text-neutral-500 dark:text-neutral-400 flex items-center">
+        <div className="py-8 border-b border-border grid grid-cols-1 lg:grid-cols-12 gap-6 items-baseline">
+          <div className="lg:col-span-3 text-xs text-muted-foreground flex items-center">
             <span>02</span>
             <TechSeparator />
             <span>CRYPTOGRAPHY</span>
           </div>
           <div className="lg:col-span-4">
-            <h3 className="text-lg font-bold font-sans text-neutral-900 dark:text-white mb-1.5">
+            <h3 className="text-lg font-bold font-sans text-foreground mb-1.5">
               PKCE &amp; Token Rotation
             </h3>
-            <p className="text-xs font-sans text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            <p className="text-xs font-sans text-muted-foreground leading-relaxed">
               SHA-256 S256 code challenge generation and single-use refresh
               token cycling. Immediate invalidation upon replay attempt.
             </p>
           </div>
-          <div className="lg:col-span-5 text-xs bg-white dark:bg-neutral-900 p-4 border border-neutral-300 dark:border-neutral-800 flex flex-col gap-2 shadow-xs">
+          <div className="lg:col-span-5 text-xs bg-card p-4 border border-border flex flex-col gap-2 shadow-xs">
             {/* Diagram SVG: PKCE S256 Challenge Flow */}
-            <div className="w-full min-h-26 mb-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#0c0d10] p-2.5 flex items-center justify-center">
+            <div className="w-full min-h-26 mb-2 border border-border bg-muted/40 p-2.5 flex items-center justify-center">
               <svg
                 className="w-full h-auto max-h-24"
                 fill="none"
@@ -419,14 +419,14 @@ export const CapabilityMatrixSection = () => {
                 </g>
               </svg>
             </div>
-            <div className="flex justify-between text-neutral-500">
+            <div className="flex justify-between text-muted-foreground">
               <span>CODE CHALLENGE</span>
               <span>S256 ENFORCED</span>
             </div>
-            <div className="text-neutral-900 dark:text-neutral-100 select-all truncate text-[11px]">
+            <div className="text-foreground select-all truncate text-[11px]">
               E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM
             </div>
-            <div className="flex justify-between text-[11px] text-neutral-500 pt-1 border-t border-neutral-200 dark:border-neutral-800">
+            <div className="flex justify-between text-[11px] text-muted-foreground pt-1 border-t border-border">
               <span>ROTATION: ATOMIC 1-USE</span>
               <span>REPLAY PROTECTION: YES</span>
             </div>
@@ -434,25 +434,25 @@ export const CapabilityMatrixSection = () => {
         </div>
 
         {/* Block 3: Concurrency / Real-Time Invalidation Bus */}
-        <div className="py-8 border-b border-neutral-300 dark:border-neutral-800 grid grid-cols-1 lg:grid-cols-12 gap-6 items-baseline">
-          <div className="lg:col-span-3 text-xs text-neutral-500 dark:text-neutral-400 flex items-center">
+        <div className="py-8 border-b border-border grid grid-cols-1 lg:grid-cols-12 gap-6 items-baseline">
+          <div className="lg:col-span-3 text-xs text-muted-foreground flex items-center">
             <span>03</span>
             <TechSeparator />
             <span>CONCURRENCY</span>
           </div>
           <div className="lg:col-span-4">
-            <h3 className="text-lg font-bold font-sans text-neutral-900 dark:text-white mb-1.5">
+            <h3 className="text-lg font-bold font-sans text-foreground mb-1.5">
               Real-Time Invalidation Bus
             </h3>
-            <p className="text-xs font-sans text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            <p className="text-xs font-sans text-muted-foreground leading-relaxed">
               WebSocket-based session management using Socket.io. Dropping a
               session removes active database tokens and broadcasts revocation
               events to all connected clients.
             </p>
           </div>
-          <div className="lg:col-span-5 text-xs bg-white dark:bg-neutral-900 p-4 border border-neutral-300 dark:border-neutral-800 flex flex-col gap-2 shadow-xs">
+          <div className="lg:col-span-5 text-xs bg-card p-4 border border-border flex flex-col gap-2 shadow-xs">
             {/* Diagram SVG: WebSocket Real-Time Invalidation */}
-            <div className="w-full min-h-26 mb-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#0c0d10] p-2.5 flex items-center justify-center">
+            <div className="w-full min-h-26 mb-2 border border-border bg-muted/40 p-2.5 flex items-center justify-center">
               <svg
                 className="w-full h-auto max-h-24"
                 fill="none"
@@ -577,12 +577,12 @@ export const CapabilityMatrixSection = () => {
                 </g>
               </svg>
             </div>
-            <div className="flex justify-between items-center text-neutral-500">
+            <div className="flex justify-between items-center text-muted-foreground">
               <span>SESSION BROADCAST</span>
               <button
                 onClick={handleDemoRevoke}
                 disabled={btnDisabled}
-                className="underline text-neutral-900 dark:text-white hover:text-neutral-600 dark:hover:text-neutral-300 font-mono text-[11px] cursor-pointer disabled:opacity-60"
+                className="underline text-foreground hover:text-foreground/80 font-mono text-[11px] cursor-pointer disabled:opacity-60"
                 id="demo-revoke-btn"
               >
                 {btnText}
@@ -590,14 +590,14 @@ export const CapabilityMatrixSection = () => {
             </div>
             <div className="space-y-1.5 text-[11px]">
               <div className="flex justify-between">
-                <span className="text-neutral-700 dark:text-neutral-300">
+                <span className="text-muted-foreground">
                   MacBook Pro (Chrome)
                 </span>
                 <span
                   className={
                     revoked
-                      ? "text-neutral-400 font-mono text-[10px] font-semibold"
-                      : "font-semibold text-neutral-900 dark:text-white"
+                      ? "text-muted-foreground font-mono text-[10px] font-semibold"
+                      : "font-semibold text-foreground"
                   }
                   id="session-tag-1"
                 >
@@ -605,14 +605,14 @@ export const CapabilityMatrixSection = () => {
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-700 dark:text-neutral-300">
+                <span className="text-muted-foreground">
                   iPhone 15 (Safari)
                 </span>
                 <span
                   className={
                     revoked
-                      ? "text-neutral-400 font-mono text-[10px] font-semibold"
-                      : "font-semibold text-neutral-900 dark:text-white"
+                      ? "text-muted-foreground font-mono text-[10px] font-semibold"
+                      : "font-semibold text-foreground"
                   }
                   id="session-tag-2"
                 >
@@ -620,14 +620,12 @@ export const CapabilityMatrixSection = () => {
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-700 dark:text-neutral-300">
-                  Ubuntu Daemon
-                </span>
+                <span className="text-muted-foreground">Ubuntu Daemon</span>
                 <span
                   className={
                     revoked
-                      ? "text-neutral-400 font-mono text-[10px] font-semibold"
-                      : "font-semibold text-neutral-900 dark:text-white"
+                      ? "text-muted-foreground font-mono text-[10px] font-semibold"
+                      : "font-semibold text-foreground"
                   }
                   id="session-tag-3"
                 >
@@ -639,17 +637,17 @@ export const CapabilityMatrixSection = () => {
         </div>
 
         {/* Block 4: Specification / Zero-Dependency SDK */}
-        <div className="py-8 border-b border-neutral-300 dark:border-neutral-800 grid grid-cols-1 lg:grid-cols-12 gap-6 items-baseline">
-          <div className="lg:col-span-3 text-xs text-neutral-500 dark:text-neutral-400 flex items-center">
+        <div className="py-8 border-b border-border grid grid-cols-1 lg:grid-cols-12 gap-6 items-baseline">
+          <div className="lg:col-span-3 text-xs text-muted-foreground flex items-center">
             <span>04</span>
             <TechSeparator />
             <span>SPECIFICATION</span>
           </div>
           <div className="lg:col-span-4">
-            <h3 className="text-lg font-bold font-sans text-neutral-900 dark:text-white mb-1.5">
+            <h3 className="text-lg font-bold font-sans text-foreground mb-1.5">
               Zero-Dependency Client SDK
             </h3>
-            <p className="text-xs font-sans text-neutral-600 dark:text-neutral-400 leading-relaxed">
+            <p className="text-xs font-sans text-muted-foreground leading-relaxed">
               Written in TypeScript with full type exports. Handles PKCE
               challenge generation, session storage, automated token refresh,
               and authenticated fetch requests.
@@ -657,7 +655,7 @@ export const CapabilityMatrixSection = () => {
           </div>
           <div className="lg:col-span-5 flex flex-col gap-2">
             {/* Diagram SVG: Universal Client SDK Architecture */}
-            <div className="w-full min-h-26 mb-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#0c0d10] p-2.5 flex items-center justify-center">
+            <div className="w-full min-h-26 mb-2 border border-border bg-muted/40 p-2.5 flex items-center justify-center">
               <svg
                 className="w-full h-auto max-h-24"
                 fill="none"
@@ -818,27 +816,29 @@ export const CapabilityMatrixSection = () => {
             </div>
 
             {/* 3 Metrics Cards */}
-            <div className="text-xs bg-white dark:bg-neutral-900 p-4 border border-neutral-300 dark:border-neutral-800 grid grid-cols-3 gap-2 shadow-xs">
+            <div className="text-xs bg-card p-4 border border-border grid grid-cols-3 gap-2 shadow-xs">
               <div className="flex flex-col gap-0.5">
-                <span className="text-[10px] text-neutral-500">SIZE</span>
-                <span className="font-bold text-neutral-900 dark:text-white text-sm">
+                <span className="text-[10px] text-muted-foreground">SIZE</span>
+                <span className="font-bold text-foreground text-sm">
                   3.8 KB
                 </span>
-                <span className="text-[10px] text-neutral-500">Brotli</span>
+                <span className="text-[10px] text-muted-foreground">
+                  Brotli
+                </span>
               </div>
               <div className="flex flex-col gap-0.5">
-                <span className="text-[10px] text-neutral-500">TYPES</span>
-                <span className="font-bold text-neutral-900 dark:text-white text-sm">
-                  100%
+                <span className="text-[10px] text-muted-foreground">TYPES</span>
+                <span className="font-bold text-foreground text-sm">100%</span>
+                <span className="text-[10px] text-muted-foreground">
+                  Strict TS
                 </span>
-                <span className="text-[10px] text-neutral-500">Strict TS</span>
               </div>
               <div className="flex flex-col gap-0.5">
-                <span className="text-[10px] text-neutral-500">RUNTIMES</span>
-                <span className="font-bold text-neutral-900 dark:text-white text-sm">
-                  Any
+                <span className="text-[10px] text-muted-foreground">
+                  RUNTIMES
                 </span>
-                <span className="text-[10px] text-neutral-500">
+                <span className="font-bold text-foreground text-sm">Any</span>
+                <span className="text-[10px] text-muted-foreground">
                   Edge + Node
                 </span>
               </div>

@@ -40,20 +40,20 @@ const Configuration = () => {
   ];
 
   return (
-    <article className="space-y-8 text-neutral-900 dark:text-neutral-100 font-sans">
+    <article className="space-y-8 text-foreground font-sans">
       {/* Eyebrow Header */}
-      <div className="border-b border-neutral-200 dark:border-[#222329] pb-4 space-y-2">
-        <div className="flex items-center text-xs font-mono text-neutral-500 uppercase tracking-widest">
+      <div className="border-b border-border pb-4 space-y-2">
+        <div className="flex items-center text-xs font-mono text-muted-foreground uppercase tracking-widest">
           <span>07</span>
           <TechSeparator />
           <span>PROJECT SPECIFICATION</span>
           <TechSeparator />
           <span>CONFIGURATION &amp; POLICIES</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
           Project Configuration &amp; Security Policies
         </h1>
-        <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed max-w-3xl">
+        <p className="text-xs sm:text-sm text-muted-foreground font-mono leading-relaxed max-w-3xl">
           Fine-tune CORS whitelist origins, enforcement gates for unverified
           users, rate limiting thresholds, and transactional email branding.
         </p>
@@ -63,14 +63,14 @@ const Configuration = () => {
         {/* Origin & CORS Policies */}
         <section className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold text-neutral-500">
+            <span className="text-xs font-mono font-bold text-muted-foreground">
               [01]
             </span>
-            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-foreground">
               CORS &amp; Allowed Origin Whitelisting
             </h2>
           </div>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed">
             Every browser request to the AuthSphere SDK transmits an{" "}
             <code>Origin</code> header. The AuthSphere gateway rejects requests
             from unlisted origins with an immediate <code>403 Forbidden</code> (
@@ -79,32 +79,32 @@ const Configuration = () => {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-5 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] space-y-3">
+            <div className="p-5 rounded-xl border border-border bg-card space-y-3">
               <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">
                 <Globe className="h-4 w-4" />
                 <span>VALID ORIGIN EXAMPLES</span>
               </div>
-              <ul className="text-xs font-mono space-y-2 text-neutral-600 dark:text-neutral-400">
-                <li className="p-2 rounded bg-neutral-50 dark:bg-[#181920] border border-neutral-200 dark:border-[#25262f]">
+              <ul className="text-xs font-mono space-y-2 text-muted-foreground">
+                <li className="p-2 rounded bg-muted/40 border border-border">
                   <code>https://app.yourdomain.com</code>
                 </li>
-                <li className="p-2 rounded bg-neutral-50 dark:bg-[#181920] border border-neutral-200 dark:border-[#25262f]">
+                <li className="p-2 rounded bg-muted/40 border border-border">
                   <code>http://localhost:5173</code> (Dev only)
                 </li>
-                <li className="p-2 rounded bg-neutral-50 dark:bg-[#181920] border border-neutral-200 dark:border-[#25262f]">
+                <li className="p-2 rounded bg-muted/40 border border-border">
                   <code>capacitor://localhost</code> (Mobile)
                 </li>
               </ul>
             </div>
 
-            <div className="p-5 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] space-y-3">
+            <div className="p-5 rounded-xl border border-border bg-card space-y-3">
               <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-600 dark:text-amber-400">
                 <AlertTriangle className="h-4 w-4" />
                 <span>ORIGIN CONSTRAINTS</span>
               </div>
-              <ul className="text-xs font-sans space-y-2 text-neutral-600 dark:text-neutral-400">
+              <ul className="text-xs font-sans space-y-2 text-muted-foreground">
                 <li className="flex items-start gap-2">
-                  <span className="font-mono text-[10px] text-neutral-400 mt-0.5">
+                  <span className="font-mono text-[10px] text-muted-foreground mt-0.5">
                     •
                   </span>
                   <span>
@@ -113,7 +113,7 @@ const Configuration = () => {
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="font-mono text-[10px] text-neutral-400 mt-0.5">
+                  <span className="font-mono text-[10px] text-muted-foreground mt-0.5">
                     •
                   </span>
                   <span>
@@ -122,7 +122,7 @@ const Configuration = () => {
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="font-mono text-[10px] text-neutral-400 mt-0.5">
+                  <span className="font-mono text-[10px] text-muted-foreground mt-0.5">
                     •
                   </span>
                   <span>
@@ -138,28 +138,28 @@ const Configuration = () => {
         {/* Strict Verification Policy */}
         <section className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold text-neutral-500">
+            <span className="text-xs font-mono font-bold text-muted-foreground">
               [02]
             </span>
-            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-foreground">
               Strict Email Verification Gate
             </h2>
           </div>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed">
             In the project dashboard under <strong>Policies</strong>, you can
             enforce hard verification before session tokens can be minted.
           </p>
 
-          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-neutral-50/50 dark:bg-[#121316] p-5 space-y-3">
+          <div className="rounded-xl border border-border bg-card p-5 space-y-3">
             <div className="flex items-center justify-between text-xs font-mono">
-              <span className="font-bold text-neutral-900 dark:text-white">
+              <span className="font-bold text-foreground">
                 Policy Behavior: strictVerification = true
               </span>
               <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[10px] font-bold">
                 ENFORCED
               </span>
             </div>
-            <p className="text-xs text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed">
+            <p className="text-xs text-muted-foreground font-sans leading-relaxed">
               When a user submits credentials via <code>loginLocal()</code>,
               AuthSphere checks the user's email verification status in the
               database. If <code>is_verified: false</code>, the server halts
@@ -182,35 +182,35 @@ const Configuration = () => {
         {/* Rate Limiting */}
         <section className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold text-neutral-500">
+            <span className="text-xs font-mono font-bold text-muted-foreground">
               [03]
             </span>
-            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-foreground">
               Adaptive Rate Limiting &amp; Lockout Thresholds
             </h2>
           </div>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed">
             AuthSphere enforces express-rate-limit middleware with standard
             RateLimit-* response headers and project-level brute-force
             thresholds. Excessive requests receive immediate 429 status codes:
           </p>
 
-          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden">
-            <div className="px-5 py-2.5 border-b border-neutral-200 dark:border-[#222329] bg-neutral-100/60 dark:bg-[#15161b] text-[11px] font-mono text-neutral-500 font-semibold uppercase tracking-wider flex items-center justify-between">
+          <div className="rounded-xl border border-border bg-card overflow-hidden">
+            <div className="px-5 py-2.5 border-b border-border bg-muted/40 text-[11px] font-mono text-muted-foreground font-semibold uppercase tracking-wider flex items-center justify-between">
               <span>ENDPOINT</span>
               <span>THRESHOLD &amp; ENFORCEMENT</span>
             </div>
-            <div className="divide-y divide-neutral-200/60 dark:divide-[#1e2026]">
+            <div className="divide-y divide-border">
               {rateLimitRules.map((rule, idx) => (
                 <div
                   key={idx}
                   className="px-5 py-3 flex flex-col md:flex-row md:items-center justify-between gap-2 text-xs font-mono"
                 >
                   <div className="space-y-0.5">
-                    <span className="font-bold text-neutral-900 dark:text-white">
+                    <span className="font-bold text-foreground">
                       {rule.endpoint}
                     </span>
-                    <span className="block text-[11px] text-neutral-500 dark:text-neutral-400">
+                    <span className="block text-[11px] text-muted-foreground">
                       Scope: {rule.scope}
                     </span>
                   </div>
@@ -218,7 +218,7 @@ const Configuration = () => {
                     <span className="font-semibold text-emerald-600 dark:text-emerald-400">
                       {rule.limit}
                     </span>
-                    <span className="block text-[11px] text-neutral-500 dark:text-neutral-400">
+                    <span className="block text-[11px] text-muted-foreground">
                       {rule.action}
                     </span>
                   </div>
@@ -231,53 +231,53 @@ const Configuration = () => {
         {/* Brand & Template Configuration */}
         <section className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold text-neutral-500">
+            <span className="text-xs font-mono font-bold text-muted-foreground">
               [04]
             </span>
-            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-foreground">
               Transactional Email &amp; Delivery Parameters
             </h2>
           </div>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed">
             You can customize every outbound OTP email directly in the{" "}
             <strong>Email Customization</strong> section of the dashboard:
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] space-y-1.5">
-              <span className="text-[11px] font-mono text-neutral-500 uppercase">
+            <div className="p-4 rounded-xl border border-border bg-card space-y-1.5">
+              <span className="text-[11px] font-mono text-muted-foreground uppercase">
                 BRANDING ACCENT
               </span>
-              <p className="text-xs font-mono font-bold text-neutral-900 dark:text-white">
+              <p className="text-xs font-mono font-bold text-foreground">
                 Primary Hex Color
               </p>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed">
+              <p className="text-xs text-muted-foreground font-sans leading-relaxed">
                 Controls the color of verification action buttons, OTP digit
                 boxes, and header banners.
               </p>
             </div>
 
-            <div className="p-4 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] space-y-1.5">
-              <span className="text-[11px] font-mono text-neutral-500 uppercase">
+            <div className="p-4 rounded-xl border border-border bg-card space-y-1.5">
+              <span className="text-[11px] font-mono text-muted-foreground uppercase">
                 ASSET HOSTING
               </span>
-              <p className="text-xs font-mono font-bold text-neutral-900 dark:text-white">
+              <p className="text-xs font-mono font-bold text-foreground">
                 Company Emblem URL
               </p>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed">
+              <p className="text-xs text-muted-foreground font-sans leading-relaxed">
                 HTTPS URL to your SVG or PNG logo, rendered in the header of all
                 transaction emails.
               </p>
             </div>
 
-            <div className="p-4 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] space-y-1.5">
-              <span className="text-[11px] font-mono text-neutral-500 uppercase">
+            <div className="p-4 rounded-xl border border-border bg-card space-y-1.5">
+              <span className="text-[11px] font-mono text-muted-foreground uppercase">
                 REPUTATION &amp; TRUST
               </span>
-              <p className="text-xs font-mono font-bold text-neutral-900 dark:text-white">
+              <p className="text-xs font-mono font-bold text-foreground">
                 Support &amp; Legal Links
               </p>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed">
+              <p className="text-xs text-muted-foreground font-sans leading-relaxed">
                 Configurable Privacy Policy, Terms, and Help Desk URLs injected
                 into RFC-compliant footers.
               </p>

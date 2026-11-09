@@ -44,20 +44,20 @@ const UserManagement = () => {
   ];
 
   return (
-    <article className="space-y-8 text-neutral-900 dark:text-neutral-100 font-sans">
+    <article className="space-y-8 text-foreground font-sans">
       {/* Eyebrow Header */}
-      <div className="border-b border-neutral-200 dark:border-[#222329] pb-4 space-y-2">
-        <div className="flex items-center text-xs font-mono text-neutral-500 uppercase tracking-widest">
+      <div className="border-b border-border pb-4 space-y-2">
+        <div className="flex items-center text-xs font-mono text-muted-foreground uppercase tracking-widest">
           <span>08</span>
           <TechSeparator />
           <span>TENANT DIRECTORY</span>
           <TechSeparator />
           <span>USER MANAGEMENT</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
           Identity Directory &amp; Administration
         </h1>
-        <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed max-w-3xl">
+        <p className="text-xs sm:text-sm text-muted-foreground font-mono leading-relaxed max-w-3xl">
           Lifecycle state machines, real-time session invalidation, manual
           administrative overrides, and programmatic directory control.
         </p>
@@ -67,25 +67,25 @@ const UserManagement = () => {
         {/* User Lifecycle States */}
         <section className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold text-neutral-500">
+            <span className="text-xs font-mono font-bold text-muted-foreground">
               [01]
             </span>
-            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-foreground">
               Identity State Machine
             </h2>
           </div>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed">
             Every user in your tenant directory exists in one of three
             deterministic states. State transitions trigger immediate
             cryptographic access adjustments:
           </p>
 
-          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden">
-            <div className="px-5 py-2.5 border-b border-neutral-200 dark:border-[#222329] bg-neutral-100/60 dark:bg-[#15161b] text-[11px] font-mono text-neutral-500 font-semibold uppercase tracking-wider flex items-center justify-between">
+          <div className="rounded-xl border border-border bg-card overflow-hidden">
+            <div className="px-5 py-2.5 border-b border-border bg-muted/40 text-[11px] font-mono text-muted-foreground font-semibold uppercase tracking-wider flex items-center justify-between">
               <span>STATE &amp; STATUS</span>
               <span>TOKEN ISSUANCE &amp; ACTIONS</span>
             </div>
-            <div className="divide-y divide-neutral-200/60 dark:divide-[#1e2026]">
+            <div className="divide-y divide-border">
               {lifecycleStates.map((item, idx) => (
                 <div
                   key={idx}
@@ -97,15 +97,15 @@ const UserManagement = () => {
                     >
                       {item.state}
                     </span>
-                    <p className="text-xs font-sans text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                    <p className="text-xs font-sans text-muted-foreground leading-relaxed">
                       {item.description}
                     </p>
                   </div>
                   <div className="space-y-1 text-left md:text-right">
-                    <div className="text-neutral-900 dark:text-white font-bold">
+                    <div className="text-foreground font-bold">
                       {item.canMintTokens}
                     </div>
-                    <p className="text-[11px] text-neutral-500 dark:text-neutral-400 font-sans">
+                    <p className="text-[11px] text-muted-foreground font-sans">
                       {item.action}
                     </p>
                   </div>
@@ -118,48 +118,48 @@ const UserManagement = () => {
         {/* Immediate Invalidation */}
         <section className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold text-neutral-500">
+            <span className="text-xs font-mono font-bold text-muted-foreground">
               [02]
             </span>
-            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-foreground">
               Session Invalidation Mechanics
             </h2>
           </div>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed">
             When an administrator changes a user's status to <code>BANNED</code>{" "}
             or triggers "Revoke All Sessions", the following pipeline executes:
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] space-y-2">
-              <div className="text-xs font-mono font-bold text-neutral-900 dark:text-white flex items-center gap-1.5">
+            <div className="p-4 rounded-xl border border-border bg-card space-y-2">
+              <div className="text-xs font-mono font-bold text-foreground flex items-center gap-1.5">
                 <span className="text-emerald-500">01.</span>
                 <span>DATABASE REVOCATION</span>
               </div>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed">
+              <p className="text-xs text-muted-foreground font-sans leading-relaxed">
                 All sessions mapped to the user in MongoDB are immediately
                 marked invalid and removed.
               </p>
             </div>
 
-            <div className="p-4 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] space-y-2">
-              <div className="text-xs font-mono font-bold text-neutral-900 dark:text-white flex items-center gap-1.5">
+            <div className="p-4 rounded-xl border border-border bg-card space-y-2">
+              <div className="text-xs font-mono font-bold text-foreground flex items-center gap-1.5">
                 <span className="text-emerald-500">02.</span>
                 <span>ROTATION HALT</span>
               </div>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed">
+              <p className="text-xs text-muted-foreground font-sans leading-relaxed">
                 Subsequent requests to <code>/sdk/refresh</code> fail with{" "}
                 <code>TOKEN_REVOKED</code>, preventing new access token
                 generation.
               </p>
             </div>
 
-            <div className="p-4 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] space-y-2">
-              <div className="text-xs font-mono font-bold text-neutral-900 dark:text-white flex items-center gap-1.5">
+            <div className="p-4 rounded-xl border border-border bg-card space-y-2">
+              <div className="text-xs font-mono font-bold text-foreground flex items-center gap-1.5">
                 <span className="text-emerald-500">03.</span>
                 <span>AUDIT RECORDING</span>
               </div>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed">
+              <p className="text-xs text-muted-foreground font-sans leading-relaxed">
                 A non-repudiable audit event is appended to the ledger with
                 admin ID, user ID, and revocation timestamp.
               </p>
@@ -170,14 +170,14 @@ const UserManagement = () => {
         {/* Admin API (Server-to-Server) */}
         <section className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold text-neutral-500">
+            <span className="text-xs font-mono font-bold text-muted-foreground">
               [03]
             </span>
-            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-foreground">
               Backend Administrative API
             </h2>
           </div>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed">
             For backend scripts, user migrations, or automated customer support
             tools, use the server-side REST API authenticated with your
             project's <strong>Secret Key</strong> (never expose this key in

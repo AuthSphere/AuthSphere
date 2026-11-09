@@ -78,20 +78,20 @@ const ErrorHandling = () => {
   ];
 
   return (
-    <article className="space-y-8 text-neutral-900 dark:text-neutral-100 font-sans">
+    <article className="space-y-8 text-foreground font-sans">
       {/* Eyebrow Header */}
-      <div className="border-b border-neutral-200 dark:border-[#222329] pb-4 space-y-2">
-        <div className="flex items-center text-xs font-mono text-neutral-500 uppercase tracking-widest">
+      <div className="border-b border-border pb-4 space-y-2">
+        <div className="flex items-center text-xs font-mono text-muted-foreground uppercase tracking-widest">
           <span>11</span>
           <TechSeparator />
           <span>EXCEPTION SPECIFICATION</span>
           <TechSeparator />
           <span>ERROR CODES &amp; RECOVERY</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
           Structured Error Codes &amp; Recovery Workflows
         </h1>
-        <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed max-w-3xl">
+        <p className="text-xs sm:text-sm text-muted-foreground font-mono leading-relaxed max-w-3xl">
           Deterministic error schemas, standard HTTP status mapping, and
           resilient client-side recovery patterns.
         </p>
@@ -101,14 +101,14 @@ const ErrorHandling = () => {
         {/* Error Contract */}
         <section className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold text-neutral-500">
+            <span className="text-xs font-mono font-bold text-muted-foreground">
               [01]
             </span>
-            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-foreground">
               Deterministic Error Contract
             </h2>
           </div>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed">
             Every failure response returned by AuthSphere adheres strictly to a
             machine-readable JSON payload. Client applications can branch logic
             on <code>error_code</code> instead of parsing unpredictable error
@@ -132,37 +132,35 @@ const ErrorHandling = () => {
         {/* Error Code Catalog */}
         <section className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold text-neutral-500">
+            <span className="text-xs font-mono font-bold text-muted-foreground">
               [02]
             </span>
-            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-foreground">
               Complete Error Code Catalog
             </h2>
           </div>
 
-          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] overflow-hidden">
-            <div className="px-5 py-2.5 border-b border-neutral-200 dark:border-[#222329] bg-neutral-100/60 dark:bg-[#15161b] text-[11px] font-mono text-neutral-500 font-semibold uppercase tracking-wider flex items-center justify-between">
+          <div className="rounded-xl border border-border bg-card overflow-hidden">
+            <div className="px-5 py-2.5 border-b border-border bg-muted/40 text-[11px] font-mono text-muted-foreground font-semibold uppercase tracking-wider flex items-center justify-between">
               <span>ERROR CODE &amp; STATUS</span>
               <span>CAUSE &amp; RECOVERY STRATEGY</span>
             </div>
-            <div className="divide-y divide-neutral-200/60 dark:divide-[#1e2026]">
+            <div className="divide-y divide-border">
               {errorCatalog.map((err, idx) => (
                 <div
                   key={idx}
                   className="p-5 flex flex-col md:flex-row md:items-start justify-between gap-4 text-xs font-mono"
                 >
                   <div className="space-y-1">
-                    <span className="font-bold text-neutral-900 dark:text-white block">
+                    <span className="font-bold text-foreground block">
                       {err.code}
                     </span>
-                    <span className="text-[11px] text-neutral-400">
+                    <span className="text-[11px] text-muted-foreground">
                       HTTP {err.status}
                     </span>
                   </div>
                   <div className="space-y-1 md:max-w-md text-left md:text-right font-sans">
-                    <p className="text-neutral-700 dark:text-neutral-300 text-xs">
-                      {err.cause}
-                    </p>
+                    <p className="text-muted-foreground text-xs">{err.cause}</p>
                     <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono">
                       ↳ {err.recovery}
                     </p>
@@ -176,14 +174,14 @@ const ErrorHandling = () => {
         {/* Client Catch Implementation */}
         <section className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold text-neutral-500">
+            <span className="text-xs font-mono font-bold text-muted-foreground">
               [03]
             </span>
-            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-foreground">
               Production Exception Catching Pattern
             </h2>
           </div>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed">
             Here is a resilient client-side authentication flow handling
             unexpected states and redirecting to the OTP challenge smoothly:
           </p>

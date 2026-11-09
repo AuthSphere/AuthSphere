@@ -90,21 +90,21 @@ export const Register = () => {
   };
 
   return (
-    <div className="bg-[#fbf9f9] dark:bg-[#09090c] text-neutral-900 dark:text-neutral-100 antialiased min-h-screen lg:h-screen lg:max-h-screen lg:overflow-hidden selection:bg-black selection:text-white transition-colors duration-300 relative isolate overflow-x-hidden">
+    <div className="bg-background text-foreground antialiased min-h-screen lg:h-screen lg:max-h-screen lg:overflow-hidden selection:bg-primary selection:text-primary-foreground transition-colors duration-300 relative isolate overflow-x-hidden">
       {/* Precision Engineering Architectural Matrix Background */}
-      <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-[#fbf9f9] dark:bg-[#09090c]">
+      <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-background">
         <div className="absolute inset-0 grid-matrix opacity-40 dark:opacity-20" />
         <div className="absolute inset-0 bg-radial from-transparent via-transparent to-neutral-200/50 dark:to-black/60" />
       </div>
 
       {/* Main Split-Screen Container */}
-      <main className="w-full min-h-screen lg:h-screen lg:max-h-screen grid grid-cols-1 lg:grid-cols-12 text-neutral-900 dark:text-neutral-100 antialiased relative z-10 lg:overflow-hidden">
+      <main className="w-full min-h-screen lg:h-screen lg:max-h-screen grid grid-cols-1 lg:grid-cols-12 text-foreground antialiased relative z-10 lg:overflow-hidden">
         {/* ======================================================== */}
         {/* LEFT PANEL: REGISTRATION (lg: 6 cols, xl: 5 cols)         */}
         {/* ======================================================== */}
         <section
           aria-label="Registration Form Section"
-          className="lg:col-span-6 xl:col-span-5 h-full flex flex-col justify-between p-6 sm:p-10 lg:px-10 lg:py-8 xl:px-12 xl:py-10 bg-white/95 dark:bg-[#0c0d10]/95 backdrop-blur-sm border-r border-[#E5E5E5] dark:border-[#26262b] shadow-sm relative z-10 overflow-y-auto"
+          className="lg:col-span-6 xl:col-span-5 h-full flex flex-col justify-between p-6 sm:p-10 lg:px-10 lg:py-8 xl:px-12 xl:py-10 bg-card/95 backdrop-blur-sm border-r border-border shadow-xs relative z-10 overflow-y-auto"
         >
           {/* Top Bar */}
           <header className="flex items-center justify-between w-full">
@@ -116,14 +116,14 @@ export const Register = () => {
               <div className="w-8 h-8 flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-105">
                 <AuthSphereLogo className="w-8 h-8 object-contain" />
               </div>
-              <span className="font-semibold text-[17px] tracking-tight text-neutral-900 dark:text-white">
+              <span className="font-semibold text-[17px] tracking-tight text-foreground">
                 AuthSphere
               </span>
             </Link>
 
             <Link
               to="/"
-              className="inline-flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white font-medium transition-colors focus:outline-none rounded"
+              className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground font-medium transition-colors focus:outline-none rounded"
             >
               <span className="transition-transform duration-150 group-hover:-translate-x-0.5">
                 ←
@@ -135,10 +135,10 @@ export const Register = () => {
           {/* Registration Form Area */}
           <div className="w-full max-w-105 mx-auto my-auto py-4 sm:py-6">
             <div className="mb-6">
-              <h1 className="text-3xl font-bold text-neutral-900 dark:text-white tracking-tight leading-tight">
+              <h1 className="text-3xl font-bold text-foreground tracking-tight leading-tight">
                 Create your identity.
               </h1>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-2 leading-relaxed">
+              <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
                 Set up your AuthSphere account and start building with connected
                 authentication.
               </p>
@@ -149,7 +149,7 @@ export const Register = () => {
               <button
                 type="button"
                 onClick={() => handleSocialLogin("google")}
-                className="flex items-center justify-center gap-2.5 h-10 px-3 bg-white dark:bg-[#14151a] hover:bg-neutral-50 dark:hover:bg-[#1a1b22] text-neutral-900 dark:text-white rounded-lg text-xs sm:text-sm font-medium transition-colors border border-[#E5E5E5] dark:border-[#2a2b33] cursor-pointer shadow-2xs"
+                className="flex items-center justify-center gap-2.5 h-10 px-3 bg-background hover:bg-accent text-foreground rounded-lg text-xs sm:text-sm font-medium transition-colors border border-input cursor-pointer shadow-2xs"
               >
                 <svg
                   aria-hidden="true"
@@ -179,7 +179,7 @@ export const Register = () => {
               <button
                 type="button"
                 onClick={() => handleSocialLogin("github")}
-                className="flex items-center justify-center gap-2.5 h-10 px-3 bg-white dark:bg-[#14151a] hover:bg-neutral-50 dark:hover:bg-[#1a1b22] text-neutral-900 dark:text-white rounded-lg text-xs sm:text-sm font-medium transition-colors border border-[#E5E5E5] dark:border-[#2a2b33] cursor-pointer shadow-2xs"
+                className="flex items-center justify-center gap-2.5 h-10 px-3 bg-background hover:bg-accent text-foreground rounded-lg text-xs sm:text-sm font-medium transition-colors border border-input cursor-pointer shadow-2xs"
               >
                 <svg
                   aria-hidden="true"
@@ -201,8 +201,8 @@ export const Register = () => {
               aria-hidden="true"
               className="relative flex items-center justify-center my-5"
             >
-              <div className="w-full h-px bg-[#E5E5E5] dark:bg-[#26262b]" />
-              <span className="absolute bg-white dark:bg-[#0c0d10] px-3 text-xs text-neutral-400 dark:text-neutral-500 font-normal">
+              <div className="w-full h-px bg-border" />
+              <span className="absolute bg-card px-3 text-xs text-muted-foreground font-normal">
                 or register with email
               </span>
             </div>
@@ -217,13 +217,13 @@ export const Register = () => {
               <div>
                 <div className="flex justify-between items-center mb-1.5">
                   <label
-                    className="text-xs sm:text-[13px] font-medium text-neutral-800 dark:text-neutral-200 cursor-pointer"
+                    className="text-xs sm:text-[13px] font-medium text-foreground cursor-pointer"
                     htmlFor="fullName"
                   >
                     Username / Full name
                   </label>
                   {errors.username && (
-                    <span className="font-mono text-xs text-red-500">
+                    <span className="font-mono text-xs text-destructive">
                       {errors.username.message}
                     </span>
                   )}
@@ -235,7 +235,7 @@ export const Register = () => {
                     autoComplete="username"
                     {...register("username")}
                     placeholder="Your developer handle"
-                    className="w-full h-10.5 px-3.5 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded-lg border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors shadow-2xs"
+                    className="w-full h-10.5 px-3.5 bg-background text-foreground text-sm rounded-lg border border-input placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring transition-colors shadow-2xs"
                   />
                 </div>
               </div>
@@ -244,13 +244,13 @@ export const Register = () => {
               <div>
                 <div className="flex justify-between items-center mb-1.5">
                   <label
-                    className="text-xs sm:text-[13px] font-medium text-neutral-800 dark:text-neutral-200 cursor-pointer"
+                    className="text-xs sm:text-[13px] font-medium text-foreground cursor-pointer"
                     htmlFor="email"
                   >
                     Email address
                   </label>
                   {errors.email && (
-                    <span className="font-mono text-xs text-red-500">
+                    <span className="font-mono text-xs text-destructive">
                       {errors.email.message}
                     </span>
                   )}
@@ -263,7 +263,7 @@ export const Register = () => {
                     inputMode="email"
                     {...register("email")}
                     placeholder="you@example.com"
-                    className="w-full h-10.5 px-3.5 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded-lg border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors shadow-2xs"
+                    className="w-full h-10.5 px-3.5 bg-background text-foreground text-sm rounded-lg border border-input placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring transition-colors shadow-2xs"
                   />
                 </div>
               </div>
@@ -274,7 +274,7 @@ export const Register = () => {
                 <div>
                   <div className="flex justify-between items-center mb-1.5">
                     <label
-                      className="text-xs sm:text-[13px] font-medium text-neutral-800 dark:text-neutral-200 cursor-pointer"
+                      className="text-xs sm:text-[13px] font-medium text-foreground cursor-pointer"
                       htmlFor="password"
                     >
                       Password
@@ -287,7 +287,7 @@ export const Register = () => {
                       autoComplete="new-password"
                       {...register("password")}
                       placeholder="Min 6 chars"
-                      className="w-full h-10.5 pl-3.5 pr-9 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded-lg border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors shadow-2xs"
+                      className="w-full h-10.5 pl-3.5 pr-9 bg-background text-foreground text-sm rounded-lg border border-input placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring transition-colors shadow-2xs"
                     />
                     <button
                       type="button"
@@ -295,7 +295,7 @@ export const Register = () => {
                       aria-label={
                         showPassword ? "Hide password" : "Show password"
                       }
-                      className="absolute right-2.5 p-1 text-neutral-400 hover:text-black dark:hover:text-white transition-colors cursor-pointer select-none"
+                      className="absolute right-2.5 p-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer select-none"
                     >
                       {showPassword ? (
                         <EyeOff className="h-4 w-4" />
@@ -305,7 +305,7 @@ export const Register = () => {
                     </button>
                   </div>
                   {errors.password && (
-                    <span className="font-mono text-[11px] text-red-500 mt-1 block">
+                    <span className="font-mono text-[11px] text-destructive mt-1 block">
                       {errors.password.message}
                     </span>
                   )}
@@ -315,7 +315,7 @@ export const Register = () => {
                 <div>
                   <div className="flex justify-between items-center mb-1.5">
                     <label
-                      className="text-xs sm:text-[13px] font-medium text-neutral-800 dark:text-neutral-200 cursor-pointer"
+                      className="text-xs sm:text-[13px] font-medium text-foreground cursor-pointer"
                       htmlFor="confirmPassword"
                     >
                       Confirm password
@@ -328,7 +328,7 @@ export const Register = () => {
                       autoComplete="new-password"
                       {...register("confirmPassword")}
                       placeholder="Repeat password"
-                      className="w-full h-10.5 pl-3.5 pr-9 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded-lg border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors shadow-2xs"
+                      className="w-full h-10.5 pl-3.5 pr-9 bg-background text-foreground text-sm rounded-lg border border-input placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring transition-colors shadow-2xs"
                     />
                     <button
                       type="button"
@@ -340,7 +340,7 @@ export const Register = () => {
                           ? "Hide confirmed password"
                           : "Show confirmed password"
                       }
-                      className="absolute right-2.5 p-1 text-neutral-400 hover:text-black dark:hover:text-white transition-colors cursor-pointer select-none"
+                      className="absolute right-2.5 p-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer select-none"
                     >
                       {showConfirmPassword ? (
                         <EyeOff className="h-4 w-4" />
@@ -350,7 +350,7 @@ export const Register = () => {
                     </button>
                   </div>
                   {errors.confirmPassword && (
-                    <span className="font-mono text-[11px] text-red-500 mt-1 block">
+                    <span className="font-mono text-[11px] text-destructive mt-1 block">
                       {errors.confirmPassword.message}
                     </span>
                   )}
@@ -368,21 +368,21 @@ export const Register = () => {
                       id="termsAgree"
                       type="checkbox"
                       {...register("terms")}
-                      className="w-4 h-4 rounded border-[#E5E5E5] dark:border-[#2a2b33] text-black dark:text-white focus:ring-0 focus:ring-offset-0 transition cursor-pointer accent-black dark:accent-white"
+                      className="w-4 h-4 rounded border-input text-primary focus:ring-0 focus:ring-offset-0 transition cursor-pointer accent-primary"
                     />
                   </div>
-                  <span className="text-xs text-neutral-600 dark:text-neutral-400 select-none leading-relaxed">
+                  <span className="text-xs text-muted-foreground select-none leading-relaxed">
                     I agree to the{" "}
                     <a
                       href="#terms"
-                      className="text-neutral-900 dark:text-white underline hover:opacity-80"
+                      className="text-foreground underline hover:opacity-80"
                     >
                       Terms of Service
                     </a>{" "}
                     and{" "}
                     <a
                       href="#privacy"
-                      className="text-neutral-900 dark:text-white underline hover:opacity-80"
+                      className="text-foreground underline hover:opacity-80"
                     >
                       Privacy Policy
                     </a>
@@ -390,7 +390,7 @@ export const Register = () => {
                   </span>
                 </label>
                 {errors.terms && (
-                  <p className="font-mono text-xs text-red-500 mt-1">
+                  <p className="font-mono text-xs text-destructive mt-1">
                     {errors.terms.message}
                   </p>
                 )}
@@ -401,7 +401,7 @@ export const Register = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full h-11 bg-neutral-900 dark:bg-white hover:bg-neutral-800 dark:hover:bg-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed text-white dark:text-neutral-900 text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer"
+                  className="w-full h-11 bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-all shadow-xs cursor-pointer"
                 >
                   <span>
                     {loading ? "Creating account..." : "Create account →"}
@@ -413,11 +413,11 @@ export const Register = () => {
 
           {/* Footer */}
           <footer className="w-full text-center pt-4 sm:pt-5">
-            <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400">
+            <p className="text-xs sm:text-sm text-muted-foreground">
               Already have an account?{" "}
               <Link
                 to="/login"
-                className="text-neutral-900 dark:text-white font-medium underline hover:opacity-80 transition-colors"
+                className="text-foreground font-medium underline hover:opacity-80 transition-colors"
               >
                 Sign in
               </Link>
@@ -430,7 +430,7 @@ export const Register = () => {
         {/* ======================================================== */}
         <section
           aria-label="Celestial Mechanics & Astrodynamics"
-          className="lg:col-span-6 xl:col-span-7 hidden lg:flex flex-1 relative overflow-hidden bg-[#fafafa] dark:bg-[#080909]"
+          className="lg:col-span-6 xl:col-span-7 hidden lg:flex flex-1 relative overflow-hidden bg-muted/20 border-l border-border"
         >
           <ArchitectureSpecification />
         </section>

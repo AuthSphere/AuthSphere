@@ -5,31 +5,31 @@ export const OpenSourceSection = () => {
   return (
     <section
       id="community"
-      className="w-full bg-[#09090c] text-white py-24 border-b border-neutral-800 isolate"
+      className="w-full bg-background text-foreground py-24 border-b border-border isolate"
     >
       <div className="max-w-340 mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left: Editorial Pitch */}
           <div className="lg:col-span-7 flex flex-col gap-6">
-            <div className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded bg-[#18191D] border border-[#26262b] text-[11px] font-mono text-neutral-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-white" />
+            <div className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded bg-muted/60 border border-border text-[11px] font-mono text-muted-foreground">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary" />
               <span>04</span>
               <TechSeparator />
               <span>PUBLIC REPOSITORY &amp; ROADMAP</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white leading-tight">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
               Built in the open.
               <br />
               Improved together.
             </h2>
-            <p className="text-sm text-neutral-400 leading-relaxed max-w-xl">
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-xl">
               AuthSphere is an open-source project. Developers are welcome to
               explore the codebase, contribute improvements, report issues, and
               help shape the future of the project.
             </p>
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
-                className="inline-flex items-center justify-center gap-2 px-6 h-11 rounded-md bg-white text-black font-mono text-xs font-semibold hover:bg-neutral-200 transition-colors cursor-pointer shadow-sm"
+                className="inline-flex items-center justify-center gap-2 px-6 h-11 rounded-md bg-primary text-primary-foreground font-mono text-xs font-semibold hover:bg-primary/90 transition-colors cursor-pointer shadow-sm"
                 href="https://github.com/AuthSphere"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -40,7 +40,7 @@ export const OpenSourceSection = () => {
                 </span>
               </a>
               <a
-                className="inline-flex items-center justify-center gap-2 px-5 h-11 rounded-md bg-transparent text-white border border-[#26262b] hover:border-white font-mono text-xs font-medium transition-all cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-5 h-11 rounded-md bg-card text-foreground border border-border hover:border-foreground/40 font-mono text-xs font-medium transition-all cursor-pointer"
                 href="/docs"
               >
                 <span>Read Documentation</span>
@@ -49,10 +49,10 @@ export const OpenSourceSection = () => {
           </div>
 
           {/* Right: GitHub Showcase Card */}
-          <div className="lg:col-span-5 bg-[#121316] border border-[#26262b] p-6 rounded-lg flex flex-col gap-5 shadow-xl">
-            <div className="flex items-center justify-between border-b border-[#26262b] pb-4">
+          <div className="lg:col-span-5 bg-card border border-border p-6 rounded-lg flex flex-col gap-5 shadow-xl">
+            <div className="flex items-center justify-between border-b border-border pb-4">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded bg-[#18191D] border border-[#26262b] flex items-center justify-center text-white">
+                <div className="w-9 h-9 rounded bg-muted border border-border flex items-center justify-center text-foreground">
                   <svg
                     aria-hidden="true"
                     className="w-4 h-4 fill-current"
@@ -67,14 +67,14 @@ export const OpenSourceSection = () => {
                 </div>
                 <div>
                   <a
-                    className="text-sm font-mono font-bold text-white hover:underline"
+                    className="text-sm font-mono font-bold text-foreground hover:underline"
                     href="https://github.com/AuthSphere"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
                     AuthSphere
                   </a>
-                  <div className="text-[11px] font-mono text-neutral-400">
+                  <div className="text-[11px] font-mono text-muted-foreground">
                     GitHub Repository · Public
                   </div>
                 </div>
@@ -83,38 +83,46 @@ export const OpenSourceSection = () => {
 
             {/* 4 Stats Grid */}
             <div className="grid grid-cols-2 gap-2.5 text-center font-mono text-xs">
-              <div className="p-3 bg-[#18191D] border border-[#26262b] rounded">
-                <div className="text-[10px] text-neutral-400">LICENSE</div>
-                <div className="text-white font-bold mt-0.5">MIT</div>
+              <div className="p-3 bg-muted/40 border border-border rounded">
+                <div className="text-[10px] text-muted-foreground">LICENSE</div>
+                <div className="text-foreground font-bold mt-0.5">MIT</div>
               </div>
-              <div className="p-3 bg-[#18191D] border border-[#26262b] rounded">
-                <div className="text-[10px] text-neutral-400">LANGUAGE</div>
-                <div className="text-white font-bold mt-0.5">
+              <div className="p-3 bg-muted/40 border border-border rounded">
+                <div className="text-[10px] text-muted-foreground">
+                  LANGUAGE
+                </div>
+                <div className="text-foreground font-bold mt-0.5">
                   TypeScript &amp; JS
                 </div>
               </div>
-              <div className="p-3 bg-[#18191D] border border-[#26262b] rounded">
-                <div className="text-[10px] text-neutral-400">
+              <div className="p-3 bg-muted/40 border border-border rounded">
+                <div className="text-[10px] text-muted-foreground">
                   CONTRIBUTIONS
                 </div>
-                <div className="text-white font-bold mt-0.5">PRs Welcome</div>
+                <div className="text-foreground font-bold mt-0.5">
+                  PRs Welcome
+                </div>
               </div>
-              <div className="p-3 bg-[#18191D] border border-[#26262b] rounded">
-                <div className="text-[10px] text-neutral-400">DISCUSSIONS</div>
-                <div className="text-white font-bold mt-0.5">RFC Roadmap</div>
+              <div className="p-3 bg-muted/40 border border-border rounded">
+                <div className="text-[10px] text-muted-foreground">
+                  DISCUSSIONS
+                </div>
+                <div className="text-foreground font-bold mt-0.5">
+                  RFC Roadmap
+                </div>
               </div>
             </div>
 
             {/* Architecture Verification Strip */}
-            <div className="p-3.5 bg-[#18191D] border border-[#26262b] rounded flex flex-col gap-2 font-mono text-xs">
-              <div className="flex items-center justify-between text-[11px] text-neutral-400">
+            <div className="p-3.5 bg-muted/40 border border-border rounded flex flex-col gap-2 font-mono text-xs">
+              <div className="flex items-center justify-between text-[11px] text-muted-foreground">
                 <span>IDENTITY SPECIFICATION</span>
-                <span className="text-emerald-400 font-medium flex items-center gap-1.5">
+                <span className="text-emerald-500 font-medium flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   SPEC COMPLIANT
                 </span>
               </div>
-              <p className="text-[11px] text-neutral-300 leading-relaxed font-sans">
+              <p className="text-[11px] text-muted-foreground leading-relaxed font-sans">
                 Full adherence to RFC-7636 (PKCE), RFC-7519 (JWT), and OAuth 2.0
                 Authorization Code Grant standards.
               </p>

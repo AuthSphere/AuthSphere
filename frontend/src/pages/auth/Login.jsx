@@ -102,7 +102,7 @@ export const Login = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-[#09090c] text-neutral-900 dark:text-neutral-100 min-h-screen selection:bg-black selection:text-white transition-colors duration-300 relative isolate overflow-x-hidden">
+    <div className="bg-background text-foreground min-h-screen selection:bg-primary selection:text-primary-foreground transition-colors duration-300 relative isolate overflow-x-hidden">
       {/* Subtle Film Grain Texture Overlay */}
       <svg
         aria-hidden="true"
@@ -126,7 +126,7 @@ export const Login = () => {
       {/* Primary Split-Screen Layout */}
       <main className="relative z-10 w-full min-h-screen flex flex-col lg:flex-row items-stretch">
         {/* LEFT PANEL: SIGN IN */}
-        <section className="w-full lg:w-[42%] lg:max-w-140 bg-white dark:bg-[#0c0d10] flex flex-col justify-between p-8 sm:p-12 lg:p-16 border-b lg:border-b-0 lg:border-r border-[#E5E5E5] dark:border-[#222329] relative z-20">
+        <section className="w-full lg:w-[42%] lg:max-w-140 bg-card flex flex-col justify-between p-8 sm:p-12 lg:p-16 border-b lg:border-b-0 lg:border-r border-border relative z-20">
           <div className="flex flex-col gap-10">
             {/* Brand Lockup & Back Link */}
             <header className="flex items-center justify-between">
@@ -136,7 +136,7 @@ export const Login = () => {
                 </div>
 
                 <div className="flex flex-col leading-none">
-                  <span className="font-semibold text-[17px] tracking-tight text-neutral-900 dark:text-white">
+                  <span className="font-semibold text-[17px] tracking-tight text-foreground">
                     AuthSphere
                   </span>
                 </div>
@@ -144,7 +144,7 @@ export const Login = () => {
 
               <Link
                 to="/"
-                className="group inline-flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white font-medium transition-colors"
+                className="group inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground font-medium transition-colors"
               >
                 <span className="transition-transform duration-150 group-hover:-translate-x-0.5">
                   ←
@@ -155,11 +155,11 @@ export const Login = () => {
 
             {/* Intro */}
             <div className="flex flex-col gap-2 pt-2">
-              <h1 className="text-3xl sm:text-[34px] font-semibold tracking-tight text-neutral-900 dark:text-white leading-tight">
+              <h1 className="text-3xl sm:text-[34px] font-semibold tracking-tight text-foreground leading-tight">
                 Welcome back.
               </h1>
 
-              <p className="text-sm sm:text-[15px] text-neutral-600 dark:text-neutral-400 font-normal">
+              <p className="text-sm sm:text-[15px] text-muted-foreground font-normal">
                 Sign in to continue to your AuthSphere account.
               </p>
             </div>
@@ -172,7 +172,7 @@ export const Login = () => {
               {/* Email */}
               <div className="flex flex-col gap-1.5">
                 <label
-                  className="text-xs font-medium text-neutral-900 dark:text-neutral-200 tracking-tight"
+                  className="text-xs font-medium text-foreground tracking-tight"
                   htmlFor="identity-email"
                 >
                   Email address
@@ -185,11 +185,11 @@ export const Login = () => {
                   inputMode="email"
                   {...register("email")}
                   placeholder="name@company.com"
-                  className="w-full h-10 px-3 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white text-sm rounded border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
+                  className="w-full h-10 px-3 bg-background text-foreground text-sm rounded-md border border-input placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring transition-colors"
                 />
 
                 {errors.email && (
-                  <p className="text-xs text-red-500 font-mono mt-0.5">
+                  <p className="text-xs text-destructive font-mono mt-0.5">
                     {errors.email.message}
                   </p>
                 )}
@@ -199,7 +199,7 @@ export const Login = () => {
               <div className="flex flex-col gap-1.5">
                 <div className="flex justify-between items-baseline">
                   <label
-                    className="text-xs font-medium text-neutral-900 dark:text-neutral-200 tracking-tight"
+                    className="text-xs font-medium text-foreground tracking-tight"
                     htmlFor="identity-pass"
                   >
                     Password
@@ -208,7 +208,7 @@ export const Login = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="text-xs font-mono text-neutral-500 hover:text-black dark:hover:text-white transition-colors cursor-pointer select-none"
+                    className="text-xs font-mono text-muted-foreground hover:text-foreground transition-colors cursor-pointer select-none"
                     id="toggle-pass-btn"
                   >
                     {showPassword ? "[Hide]" : "[Show]"}
@@ -221,11 +221,11 @@ export const Login = () => {
                   autoComplete="current-password"
                   {...register("password")}
                   placeholder="Enter your password"
-                  className="w-full h-10 px-3 bg-white dark:bg-[#14151a] text-neutral-900 dark:text-white font-sans text-sm rounded border border-[#E5E5E5] dark:border-[#2a2b33] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
+                  className="w-full h-10 px-3 bg-background text-foreground font-sans text-sm rounded-md border border-input placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring transition-colors"
                 />
 
                 {errors.password && (
-                  <p className="text-xs text-red-500 font-mono mt-0.5">
+                  <p className="text-xs text-destructive font-mono mt-0.5">
                     {errors.password.message}
                   </p>
                 )}
@@ -238,16 +238,16 @@ export const Login = () => {
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-3.5 h-3.5 rounded border-[#E5E5E5] dark:border-[#2a2b33] text-black dark:text-white focus:ring-0 focus:ring-offset-0 cursor-pointer accent-black dark:accent-white"
+                    className="w-3.5 h-3.5 rounded border-input text-primary focus:ring-0 focus:ring-offset-0 cursor-pointer accent-primary"
                   />
 
-                  <span className="text-xs text-neutral-600 dark:text-neutral-400 group-hover:text-black dark:group-hover:text-white transition-colors">
+                  <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
                     Remember me
                   </span>
                 </label>
 
                 <span
-                  className="text-xs text-neutral-400 dark:text-neutral-500 cursor-not-allowed select-none"
+                  className="text-xs text-muted-foreground/60 cursor-not-allowed select-none"
                   title="Password recovery is currently disabled"
                 >
                   Forgot password?
@@ -259,7 +259,7 @@ export const Login = () => {
                 type="submit"
                 disabled={isPending}
                 id="auth-submit-btn"
-                className="mt-2 w-full h-10 bg-black dark:bg-white hover:bg-neutral-800 dark:hover:bg-neutral-200 text-white dark:text-black font-medium text-sm rounded flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-sm disabled:opacity-50"
+                className="mt-2 w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-sm rounded-md flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-xs disabled:opacity-50"
               >
                 <span>{isPending ? "Signing in..." : "Sign in"}</span>
                 <span className="text-sm font-mono leading-none">→</span>
@@ -268,9 +268,9 @@ export const Login = () => {
 
             {/* Divider */}
             <div className="relative my-1 flex items-center justify-center">
-              <div className="w-full h-px bg-[#E5E5E5] dark:bg-[#26262b]" />
+              <div className="w-full h-px bg-border" />
 
-              <span className="absolute px-3 bg-white dark:bg-[#0c0d10] text-[11px] text-neutral-500 dark:text-neutral-400 tracking-normal">
+              <span className="absolute px-3 bg-card text-[11px] text-muted-foreground tracking-normal">
                 or continue with
               </span>
             </div>
@@ -281,7 +281,7 @@ export const Login = () => {
               <button
                 type="button"
                 onClick={() => handleSocialLogin("google")}
-                className="h-10 px-3 bg-white dark:bg-[#14151a] hover:bg-[#F9F9F9] dark:hover:bg-[#1a1b22] text-neutral-900 dark:text-white text-xs font-medium rounded border border-[#E5E5E5] dark:border-[#2a2b33] flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-2xs"
+                className="h-10 px-3 bg-background hover:bg-accent text-foreground text-xs font-medium rounded-md border border-input flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-2xs"
               >
                 <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
                   <path
@@ -308,7 +308,7 @@ export const Login = () => {
               <button
                 type="button"
                 onClick={() => handleSocialLogin("github")}
-                className="h-10 px-3 bg-white dark:bg-[#14151a] hover:bg-[#F9F9F9] dark:hover:bg-[#1a1b22] text-neutral-900 dark:text-white text-xs font-medium rounded border border-[#E5E5E5] dark:border-[#2a2b33] flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-2xs"
+                className="h-10 px-3 bg-background hover:bg-accent text-foreground text-xs font-medium rounded-md border border-input flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-2xs"
               >
                 <svg
                   className="w-3.5 h-3.5 shrink-0 fill-current"
@@ -327,11 +327,11 @@ export const Login = () => {
 
           {/* Footer */}
           <footer className="pt-8 text-center sm:text-left">
-            <p className="text-xs text-neutral-600 dark:text-neutral-400">
+            <p className="text-xs text-muted-foreground">
               New to AuthSphere?{" "}
               <Link
                 to="/register"
-                className="text-neutral-900 dark:text-white font-medium hover:underline underline-offset-2 ml-0.5"
+                className="text-foreground font-medium hover:underline underline-offset-2 ml-0.5"
               >
                 Create an account.
               </Link>
@@ -340,7 +340,7 @@ export const Login = () => {
         </section>
 
         {/* RIGHT PANEL: MATHEMATICAL HARMONIC FIELD */}
-        <section className="hidden lg:flex lg:w-[58%] flex-1 relative overflow-hidden bg-[#fafafa] dark:bg-[#080909]">
+        <section className="hidden lg:flex lg:w-[58%] flex-1 relative overflow-hidden bg-muted/20 border-l border-border">
           <CommunityTopology />
         </section>
       </main>

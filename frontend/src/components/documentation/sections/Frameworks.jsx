@@ -5,20 +5,20 @@ import TechSeparator from "@/components/common/TechSeparator";
 
 const Frameworks = () => {
   return (
-    <article className="space-y-8 text-neutral-900 dark:text-neutral-100 font-sans">
+    <article className="space-y-8 text-foreground font-sans">
       {/* Eyebrow Header */}
-      <div className="border-b border-neutral-200 dark:border-[#222329] pb-4 space-y-2">
-        <div className="flex items-center text-xs font-mono text-neutral-500 uppercase tracking-widest">
+      <div className="border-b border-border pb-4 space-y-2">
+        <div className="flex items-center text-xs font-mono text-muted-foreground uppercase tracking-widest">
           <span>05</span>
           <TechSeparator />
           <span>FRAMEWORK ADAPTERS</span>
           <TechSeparator />
           <span>REACT &amp; NODE.JS</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
           Framework Integration Patterns
         </h1>
-        <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed max-w-2xl">
+        <p className="text-xs sm:text-sm text-muted-foreground font-mono leading-relaxed max-w-2xl">
           Practical patterns for wiring AuthSphere into React SPAs, Next.js
           applications, and backend API middleware.
         </p>
@@ -27,11 +27,11 @@ const Frameworks = () => {
       <div className="space-y-8">
         {/* React Hook Pattern */}
         <section className="space-y-3">
-          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white flex items-center gap-2">
+          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-foreground flex items-center gap-2">
             <span>[01]</span>
             <span>React SPA: State &amp; Protected Route</span>
           </h2>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed">
             Create a custom hook or wrapper component to gate access to
             authenticated routes:
           </p>
@@ -63,11 +63,11 @@ export const ProtectedRoute = ({ children }) => {
 
         {/* Backend Middleware */}
         <section className="space-y-3">
-          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white flex items-center gap-2">
+          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-foreground flex items-center gap-2">
             <span>[02]</span>
             <span>Node / Express: JWT Verification Middleware</span>
           </h2>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed">
             AuthSphere access tokens are standard HMAC-SHA256 (HS256) JWTs. Your
             backend can verify incoming{" "}
             <code>Authorization: Bearer &lt;token&gt;</code> headers using
@@ -100,11 +100,11 @@ export function requireAuth(req, res, next) {
         </section>
 
         {/* Next.js Note */}
-        <div className="p-4 rounded-xl border border-neutral-200 dark:border-[#222329] bg-neutral-50 dark:bg-[#15161b] space-y-1 font-mono text-xs">
-          <span className="font-bold text-neutral-900 dark:text-white">
+        <div className="p-4 rounded-xl border border-border bg-muted/30 space-y-1 font-mono text-xs">
+          <span className="font-bold text-foreground">
             NEXT.JS SERVER COMPONENTS &amp; COOKIES
           </span>
-          <p className="text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed text-xs">
+          <p className="text-muted-foreground font-sans leading-relaxed text-xs">
             For Next.js App Router applications, set{" "}
             <code>storageType: 'cookie'</code> in your client configuration so
             access and refresh tokens are sent along with server-rendered

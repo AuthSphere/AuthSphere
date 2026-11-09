@@ -94,23 +94,25 @@ const ProjectLogsCard = ({ projectId }) => {
   };
 
   return (
-    <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden font-mono text-xs">
+    <div className="border border-border bg-card text-card-foreground rounded-xl shadow-xs overflow-hidden font-mono text-xs">
       {/* ─── CARD HEADER BAR ─── */}
-      <div className="px-5 py-3.5 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between bg-neutral-50/70 dark:bg-[#14151a]">
+      <div className="px-5 py-3.5 border-b border-border flex items-center justify-between bg-muted/50">
         <div className="flex items-center gap-2">
           <Activity className="h-4 w-4 text-emerald-500" />
-          <span className="font-semibold text-neutral-900 dark:text-white uppercase tracking-wider">
+          <span className="font-semibold text-foreground uppercase tracking-wider">
             IMMUTABLE AUDIT RECORD ({filteredLogs.length})
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-[10px] text-neutral-500">SPEC: RFC-5424</span>
+          <span className="text-[10px] text-muted-foreground">
+            SPEC: RFC-5424
+          </span>
           <Button
             variant="ghost"
             size="sm"
             onClick={fetchLogs}
             disabled={loading}
-            className="h-7 w-7 p-0 cursor-pointer text-neutral-500 hover:text-black dark:hover:text-white"
+            className="h-7 w-7 p-0 cursor-pointer text-muted-foreground hover:text-foreground"
             title="Refresh stream"
           >
             <RefreshCw
@@ -124,10 +126,10 @@ const ProjectLogsCard = ({ projectId }) => {
         {/* ─── TOOLBAR & SEARCH ─── */}
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
             <Input
               placeholder="Filter by action, user actor, or IP address..."
-              className="pl-9 h-9 text-xs font-mono border-[#eaeaea] dark:border-[#26262b] bg-neutral-50/60 dark:bg-[#16171e]"
+              className="pl-9 h-9 text-xs font-mono border-input bg-background text-foreground placeholder:text-muted-foreground"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -146,8 +148,8 @@ const ProjectLogsCard = ({ projectId }) => {
                 onClick={() => setFilter(f.id)}
                 className={`px-3 py-1.5 rounded text-[11px] font-mono uppercase transition-colors cursor-pointer ${
                   filter === f.id
-                    ? "bg-neutral-900 text-white dark:bg-white dark:text-black font-semibold shadow-xs"
-                    : "text-neutral-500 hover:text-neutral-900 dark:hover:text-white bg-neutral-100 dark:bg-[#181920]"
+                    ? "bg-primary text-primary-foreground font-semibold shadow-xs"
+                    : "text-muted-foreground hover:text-foreground bg-muted"
                 }`}
               >
                 {f.label}
@@ -157,10 +159,10 @@ const ProjectLogsCard = ({ projectId }) => {
         </div>
 
         {/* ─── TABLE RECORD ─── */}
-        <div className="rounded-lg border border-[#eaeaea] dark:border-[#26262b] overflow-hidden">
+        <div className="rounded-lg border border-border overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="border-b border-[#eaeaea] dark:border-[#26262b] text-[11px] text-neutral-500 dark:text-neutral-400 bg-neutral-50/60 dark:bg-[#14151a]">
+              <TableRow className="border-b border-border text-[11px] text-muted-foreground bg-muted/40">
                 <TableHead className="w-40 font-semibold uppercase">
                   Timestamp
                 </TableHead>
@@ -178,14 +180,14 @@ const ProjectLogsCard = ({ projectId }) => {
                 </TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody className="divide-y divide-[#eaeaea] dark:divide-[#26262b]">
+            <TableBody className="divide-y divide-border">
               {loading ? (
                 <TableRow>
                   <TableCell
                     colSpan={5}
-                    className="h-28 text-center text-neutral-500"
+                    className="h-28 text-center text-muted-foreground"
                   >
-                    <div className="w-5 h-5 border-2 border-neutral-300 border-t-black dark:border-t-white rounded-full animate-spin mx-auto mb-2" />
+                    <div className="w-5 h-5 border-2 border-border border-t-primary rounded-full animate-spin mx-auto mb-2" />
                     <span>Streaming audit history...</span>
                   </TableCell>
                 </TableRow>
@@ -193,7 +195,7 @@ const ProjectLogsCard = ({ projectId }) => {
                 <TableRow>
                   <TableCell
                     colSpan={5}
-                    className="h-24 text-center text-neutral-500 text-xs"
+                    className="h-24 text-center text-muted-foreground text-xs"
                   >
                     No audit records matching specified filters.
                   </TableCell>
@@ -202,11 +204,11 @@ const ProjectLogsCard = ({ projectId }) => {
                 filteredLogs.map((log) => (
                   <TableRow
                     key={log._id}
-                    className="hover:bg-neutral-50/60 dark:hover:bg-[#16171d] transition-colors"
+                    className="hover:bg-muted/40 transition-colors"
                   >
-                    <TableCell className="text-neutral-500 text-[11px]">
+                    <TableCell className="text-muted-foreground text-[11px]">
                       <div className="flex items-center gap-1.5">
-                        <Clock className="h-3 w-3 text-neutral-400" />
+                        <Clock className="h-3 w-3 text-muted-foreground" />
                         <span>{formatDate(log.timestamp)}</span>
                       </div>
                     </TableCell>
@@ -214,17 +216,17 @@ const ProjectLogsCard = ({ projectId }) => {
                     <TableCell>
                       <div className="flex items-center gap-2">
                         {getIcon(log.category)}
-                        <span className="font-semibold text-neutral-900 dark:text-white">
+                        <span className="font-semibold text-foreground">
                           {log.action}
                         </span>
                       </div>
                     </TableCell>
 
-                    <TableCell className="text-neutral-600 dark:text-neutral-300">
+                    <TableCell className="text-muted-foreground">
                       {log.description}
                     </TableCell>
 
-                    <TableCell className="text-neutral-500 text-[11px]">
+                    <TableCell className="text-muted-foreground text-[11px]">
                       {log.actor?.name || log.actor?.email || "System Daemon"}
                     </TableCell>
 
@@ -235,25 +237,27 @@ const ProjectLogsCard = ({ projectId }) => {
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="h-7 w-7 p-0 cursor-pointer hover:bg-neutral-200 dark:hover:bg-[#22242c]"
+                              className="h-7 w-7 p-0 cursor-pointer hover:bg-muted"
                               title="Inspect Payload"
                             >
-                              <FileJson className="h-3.5 w-3.5 text-neutral-500" />
+                              <FileJson className="h-3.5 w-3.5 text-muted-foreground" />
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="max-w-lg font-mono text-xs border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#0c0d10]">
+                          <DialogContent className="max-w-lg font-mono text-xs border border-border bg-card text-card-foreground">
                             <DialogHeader>
-                              <DialogTitle className="text-sm font-bold text-neutral-900 dark:text-white">
+                              <DialogTitle className="text-sm font-bold text-foreground">
                                 Event Telemetry Payload
                               </DialogTitle>
                             </DialogHeader>
-                            <pre className="bg-[#0a0b0e] p-4 rounded-lg text-emerald-400 text-xs overflow-auto max-h-80 border border-[#22242c]">
+                            <pre className="bg-[#0a0b0e] p-4 rounded-lg text-emerald-400 text-xs overflow-auto max-h-80 border border-border">
                               {JSON.stringify(log.metadata, null, 2)}
                             </pre>
                           </DialogContent>
                         </Dialog>
                       ) : (
-                        <span className="text-[10px] text-neutral-400">—</span>
+                        <span className="text-[10px] text-muted-foreground">
+                          —
+                        </span>
                       )}
                     </TableCell>
                   </TableRow>

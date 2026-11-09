@@ -135,11 +135,11 @@ const Documentation = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fbf9f9] dark:bg-[#09090c] text-neutral-900 dark:text-neutral-100 antialiased relative isolate selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+    <div className="min-h-screen bg-background text-foreground antialiased relative isolate selection:bg-primary selection:text-primary-foreground">
       {/* Precision Engineering Matrix Background */}
-      <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-[#fbf9f9] dark:bg-[#09090c]">
+      <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden bg-background">
         <div className="absolute inset-0 grid-matrix opacity-40 dark:opacity-20" />
-        <div className="absolute inset-0 bg-radial from-transparent via-transparent to-neutral-200/50 dark:to-black/60" />
+        <div className="absolute inset-0 bg-radial from-transparent via-transparent to-muted/40 dark:to-black/60" />
       </div>
 
       <DocsHeader
@@ -166,22 +166,22 @@ const Documentation = () => {
           />
 
           {/* Render Active Section Content */}
-          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] p-6 sm:p-8 shadow-xs">
+          <div className="rounded-xl border border-border bg-card p-6 sm:p-8 shadow-xs">
             <ActiveComponent {...projectProps} />
           </div>
 
           {/* Navigation Controls */}
-          <div className="mt-8 pt-6 border-t border-neutral-200 dark:border-[#222329] grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="mt-8 pt-6 border-t border-border grid grid-cols-1 sm:grid-cols-2 gap-4">
             {prevSection ? (
               <button
                 onClick={() => navigateTo(prevSection.id)}
-                className="flex flex-col items-start p-4 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] hover:border-black dark:hover:border-white transition-all text-left group cursor-pointer shadow-xs"
+                className="flex flex-col items-start p-4 rounded-xl border border-border bg-card hover:border-foreground/40 transition-all text-left group cursor-pointer shadow-xs"
               >
-                <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1 flex items-center gap-1.5">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-1 flex items-center gap-1.5">
                   <ArrowLeft className="h-3 w-3 group-hover:-translate-x-1 transition-transform" />
                   PREVIOUS SECTION
                 </span>
-                <span className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
+                <span className="font-mono text-xs font-bold text-foreground">
                   {prevSection.title}
                 </span>
               </button>
@@ -192,13 +192,13 @@ const Documentation = () => {
             {nextSection && (
               <button
                 onClick={() => navigateTo(nextSection.id)}
-                className="flex flex-col items-end p-4 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] hover:border-black dark:hover:border-white transition-all text-right group cursor-pointer shadow-xs"
+                className="flex flex-col items-end p-4 rounded-xl border border-border bg-card hover:border-foreground/40 transition-all text-right group cursor-pointer shadow-xs"
               >
-                <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1 flex items-center gap-1.5">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-1 flex items-center gap-1.5">
                   NEXT SECTION
                   <ArrowLeft className="h-3 w-3 rotate-180 group-hover:translate-x-1 transition-transform" />
                 </span>
-                <span className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
+                <span className="font-mono text-xs font-bold text-foreground">
                   {nextSection.title}
                 </span>
               </button>

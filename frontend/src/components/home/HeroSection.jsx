@@ -7,7 +7,7 @@ export const HeroSection = () => {
   const { user } = useAuthStore();
 
   return (
-    <section className="relative w-full max-w-340 mx-auto px-6 lg:px-12 pt-16 lg:pt-24 pb-20 border-b border-[#eaeaea] dark:border-[#222329] bg-transparent isolate">
+    <section className="relative w-full max-w-340 mx-auto px-6 lg:px-12 pt-16 lg:pt-24 pb-20 border-b border-border bg-transparent isolate">
       {/* Background Architectural Grid with Transit-Flow SVG */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 opacity-20 dark:opacity-15">
         <svg
@@ -148,24 +148,22 @@ export const HeroSection = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center relative">
         {/* Left Column: Editorial Hero Pitch */}
         <div className="lg:col-span-7 flex flex-col gap-6">
-          <div className="flex items-center gap-1.5 text-xs font-mono text-neutral-500 dark:text-neutral-400 tracking-wider uppercase">
-            <span className="inline-block w-2 h-2 bg-neutral-900 dark:bg-white" />
+          <div className="flex items-center gap-1.5 text-xs font-mono text-muted-foreground tracking-wider uppercase">
+            <span className="inline-block w-2 h-2 bg-primary" />
             <span>OPEN SOURCE INFRASTRUCTURE</span>
             <TechSeparator />
-            <span className="text-neutral-800 dark:text-neutral-200 font-semibold">
-              RFC-7636 PKCE
-            </span>
+            <span className="text-foreground font-semibold">RFC-7636 PKCE</span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-semibold tracking-tight text-neutral-900 dark:text-white leading-[1.08] text-balance">
+          <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-semibold tracking-tight text-foreground leading-[1.08] text-balance">
             Authentication infrastructure.
             <br />
-            <span className="font-normal text-neutral-500 dark:text-neutral-400">
+            <span className="font-normal text-muted-foreground">
               Built for developers.
             </span>
           </h1>
 
-          <p className="text-base text-neutral-700 dark:text-neutral-300 max-w-xl leading-relaxed font-normal">
+          <p className="text-base text-muted-foreground max-w-xl leading-relaxed font-normal">
             An open-source authentication server and client SDK. Supports OAuth
             2.0 with PKCE, Bcrypt password hashing with HaveIBeenPwned breach
             detection, and MongoDB session tracking.
@@ -175,7 +173,7 @@ export const HeroSection = () => {
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <Link
               to={user ? "/dashboard" : "/login"}
-              className="inline-flex items-center justify-center gap-2 px-5 h-10 rounded-sm bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-xs font-mono font-medium hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors shadow-sm"
+              className="inline-flex items-center justify-center gap-2 px-5 h-10 rounded-sm bg-primary text-primary-foreground text-xs font-mono font-medium hover:bg-primary/90 transition-colors shadow-sm"
             >
               <span>Initialize AuthSphere</span>
               <span className="material-symbols-outlined text-[16px]">
@@ -187,7 +185,7 @@ export const HeroSection = () => {
               href="https://github.com/AuthSphere"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-4 h-10 rounded-sm bg-transparent border border-neutral-300 dark:border-neutral-800 text-neutral-900 dark:text-neutral-100 hover:border-black dark:hover:border-white transition-all text-xs font-mono font-medium"
+              className="inline-flex items-center justify-center gap-2 px-4 h-10 rounded-sm bg-card border border-border text-foreground hover:border-foreground/40 transition-all text-xs font-mono font-medium"
             >
               <svg
                 aria-hidden="true"
@@ -205,28 +203,28 @@ export const HeroSection = () => {
           </div>
 
           {/* Technical Specs Strip */}
-          <div className="pt-8 mt-2 border-t border-neutral-300 dark:border-neutral-800 grid grid-cols-3 gap-6 font-mono text-xs">
+          <div className="pt-8 mt-2 border-t border-border grid grid-cols-3 gap-6 font-mono text-xs">
             <div className="flex flex-col gap-1">
-              <span className="text-[11px] text-neutral-500 uppercase tracking-wider">
+              <span className="text-[11px] text-muted-foreground uppercase tracking-wider">
                 SDK Package
               </span>
-              <span className="font-semibold text-neutral-900 dark:text-white">
+              <span className="font-semibold text-foreground">
                 @authspherejs/sdk
               </span>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-[11px] text-neutral-500 uppercase tracking-wider">
+              <span className="text-[11px] text-muted-foreground uppercase tracking-wider">
                 Token Format
               </span>
-              <span className="font-semibold text-neutral-900 dark:text-white">
+              <span className="font-semibold text-foreground">
                 HMAC-SHA256 (HS256)
               </span>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-[11px] text-neutral-500 uppercase tracking-wider">
+              <span className="text-[11px] text-muted-foreground uppercase tracking-wider">
                 License
               </span>
-              <span className="font-semibold text-neutral-900 dark:text-white">
+              <span className="font-semibold text-foreground">
                 MIT Open Source
               </span>
             </div>
@@ -244,7 +242,7 @@ export const HeroSection = () => {
             >
               {/* Radar Circles and Crosshair Axes */}
               <circle
-                className="stroke-neutral-300 dark:stroke-neutral-800"
+                className="stroke-border"
                 cx="260"
                 cy="260"
                 r="200"
@@ -252,14 +250,14 @@ export const HeroSection = () => {
                 strokeWidth="1"
               />
               <circle
-                className="stroke-neutral-300 dark:stroke-neutral-800"
+                className="stroke-border"
                 cx="260"
                 cy="260"
                 r="130"
                 strokeWidth="0.75"
               />
               <line
-                className="stroke-neutral-300 dark:stroke-neutral-800"
+                className="stroke-border"
                 strokeWidth="0.75"
                 x1="260"
                 x2="260"
@@ -267,7 +265,7 @@ export const HeroSection = () => {
                 y2="490"
               />
               <line
-                className="stroke-neutral-300 dark:stroke-neutral-800"
+                className="stroke-border"
                 strokeWidth="0.75"
                 x1="30"
                 x2="490"
@@ -278,7 +276,7 @@ export const HeroSection = () => {
               {/* Rotating Faceted Polyhedron */}
               <g>
                 <polygon
-                  className="fill-neutral-900 dark:fill-white stroke-neutral-900 dark:stroke-white"
+                  className="fill-primary stroke-primary"
                   points="260,70 430,170 380,360 260,260"
                   strokeWidth="1.5"
                 >
@@ -292,7 +290,7 @@ export const HeroSection = () => {
                   />
                 </polygon>
                 <polygon
-                  className="fill-neutral-300 dark:fill-neutral-800 stroke-neutral-900 dark:stroke-neutral-700"
+                  className="fill-muted stroke-border"
                   points="260,70 90,170 140,360 260,260"
                   strokeWidth="1.5"
                 >
@@ -306,7 +304,7 @@ export const HeroSection = () => {
                   />
                 </polygon>
                 <polygon
-                  className="fill-neutral-100 dark:fill-neutral-900 stroke-neutral-900 dark:stroke-neutral-800"
+                  className="fill-muted/50 stroke-border"
                   points="140,360 260,450 380,360 260,260"
                   strokeWidth="1.5"
                 >
@@ -324,7 +322,7 @@ export const HeroSection = () => {
               {/* Counter-Rotating Wireframe Hexagon */}
               <g>
                 <polygon
-                  className="stroke-neutral-900 dark:stroke-white"
+                  className="stroke-foreground"
                   fill="none"
                   points="260,150 360,210 360,310 260,370 160,310 160,210"
                   strokeWidth="1.5"
@@ -342,7 +340,7 @@ export const HeroSection = () => {
 
               {/* Technical Precision Annotations */}
               <text
-                className="fill-neutral-500 dark:fill-neutral-400 font-mono text-[10px]"
+                className="fill-muted-foreground font-mono text-[10px]"
                 letterSpacing="1.5"
                 x="32"
                 y="50"
@@ -350,7 +348,7 @@ export const HeroSection = () => {
                 ENFORCED_STATE::S256
               </text>
               <text
-                className="fill-neutral-500 dark:fill-neutral-400 font-mono text-[10px]"
+                className="fill-muted-foreground font-mono text-[10px]"
                 letterSpacing="1.5"
                 textAnchor="end"
                 x="488"
@@ -359,7 +357,7 @@ export const HeroSection = () => {
                 HASHING::BCRYPT_10_SALT
               </text>
               <text
-                className="fill-neutral-500 dark:fill-neutral-400 font-mono text-[9px]"
+                className="fill-muted-foreground font-mono text-[9px]"
                 letterSpacing="1"
                 x="32"
                 y="475"
@@ -367,7 +365,7 @@ export const HeroSection = () => {
                 SPEC::RFC_7636
               </text>
               <text
-                className="fill-neutral-500 dark:fill-neutral-400 font-mono text-[9px]"
+                className="fill-muted-foreground font-mono text-[9px]"
                 letterSpacing="1.5"
                 textAnchor="end"
                 x="488"

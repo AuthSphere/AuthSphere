@@ -133,8 +133,8 @@ const ProjectUsersCard = ({ projectId }) => {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-24 gap-3">
-        <div className="w-8 h-8 border-2 border-neutral-300 dark:border-neutral-700 border-t-black dark:border-t-white rounded-full animate-spin mb-2" />
-        <p className="font-mono text-xs text-neutral-500 dark:text-neutral-400">
+        <div className="w-8 h-8 border-2 border-border border-t-primary rounded-full animate-spin mb-2" />
+        <p className="font-mono text-xs text-muted-foreground">
           QUERYING DIRECTORY USERS...
         </p>
       </div>
@@ -148,16 +148,16 @@ const ProjectUsersCard = ({ projectId }) => {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="font-mono text-[11px] text-neutral-500 dark:text-neutral-400 uppercase tracking-widest flex items-center">
+            <span className="font-mono text-[11px] text-muted-foreground uppercase tracking-widest flex items-center">
               <span>02</span>
               <TechSeparator />
               <span>USER DIRECTORY &amp; RBAC</span>
             </span>
           </div>
-          <h2 className="text-xl font-bold tracking-tight text-neutral-900 dark:text-white">
+          <h2 className="text-xl font-bold tracking-tight text-foreground">
             Identity Directory Management
           </h2>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-0.5">
+          <p className="text-xs text-muted-foreground mt-0.5">
             Audit registered identities, grant verified credentials, and enforce
             access blocks.
           </p>
@@ -166,10 +166,10 @@ const ProjectUsersCard = ({ projectId }) => {
         {/* Search & Actions */}
         <div className="flex items-center gap-2.5">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
             <Input
               placeholder="Search user or email..."
-              className="pl-9 h-9 w-60 sm:w-68 font-mono text-xs border-[#eaeaea] dark:border-[#26262b] bg-white dark:bg-[#121316] placeholder:text-neutral-400"
+              className="pl-9 h-9 w-60 sm:w-68 font-mono text-xs border-input bg-background placeholder:text-muted-foreground text-foreground"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -177,7 +177,7 @@ const ProjectUsersCard = ({ projectId }) => {
           <Button
             variant="outline"
             size="icon"
-            className="h-9 w-9 border-[#eaeaea] dark:border-[#26262b] bg-white dark:bg-[#121316] hover:bg-neutral-100 dark:hover:bg-[#1a1b22] text-neutral-900 dark:text-white cursor-pointer"
+            className="h-9 w-9 border-border bg-card hover:bg-accent text-foreground cursor-pointer"
             onClick={fetchUsers}
             title="Refresh directory"
           >
@@ -195,7 +195,7 @@ const ProjectUsersCard = ({ projectId }) => {
             value: users.length,
             desc: "Active user records enrolled",
             icon: Users,
-            color: "text-neutral-900 dark:text-white",
+            color: "text-foreground",
           },
           {
             index: "02",
@@ -211,24 +211,25 @@ const ProjectUsersCard = ({ projectId }) => {
             value: blockedCount,
             desc: "Prohibited by firewall policy",
             icon: Ban,
-            color: blockedCount > 0 ? "text-red-500" : "text-neutral-400",
+            color:
+              blockedCount > 0 ? "text-destructive" : "text-muted-foreground",
           },
         ].map((m) => (
           <div
             key={m.index}
-            className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl p-5 shadow-xs flex flex-col justify-between"
+            className="border border-border bg-card text-card-foreground rounded-xl p-5 shadow-xs flex flex-col justify-between"
           >
             <div className="flex items-center justify-between font-mono text-xs">
-              <span className="text-[10px] text-neutral-400 tracking-wider">
+              <span className="text-[10px] text-muted-foreground tracking-wider">
                 {m.index} // {m.label}
               </span>
               <m.icon className={`h-4 w-4 ${m.color}`} />
             </div>
             <div className="mt-3">
-              <span className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-neutral-900 dark:text-white">
+              <span className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-foreground">
                 {m.value}
               </span>
-              <p className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 mt-1">
+              <p className="text-[11px] font-mono text-muted-foreground mt-1">
                 {m.desc}
               </p>
             </div>
@@ -237,23 +238,23 @@ const ProjectUsersCard = ({ projectId }) => {
       </div>
 
       {/* ─── USERS DIRECTORY TABLE ─── */}
-      <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
-        <div className="px-5 py-3 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
-          <span className="font-semibold text-neutral-800 dark:text-neutral-200">
+      <div className="border border-border bg-card text-card-foreground rounded-xl shadow-xs overflow-hidden">
+        <div className="px-5 py-3 border-b border-border flex items-center justify-between text-xs font-mono bg-muted/50">
+          <span className="font-semibold text-foreground">
             REGISTERED PRINCIPALS ({filteredUsers.length})
           </span>
-          <span className="text-[10px] text-neutral-500">
+          <span className="text-[10px] text-muted-foreground">
             SPEC: SCIM / OIDC
           </span>
         </div>
 
         {users.length === 0 ? (
           <div className="text-center py-16 px-4">
-            <Users className="h-10 w-10 mx-auto mb-3 text-neutral-300 dark:text-neutral-700" />
-            <h3 className="font-bold text-base text-neutral-900 dark:text-white mb-1">
+            <Users className="h-10 w-10 mx-auto mb-3 text-muted-foreground/40" />
+            <h3 className="font-bold text-base text-foreground mb-1">
               Empty Identity Directory
             </h3>
-            <p className="text-xs font-mono text-neutral-500 max-w-sm mx-auto">
+            <p className="text-xs font-mono text-muted-foreground max-w-sm mx-auto">
               Users will appear in this registry once they authenticate through
               your connected providers or passwordless flow.
             </p>
@@ -262,7 +263,7 @@ const ProjectUsersCard = ({ projectId }) => {
           <div className="overflow-x-auto">
             <table className="w-full text-left font-mono text-xs">
               <thead>
-                <tr className="border-b border-[#eaeaea] dark:border-[#222329] text-[11px] text-neutral-500 dark:text-neutral-400 bg-neutral-50/40 dark:bg-[#14151a]/40">
+                <tr className="border-b border-border text-[11px] text-muted-foreground bg-muted/30">
                   <th className="px-6 py-3 font-semibold uppercase">
                     Principal User
                   </th>
@@ -280,34 +281,34 @@ const ProjectUsersCard = ({ projectId }) => {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#eaeaea] dark:divide-[#222329]">
+              <tbody className="divide-y divide-border">
                 {filteredUsers.map((user) => (
                   <tr
                     key={user._id}
-                    className={`hover:bg-neutral-50/80 dark:hover:bg-[#16171e] transition-colors ${
-                      user.isBlocked ? "opacity-60 bg-red-50/10" : ""
+                    className={`hover:bg-muted/40 transition-colors ${
+                      user.isBlocked ? "opacity-60 bg-destructive/10" : ""
                     }`}
                   >
                     {/* User Identity */}
                     <td className="px-6 py-3.5">
                       <div className="flex items-center gap-3">
-                        <Avatar className="h-8 w-8 rounded-lg border border-[#eaeaea] dark:border-[#26262b]">
+                        <Avatar className="h-8 w-8 rounded-lg border border-border">
                           <AvatarImage
                             src={
                               user.picture ||
                               `https://api.dicebear.com/7.x/initials/svg?seed=${user.email}`
                             }
                           />
-                          <AvatarFallback className="bg-neutral-100 dark:bg-[#181920] text-neutral-900 dark:text-white text-xs font-bold rounded-lg">
+                          <AvatarFallback className="bg-muted text-foreground text-xs font-bold rounded-lg">
                             {user.username?.substring(0, 2).toUpperCase() ||
                               "??"}
                           </AvatarFallback>
                         </Avatar>
                         <div className="min-w-0">
-                          <p className="text-xs font-semibold text-neutral-900 dark:text-white truncate font-sans">
+                          <p className="text-xs font-semibold text-foreground truncate font-sans">
                             {user.username || "Anonymous User"}
                           </p>
-                          <p className="text-[11px] text-neutral-500 font-mono truncate max-w-56">
+                          <p className="text-[11px] text-muted-foreground font-mono truncate max-w-56">
                             {user.email}
                           </p>
                         </div>
@@ -327,7 +328,7 @@ const ProjectUsersCard = ({ projectId }) => {
                           </span>
                         )}
                         {user.isBlocked && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold border border-red-500/20 bg-red-500/10 text-red-600 dark:text-red-400">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold border border-destructive/20 bg-destructive/10 text-destructive">
                             <Ban className="h-3 w-3" /> BLOCKED
                           </span>
                         )}
@@ -336,34 +337,34 @@ const ProjectUsersCard = ({ projectId }) => {
 
                     {/* Provider */}
                     <td className="px-4 py-3.5">
-                      <span className="px-2 py-0.5 rounded border border-[#eaeaea] dark:border-[#26262b] bg-neutral-100 dark:bg-[#16171d] text-neutral-700 dark:text-neutral-300 text-[10px] uppercase font-semibold">
+                      <span className="px-2 py-0.5 rounded border border-border bg-muted text-foreground text-[10px] uppercase font-semibold">
                         {user.provider || "LOCAL"}
                       </span>
                     </td>
 
                     {/* Joined Date */}
-                    <td className="px-4 py-3.5 text-neutral-500 dark:text-neutral-400 text-[11px]">
+                    <td className="px-4 py-3.5 text-muted-foreground text-[11px]">
                       {format(new Date(user.createdAt), "yyyy-MM-dd")}
                     </td>
 
                     {/* Actions Dropdown */}
                     <td className="px-6 py-3.5 text-right">
                       {actionLoading === user._id ? (
-                        <div className="w-4 h-4 border-2 border-neutral-300 border-t-black dark:border-t-white rounded-full animate-spin ml-auto" />
+                        <div className="w-4 h-4 border-2 border-border border-t-primary rounded-full animate-spin ml-auto" />
                       ) : (
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-8 w-8 text-neutral-500 hover:text-black dark:hover:text-white cursor-pointer"
+                              className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer"
                             >
                               <MoreVertical className="h-3.5 w-3.5" />
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent
                             align="end"
-                            className="w-48 font-mono text-xs border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316]"
+                            className="w-48 font-mono text-xs border border-border bg-popover text-popover-foreground"
                           >
                             <DropdownMenuItem
                               onClick={() => handleToggleVerify(user._id)}
@@ -392,21 +393,21 @@ const ProjectUsersCard = ({ projectId }) => {
                               )}
                             </DropdownMenuItem>
 
-                            <DropdownMenuSeparator className="bg-[#eaeaea] dark:bg-[#222329]" />
+                            <DropdownMenuSeparator className="bg-border" />
 
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
-                                <div className="flex items-center gap-2 px-2 py-1.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 rounded cursor-pointer">
+                                <div className="flex items-center gap-2 px-2 py-1.5 text-destructive hover:bg-destructive/10 rounded cursor-pointer">
                                   <Trash2 className="h-3.5 w-3.5" />
                                   <span>Purge User Record</span>
                                 </div>
                               </AlertDialogTrigger>
-                              <AlertDialogContent className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#0c0d10] font-mono text-xs">
+                              <AlertDialogContent className="border border-border bg-card text-card-foreground font-mono text-xs">
                                 <AlertDialogHeader>
-                                  <AlertDialogTitle className="text-base text-neutral-900 dark:text-white">
+                                  <AlertDialogTitle className="text-base text-foreground">
                                     Purge User Account?
                                   </AlertDialogTitle>
-                                  <AlertDialogDescription className="text-neutral-500">
+                                  <AlertDialogDescription className="text-muted-foreground">
                                     This action permanently deletes the user's
                                     sessions and identity records from the
                                     namespace. This operation cannot be
@@ -417,7 +418,7 @@ const ProjectUsersCard = ({ projectId }) => {
                                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                                   <AlertDialogAction
                                     onClick={() => handleDelete(user._id)}
-                                    className="bg-red-600 hover:bg-red-700 text-white"
+                                    className="bg-destructive hover:bg-destructive/90 text-destructive-foreground"
                                   >
                                     Confirm Purge
                                   </AlertDialogAction>

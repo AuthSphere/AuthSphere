@@ -128,7 +128,7 @@ export function App() {
                 variant="outline"
                 size="sm"
                 disabled={rotating}
-                className="h-8 px-3 font-mono text-xs gap-2 text-red-600 dark:text-red-400 border-red-200 dark:border-red-900/50 hover:bg-red-50 dark:hover:bg-red-950/30 cursor-pointer self-start sm:self-auto"
+                className="h-8 px-3 font-mono text-xs gap-2 text-destructive border-destructive/30 hover:bg-destructive/10 cursor-pointer self-start sm:self-auto"
               >
                 <RefreshCw
                   className={`h-3 w-3 ${rotating ? "animate-spin" : ""}`}
@@ -136,15 +136,15 @@ export function App() {
                 <span>Rotate Keys</span>
               </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#0c0d10]">
+            <AlertDialogContent className="border border-border bg-card text-card-foreground">
               <AlertDialogHeader>
-                <div className="h-12 w-12 rounded-xl bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 flex items-center justify-center mx-auto mb-3">
+                <div className="h-12 w-12 rounded-xl bg-destructive/10 text-destructive flex items-center justify-center mx-auto mb-3">
                   <AlertTriangle className="h-6 w-6" />
                 </div>
-                <AlertDialogTitle className="text-center font-bold text-lg text-neutral-900 dark:text-white">
+                <AlertDialogTitle className="text-center font-bold text-lg text-foreground">
                   Rotate API Keys?
                 </AlertDialogTitle>
-                <AlertDialogDescription className="text-center text-xs font-mono text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                <AlertDialogDescription className="text-center text-xs font-mono text-muted-foreground leading-relaxed">
                   This will immediately revoke and invalidate the active public
                   key and regenerate cryptographic signing credentials. Existing
                   client sessions and integrated SDK instances must be updated
@@ -157,7 +157,7 @@ export function App() {
                 </AlertDialogCancel>
                 <AlertDialogAction
                   onClick={handleRotateKeys}
-                  className="font-mono text-xs bg-red-600 hover:bg-red-700 text-white"
+                  className="font-mono text-xs bg-destructive hover:bg-destructive/90 text-destructive-foreground"
                 >
                   Confirm Key Rotation
                 </AlertDialogAction>
@@ -169,10 +169,10 @@ export function App() {
         {/* ─── GRID: CLIENT ID & API REFERENCE ─── */}
         <div className="grid md:grid-cols-2 gap-5">
           {/* Card 1: Credentials */}
-          <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden flex flex-col justify-between">
-            <div className="px-5 py-3 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
-              <span className="font-semibold text-neutral-800 dark:text-neutral-200 flex items-center gap-1.5">
-                <KeyRound className="h-3.5 w-3.5 text-neutral-400" />
+          <div className="border border-border bg-card text-card-foreground rounded-xl shadow-xs overflow-hidden flex flex-col justify-between">
+            <div className="px-5 py-3 border-b border-border flex items-center justify-between text-xs font-mono bg-muted/50">
+              <span className="font-semibold text-foreground flex items-center gap-1.5">
+                <KeyRound className="h-3.5 w-3.5 text-muted-foreground" />
                 <span>ACTIVE CREDENTIALS</span>
               </span>
               <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold px-2 py-0.5 rounded border border-emerald-500/20 bg-emerald-500/10">
@@ -184,18 +184,20 @@ export function App() {
               {/* Public Key (Client ID) */}
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between text-xs font-mono">
-                  <span className="text-neutral-500 dark:text-neutral-400">
+                  <span className="text-muted-foreground">
                     PUBLIC_KEY (CLIENT_ID)
                   </span>
-                  <span className="text-[10px] text-neutral-400">HS256</span>
+                  <span className="text-[10px] text-muted-foreground">
+                    HS256
+                  </span>
                 </div>
-                <div className="flex items-center justify-between p-2.5 bg-neutral-50 dark:bg-[#181920] rounded-lg border border-[#eaeaea] dark:border-[#26262b] font-mono text-xs">
-                  <span className="text-neutral-900 dark:text-neutral-200 truncate select-all">
+                <div className="flex items-center justify-between p-2.5 bg-muted/60 rounded-lg border border-border font-mono text-xs">
+                  <span className="text-foreground truncate select-all">
                     {project.publicKey}
                   </span>
                   <button
                     onClick={() => handleCopy(project.publicKey, setCopiedKey)}
-                    className="p-1 hover:bg-neutral-200 dark:hover:bg-neutral-800 rounded transition-colors text-neutral-500 dark:text-neutral-400 ml-2 shrink-0 cursor-pointer"
+                    className="p-1 hover:bg-muted rounded transition-colors text-muted-foreground hover:text-foreground ml-2 shrink-0 cursor-pointer"
                     title="Copy Public Key"
                   >
                     {copiedKey ? (
@@ -210,17 +212,17 @@ export function App() {
               {/* Project ID */}
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between text-xs font-mono">
-                  <span className="text-neutral-500 dark:text-neutral-400">
+                  <span className="text-muted-foreground">
                     PROJECT_ID (NAMESPACE)
                   </span>
                 </div>
-                <div className="flex items-center justify-between p-2.5 bg-neutral-50 dark:bg-[#181920] rounded-lg border border-[#eaeaea] dark:border-[#26262b] font-mono text-xs">
-                  <span className="text-neutral-900 dark:text-neutral-200 truncate select-all">
+                <div className="flex items-center justify-between p-2.5 bg-muted/60 rounded-lg border border-border font-mono text-xs">
+                  <span className="text-foreground truncate select-all">
                     {project._id}
                   </span>
                   <button
                     onClick={() => handleCopy(project._id, setCopiedId)}
-                    className="p-1 hover:bg-neutral-200 dark:hover:bg-neutral-800 rounded transition-colors text-neutral-500 dark:text-neutral-400 ml-2 shrink-0 cursor-pointer"
+                    className="p-1 hover:bg-muted rounded transition-colors text-muted-foreground hover:text-foreground ml-2 shrink-0 cursor-pointer"
                     title="Copy Project ID"
                   >
                     {copiedId ? (
@@ -233,44 +235,44 @@ export function App() {
               </div>
             </div>
 
-            <div className="px-5 py-2.5 border-t border-[#eaeaea] dark:border-[#222329] bg-neutral-50/50 dark:bg-[#14151a]/50 text-[11px] font-mono text-neutral-500 dark:text-neutral-400">
+            <div className="px-5 py-2.5 border-t border-border bg-muted/30 text-[11px] font-mono text-muted-foreground">
               Validated against RFC 7636 PKCE S256 handshake.
             </div>
           </div>
 
           {/* Card 2: Discovery Endpoints */}
-          <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden flex flex-col justify-between">
-            <div className="px-5 py-3 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
-              <span className="font-semibold text-neutral-800 dark:text-neutral-200 flex items-center gap-1.5">
-                <Globe className="h-3.5 w-3.5 text-neutral-400" />
+          <div className="border border-border bg-card text-card-foreground rounded-xl shadow-xs overflow-hidden flex flex-col justify-between">
+            <div className="px-5 py-3 border-b border-border flex items-center justify-between text-xs font-mono bg-muted/50">
+              <span className="font-semibold text-foreground flex items-center gap-1.5">
+                <Globe className="h-3.5 w-3.5 text-muted-foreground" />
                 <span>OIDC PROTOCOL ENDPOINTS</span>
               </span>
-              <span className="text-[10px] text-neutral-500 font-mono">
+              <span className="text-[10px] text-muted-foreground font-mono">
                 PORT 443
               </span>
             </div>
 
             <div className="p-5 space-y-4">
               <div className="space-y-1.5">
-                <span className="text-xs font-mono text-neutral-500 dark:text-neutral-400">
+                <span className="text-xs font-mono text-muted-foreground">
                   BASE AUTH URL
                 </span>
-                <code className="block text-xs font-mono text-neutral-900 dark:text-neutral-200 bg-neutral-50 dark:bg-[#181920] p-2.5 rounded-lg border border-[#eaeaea] dark:border-[#26262b] truncate">
+                <code className="block text-xs font-mono text-foreground bg-muted/60 p-2.5 rounded-lg border border-border truncate">
                   {window.location.origin}/api/v1/auth
                 </code>
               </div>
 
               <div className="space-y-1.5">
-                <span className="text-xs font-mono text-neutral-500 dark:text-neutral-400">
+                <span className="text-xs font-mono text-muted-foreground">
                   OPENID DISCOVERY MANIFEST
                 </span>
-                <code className="block text-xs font-mono text-neutral-900 dark:text-neutral-200 bg-neutral-50 dark:bg-[#181920] p-2.5 rounded-lg border border-[#eaeaea] dark:border-[#26262b] truncate">
+                <code className="block text-xs font-mono text-foreground bg-muted/60 p-2.5 rounded-lg border border-border truncate">
                   /.well-known/openid-configuration
                 </code>
               </div>
             </div>
 
-            <div className="px-5 py-2.5 border-t border-[#eaeaea] dark:border-[#222329] bg-neutral-50/50 dark:bg-[#14151a]/50 text-[11px] font-mono text-neutral-500 dark:text-neutral-400 flex items-center justify-between">
+            <div className="px-5 py-2.5 border-t border-border bg-muted/30 text-[11px] font-mono text-muted-foreground flex items-center justify-between">
               <span>ALGORITHM: HS256</span>
               <span>FORMAT: JWT</span>
             </div>
@@ -278,10 +280,10 @@ export function App() {
         </div>
 
         {/* ─── ENVIRONMENT VARIABLES HELPER ─── */}
-        <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
-          <div className="px-5 py-3 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
-            <span className="font-semibold text-neutral-800 dark:text-neutral-200 flex items-center gap-2">
-              <Code2 className="h-3.5 w-3.5 text-neutral-400" />
+        <div className="border border-border bg-card text-card-foreground rounded-xl shadow-xs overflow-hidden">
+          <div className="px-5 py-3 border-b border-border flex items-center justify-between text-xs font-mono bg-muted/50">
+            <span className="font-semibold text-foreground flex items-center gap-2">
+              <Code2 className="h-3.5 w-3.5 text-muted-foreground" />
               <span>ENVIRONMENT VARIABLES (.env)</span>
             </span>
             <button
@@ -291,7 +293,7 @@ export function App() {
                   setCopiedEnv,
                 )
               }
-              className="inline-flex items-center gap-1.5 text-[11px] font-mono text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground hover:text-foreground cursor-pointer"
             >
               {copiedEnv ? (
                 <>
@@ -331,11 +333,11 @@ export function App() {
         </div>
 
         {/* ─── QUICK INTEGRATION SDK HUB ─── */}
-        <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
-          <div className="px-5 py-3 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
+        <div className="border border-border bg-card text-card-foreground rounded-xl shadow-xs overflow-hidden">
+          <div className="px-5 py-3 border-b border-border flex items-center justify-between text-xs font-mono bg-muted/50">
             <div className="flex items-center gap-2">
-              <TerminalIcon className="h-3.5 w-3.5 text-neutral-400" />
-              <span className="font-semibold text-neutral-800 dark:text-neutral-200">
+              <TerminalIcon className="h-3.5 w-3.5 text-muted-foreground" />
+              <span className="font-semibold text-foreground">
                 CLIENT INTEGRATION SUITE
               </span>
             </div>
@@ -347,8 +349,8 @@ export function App() {
                   onClick={() => setCodeTab(tab)}
                   className={`px-2.5 py-1 rounded text-[11px] font-mono transition-colors cursor-pointer uppercase ${
                     codeTab === tab
-                      ? "bg-neutral-900 text-white dark:bg-white dark:text-black font-semibold"
-                      : "text-neutral-500 hover:text-neutral-900 dark:hover:text-white"
+                      ? "bg-primary text-primary-foreground font-semibold"
+                      : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   {tab}
@@ -381,9 +383,9 @@ export function App() {
       {/* ─── SIDEBAR COLUMN ─── */}
       <aside className="w-full lg:w-72 shrink-0 space-y-5 lg:sticky lg:top-24">
         {/* Runtime Checklist */}
-        <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
-          <div className="px-4 py-3 border-b border-[#eaeaea] dark:border-[#222329] flex items-center justify-between text-xs font-mono bg-neutral-50/70 dark:bg-[#14151a]">
-            <span className="font-semibold text-neutral-800 dark:text-neutral-200 flex items-center gap-1.5">
+        <div className="border border-border bg-card text-card-foreground rounded-xl shadow-xs overflow-hidden">
+          <div className="px-4 py-3 border-b border-border flex items-center justify-between text-xs font-mono bg-muted/50">
+            <span className="font-semibold text-foreground flex items-center gap-1.5">
               <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
               <span>RUNTIME STATUS</span>
             </span>
@@ -392,16 +394,14 @@ export function App() {
 
           <div className="p-4 space-y-3.5">
             <div className="flex items-center justify-between text-xs font-mono">
-              <span className="text-neutral-500">ENVIRONMENT</span>
-              <span className="font-semibold text-neutral-900 dark:text-white">
-                PRODUCTION
-              </span>
+              <span className="text-muted-foreground">ENVIRONMENT</span>
+              <span className="font-semibold text-foreground">PRODUCTION</span>
             </div>
 
-            <div className="h-px bg-[#eaeaea] dark:bg-[#222329]" />
+            <div className="h-px bg-border" />
 
             <div>
-              <p className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 mb-2 uppercase">
+              <p className="text-[11px] font-mono text-muted-foreground mb-2 uppercase">
                 ACTIVE PROVIDERS ({project.providers?.length || 0})
               </p>
               <div className="flex flex-wrap gap-1.5">
@@ -412,7 +412,7 @@ export function App() {
                   return (
                     <div
                       key={providerId}
-                      className="h-7 px-2 rounded-md border border-[#eaeaea] dark:border-[#26262b] bg-neutral-50 dark:bg-[#181920] flex items-center gap-1.5 text-[11px] font-mono text-neutral-800 dark:text-neutral-200"
+                      className="h-7 px-2 rounded-md border border-border bg-muted/60 flex items-center gap-1.5 text-[11px] font-mono text-foreground"
                       title={p?.name || providerId}
                     >
                       {p?.logo && (
@@ -432,8 +432,8 @@ export function App() {
         </div>
 
         {/* Verification Checklist */}
-        <div className="border border-[#eaeaea] dark:border-[#222329] bg-white dark:bg-[#121316] rounded-xl shadow-xs overflow-hidden">
-          <div className="px-4 py-3 border-b border-[#eaeaea] dark:border-[#222329] text-xs font-mono font-semibold text-neutral-800 dark:text-neutral-200 bg-neutral-50/70 dark:bg-[#14151a]">
+        <div className="border border-border bg-card text-card-foreground rounded-xl shadow-xs overflow-hidden">
+          <div className="px-4 py-3 border-b border-border text-xs font-mono font-semibold text-foreground bg-muted/50">
             PRE-FLIGHT CHECKLIST
           </div>
           <div className="p-4 space-y-2.5 font-mono text-xs">
@@ -459,13 +459,11 @@ export function App() {
                 {item.status ? (
                   <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
                 ) : (
-                  <div className="h-3.5 w-3.5 rounded-full border border-dashed border-neutral-400 shrink-0" />
+                  <div className="h-3.5 w-3.5 rounded-full border border-dashed border-muted-foreground shrink-0" />
                 )}
                 <span
                   className={
-                    item.status
-                      ? "text-neutral-900 dark:text-neutral-200"
-                      : "text-neutral-400"
+                    item.status ? "text-foreground" : "text-muted-foreground"
                   }
                 >
                   {item.label}
@@ -477,11 +475,11 @@ export function App() {
 
         {/* Security Advisory */}
         <div className="p-4 rounded-xl border border-amber-500/20 bg-amber-500/5 text-xs font-mono space-y-1.5">
-          <div className="flex items-center gap-1.5 text-amber-700 dark:text-amber-400 font-semibold">
+          <div className="flex items-center gap-1.5 text-amber-600 dark:text-amber-400 font-semibold">
             <Lock className="h-3.5 w-3.5" />
             <span>SECURITY ADVISORY</span>
           </div>
-          <p className="text-[11px] text-neutral-600 dark:text-neutral-400 leading-relaxed">
+          <p className="text-[11px] text-muted-foreground leading-relaxed">
             Never expose secret tokens in front-end repositories. AuthSphere
             PKCE ensures client keys can safely initiate auth flows without
             secrets.

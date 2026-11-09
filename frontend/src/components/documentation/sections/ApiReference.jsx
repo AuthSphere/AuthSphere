@@ -263,20 +263,20 @@ const ApiReference = () => {
   ];
 
   return (
-    <article className="space-y-8 text-neutral-900 dark:text-neutral-100 font-sans">
+    <article className="space-y-8 text-foreground font-sans">
       {/* Eyebrow Header */}
-      <div className="border-b border-neutral-200 dark:border-[#222329] pb-4 space-y-2">
-        <div className="flex items-center text-xs font-mono text-neutral-500 uppercase tracking-widest">
+      <div className="border-b border-border pb-4 space-y-2">
+        <div className="flex items-center text-xs font-mono text-muted-foreground uppercase tracking-widest">
           <span>09</span>
           <TechSeparator />
           <span>TECHNICAL SPECIFICATION</span>
           <TechSeparator />
           <span>API &amp; SDK REFERENCE</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
           SDK &amp; REST API Reference
         </h1>
-        <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed max-w-3xl">
+        <p className="text-xs sm:text-sm text-muted-foreground font-mono leading-relaxed max-w-3xl">
           Deterministic method signatures, HTTP request headers, query
           parameters, and JSON payloads for client and server integrations.
         </p>
@@ -286,24 +286,24 @@ const ApiReference = () => {
         {/* SDK Methods */}
         <section className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold text-neutral-500">
+            <span className="text-xs font-mono font-bold text-muted-foreground">
               [01]
             </span>
-            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-foreground">
               Client SDK Methods
             </h2>
           </div>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed">
             All methods are exposed on the primary <code>AuthSphere</code>{" "}
             singleton.
           </p>
 
-          <div className="rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] divide-y divide-neutral-200/60 dark:divide-[#1e2026] overflow-hidden">
+          <div className="rounded-xl border border-border bg-card divide-y divide-border overflow-hidden">
             {sdkMethods.map((m, idx) => (
               <div key={idx} className="p-5 space-y-3">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
+                    <span className="font-mono text-xs font-bold text-foreground">
                       {m.name}
                     </span>
                   </div>
@@ -312,17 +312,17 @@ const ApiReference = () => {
                   </span>
                 </div>
 
-                <div className="bg-neutral-50 dark:bg-[#181920] px-3 py-1.5 rounded border border-neutral-200 dark:border-[#25262f] font-mono text-[11px] text-neutral-700 dark:text-neutral-300">
+                <div className="bg-muted/40 px-3 py-1.5 rounded border border-border font-mono text-[11px] text-foreground">
                   <code>{m.signature}</code>
                 </div>
 
-                <p className="text-xs text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed">
+                <p className="text-xs text-muted-foreground font-sans leading-relaxed">
                   {m.desc}
                 </p>
 
                 {m.params.length > 0 && (
                   <div className="pt-1 space-y-1.5">
-                    <span className="text-[10px] font-mono font-bold uppercase text-neutral-400 tracking-wider">
+                    <span className="text-[10px] font-mono font-bold uppercase text-muted-foreground tracking-wider">
                       Parameters
                     </span>
                     <div className="space-y-1">
@@ -331,13 +331,13 @@ const ApiReference = () => {
                           key={pIdx}
                           className="text-xs font-mono flex items-start gap-2"
                         >
-                          <span className="font-semibold text-neutral-900 dark:text-white">
+                          <span className="font-semibold text-foreground">
                             {p.name}
                           </span>
-                          <span className="text-[11px] text-neutral-400">
+                          <span className="text-[11px] text-muted-foreground">
                             ({p.type})
                           </span>
-                          <span className="text-neutral-500 dark:text-neutral-400 font-sans text-[11px]">
+                          <span className="text-muted-foreground font-sans text-[11px]">
                             — {p.desc}
                           </span>
                         </div>
@@ -350,17 +350,16 @@ const ApiReference = () => {
           </div>
         </section>
 
-        {/* REST Endpoints */}
         <section className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold text-neutral-500">
+            <span className="text-xs font-mono font-bold text-muted-foreground">
               [02]
             </span>
-            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-foreground">
               Direct REST Endpoints
             </h2>
           </div>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 font-mono leading-relaxed">
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed">
             If you are building custom clients (e.g. Flutter, Go, Rust, React
             Native) without the official JavaScript SDK, you can interact
             directly with the following HTTP endpoints:
@@ -370,9 +369,9 @@ const ApiReference = () => {
             {endpoints.map((ep, idx) => (
               <div
                 key={idx}
-                className="p-5 rounded-xl border border-neutral-200 dark:border-[#222329] bg-white dark:bg-[#121316] space-y-4"
+                className="p-5 rounded-xl border border-border bg-card space-y-4"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-neutral-100 dark:border-[#1d1e24] pb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border pb-3">
                   <div className="flex items-center gap-2">
                     <span
                       className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
@@ -383,23 +382,22 @@ const ApiReference = () => {
                     >
                       {ep.method}
                     </span>
-                    <span className="font-mono text-xs font-bold text-neutral-900 dark:text-white">
+                    <span className="font-mono text-xs font-bold text-foreground">
                       {ep.path}
                     </span>
                   </div>
-                  <span className="text-xs font-sans text-neutral-500 dark:text-neutral-400">
+                  <span className="text-xs font-sans text-muted-foreground">
                     {ep.desc}
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* Left: Headers & Request Body */}
                   <div className="space-y-3">
                     <div className="space-y-1">
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 font-bold">
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground font-bold">
                         Headers
                       </span>
-                      <div className="p-2.5 rounded bg-neutral-50 dark:bg-[#181920] border border-neutral-200 dark:border-[#25262f] space-y-1 font-mono text-[11px] text-neutral-600 dark:text-neutral-400">
+                      <div className="p-2.5 rounded bg-muted/40 border border-border space-y-1 font-mono text-[11px] text-muted-foreground">
                         {ep.headers.map((h, hIdx) => (
                           <div key={hIdx}>{h}</div>
                         ))}
@@ -408,7 +406,7 @@ const ApiReference = () => {
 
                     {ep.reqBody && (
                       <div className="space-y-1">
-                        <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 font-bold">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground font-bold">
                           Request Payload
                         </span>
                         <DocsCodeBlock
@@ -420,9 +418,8 @@ const ApiReference = () => {
                     )}
                   </div>
 
-                  {/* Right: Response Body */}
                   <div className="space-y-1">
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 font-bold">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground font-bold">
                       Response (HTTP 200 OK)
                     </span>
                     <DocsCodeBlock

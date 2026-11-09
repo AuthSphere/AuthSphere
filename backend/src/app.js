@@ -159,6 +159,19 @@ app.use(
     },
   }),
 );
+// Express 5 compatibility: req.query is a getter-only property on the prototype.
+// Redefining it on the request instance makes it writable so express-mongo-sanitize can modify it.
+app.use((req, res, next) => {
+  if (req.query) {
+    Object.defineProperty(req, "query", {
+      value: { ...req.query },
+      writable: true,
+      enumerable: true,
+      configurable: true,
+    });
+  }
+  next();
+});
 app.use(mongoSanitize());
 app.use(hpp());
 
