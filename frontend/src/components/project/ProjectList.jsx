@@ -68,7 +68,7 @@ const ProjectList = () => {
           {/* Create CTA */}
           <button
             onClick={() => setCreateOpen(true)}
-            className="group relative h-full min-h-[180px] rounded-lg border border-dashed border-border hover:border-primary hover:bg-accent/40 flex flex-col items-center justify-center gap-3 transition-all duration-200 cursor-pointer p-6"
+            className="group relative h-full min-h-45 rounded-lg border border-dashed border-border hover:border-primary hover:bg-accent/40 flex flex-col items-center justify-center gap-3 transition-all duration-200 cursor-pointer p-6"
           >
             <div className="h-10 w-10 rounded border border-border bg-muted flex items-center justify-center group-hover:scale-105 transition-all text-muted-foreground group-hover:text-foreground">
               <Plus className="h-5 w-5" />
