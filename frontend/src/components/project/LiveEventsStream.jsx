@@ -108,7 +108,7 @@ const LiveEventsStream = ({ projectId }) => {
   }, [events]);
 
   return (
-    <div className="flex flex-col h-[600px] bg-black border border-[#00ff00]/20 font-mono text-sm overflow-hidden shadow-[0_0_30px_rgba(0,255,0,0.15)]">
+    <div className="flex flex-col h-150 bg-black border border-[#00ff00]/20 font-mono text-sm overflow-hidden shadow-[0_0_30px_rgba(0,255,0,0.15)]">
       {/* Terminal Header */}
       <div className="flex items-center justify-between px-3 py-2 bg-[#0a0a0a] border-b border-[#00ff00]/20">
         <div className="flex items-center gap-3">
@@ -155,20 +155,20 @@ const LiveEventsStream = ({ projectId }) => {
               >
                 <div className="flex items-start gap-2 text-xs">
                   {/* Timestamp */}
-                  <span className="text-[#00ff00]/40 shrink-0 w-[85px]">
+                  <span className="text-[#00ff00]/40 shrink-0 w-21.25">
                     [{timestamp}]
                   </span>
 
                   {/* Level */}
                   <span
-                    className="shrink-0 w-[45px] font-bold"
+                    className="shrink-0 w-11.25 font-bold"
                     style={{ color: event.color }}
                   >
                     {event.level}
                   </span>
 
                   {/* Type */}
-                  <span className="text-[#00ff00]/60 shrink-0 w-[50px]">
+                  <span className="text-[#00ff00]/60 shrink-0 w-12.5">
                     [{event.type}]
                   </span>
 
@@ -178,7 +178,7 @@ const LiveEventsStream = ({ projectId }) => {
 
                 {/* Details line */}
                 {event.details && (
-                  <div className="flex items-start gap-2 text-xs ml-[180px] mt-0.5">
+                  <div className="flex items-start gap-2 text-xs ml-45 mt-0.5">
                     <span className="text-[#00ff00]/50">└─</span>
                     <span className="text-[#00ff00]/60">{event.details}</span>
                   </div>

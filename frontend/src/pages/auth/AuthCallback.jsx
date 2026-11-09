@@ -42,7 +42,7 @@ const AuthCallback = () => {
 
         if (res.data.success) {
           setStage(3);
-          toast.success("Cryptographic handshake verified!");
+          toast.success("Authentication successful!");
           await checkAuth(true);
           setTimeout(() => {
             navigate("/dashboard");
@@ -75,12 +75,12 @@ const AuthCallback = () => {
               <span className="font-bold text-foreground">03</span>
               <TechSeparator />
               <span className="text-muted-foreground uppercase tracking-wider">
-                SESSION ENCLAVE HANDSHAKE
+                AUTHENTICATION VERIFICATION
               </span>
             </div>
             <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>MUTUAL_TLS</span>
+              <span>SECURE_SESSION</span>
             </div>
           </div>
 
@@ -90,10 +90,10 @@ const AuthCallback = () => {
                 <AuthSphereLogo className="h-7 w-auto" />
               </div>
               <h1 className="text-xl font-bold tracking-tight text-foreground">
-                Exchanging Identity Tokens
+                Completing Authentication
               </h1>
               <p className="text-xs text-muted-foreground">
-                Establishing zero-trust session with AuthSphere Core Engine...
+                Verifying your session credentials...
               </p>
             </div>
 
@@ -103,7 +103,7 @@ const AuthCallback = () => {
                 <div className="flex items-center gap-2.5">
                   <span className="text-muted-foreground">01 //</span>
                   <span className="text-foreground">
-                    INGRESS CALLBACK CAPTURE
+                    RECEIVING AUTHENTICATION RESPONSE
                   </span>
                 </div>
                 <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
@@ -120,7 +120,7 @@ const AuthCallback = () => {
                 <div className="flex items-center gap-2.5">
                   <span className="text-muted-foreground">02 //</span>
                   <span className="text-foreground">
-                    HMAC-SHA256 TOKEN VERIFY
+                    VALIDATING SECURITY TOKENS
                   </span>
                 </div>
                 {stage >= 3 ? (
@@ -140,7 +140,7 @@ const AuthCallback = () => {
                 <div className="flex items-center gap-2.5">
                   <span className="text-muted-foreground">03 //</span>
                   <span className="text-foreground">
-                    MINTING ENCLAVE SESSION
+                    ESTABLISHING USER SESSION
                   </span>
                 </div>
                 {stage >= 3 ? (
@@ -157,9 +157,9 @@ const AuthCallback = () => {
           <div className="px-5 py-2.5 border-t border-border bg-muted/50 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
             <div className="flex items-center gap-1.5">
               <Cpu className="h-3 w-3" />
-              <span>AS-CRYPTO // ENCLAVEEV_2.6</span>
+              <span>AuthSphere Session Exchange</span>
             </div>
-            <span>LATENCY: &lt; 0.8ms</span>
+            <span>Status: Active</span>
           </div>
         </div>
       </div>

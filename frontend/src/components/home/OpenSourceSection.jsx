@@ -1,4 +1,5 @@
 import React from "react";
+import { ExternalLink } from "lucide-react";
 import TechSeparator from "@/components/common/TechSeparator";
 
 export const OpenSourceSection = () => {
@@ -35,9 +36,7 @@ export const OpenSourceSection = () => {
                 target="_blank"
               >
                 <span>Explore on GitHub</span>
-                <span className="material-symbols-outlined text-[16px]">
-                  open_in_new
-                </span>
+                <ExternalLink className="h-4 w-4" />
               </a>
               <a
                 className="inline-flex items-center justify-center gap-2 px-5 h-11 rounded-md bg-card text-foreground border border-border hover:border-foreground/40 font-mono text-xs font-medium transition-all cursor-pointer"
@@ -119,7 +118,7 @@ export const OpenSourceSection = () => {
                 <span>IDENTITY SPECIFICATION</span>
                 <span className="text-emerald-500 font-medium flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  SPEC COMPLIANT
+                  STANDARDS COMPLIANT
                 </span>
               </div>
               <p className="text-[11px] text-muted-foreground leading-relaxed font-sans">

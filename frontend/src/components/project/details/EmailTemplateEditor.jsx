@@ -201,10 +201,7 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
             <div className="px-5 py-3 border-b border-border bg-muted/50 flex items-center justify-between text-xs font-mono">
               <span className="font-bold text-foreground uppercase flex items-center gap-2">
                 <Layout className="h-3.5 w-3.5 text-muted-foreground" />
-                <span>01 // BRANDING ASSETS</span>
-              </span>
-              <span className="text-muted-foreground text-[10px]">
-                VISUAL_IDENTITY
+                <span>BRANDING ASSETS</span>
               </span>
             </div>
             <div className="p-5 space-y-4">
@@ -253,10 +250,7 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
             <div className="px-5 py-3 border-b border-border bg-muted/50 flex items-center justify-between text-xs font-mono">
               <span className="font-bold text-foreground uppercase flex items-center gap-2">
                 <Type className="h-3.5 w-3.5 text-muted-foreground" />
-                <span>02 // COPY &amp; CONTENT</span>
-              </span>
-              <span className="text-muted-foreground text-[10px]">
-                PAYLOAD_TEXT
+                <span>COPY &amp; CONTENT</span>
               </span>
             </div>
             <div className="p-5 space-y-4">
@@ -297,10 +291,7 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
             <div className="px-5 py-3 border-b border-border bg-muted/50 flex items-center justify-between text-xs font-mono">
               <span className="font-bold text-foreground uppercase flex items-center gap-2">
                 <LinkIcon className="h-3.5 w-3.5 text-muted-foreground" />
-                <span>03 // LEGAL LINKS &amp; FOOTER</span>
-              </span>
-              <span className="text-muted-foreground text-[10px]">
-                COMPLIANCE
+                <span>LEGAL LINKS &amp; FOOTER</span>
               </span>
             </div>
             <div className="p-5 space-y-4">
@@ -369,7 +360,7 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
                 <div className="space-y-0.5">
                   <Label className="text-xs font-mono font-semibold text-foreground flex items-center gap-1.5">
                     <Shield className="h-3.5 w-3.5 text-emerald-500" />
-                    <span>INCLUDE CLIENT TELEMETRY</span>
+                    <span>INCLUDE REQUEST METADATA</span>
                   </Label>
                   <p className="text-[10px] text-muted-foreground">
                     Renders IP address, browser, and UTC timestamp in email
@@ -490,7 +481,7 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
                     </span>
                   </div>
                   <span className="text-[10px] font-mono font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
-                    ENCLAVE SECURED
+                    SECURE VERIFICATION
                   </span>
                 </div>
 
@@ -514,10 +505,10 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
                       482 910
                     </div>
                     <div className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest">
-                      ONE-TIME CRYPTOGRAPHIC PASSCODE
+                      ONE-TIME VERIFICATION CODE
                     </div>
                     <div className="text-[11px] text-neutral-500 font-mono">
-                      Valid for 10 minutes from dispatch
+                      Valid for 10 minutes
                     </div>
                   </div>
 
@@ -539,7 +530,7 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
                         <span>PKCE S256 / SHA-256</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-neutral-400">Ingress IP</span>
+                        <span className="text-neutral-400">IP Address</span>
                         <span>192.168.1.1 (Verified)</span>
                       </div>
                     </div>
@@ -548,8 +539,7 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
                   {/* Security Advisory */}
                   <div className="text-[11px] text-neutral-600 bg-neutral-50 border border-neutral-200 p-3 rounded leading-relaxed">
                     <strong>Security Notice:</strong> If you did not initiate
-                    this authentication request, please ignore this
-                    transmission.
+                    this authentication request, please ignore this email.
                   </div>
                 </div>
 
@@ -562,13 +552,13 @@ const EmailTemplateEditor = ({ project, onUpdated }) => {
                   </div>
                   <div>
                     &copy; {new Date().getFullYear()} {project.name}.{" "}
-                    {companyAddress || "Identity Infrastructure"}
+                    {companyAddress || "Authentication"}
                   </div>
                   <div className="text-[10px] text-neutral-400">
                     {footerText}
                   </div>
                   <div className="text-[9px] uppercase tracking-widest text-neutral-400 pt-1">
-                    POWERED BY AUTHTOKEN ENCLAVE // AUTHTECHNOLOGIES
+                    Powered by AuthSphere
                   </div>
                 </div>
               </div>

@@ -11,9 +11,8 @@ const DocsSidebar = ({ sections, activeSection, onNavigate, isOpen }) => {
         <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-muted-foreground px-3 py-2">
           DOCUMENTATION INDEX
         </div>
-        {sections.map((s, idx) => {
+        {sections.map((s) => {
           const isActive = activeSection === s.id;
-          const indexNum = String(idx + 1).padStart(2, "0");
           return (
             <button
               key={s.id}
@@ -24,11 +23,6 @@ const DocsSidebar = ({ sections, activeSection, onNavigate, isOpen }) => {
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
             >
-              <span
-                className={`text-[10px] ${isActive ? "opacity-75" : "text-muted-foreground"}`}
-              >
-                [{indexNum}]
-              </span>
               <span className="truncate">{s.title}</span>
             </button>
           );

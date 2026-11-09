@@ -41,7 +41,6 @@ const ProviderCard = ({
   onToggle,
   onViewDocs,
   isUpcoming,
-  index,
 }) => {
   const [imageError, setImageError] = useState(false);
 
@@ -77,10 +76,12 @@ const ProviderCard = ({
       }`}
     >
       {/* Port Index */}
-      <div className="w-full flex items-center justify-between text-[9px] font-mono text-muted-foreground mb-2">
-        <span>PORT_{String(index + 1).padStart(2, "0")}</span>
+      <div className="w-full flex items-center text-[9px] font-mono text-muted-foreground mb-2">
         {isSelected ? (
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          <>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>selected</span>
+          </>
         ) : isConfigured ? (
           <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40" />
         ) : null}
@@ -350,8 +351,7 @@ const ProvidersPage = ({ embedded = false, onBack, onUpdated }) => {
           <div className="space-y-3">
             <div className="flex items-center justify-between border-b border-border pb-2 font-mono text-xs">
               <span className="font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                <span>01 // LIVE INGRESS PROVIDERS</span>
+                <span>Ready to Use</span>
               </span>
               <span className="text-muted-foreground text-[10px]">
                 {activeProviders.length} READY
@@ -378,7 +378,7 @@ const ProvidersPage = ({ embedded = false, onBack, onUpdated }) => {
         <div className="space-y-3">
           <div className="flex items-center justify-between border-b border-border pb-2 font-mono text-xs">
             <span className="font-bold text-foreground uppercase tracking-wider">
-              02 // AVAILABLE PROVIDER CATALOG
+              Setup Required
             </span>
             <span className="text-muted-foreground text-[10px]">
               {setupProviders.length} PROTOCOLS
@@ -405,7 +405,7 @@ const ProvidersPage = ({ embedded = false, onBack, onUpdated }) => {
           <div className="space-y-3">
             <div className="flex items-center justify-between border-b border-border pb-2 font-mono text-xs">
               <span className="font-bold text-muted-foreground uppercase tracking-wider">
-                03 // PROTOCOL ROADMAP
+                PROTOCOL ROADMAP
               </span>
               <span className="text-muted-foreground text-[10px]">
                 UPCOMING

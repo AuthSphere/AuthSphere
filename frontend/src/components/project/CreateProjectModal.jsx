@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FolderPlus, X, Globe, Zap } from "lucide-react";
 import { toast } from "sonner";
 
@@ -21,14 +21,20 @@ const CreateProjectModal = ({ open, onClose, onCreated }) => {
   const [redirectUri, setRedirectUri] = useState("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!open) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setName("");
-      setRedirectUri("");
-      setLoading(false);
+  const resetForm = () => {
+    setName("");
+    setRedirectUri("");
+    setLoading(false);
+  };
+
+  const handleOpenChange = (isOpen) => {
+    if (!isOpen) {
+      resetForm();
     }
-  }, [open]);
+    if (onClose) {
+      onClose(isOpen);
+    }
+  };
 
   const handleCreate = async () => {
     if (!name.trim() || !redirectUri.trim()) return;
@@ -44,8 +50,7 @@ const CreateProjectModal = ({ open, onClose, onCreated }) => {
 
       if (res?.success) {
         toast.success("Project created successfully");
-        setName("");
-        setRedirectUri("");
+        resetForm();
         onCreated(res.data);
         onClose();
       }
@@ -57,15 +62,9 @@ const CreateProjectModal = ({ open, onClose, onCreated }) => {
   };
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-125 bg-card border border-border p-6 shadow-lg rounded-xl text-card-foreground">
         <DialogHeader className="space-y-1">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="w-1.5 h-1.5 bg-primary rounded-full" />
-            <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-              NEW NAMESPACE
-            </span>
-          </div>
           <DialogTitle className="text-xl font-bold tracking-tight text-foreground">
             Create Identity Project
           </DialogTitle>
@@ -115,23 +114,13 @@ const CreateProjectModal = ({ open, onClose, onCreated }) => {
               />
               <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
             </div>
-            <p className="text-[11px] font-mono text-muted-foreground">
-              Strict redirect validation enforced via RFC-6749.
-            </p>
-          </div>
-
-          <div className="p-3 bg-muted rounded border border-border text-xs font-mono text-muted-foreground flex items-center justify-between">
-            <span>CRYPTO SCHEME</span>
-            <span className="font-semibold text-foreground">
-              AES-256 + PKCE SHA-256
-            </span>
           </div>
         </div>
 
         <DialogFooter className="gap-2 sm:gap-0 pt-2 border-t border-border">
           <Button
             variant="outline"
-            onClick={onClose}
+            onClick={() => handleOpenChange(false)}
             disabled={loading}
             className="h-9 px-4 text-xs font-mono border-border cursor-pointer"
           >

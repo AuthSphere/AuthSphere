@@ -38,7 +38,6 @@ const ProjectDetailHeader = ({ project }) => {
 
   return (
     <header className="space-y-5 pb-6 border-b border-border">
-      {/* ─── TECHNICAL EYEBROW & BREADCRUMB ─── */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-2 text-xs font-mono">
           <button
@@ -55,17 +54,6 @@ const ProjectDetailHeader = ({ project }) => {
             {project.name}
           </span>
         </div>
-
-        {/* Live Security Enclave Tag */}
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono text-[10px] font-semibold">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>RUNTIME ACTIVE</span>
-          </div>
-          <span className="font-mono text-[11px] text-muted-foreground hidden sm:inline">
-            SPEC: RFC-7636 / HS256
-          </span>
-        </div>
       </div>
 
       {/* ─── MAIN TITLE & ACTIONS ROW ─── */}
@@ -80,14 +68,13 @@ const ProjectDetailHeader = ({ project }) => {
                 {project.name}
               </h1>
               <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-                Authentication namespace, cryptographic signing keys, and
-                identity runtime policies.
+                Manage authentication settings, API keys, and identity providers
+                for this project.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="flex items-center gap-2.5 flex-wrap">
           <Button
             variant="outline"
@@ -96,7 +83,7 @@ const ProjectDetailHeader = ({ project }) => {
             className="h-9 px-3 text-xs font-mono border-border bg-card hover:bg-accent text-foreground cursor-pointer"
           >
             <BarChart3 className="h-3.5 w-3.5 mr-1.5 text-muted-foreground" />
-            <span>Analytics Engine</span>
+            <span>Analytics</span>
           </Button>
 
           <Button
@@ -113,9 +100,7 @@ const ProjectDetailHeader = ({ project }) => {
         </div>
       </div>
 
-      {/* ─── TELEMETRY & METADATA BAR ─── */}
       <div className="pt-2 flex flex-wrap items-center gap-3 text-xs font-mono">
-        {/* Project ID Pill */}
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -140,7 +125,6 @@ const ProjectDetailHeader = ({ project }) => {
           </Tooltip>
         </TooltipProvider>
 
-        {/* Created Timestamp */}
         <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-border bg-card text-muted-foreground text-[11px]">
           <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
           <span>
@@ -148,22 +132,9 @@ const ProjectDetailHeader = ({ project }) => {
           </span>
         </div>
 
-        {/* Identity Providers Count */}
         <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-border bg-card text-muted-foreground text-[11px]">
           <Layers className="h-3.5 w-3.5 text-muted-foreground" />
           <span>{activeProvidersCount} PROVIDERS CONFIGURED</span>
-        </div>
-
-        {/* Security Specs */}
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-border bg-card text-muted-foreground text-[11px]">
-          <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
-          <span>PKCE S256 ENFORCED</span>
-        </div>
-
-        {/* Engine Version */}
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-border bg-card text-muted-foreground text-[11px] ml-auto">
-          <Activity className="h-3.5 w-3.5 text-muted-foreground" />
-          <span>v2.6.0 CORE</span>
         </div>
       </div>
     </header>

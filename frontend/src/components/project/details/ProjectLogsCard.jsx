@@ -104,9 +104,6 @@ const ProjectLogsCard = ({ projectId }) => {
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-[10px] text-muted-foreground">
-            SPEC: RFC-5424
-          </span>
           <Button
             variant="ghost"
             size="sm"

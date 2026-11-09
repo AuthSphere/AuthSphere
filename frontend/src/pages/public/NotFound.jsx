@@ -21,11 +21,10 @@ export const NotFound = () => {
                 404
               </div>
               <h1 className="text-base font-bold font-mono uppercase tracking-wider text-foreground">
-                Resource Endpoint Undefined
+                Page Not Found
               </h1>
               <p className="text-xs text-muted-foreground font-mono max-w-sm mx-auto leading-relaxed">
-                The requested URL path or enclave route could not be resolved by
-                the AuthSphere cryptographic gateway matrix.
+                The requested page could not be found or has been moved.
               </p>
             </div>
 
@@ -37,12 +36,12 @@ export const NotFound = () => {
                 {user ? (
                   <Link to="/dashboard">
                     <ArrowLeft className="h-3.5 w-3.5 mr-1.5" />
-                    RETURN TO DASHBOARD
+                    Back to Dashboard
                   </Link>
                 ) : (
                   <Link to="/">
                     <ArrowLeft className="h-3.5 w-3.5 mr-1.5" />
-                    RETURN HOME
+                    Back to Home
                   </Link>
                 )}
               </Button>
@@ -53,7 +52,7 @@ export const NotFound = () => {
               >
                 <Link to="/docs">
                   <BookOpen className="h-3.5 w-3.5 mr-1.5" />
-                  VIEW DOCUMENTATION
+                  Documentation
                 </Link>
               </Button>
             </div>

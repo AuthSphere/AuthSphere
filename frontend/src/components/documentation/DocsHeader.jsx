@@ -26,11 +26,8 @@ const DocsHeader = ({
 
         <div className="flex items-center gap-3">
           <div className="hidden sm:flex items-center gap-3 pr-3 border-r border-border">
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-border bg-muted text-muted-foreground font-semibold">
-              v2.6.0 SPEC
-            </span>
             <a
-              href="https://github.com/AuthSphere"
+              href="https://github.com/AuthSphere/AuthSphere/tree/main/docs"
               target="_blank"
               rel="noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"

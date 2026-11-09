@@ -267,9 +267,6 @@ const ProjectWebhooksCard = ({ project, onUpdated }) => {
             <Webhook className="h-4 w-4 text-emerald-500" />
             <span>EVENT DISPATCH &amp; WEBHOOK MATRIX</span>
           </span>
-          <span className="text-[10px] text-muted-foreground font-mono">
-            SPEC: HMAC SHA-256
-          </span>
         </div>
         <div className="p-6 flex flex-col sm:flex-row items-start justify-between gap-4">
           <div className="space-y-1">

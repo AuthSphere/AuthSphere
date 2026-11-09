@@ -105,13 +105,13 @@ export const Dashboard = () => {
       if (res.success) {
         setStats(res.data);
         if (isManual) {
-          toast.success("Telemetry updated with live runtime");
+          toast.success("Dashboard data refreshed");
         }
       }
     } catch (error) {
       console.error("Failed to fetch dashboard stats", error);
       if (isManual) {
-        toast.error("Failed to refresh telemetry");
+        toast.error("Failed to refresh dashboard data");
       }
     } finally {
       setStatsLoading(false);
@@ -190,33 +190,14 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground relative isolate">
-      {/* Precision Engineering Matrix Background */}
       <div className="fixed inset-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
         <div className="absolute inset-0 grid-matrix opacity-40 dark:opacity-20" />
         <div className="absolute inset-0 bg-radial from-transparent via-transparent to-neutral-200/30 dark:to-black/60" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* ======================================================== */}
-        {/* CONSOLE HEADER & TECHNICAL COMMAND BAR                   */}
-        {/* ======================================================== */}
         <header className="pb-6 border-b border-border flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="space-y-1.5">
-            <div className="flex items-center gap-2.5 flex-wrap">
-              <span className="w-2 h-0.5 bg-foreground" />
-              <span className="font-mono text-[11px] text-muted-foreground uppercase tracking-widest flex items-center">
-                <span>FIG. 04</span>
-                <TechSeparator />
-                <span>OPERATIONAL CONSOLE</span>
-              </span>
-              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono text-[10px] font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span>RUNTIME ACTIVE</span>
-              </div>
-              <span className="font-mono text-[11px] text-muted-foreground/70 hidden sm:inline">
-                SPEC: RFC-7636 / RFC-7519 PKCE
-              </span>
-            </div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
               Console Overview
             </h1>
@@ -225,19 +206,18 @@ export function App() {
               <span className="font-semibold text-foreground">
                 {user.username}
               </span>
-              . High-throughput identity namespaces, concurrent session
-              management, and cryptographic token vault.
+              . Manage your applications, active sessions, and authentication
+              security from one place.
             </p>
           </div>
 
-          {/* Action Cluster */}
           <div className="flex items-center gap-2 flex-wrap">
             <Button
               variant="outline"
               size="sm"
               onClick={() => fetchStats(true)}
               disabled={isRefreshing || statsLoading}
-              title="Refresh telemetry stream"
+              title="Refresh dashboard stats"
               className="h-9 px-3 text-xs font-mono border-border bg-card hover:bg-accent text-foreground cursor-pointer"
             >
               <RefreshCw
@@ -287,64 +267,58 @@ export function App() {
           </div>
         </header>
 
-        {/* ======================================================== */}
-        {/* TELEMETRY & METRIC TILES (4 PRECISION CARDS)              */}
-        {/* ======================================================== */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             {
               num: "01",
-              title: "NAMESPACES",
-              label: "Projects & Partitions",
+              title: "PROJECTS",
+              label: "Total Projects",
               value: stats.totalProjects,
               icon: FolderKanban,
-              badge: "Isolated Scope",
-              trend: "AES-256 Vault",
+              badge: "Active",
+              trend: "All Healthy",
             },
             {
               num: "02",
-              title: "IDENTITIES",
-              label: "Total End Users",
+              title: "USERS",
+              label: "Registered Users",
               value: stats.totalEndUsers,
               icon: Users,
-              badge: "OIDC & OAuth 2.0",
+              badge: "OAuth & Email",
               trend: "Verified Accounts",
             },
             {
               num: "03",
               title: "ACTIVE SESSIONS",
-              label: "Concurrent Sessions",
+              label: "Current Online Users",
               value:
                 Math.max(
                   stats.recentUsers.length,
                   Math.round(stats.totalEndUsers * 0.4),
                 ) || 0,
               icon: Activity,
-              badge: "WebSocket Bus",
-              trend: "Live Sync",
+              badge: "Live Sessions",
+              trend: "Real-time",
             },
             {
               num: "04",
-              title: "CRYPTO VERIFIER",
-              label: "Verification Latency",
-              value: "< 0.8ms",
-              icon: Zap,
-              badge: "SHA-256 S256",
-              trend: "Zero-Trust Pass",
+              title: "SYSTEM STATUS",
+              label: "Service Health",
+              value: "Operational",
+              icon: ShieldCheck,
+              badge: "All Systems Normal",
+              trend: "99.9% Uptime",
             },
           ].map((metric, i) => (
             <Card
               key={i}
               className="bg-card border border-border hover:border-foreground/40 transition-all duration-200 rounded-lg p-5 shadow-2xs group relative overflow-hidden"
             >
-              {/* Corner accent reticles */}
               <div className="absolute top-1.5 left-1.5 w-1 h-1 border-t border-l border-border opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="absolute top-1.5 right-1.5 w-1 h-1 border-t border-r border-border opacity-0 group-hover:opacity-100 transition-opacity" />
 
               <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground mb-3">
                 <span className="flex items-center">
-                  <span>{metric.num}</span>
-                  <TechSeparator />
                   <span>{metric.title}</span>
                 </span>
                 <div className="h-7 w-7 rounded border border-border bg-muted/50 flex items-center justify-center text-muted-foreground group-hover:text-foreground transition-colors">
@@ -363,20 +337,10 @@ export function App() {
               <p className="text-xs font-medium text-muted-foreground">
                 {metric.label}
               </p>
-
-              <div className="flex items-center justify-between pt-3 mt-3 border-t border-border text-[10px] font-mono text-muted-foreground">
-                <span>{metric.badge}</span>
-                <span className="font-semibold text-foreground">
-                  {metric.trend}
-                </span>
-              </div>
             </Card>
           ))}
         </div>
 
-        {/* ======================================================== */}
-        {/* DASHBOARD TABBED RUNTIME VIEW                            */}
-        {/* ======================================================== */}
         <Tabs
           value={activeTab}
           onValueChange={setActiveTab}
@@ -405,7 +369,7 @@ export function App() {
               value="activity"
               className="px-4 py-1.5 text-xs font-mono rounded text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-xs transition-all cursor-pointer"
             >
-              Activity &amp; Telemetry
+              Activity
             </TabsTrigger>
           </TabsList>
 
@@ -423,7 +387,7 @@ export function App() {
                       <Activity className="h-4 w-4 text-foreground" />
                       <div>
                         <h3 className="text-xs font-bold uppercase tracking-wider font-mono text-foreground">
-                          Authentication Velocity (30 Days)
+                          Authentication Activity (30 Days)
                         </h3>
                         <p className="text-[11px] text-muted-foreground">
                           Total Volume: {totalVolume} events · Peak Day:{" "}
@@ -437,7 +401,7 @@ export function App() {
                       onClick={() => setActiveTab("activity")}
                       className="text-xs font-mono text-muted-foreground hover:text-foreground cursor-pointer h-7 px-2"
                     >
-                      Expand Telemetry
+                      View Full Activity
                       <ChevronRight className="h-3.5 w-3.5 ml-1" />
                     </Button>
                   </div>
@@ -512,7 +476,7 @@ export function App() {
                       <div className="h-full flex flex-col items-center justify-center border border-dashed border-[#eaeaea] dark:border-[#222329] rounded-md">
                         <Activity className="h-6 w-6 text-neutral-400 mb-1" />
                         <p className="text-xs text-neutral-500 font-mono">
-                          NO RECENT TRAFFIC EVENTS RECORDED
+                          No recent activity recorded
                         </p>
                       </div>
                     )}
@@ -526,12 +490,11 @@ export function App() {
                       <div className="flex items-center gap-2 mb-1">
                         <Users className="h-4 w-4 text-foreground" />
                         <CardTitle className="text-base font-bold text-foreground">
-                          Recent Ingress Stream
+                          Recent Sign-ins
                         </CardTitle>
                       </div>
                       <CardDescription className="text-xs text-muted-foreground">
-                        Live stream of authenticated developer users across
-                        namespaces
+                        Recent authenticated users across all your projects
                       </CardDescription>
                     </div>
                     <Button
@@ -611,7 +574,7 @@ export function App() {
                       <div className="flex items-center gap-2">
                         <Terminal className="h-4 w-4 text-foreground" />
                         <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                          SDK INTEGRATION HUB // RFC-7636 PKCE READY
+                          Quick Start SDK Integration
                         </span>
                       </div>
                       <p className="text-xs font-semibold text-foreground">
@@ -658,7 +621,7 @@ export function App() {
 
                   <div className="flex items-center justify-between text-[11px] text-muted-foreground pt-1">
                     <span>
-                      Zero external dependencies · Built-in token refresh daemon
+                      Zero external dependencies · Built-in token refresh
                     </span>
                     <button
                       type="button"
@@ -698,19 +661,19 @@ export function App() {
                         active: true,
                       },
                       {
-                        name: "GitHub Enterprise",
-                        proto: "SSO / v3 API",
+                        name: "GitHub",
+                        proto: "OAuth 2.0",
                         status: "Configured",
                         active: true,
                       },
                       {
-                        name: "Discord Gateway",
-                        proto: "OAuth 2.0 / Guilds",
+                        name: "Discord",
+                        proto: "OAuth 2.0",
                         status: "Ready",
                         active: true,
                       },
                       {
-                        name: "Local Password & Email",
+                        name: "Email & Password",
                         proto: "Bcrypt (10 salt rounds)",
                         status: "Enforced",
                         active: true,
@@ -752,13 +715,13 @@ export function App() {
                   <div className="flex items-center gap-2 mb-3">
                     <ShieldCheck className="h-4 w-4 text-foreground" />
                     <h3 className="text-xs font-bold uppercase tracking-wider font-mono text-foreground">
-                      Cryptographic Enclave
+                      Security &amp; Standards
                     </h3>
                   </div>
 
                   <p className="text-[11px] text-muted-foreground mb-3 leading-relaxed">
-                    Zero-trust identity core runtime specifications and
-                    cryptography enforcement.
+                    Standard security specifications and protocol
+                    configurations.
                   </p>
 
                   <div className="space-y-2 font-mono text-xs">
@@ -786,7 +749,7 @@ export function App() {
                         Token Signature
                       </span>
                       <span className="text-[11px] font-semibold text-foreground">
-                        HMAC-SHA256 (HS256)
+                        Standard JWT (HS256)
                       </span>
                     </div>
 
@@ -795,7 +758,7 @@ export function App() {
                         Token Rotation
                       </span>
                       <span className="text-[11px] font-semibold text-foreground">
-                        Single-Use Vault
+                        Automatic Refresh
                       </span>
                     </div>
 
@@ -804,7 +767,7 @@ export function App() {
                         Session Revocation
                       </span>
                       <span className="text-[11px] font-semibold text-foreground">
-                        Socket.io Broadcast
+                        Real-time Invalidation
                       </span>
                     </div>
                   </div>
@@ -827,7 +790,7 @@ export function App() {
                     >
                       <div className="flex items-center gap-2.5">
                         <FileSpreadsheet className="h-4 w-4 text-muted-foreground" />
-                        <span>Audit Event Stream</span>
+                        <span>Audit Logs</span>
                       </div>
                       <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
                     </button>
@@ -879,18 +842,18 @@ export function App() {
                     <div className="flex items-center gap-2 mb-1">
                       <Users className="h-4 w-4 text-foreground" />
                       <CardTitle className="text-base font-bold text-foreground">
-                        Developer User Directory
+                        User Directory
                       </CardTitle>
                     </div>
                     <CardDescription className="text-xs text-muted-foreground">
                       Search and inspect authenticated accounts across all
-                      identity partitions
+                      projects
                     </CardDescription>
                   </div>
                   <div className="relative w-full md:w-80">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
                     <Input
-                      placeholder="Search username, email, namespace..."
+                      placeholder="Search username, email, project..."
                       className="pl-9 h-9 text-xs bg-background border-input text-foreground placeholder:text-muted-foreground focus:border-ring transition-colors"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
@@ -905,18 +868,10 @@ export function App() {
                     <table className="w-full text-left">
                       <thead className="bg-muted/50 border-b border-border font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
                         <tr>
-                          <th className="py-3 px-5 font-semibold">
-                            User Identity
-                          </th>
-                          <th className="py-3 px-5 font-semibold">
-                            Email Address
-                          </th>
-                          <th className="py-3 px-5 font-semibold">
-                            Project Namespace
-                          </th>
-                          <th className="py-3 px-5 font-semibold">
-                            Account Status
-                          </th>
+                          <th className="py-3 px-5 font-semibold">User</th>
+                          <th className="py-3 px-5 font-semibold">Email</th>
+                          <th className="py-3 px-5 font-semibold">Project</th>
+                          <th className="py-3 px-5 font-semibold">Status</th>
                           <th className="py-3 px-5 text-right font-semibold">
                             Registered
                           </th>
@@ -988,7 +943,7 @@ export function App() {
           </TabsContent>
 
           {/* ======================================================== */}
-          {/* TAB 4: ACTIVITY & TELEMETRY                              */}
+          {/* TAB 4: ACTIVITY                                          */}
           {/* ======================================================== */}
           <TabsContent value="activity">
             <Card className="bg-card border border-border rounded-lg p-5 sm:p-6 shadow-2xs space-y-6">
@@ -998,12 +953,11 @@ export function App() {
                     <div className="flex items-center gap-2 mb-1">
                       <Activity className="h-4 w-4 text-foreground" />
                       <CardTitle className="text-base font-bold text-foreground">
-                        Authentication Traffic Telemetry
+                        Authentication Activity
                       </CardTitle>
                     </div>
                     <CardDescription className="text-xs text-muted-foreground">
-                      Real-time ingress authentication activity and user
-                      registration volume
+                      Sign-in activity and new user registrations over time
                     </CardDescription>
                   </div>
 
@@ -1030,7 +984,7 @@ export function App() {
                       className="h-8 px-3 text-xs font-mono border-border bg-card hover:bg-accent text-foreground cursor-pointer"
                     >
                       <FileSpreadsheet className="h-3.5 w-3.5 mr-1.5" />
-                      View Raw Logs
+                      View Audit Logs
                     </Button>
                   </div>
                 </div>
@@ -1066,7 +1020,7 @@ export function App() {
                 </div>
                 <div className="p-3 rounded border border-border bg-muted/40">
                   <p className="text-[10px] font-mono uppercase text-muted-foreground">
-                    SLA Accuracy
+                    Success Rate
                   </p>
                   <p className="text-lg font-bold font-mono text-emerald-600 dark:text-emerald-400">
                     100.0%
@@ -1142,10 +1096,10 @@ export function App() {
                   <div className="h-full flex flex-col items-center justify-center border border-dashed border-border rounded-lg">
                     <Activity className="h-8 w-8 mb-2 text-muted-foreground/60" />
                     <p className="text-xs font-semibold text-foreground">
-                      No activity telemetry captured yet
+                      No sign-in activity recorded yet
                     </p>
                     <p className="text-[11px] text-muted-foreground mt-1">
-                      Authentication requests over time will be graphed here.
+                      Sign-in events will appear here once users authenticate.
                     </p>
                   </div>
                 )}

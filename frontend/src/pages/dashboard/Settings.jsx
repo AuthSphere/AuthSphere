@@ -151,7 +151,7 @@ const Settings = () => {
       setLoading(true);
       const res = await updatePreferences(preferences);
       if (res.success) {
-        toast.success("Enclave preferences saved!");
+        toast.success("Settings saved successfully!");
       }
     } catch (error) {
       toast.error(error.message || "Failed to update preferences");
@@ -209,9 +209,7 @@ const Settings = () => {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center gap-3 font-mono text-xs">
         <div className="w-6 h-6 border-2 border-primary border-t-transparent animate-spin rounded-full" />
-        <span className="text-muted-foreground">
-          LOADING ENCLAVE SETTINGS...
-        </span>
+        <span className="text-muted-foreground">Loading settings...</span>
       </div>
     );
   }
@@ -230,13 +228,13 @@ const Settings = () => {
           <div className="flex items-center text-xs font-mono text-muted-foreground uppercase tracking-widest">
             <span>04</span>
             <TechSeparator />
-            <span>ACCOUNT &amp; DEVELOPER ENCLAVE</span>
+            <span>ACCOUNT SETTINGS</span>
             <TechSeparator />
-            <span>SETTINGS</span>
+            <span>PREFERENCES</span>
           </div>
           <div className="inline-flex items-center gap-1.5 font-mono text-xs text-emerald-600 dark:text-emerald-400">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>DEVELOPER ROOT VERIFIED</span>
+            <span>ACCOUNT VERIFIED</span>
           </div>
         </div>
 
@@ -247,8 +245,7 @@ const Settings = () => {
               Developer Settings
             </h1>
             <p className="text-xs text-muted-foreground mt-1">
-              Configure root identity profiles, API telemetry policies, and
-              enclave security controls.
+              Manage your profile, notifications, and API security controls.
             </p>
           </div>
           <Button
@@ -352,8 +349,8 @@ const Settings = () => {
                         className="h-9 text-xs font-mono bg-muted border-input text-muted-foreground cursor-not-allowed"
                       />
                       <p className="text-[10px] font-mono text-muted-foreground">
-                        Root identity email is cryptographically bound to your
-                        OAuth registration.
+                        Primary account email address associated with your
+                        registration.
                       </p>
                     </div>
                   </div>
@@ -375,7 +372,7 @@ const Settings = () => {
             <div className="rounded-xl border border-border bg-card text-card-foreground overflow-hidden shadow-xs">
               <div className="px-5 py-3 border-b border-border bg-muted/50 flex items-center justify-between text-xs font-mono">
                 <span className="font-bold text-foreground uppercase">
-                  APPEARANCE &amp; TELEMETRY THEME
+                  APPEARANCE &amp; THEME
                 </span>
                 <span className="text-muted-foreground text-[10px]">
                   CSS_VARS
@@ -501,8 +498,7 @@ const Settings = () => {
                       PROJECT CONFIGURATION UPDATES
                     </Label>
                     <p className="text-xs text-muted-foreground">
-                      Dispatched when cryptographic keys are rotated or webhooks
-                      modified.
+                      Dispatched when API keys are rotated or webhooks modified.
                     </p>
                   </div>
                   <Switch
@@ -516,11 +512,11 @@ const Settings = () => {
                 <div className="flex items-center justify-between py-3">
                   <div className="space-y-0.5">
                     <Label className="text-xs font-mono font-semibold text-foreground">
-                      SECURITY ENCLAVE ALERTS
+                      SECURITY &amp; AUTHENTICATION ALERTS
                     </Label>
                     <p className="text-xs text-muted-foreground">
-                      Urgent anomaly detection, brute force rate-limits, and
-                      rogue session revocations.
+                      Suspicious activity alerts, rate limit warnings, and
+                      session revocations.
                     </p>
                   </div>
                   <Switch
@@ -534,11 +530,11 @@ const Settings = () => {
                 <div className="flex items-center justify-between py-3">
                   <div className="space-y-0.5">
                     <Label className="text-xs font-mono font-semibold text-foreground">
-                      WEEKLY TRAFFIC &amp; AUDIT DIGEST
+                      WEEKLY ACTIVITY DIGEST
                     </Label>
                     <p className="text-xs text-muted-foreground">
-                      Aggregated authentication velocity, failure rates, and
-                      provider distributions.
+                      Summary of authentication volume, sign-in activity, and
+                      provider distribution.
                     </p>
                   </div>
                   <Switch
@@ -569,7 +565,7 @@ const Settings = () => {
             <div className="rounded-xl border border-border bg-card text-card-foreground overflow-hidden shadow-xs">
               <div className="px-5 py-3 border-b border-border bg-muted/50 flex items-center justify-between text-xs font-mono">
                 <span className="font-bold text-foreground uppercase">
-                  04 // DEFAULT API ENCLAVE POLICIES
+                  04 // DEFAULT API POLICIES
                 </span>
                 <span className="text-muted-foreground text-[10px]">
                   CORS // RATE_LIMIT
@@ -595,8 +591,8 @@ const Settings = () => {
                     className="h-9 text-xs font-mono bg-background border-input text-foreground"
                   />
                   <p className="text-[10px] font-mono text-muted-foreground">
-                    Baseline threshold applied to newly instantiated project
-                    enclaves.
+                    Default rate limit threshold applied to newly created
+                    projects.
                   </p>
                 </div>
 
@@ -638,11 +634,10 @@ const Settings = () => {
               <div className="space-y-1">
                 <h4 className="text-xs font-mono font-bold text-foreground flex items-center gap-2">
                   <Shield className="h-4 w-4 text-emerald-500" />
-                  <span>ACTIVE CRYPTOGRAPHIC SESSION MATRIX</span>
+                  <span>ACTIVE USER SESSIONS</span>
                 </h4>
                 <p className="text-xs text-muted-foreground">
-                  Inspect hardware fingerprints, IP addresses, and revoke rogue
-                  tokens.
+                  View active device sessions, IP addresses, and revoke access.
                 </p>
               </div>
               <Button
@@ -673,12 +668,11 @@ const Settings = () => {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="space-y-1">
                   <h4 className="text-xs font-mono font-bold text-destructive">
-                    PERMANENTLY PURGE DEVELOPER ACCOUNT
+                    PERMANENTLY DELETE ACCOUNT
                   </h4>
                   <p className="text-xs text-muted-foreground max-w-xl leading-relaxed">
-                    Instantly revokes all cryptographic signing keys, severs
-                    connected OAuth apps, and permanently deletes user directory
-                    databases.
+                    Instantly revokes all API keys, terminates connected
+                    sessions, and permanently deletes your projects and users.
                   </p>
                 </div>
                 <Button
@@ -688,7 +682,7 @@ const Settings = () => {
                   className="h-9 px-4 text-xs font-mono shrink-0 cursor-pointer"
                 >
                   <Trash2 className="h-3.5 w-3.5 mr-1.5" />
-                  {loading ? "PURGING..." : "PURGE ACCOUNT"}
+                  {loading ? "DELETING..." : "DELETE ACCOUNT"}
                 </Button>
               </div>
             </div>

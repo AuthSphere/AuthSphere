@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Copy, Check } from "lucide-react";
 import TechSeparator from "@/components/common/TechSeparator";
 
 const CODE_SNIPPETS = {
@@ -114,10 +115,10 @@ export const DeveloperExperienceSection = () => {
           </g>
           <g fill="white" fontFamily="monospace" fontSize="8" opacity="0.7">
             <text x="54" y="36">
-              ENV::DEV_SURFACE [RUNTIME: WEB_CRYPTO]
+              DEVELOPER SDK [WEB CRYPTO]
             </text>
             <text textAnchor="end" x="1304" y="36">
-              MODULE::@authspherejs/sdk
+              @authspherejs/sdk
             </text>
           </g>
         </svg>
@@ -145,8 +146,8 @@ export const DeveloperExperienceSection = () => {
             {/* Quick Install Box */}
             <div className="p-4 rounded-lg bg-card/60 border border-border flex flex-col gap-2 mt-2">
               <div className="text-[11px] font-mono text-neutral-400 flex items-center justify-between">
-                <span>INSTALL VIA NPM / PNPM / YARN</span>
-                <span className="text-white">STABLE RELEASE</span>
+                <span>PACKAGE INSTALLATION</span>
+                <span className="text-white">npm / pnpm / yarn</span>
               </div>
               <div className="flex items-center justify-between bg-black px-3 py-2.5 rounded border border-border">
                 <span className="font-mono text-xs text-white select-all">
@@ -158,9 +159,11 @@ export const DeveloperExperienceSection = () => {
                   id="copy-install-btn"
                   title="Copy install command"
                 >
-                  <span className="material-symbols-outlined text-[16px]">
-                    content_copy
-                  </span>
+                  {copiedInstall ? (
+                    <Check className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <Copy className="h-4 w-4" />
+                  )}
                 </button>
               </div>
               {copiedInstall && (
@@ -176,26 +179,20 @@ export const DeveloperExperienceSection = () => {
             {/* Checklist items */}
             <div className="flex flex-col gap-3 pt-3 text-xs font-mono text-neutral-400">
               <div className="flex items-start gap-2.5">
-                <span className="material-symbols-outlined text-white text-[16px] shrink-0 mt-0.5">
-                  check
-                </span>
+                <Check className="h-4 w-4 text-white shrink-0 mt-0.5" />
                 <span>
                   Zero external cryptography dependencies; utilizes Web Crypto
                   API.
                 </span>
               </div>
               <div className="flex items-start gap-2.5">
-                <span className="material-symbols-outlined text-white text-[16px] shrink-0 mt-0.5">
-                  check
-                </span>
+                <Check className="h-4 w-4 text-white shrink-0 mt-0.5" />
                 <span>
                   Built-in middleware for Next.js, Express, Fastify, and Remix.
                 </span>
               </div>
               <div className="flex items-start gap-2.5">
-                <span className="material-symbols-outlined text-white text-[16px] shrink-0 mt-0.5">
-                  check
-                </span>
+                <Check className="h-4 w-4 text-white shrink-0 mt-0.5" />
                 <span>
                   Automatic token exchange with state validation &amp; CSRF
                   protection.
@@ -222,9 +219,11 @@ export const DeveloperExperienceSection = () => {
                   className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-neutral-800 font-mono text-[11px] text-neutral-300 hover:text-white transition-all cursor-pointer"
                   id="copy-code-btn"
                 >
-                  <span className="material-symbols-outlined text-[13px]">
-                    content_copy
-                  </span>
+                  {copiedSnippet ? (
+                    <Check className="h-3.5 w-3.5 text-emerald-400" />
+                  ) : (
+                    <Copy className="h-3.5 w-3.5" />
+                  )}
                   <span id="copy-code-label">
                     {copiedSnippet ? "Copied!" : "Copy snippet"}
                   </span>

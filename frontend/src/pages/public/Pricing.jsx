@@ -45,7 +45,7 @@ const Pricing = () => {
       id: "faq-providers",
       question: "Which OAuth providers are supported?",
       answer:
-        "AuthSphere supports Google, GitHub, Discord, Microsoft, LinkedIn, GitLab, Twitch, and Bitbucket with RFC-7636 PKCE S256 challenge verification, plus local credentials with optional email verification codes.",
+        "AuthSphere supports Google, GitHub, Discord, Microsoft, LinkedIn, GitLab, Twitch, and Bitbucket with OAuth 2.0 and PKCE S256 challenge verification, plus local credentials with optional email verification codes.",
     },
     {
       id: "faq-sustainability",
@@ -76,7 +76,7 @@ const Pricing = () => {
     },
     {
       icon: Lock,
-      title: "RFC-7636 PKCE S256",
+      title: "PKCE S256 Protection",
       description:
         "Standard authorization code flow with SHA-256 challenge generation for Google, GitHub, Discord, and supported providers.",
     },

@@ -146,14 +146,6 @@ const ProjectUsersCard = ({ projectId }) => {
       {/* ─── SECTION HEADER ─── */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="font-mono text-[11px] text-muted-foreground uppercase tracking-widest flex items-center">
-              <span>02</span>
-              <TechSeparator />
-              <span>USER DIRECTORY &amp; RBAC</span>
-            </span>
-          </div>
           <h2 className="text-xl font-bold tracking-tight text-foreground">
             Identity Directory Management
           </h2>
@@ -221,7 +213,7 @@ const ProjectUsersCard = ({ projectId }) => {
           >
             <div className="flex items-center justify-between font-mono text-xs">
               <span className="text-[10px] text-muted-foreground tracking-wider">
-                {m.index} // {m.label}
+                {m.label}
               </span>
               <m.icon className={`h-4 w-4 ${m.color}`} />
             </div>
@@ -242,9 +234,6 @@ const ProjectUsersCard = ({ projectId }) => {
         <div className="px-5 py-3 border-b border-border flex items-center justify-between text-xs font-mono bg-muted/50">
           <span className="font-semibold text-foreground">
             REGISTERED PRINCIPALS ({filteredUsers.length})
-          </span>
-          <span className="text-[10px] text-muted-foreground">
-            SPEC: SCIM / OIDC
           </span>
         </div>
 

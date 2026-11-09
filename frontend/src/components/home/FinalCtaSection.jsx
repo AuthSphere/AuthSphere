@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import useAuthStore from "@/store/authStore";
 
 export const FinalCtaSection = () => {
@@ -26,10 +27,8 @@ export const FinalCtaSection = () => {
               to={user ? "/dashboard" : "/login"}
               className="inline-flex items-center justify-center gap-2 px-7 h-11 rounded-md bg-primary text-primary-foreground font-mono text-xs font-semibold hover:bg-primary/90 transition-colors cursor-pointer shadow-sm"
             >
-              <span>{user ? "Go to Dashboard" : "Explore AuthSphere"}</span>
-              <span className="material-symbols-outlined text-[16px]">
-                arrow_forward
-              </span>
+              <span>{user ? "Go to Dashboard" : "Get Started"}</span>
+              <ArrowRight className="h-4 w-4" />
             </Link>
             <a
               href="https://github.com/AuthSphere"

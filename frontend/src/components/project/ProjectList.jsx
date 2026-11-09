@@ -26,15 +26,8 @@ const ProjectList = () => {
 
   return (
     <section className="space-y-6">
-      {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div className="space-y-1.5">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-0.5 bg-primary" />
-            <span className="font-mono text-[11px] text-muted-foreground uppercase tracking-widest">
-              FIG. 03 // NAMESPACE MANAGEMENT
-            </span>
-          </div>
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
             Projects &amp; Namespaces
           </h2>
@@ -56,7 +49,6 @@ const ProjectList = () => {
 
       <Separator className="bg-border" />
 
-      {/* Content */}
       {projects.length === 0 ? (
         <EmptyState onCreate={() => setCreateOpen(true)} />
       ) : (
@@ -65,7 +57,6 @@ const ProjectList = () => {
             <ProjectCard key={project._id} project={project} />
           ))}
 
-          {/* Create CTA */}
           <button
             onClick={() => setCreateOpen(true)}
             className="group relative h-full min-h-45 rounded-lg border border-dashed border-border hover:border-primary hover:bg-accent/40 flex flex-col items-center justify-center gap-3 transition-all duration-200 cursor-pointer p-6"
@@ -82,7 +73,6 @@ const ProjectList = () => {
               </p>
             </div>
 
-            {/* Industrial corner accents */}
             <div className="absolute top-2 left-2 h-1.5 w-1.5 border-t border-l border-border group-hover:border-primary transition-colors" />
             <div className="absolute top-2 right-2 h-1.5 w-1.5 border-t border-r border-border group-hover:border-primary transition-colors" />
             <div className="absolute bottom-2 left-2 h-1.5 w-1.5 border-b border-l border-border group-hover:border-primary transition-colors" />
@@ -91,7 +81,6 @@ const ProjectList = () => {
         </div>
       )}
 
-      {/* Modals */}
       <CreateProjectModal
         open={createOpen}
         onClose={() => setCreateOpen(false)}
